@@ -1,0 +1,296 @@
+//--------------------------------------------------
+// html elements
+//--------------------------------------------------
+* {
+  box-sizing: border-box;
+  font-family: $body-font;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: $body-font;
+  margin: 0;
+}
+
+h1 {
+  font-size: rem-calc(24);
+  font-weight: $bold;
+  line-height: 1.5;
+  margin-bottom: rem-calc(2);
+
+  @include breakpoint($small) { 
+    font-size: rem-calc(34);
+    line-height: 1.25;
+  }
+
+  &+ p {
+    margin-top: 0;
+  }
+}
+
+h2 {
+  @extend .title-1;
+}
+
+h3 {
+  @extend .title-2;
+}
+
+h4 {
+  @extend .title-3;
+}
+
+p {
+  @extend .paragraph;
+
+  a {
+    text-decoration: underline;
+    
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.a--underline {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+ul {
+  line-height: 1.5;
+  margin: rem-calc(8 0 10 0);
+  padding-left: rem-calc(16);
+}
+
+li {
+  @extend .paragraph;
+  margin-bottom: rem-calc(6);
+}
+
+//--------------------------------------------------
+// text
+//--------------------------------------------------
+.title-1 {
+  font-size: rem-calc(20);
+  font-weight: $bold;
+  line-height: 1.2;
+
+  @include breakpoint($small) { font-size: rem-calc(24); }
+
+}
+
+.title-2 {
+  font-size: rem-calc(18);
+  font-weight: $bold;
+  line-height: 1.2;
+
+  @include breakpoint($small) { font-size: rem-calc(20); }
+}
+
+.title-3 {
+  font-size: rem-calc(18);
+  font-weight: $light;
+  line-height: 1.2;
+
+  @include breakpoint($small) { font-size: rem-calc(20); }
+}
+
+.paragraph {
+  font-size: rem-calc(14);
+  font-weight: $light;
+  line-height: 1.25;
+  margin-top: 0;
+  margin-bottom: rem-calc(14);
+
+  @include breakpoint($small) { font-size: rem-calc(16); }
+
+  &--no-margin {
+    margin-bottom: 0;
+  }
+}
+
+//--------------------------------------------------
+// site structure - reusable styles
+//--------------------------------------------------
+%container {
+  margin: 0 auto;
+  padding-right: rem-calc($gutter-small);
+  padding-left: rem-calc($gutter-small);
+  width: 100%;
+
+  @include breakpoint($small){
+    padding-right: rem-calc($gutter-medium);
+    padding-left: rem-calc($gutter-medium);
+  }
+
+  @include breakpoint($medium){
+    padding-right: rem-calc($gutter-large);
+    padding-left: rem-calc($gutter-large);
+  }
+}
+
+//--------------------------------------------------
+// site structure
+//--------------------------------------------------
+.site-width {
+  @include breakpoint($large){ width: $site-width; }
+}
+
+@mixin gutters($side:'both', $type:'padding') {
+  $sides: if($side == 'both', ('left', 'right'),  ($side));
+
+  @each $s in $sides {
+    #{$type}-#{$s}: $gutter-small;
+
+    @include breakpoint($medium) { #{$type}-#{$s}: $gutter-medium; }
+    @include breakpoint($large) { #{$type}-#{$s}: $gutter-large; }
+  }
+}
+
+.gutter {
+  &-left {
+    @include gutters('left');
+  }
+
+  &-right {
+    @include gutters('right');
+  }
+}
+
+.gutters {
+  @include gutters;
+}
+
+.container {
+  @extend .site-width;
+  @extend %container;
+
+  &--small {
+    @extend %container;
+    max-width: rem-calc(600);
+
+    @include breakpoint($medium){ width: rem-calc(600); }
+  }
+
+  &--medium {
+    @extend %container;
+    @include breakpoint($small){ width: rem-calc(700); }
+    @include breakpoint($medium){ width: rem-calc(800); }
+  }
+
+  &--large {
+    @extend %container;
+    @include breakpoint($medium){ width: rem-calc(950); }
+    @include breakpoint($large){ width: rem-calc(1000); }
+  }
+}
+
+@mixin container($max-width: rem-calc(800)) {
+  @extend %container;
+  max-width: $max-width;
+}
+
+//--------------------------------------------------
+// page padding
+//--------------------------------------------------
+
+.page-padding--top {
+  padding-top: $page-padding-top-small;
+  @include breakpoint($small) { padding-top: $page-padding-top-medium; }
+  @include breakpoint($medium) { padding-top: $page-padding-top-large; }
+}
+
+.page-padding--bottom {
+  padding-bottom: $page-padding-bottom-small;
+  @include breakpoint($small) { padding-bottom: $page-padding-bottom-medium; }
+  @include breakpoint($medium) { padding-bottom: $page-padding-bottom-large; }
+}
+
+.page-padding {
+  @extend .page-padding--top;
+  @extend .page-padding--bottom;
+}
+
+//--------------------------------------------------
+// section padding
+//--------------------------------------------------
+.section-padding--top {
+  padding-top: $section-padding-top-small;
+  @include breakpoint($small) { padding-top: $section-padding-top-medium; }
+  @include breakpoint($medium) { padding-top: $section-padding-top-large; }
+}
+
+.section-padding--bottom {
+  padding-bottom: $section-padding-bottom-small;
+  @include breakpoint($small) { padding-bottom: $section-padding-bottom-medium; }
+  @include breakpoint($medium) { padding-bottom: $section-padding-bottom-large; }
+}
+
+.section-padding {
+  @extend .section-padding--top;
+  @extend .section-padding--bottom;
+}
+
+//--------------------------------------------------
+// item padding
+//--------------------------------------------------
+
+.item-padding--sides {
+  padding-left: $item-padding-small;
+  padding-right: $item-padding-small;
+
+  @include breakpoint($small) { 
+    padding-left: $item-padding-medium; 
+    padding-right: $item-padding-medium; 
+  }
+
+  @include breakpoint($medium) { 
+    padding-left: $item-padding-large; 
+    padding-right: $item-padding-large; 
+  }
+}
+
+.item-padding--top-bottom {
+  padding-top: $item-padding-small;
+  padding-bottom: $item-padding-small;
+
+  @include breakpoint($small) { 
+    padding-top: $item-padding-medium; 
+    padding-bottom: $item-padding-medium; 
+  }
+  
+  @include breakpoint($medium) { 
+    padding-top: $item-padding-medium; 
+    padding-bottom: $item-padding-medium; 
+  }
+}
+
+.item-padding {
+  @extend .item-padding--sides;
+  @extend .item-padding--top-bottom;
+}
+
+//--------------------------------------------------
+// screen overlay
+//--------------------------------------------------
+.screen-overlay {
+  background: rgba($black, 0.5);
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-300;
+}

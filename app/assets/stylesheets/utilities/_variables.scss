@@ -1,0 +1,94 @@
+//--------------------------------------------------
+// variables
+//--------------------------------------------------
+// - colours
+// - borders
+// - shadows
+// - fonts
+// - dimensions
+// - z-indices
+// - breakpoints
+// - padding
+// - style
+// - form
+// - topbar and footers
+//--------------------------------------------------
+// colours
+//--------------------------------------------------
+$white: #ffffff;
+$black: #000000;
+
+$image-placeholder: $black;
+
+//--------------------------------------------------
+// borders
+//--------------------------------------------------
+$border-width-thin: rem-calc(1);
+$border-width-regular: rem-calc(2);
+
+$border-thin: solid $border-width-thin;
+$border-regular: solid $border-width-regular;
+
+//--------------------------------------------------
+// fonts
+//--------------------------------------------------
+$font-roboto: 'Roboto', sans-serif;
+$fontello: 'fontello';
+
+$body-font: $font-roboto;
+$body-font-color: $black;
+
+$thin: 100;
+$light: 300;
+$regular: 400;
+$bold: 500;
+$bolder: 700;
+
+//--------------------------------------------------
+// breakpoints
+//--------------------------------------------------
+//must be in px!
+$small: 720;
+$medium: 960;
+$large: 1176;
+
+//--------------------------------------------------
+// z-indices
+//--------------------------------------------------
+$z-100: 100;
+$z-200: 200;
+$z-300: 300;
+
+//--------------------------------------------------
+// dimensions
+//--------------------------------------------------
+$site-width: rem-calc($large);
+
+//--------------------------------------------------
+// padding
+//--------------------------------------------------
+$gutter-small: rem-calc(16);
+$gutter-medium: rem-calc(24);
+$gutter-large: rem-calc(32);
+$gutter-xlarge: rem-calc(48);
+$gutter-xxlarge: rem-calc(150);
+
+$page-padding-top-small: rem-calc(16);
+$page-padding-top-medium: rem-calc(24);
+$page-padding-top-large: rem-calc(32);
+
+$page-padding-bottom-small: rem-calc(32);
+$page-padding-bottom-medium: rem-calc(60);
+$page-padding-bottom-large: rem-calc(100);
+
+$section-padding-top-small: rem-calc(20);
+$section-padding-top-medium: rem-calc(40);
+$section-padding-top-large: rem-calc(40);
+
+$section-padding-bottom-small: rem-calc(30);
+$section-padding-bottom-medium: rem-calc(60);
+$section-padding-bottom-large: rem-calc(60);
+
+$item-padding-small: rem-calc(14);
+$item-padding-medium: rem-calc(20);
+$item-padding-large: rem-calc(26);

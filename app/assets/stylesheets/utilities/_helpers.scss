@@ -1,0 +1,124 @@
+//--------------------------------------------------
+// helpers
+//--------------------------------------------------
+// - fouc
+// - font
+// - lists
+// - display
+// - dimensions
+// - positioning
+// - margin & padding
+// - backgrounds
+// - hover
+//
+//--------------------------------------------------
+// fouc (flash of unstyled content)
+//--------------------------------------------------
+[v-cloak] { display: none; }
+
+//--------------------------------------------------
+// font
+//--------------------------------------------------
+@mixin limit_lines($number, $line-height: 1.25) {
+  overflow-y: hidden;
+  max-height: calc(#{($number * $line-height) + em} - 1px);
+}
+
+@mixin prevent-text-highlighting {
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /*Chrome/Opera */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+}
+
+//--------------------------------------------------
+// lists
+//--------------------------------------------------
+.ul-unstyled {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ul-inline li { display: inline-block; }
+
+//--------------------------------------------------
+// positioning
+//--------------------------------------------------
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.relative { position: relative; }
+
+.bottom-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.center-right {
+  position: absolute;
+  top: 50%;
+  right: 0;
+
+  transform: translate(0, -50%);
+}
+
+.top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.item-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+//--------------------------------------------------
+// margin & padding
+//--------------------------------------------------
+.no-margin--top { margin-top: 0; }
+.no-margin { margin: 0; }
+.margin-center { margin: 0 auto; }
+.margin-space-left { margin-left: rem-calc(14); }
+.margin-space-right { margin-right: rem-calc(14); }
+
+//--------------------------------------------------
+// backgrounds
+//--------------------------------------------------
+.bg-img {
+  background-color: $image-placeholder;
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-image-overlay {
+  position: relative;
+  z-index: 1;
+
+  &:before {
+    background-color: rgba(black, 0.4);
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+  }
+}
+
+//--------------------------------------------------
+// hover
+//--------------------------------------------------
+.hover--pointer {
+  &:hover {
+    cursor: pointer;
+  }
+}
