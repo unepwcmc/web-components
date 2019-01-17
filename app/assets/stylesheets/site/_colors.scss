@@ -1,0 +1,40 @@
+.colors {
+  &__box {
+    width: 50%; padding-top: 50%;
+
+    position: relative;
+    flex-shrink: 0;
+
+    @include breakpoint($small) {
+      padding: 0;
+      width: rem-calc(150); height: rem-calc(150);
+    }
+
+    p {
+      background-color: rgba(black, 0.5);
+      color: $white;
+      margin: 0;
+      padding: rem-calc(5);
+
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
+
+.bg {
+  &--accent {
+    background-color: $accent;
+  }
+  &--button {
+    background-color: $button;
+  }
+  &--header-text {
+    background-color: $header-text;
+  }
+  &--background {
+    background-color: $background;
+  }
+}
