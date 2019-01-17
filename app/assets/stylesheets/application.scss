@@ -5,3 +5,9 @@
 @import './utilities/flexbox.scss';
 @import './utilities/base.scss';
 @import './utilities/helpers.scss';
+
+// Site
+@import './site/*';
+
+// Components
+@import './components/*';

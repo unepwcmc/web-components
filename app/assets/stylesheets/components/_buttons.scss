@@ -1,0 +1,37 @@
+//--------------------------------------------------
+// button - resuable styles
+//--------------------------------------------------
+%button {
+  background-color: $button-color;
+  border: none;
+  border-radius: $button-radius;
+  color: $body-font-color;
+  cursor: pointer;
+  padding: rem-calc(14 28);
+  text-align: center;
+  text-decoration: none;
+
+  display: inline-block;
+}
+
+//--------------------------------------------------
+// button - sizes
+//--------------------------------------------------
+.button {
+  &--small {
+    @include font-size('p');
+    padding: rem-calc(6 20);
+  }
+
+  &--medium {
+    @include font-size('h4');
+    padding: rem-calc(12 20);
+  }
+
+//--------------------------------------------------
+// button - classes
+//--------------------------------------------------
+  &--plain {
+    @extend %button;
+  }
+}

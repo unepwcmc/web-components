@@ -1,9 +1,8 @@
 //--------------------------------------------------
 // variables
 //--------------------------------------------------
-// - colours
 // - borders
-// - shadows
+// - colours
 // - fonts
 // - dimensions
 // - z-indices
@@ -12,13 +11,6 @@
 // - style
 // - form
 // - topbar and footers
-//--------------------------------------------------
-// colours
-//--------------------------------------------------
-$white: #ffffff;
-$black: #000000;
-
-$image-placeholder: $black;
 
 //--------------------------------------------------
 // borders
@@ -28,6 +20,21 @@ $border-width-regular: rem-calc(2);
 
 $border-thin: solid $border-width-thin;
 $border-regular: solid $border-width-regular;
+
+//--------------------------------------------------
+// colours
+//--------------------------------------------------
+$white: #ffffff;
+$black: #000000;
+
+$button-color: lightblue;
+
+$image-placeholder: $black;
+
+//--------------------------------------------------
+// buttons
+//--------------------------------------------------
+$button-radius: 0;
 
 //--------------------------------------------------
 // fonts
@@ -43,6 +50,27 @@ $light: 300;
 $regular: 400;
 $bold: 500;
 $bolder: 700;
+
+$line-height-h: 1.2;
+$line-height-h1: 1.25;
+$line-height-p: 1.25;
+$line-height-l: 1.5;
+
+@mixin font-size($el) {
+  @if $el == 'h1' { font-size: rem-calc(24); }
+  @if $el == 'h2' { font-size: rem-calc(20); }
+  @if $el == 'h3' { font-size: rem-calc(18); }
+  @if $el == 'h4' { font-size: rem-calc(18); }
+  @if $el == 'p' { font-size: rem-calc(14); }
+
+  @include breakpoint($small) {
+    @if $el == 'h1' { font-size: rem-calc(34); }
+    @if $el == 'h2' { font-size: rem-calc(24); }
+    @if $el == 'h3' { font-size: rem-calc(20); }
+    @if $el == 'h4' { font-size: rem-calc(20); }
+    @if $el == 'p' { font-size: rem-calc(16); }
+  }
+}
 
 //--------------------------------------------------
 // breakpoints
