@@ -1,9 +1,8 @@
 //--------------------------------------------------
 // button - resuable styles
 //--------------------------------------------------
-%button {
-  background-color: $button-color;
-  border: none;
+%sg-button {
+  background-color: transparent;
   border-radius: $button-radius;
   color: $body-font-color;
   cursor: pointer;
@@ -17,7 +16,7 @@
 //--------------------------------------------------
 // button - sizes
 //--------------------------------------------------
-.button {
+.sg-button {
   &--small {
     @include font-size('p');
     padding: rem-calc(6 20);
@@ -32,6 +31,6 @@
 // button - classes
 //--------------------------------------------------
   &--plain {
-    @extend %button;
+    @extend %sg-button;
   }
 }

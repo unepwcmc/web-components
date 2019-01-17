@@ -1,3 +1,17 @@
-.expandable-item--active {
-  @include flip-child-drop-arrow;
+.expandable-item {
+  margin-bottom: rem-calc(20);
+
+  &__header {
+    background: transparent;
+    width: 100%;
+  }
+
+  &__container {
+    border: $border-thin lightgrey;
+    border-top: none;
+  }
+
+  &--active {
+    @include flip-child-drop-arrow;
+  }
 }

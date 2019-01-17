@@ -13,23 +13,23 @@ body {
 }
 
 h1 {
-  @extend .h1;
+  @extend .sg-h1;
 }
 
 h2 {
-  @extend .h2;
+  @extend .sg-h2;
 }
 
 h3 {
-  @extend .h3;
+  @extend .sg-h3;
 }
 
 h4 {
-  @extend .h4;
+  @extend .sg-h4;
 }
 
 p {
-  @extend .p;
+  @extend .sg-p;
 
   a {
     text-decoration: underline;
@@ -44,51 +44,44 @@ a {
   color: inherit;
 }
 
-.a--underline {
-  text-decoration: underline;
-  &:hover {
-    text-decoration: none;
-  }
-}
-
 li {
-  @extend .li;
+  @extend .sg-li;
 }
 
 //--------------------------------------------------
 // text
 //--------------------------------------------------
-.h1 {
+.sg-h1 {
   @include font-size('h1');
   font-weight: $bold;
   line-height: $line-height-h1;
 }
 
-.h2 {
+.sg-h2 {
   @include font-size('h2');
   font-weight: $bold;
   line-height: $line-height-h;
 }
 
-.h3 {
+.sg-h3 {
   @include font-size('h3');
   font-weight: $bold;
   line-height: $line-height-h;
 }
 
-.h4 {
+.sg-h4 {
   @include font-size('h4');
   font-weight: $light;
   line-height: $line-height-h;
 }
 
-.p {
+.sg-p {
   @include font-size('p');
   font-weight: $light;
   line-height: $line-height-p;
 }
 
-.li {
+.sg-li {
   @include font-size('p');
   font-weight: $light;
   line-height: $line-height-l;
