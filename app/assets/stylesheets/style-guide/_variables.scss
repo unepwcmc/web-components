@@ -28,16 +28,17 @@ $white: #ffffff;
 $black: #000000;
 
 $accent: red;
-$button: blue;
+$button-default: lightblue;
 $header-text: lightgreen;
 $background: yellow;
-
-$image-placeholder: $black;
 
 //--------------------------------------------------
 // buttons
 //--------------------------------------------------
 $button-radius: 0;
+
+$button-padding-small: rem-calc(6 20);
+$button-padding-medium: rem-calc(12 20);
 
 //--------------------------------------------------
 // fonts

@@ -7,11 +7,13 @@
   }
 
   &__container {
-    border: $border-thin lightgrey;
+    border: solid rem-calc(1) lightgrey;
     border-top: none;
   }
 
   &--active {
-    @include flip-child-drop-arrow;
+    .drop-arrow {
+      transform: rotate(180deg);
+    }
   }
 }

@@ -7,10 +7,6 @@
   }
 }
 
-@mixin flip-child-drop-arrow($class:"drop-arrow") {
-  .#{$class} { transform:  rotate(180deg); }
-}
-
 .arrow-svg {
   content: '';
   background-image: image-url('Drop-Arrow.svg');

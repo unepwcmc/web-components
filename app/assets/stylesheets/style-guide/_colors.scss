@@ -1,0 +1,14 @@
+.bg {
+  &--accent {
+    background-color: $accent;
+  }
+  &--button {
+    background-color: $button-default;
+  }
+  &--header-text {
+    background-color: $header-text;
+  }
+  &--background {
+    background-color: $background;
+  }
+}

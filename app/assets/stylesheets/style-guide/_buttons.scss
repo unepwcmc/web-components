@@ -2,7 +2,7 @@
 // button - resuable styles
 //--------------------------------------------------
 %sg-button {
-  background-color: transparent;
+  background-color: $button-default;
   border-radius: $button-radius;
   color: $body-font-color;
   cursor: pointer;
@@ -19,12 +19,12 @@
 .sg-button {
   &--small {
     @include font-size('p');
-    padding: rem-calc(6 20);
+    padding: $button-padding-small;
   }
 
   &--medium {
     @include font-size('h4');
-    padding: rem-calc(12 20);
+    padding: $button-padding-medium;
   }
 
 //--------------------------------------------------
