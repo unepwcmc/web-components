@@ -24,5 +24,29 @@
     "regenerator-runtime": "^0.13.1",
     "vue-jest": "^3.0.2",
     "webpack-dev-server": "2.11.2"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test jest --watchAll --verbose=false"
+  },
+  "jest": {
+    "roots": [
+      "app/javascript/component-lib"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.vue$": "vue-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(vue.*)/)"
+    ]
   }
 }

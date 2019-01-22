@@ -5,7 +5,7 @@
       :aria-haspopup="true"
       :aria-controls="contentId"
       :aria-expanded="isActive"
-      class="accordion-item__toggle flex flex-h-between"
+      class="accordion-item__toggle button--unstyled flex flex-h-between"
       @click="toggleAccordionContent()">
       <label :for="toggleId" class="accordion-item__title">{{ title }}</label>
       <i class="material-icons">{{ arrow }}</i>

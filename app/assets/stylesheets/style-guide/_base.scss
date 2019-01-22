@@ -48,6 +48,10 @@ li {
   @extend .sg-li;
 }
 
+label {
+  @extend .sg-p;
+}
+
 table, th, td {
   border: $border-thin $black;
   @if ($collapse-table-borders) { border-collapse: collapse; }

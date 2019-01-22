@@ -22,8 +22,9 @@ import VNav from './component-lib/components/nav/VNav'
 
 import VSelect from './component-lib/components/v-select/VSelect'
 
-import defineCustomAriaElements from './component-lib/helpers/aria-definitions'
-defineCustomAriaElements()
+// Custom elements aren't supported by JSDOM, so break tests
+// import defineCustomAriaElements from './component-lib/helpers/aria-definitions'
+// defineCustomAriaElements()
 
 // create event hub and export so that it can be imported into .vue files
 export const eventHub = new Vue()

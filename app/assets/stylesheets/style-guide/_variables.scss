@@ -3,14 +3,15 @@
 //--------------------------------------------------
 // - borders
 // - colours
+// - buttons
+// - shadows
 // - fonts
-// - dimensions
-// - z-indices
 // - breakpoints
+// - z-indices
+// - dimensions
 // - padding
-// - style
-// - form
-// - topbar and footers
+// - tables
+// - topbars and footers
 
 //--------------------------------------------------
 // borders
@@ -35,7 +36,7 @@ $background: yellow;
 //--------------------------------------------------
 // buttons
 //--------------------------------------------------
-$button-radius: 0;
+$button-radius: rem-calc(10);
 
 $button-padding-small: rem-calc(6 20);
 $button-padding-medium: rem-calc(12 20);
@@ -137,3 +138,11 @@ $item-padding-large: rem-calc(26);
 //--------------------------------------------------
 $collapse-table-borders: true;
 $table-cell-padding: rem-calc(8);
+
+//--------------------------------------------------
+// topbars and footers
+//--------------------------------------------------
+$navbar-height-small: rem-calc(60);
+$navbar-height-medium: rem-calc(80);
+
+$footer-height-desktop: rem-calc(100);

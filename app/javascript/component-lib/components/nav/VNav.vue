@@ -9,7 +9,7 @@
     <div class="nav__item-container flex flex-v-center flex-h-end" :class="navType">
 
       <button id="close-nav-pane" class="nav__close" v-show="isBurgerNav" @click="closeNavPane">X</button>
-      <ul role="menubar" class="">
+      <ul role="menubar" class="ul--unstyled">
         <li role="none" class="nav__item" v-for="page in pages" :key="page.id">
           <v-nav-dropdown
             v-if="page.children"
@@ -113,17 +113,6 @@ $white: #ffffff;
     }
 
       &__dropdown-menu { display: none; }
-
-//--------------------------------------------------
-// horizontal nav bar
-//--------------------------------------------------
-  &--bar {
-    .nav__dropdown-body {
-      &.nav__dropdown--two-col {
-        column-count: 2;
-      }
-    }
-  }
 
 //--------------------------------------------------
 // burger nav

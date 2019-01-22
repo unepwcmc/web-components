@@ -1,6 +1,12 @@
 <template>
   <div class="nav__dropdown" :class="{'nav__dropdown--active': isActive}">
-    <button :id="mixinTriggerId" aria-haspopup="true" :aria-expanded="isActive" :aria-controls="mixinModalId" class="nav__dropdown-toggle hover--pointer flex-inline" @click="toggleDropdown">
+    <button 
+      :id="mixinTriggerId"
+      aria-haspopup="true"
+      :aria-expanded="isActive"
+      :aria-controls="mixinModalId"
+      class="nav__dropdown-toggle hover--pointer flex-inline button--unstyled"
+      @click="toggleDropdown">
       <label :for="mixinModalId" class="nav__select nav__select--dropdown">{{item.label}}</label>
       <span class="drop-arrow arrow-svg"></span>
     </button>
