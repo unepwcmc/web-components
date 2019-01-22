@@ -107,8 +107,8 @@ td {
 //--------------------------------------------------
 // site structure - reusable styles/mixins
 //--------------------------------------------------
-@mixin gutters($side:'both', $type:'padding') {
-  $sides: if($side == 'both', ('left', 'right'), ($side));
+@mixin gutters($sides:'both', $type:'padding') {
+  $sides: if($sides == 'both', ('left', 'right'), ($sides));
 
   @each $s in $sides {
     #{$type}-#{$s}: $gutter-small;
@@ -118,8 +118,8 @@ td {
   }
 }
 
-@mixin item-padding($side:'all', $type:'padding') {
-  $sides: if($side == 'all', ('top','bottom','left','right'), ($side));
+@mixin item-padding($sides:'all', $type:'padding') {
+  $sides: if($sides == 'all', ('top','bottom','left','right'), ($sides));
 
   @each $s in $sides {
     #{$type}-#{$s}: $item-padding-small;
