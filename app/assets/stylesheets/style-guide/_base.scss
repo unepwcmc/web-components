@@ -108,7 +108,7 @@ td {
 // site structure - reusable styles/mixins
 //--------------------------------------------------
 @mixin gutters($side:'both', $type:'padding') {
-  $sides: if($side == 'both', ('left', 'right'),  ($side));
+  $sides: if($side == 'both', ('left', 'right'), ($side));
 
   @each $s in $sides {
     #{$type}-#{$s}: $gutter-small;
@@ -118,30 +118,8 @@ td {
   }
 }
 
-@mixin section-padding($side:'both', $type:'padding') {
-  $sides: if($side == 'both', ('top', 'bottom'),  ($side));
-
-  @each $s in $sides {
-    #{$type}-#{$s}: $section-padding-#{$side}-small;
-
-    @include breakpoint($medium) { #{$type}-#{$s}: $section-padding-#{$side}-medium; }
-    @include breakpoint($large) { #{$type}-#{$s}: $section-padding-#{$side}-large; }
-  }
-}
-
-@mixin page-padding($side:'both', $type:'padding') {
-  $sides: if($side == 'both', ('top', 'bottom'),  ($side));
-
-  @each $s in $sides {
-    #{$type}-#{$s}: $page-padding-#{$side}-small;
-
-    @include breakpoint($medium) { #{$type}-#{$s}: $page-padding-#{$side}-medium; }
-    @include breakpoint($large) { #{$type}-#{$s}: $page-padding-#{$side}-large; }
-  }
-}
-
 @mixin item-padding($sides:'all', $type:'padding') {
-  $sides: if($side == 'all', ('top','bottom','left','right'),  ($side));
+  $sides: if($side == 'all', ('top','bottom','left','right'), ($side));
 
   @each $s in $sides {
     #{$type}-#{$s}: $item-padding-small;
@@ -202,30 +180,40 @@ td {
 //--------------------------------------------------
 
 .page-padding--top {
-  @include page-padding('top')
+  padding-top: $page-padding-top-small;
+  @include breakpoint($small) { padding-top: $page-padding-top-medium; }
+  @include breakpoint($medium) { padding-top: $page-padding-top-large; }
 }
 
 .page-padding--bottom {
-  @include page-padding('bottom')
+  padding-bottom: $page-padding-bottom-small;
+  @include breakpoint($small) { padding-bottom: $page-padding-bottom-medium; }
+  @include breakpoint($medium) { padding-bottom: $page-padding-bottom-large; }
 }
 
 .page-padding {
-  @include page-padding()
+  @extend .page-padding--top;
+  @extend .page-padding--bottom;
 }
 
 //--------------------------------------------------
 // section padding
 //--------------------------------------------------
-.page-padding--top {
-  @include section-padding('top')
+.section-padding--top {
+  padding-top: $section-padding-top-small;
+  @include breakpoint($small) { padding-top: $section-padding-top-medium; }
+  @include breakpoint($medium) { padding-top: $section-padding-top-large; }
 }
 
-.page-padding--bottom {
-  @include section-padding('bottom')
+.section-padding--bottom {
+  padding-bottom: $section-padding-bottom-small;
+  @include breakpoint($small) { padding-bottom: $section-padding-bottom-medium; }
+  @include breakpoint($medium) { padding-bottom: $section-padding-bottom-large; }
 }
 
-.page-padding {
-  @include section-padding()
+.section-padding {
+  @extend .section-padding--top;
+  @extend .section-padding--bottom;
 }
 
 //--------------------------------------------------
