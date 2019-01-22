@@ -140,6 +140,17 @@ td {
   }
 }
 
+@mixin item-padding($sides:'all', $type:'padding') {
+  $sides: if($side == 'all', ('top','bottom','left','right'),  ($side));
+
+  @each $s in $sides {
+    #{$type}-#{$s}: $item-padding-small;
+
+    @include breakpoint($medium) { #{$type}-#{$s}: $item-padding-medium; }
+    @include breakpoint($large) { #{$type}-#{$s}: $item-padding-large; }
+  }
+}
+
 %container {
   @include gutters('both', 'padding');
 
@@ -220,17 +231,6 @@ td {
 //--------------------------------------------------
 // item padding
 //--------------------------------------------------
-@mixin item-padding($sides:'all', $type:'padding') {
-  $sides: if($side == 'all', ('top','bottom','left','right'),  ($side));
-
-  @each $s in $sides {
-    #{$type}-#{$s}: $item-padding-small;
-
-    @include breakpoint($medium) { #{$type}-#{$s}: $item-padding-medium; }
-    @include breakpoint($large) { #{$type}-#{$s}: $item-padding-large; }
-  }
-}
-
 .item-padding--sides {
   @include item-padding(('left', 'right'))
 }
