@@ -107,8 +107,10 @@ $site-width: rem-calc($large);
 $gutter-small: rem-calc(16);
 $gutter-medium: rem-calc(24);
 $gutter-large: rem-calc(32);
-$gutter-xlarge: rem-calc(48);
-$gutter-xxlarge: rem-calc(150);
+
+$container-width-small: rem-calc(600);
+$container-width-medium: rem-calc(700);
+$container-width-large: rem-calc(800);
 
 $page-padding-top-small: rem-calc(16);
 $page-padding-top-medium: rem-calc(24);
