@@ -48,6 +48,23 @@ li {
   @extend .sg-li;
 }
 
+table, th, td {
+  border: $border-thin $black;
+  @if ($collapse-table-borders) { border-collapse: collapse; }
+}
+
+th, td {
+  padding: $table-cell-padding;
+}
+
+th {
+  @extend .sg-h3;
+}
+
+td {
+  @extend .sg-p;
+}
+
 //--------------------------------------------------
 // text
 //--------------------------------------------------
