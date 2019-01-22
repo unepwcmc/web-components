@@ -1,5 +1,5 @@
 {
-  "presets": [
+  "presets": ["es2015",
     ["env", {
       "modules": false,
       "targets": {
@@ -11,6 +11,8 @@
   ],
 
   "plugins": [
+    "transform-custom-element-classes",
+    "transform-es2015-classes",
     "syntax-dynamic-import",
     "transform-object-rest-spread",
     ["transform-class-properties", { "spec": true }]

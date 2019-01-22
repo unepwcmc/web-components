@@ -1,0 +1,23 @@
+<%
+config_singular = {
+  isMultiple: false,
+  label: 'Singular select',
+  id: '1'
+}.to_json
+config_multi = {
+  isMultiple: true,
+  label: 'Multiselect',
+  id: '2'
+}.to_json
+options = [
+  { id: 1, name: 'Option 1' },
+  { id: 2, name: 'Option 2' },
+  { id: 3, name: 'Option 3' }
+].to_json
+%>
+
+<h2>VSelect - Single</h2>
+<v-select :config="<%= config_singular %>" :options="<%= options %>"></v-select>
+
+<h2>VSelect - Multi</h2>
+<v-select :config="<%= config_multi %>" :options="<%= options %>"></v-select>

@@ -17,7 +17,7 @@
 
 
 <script>
-import mixinPopupCloseListeners from './mixins/mixin-popup-close-listeners'
+import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 
 export default {
   mixins: [mixinPopupCloseListeners('close')],
@@ -43,3 +43,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.expandable-item--active {
+  .drop-arrow {
+    transform: rotate(180deg)
+  }
+}
+</style>
