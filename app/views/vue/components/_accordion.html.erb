@@ -1,13 +1,19 @@
+<expandable-item>
+  <template slot="header">
 <h2>Accordion</h2>
+  </template>
+  <template slot="content">
+    <accordion>
+      <accordion-item id="1" title="Item 1">
+        <h3>Item 1 title</h3>
+        <p>Copy for item 1</p>
+      </accordion-item>
 
-<accordion>
-  <accordion-item id="1" title="Item 1">
-    <h3>Item 1 title</h3>
-    <p>Copy for item 1</p>
-  </accordion-item>
+      <accordion-item id="2" title="Item 2">
+        <h3>Item 2 title</h3>
+        <p>Copy for item 2</p>
+      </accordion-item>
+    </accordion>  
+</template>
+</expandable-item>
 
-  <accordion-item id="2" title="Item 2">
-    <h3>Item 2 title</h3>
-    <p>Copy for item 2</p>
-  </accordion-item>
-</accordion>

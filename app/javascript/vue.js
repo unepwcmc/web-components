@@ -9,6 +9,9 @@ import store from './component-lib/store/store.js'
 import Accordion from './component-lib/components/accordion/Accordion'
 import AccordionItem from './component-lib/components/accordion/AccordionItem'
 
+import Carousel from './component-lib/components/carousel/Carousel'
+import CarouselSlide from './component-lib/components/carousel/CarouselSlide'
+
 import ExpandableItem from './component-lib/components/expandable-item/ExpandableItem'
 
 import Modal from './component-lib/components/modal/Modal'
@@ -40,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         el: '#v-app',
         store,
 
-        components: { Accordion, AccordionItem, ExpandableItem, Modal, ModalTrigger, Tooltip, VMap, VNav, VSelect }
+        components: { Accordion, AccordionItem, Carousel, CarouselSlide, ExpandableItem, Modal, ModalTrigger, Tooltip, VMap, VNav, VSelect }
       })
     })
   }

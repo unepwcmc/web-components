@@ -74,7 +74,7 @@ export default {
 
   computed: {
     isBurgerNav() {
-      return this.isAlwaysBurger || this.isSmall() || this.isMedium()
+      return this.isAlwaysBurger || !this.isLarge()
     },
 
     navType() {
