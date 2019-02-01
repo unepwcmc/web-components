@@ -297,6 +297,7 @@ $transition-options: 0.6s ease-in-out;
   }
 
     &__slides {
+      padding: 0;
       height: 100%;
       
       position: relative;
@@ -311,6 +312,7 @@ $transition-options: 0.6s ease-in-out;
       justify-content: space-between;
       position: absolute;
       top: 50%;
+      left: 0;
 
       transform: translateY(-50%);
     }
