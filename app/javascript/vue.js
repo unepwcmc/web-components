@@ -17,6 +17,9 @@ import ExpandableItem from './component-lib/components/expandable-item/Expandabl
 import Modal from './component-lib/components/modal/Modal'
 import ModalTrigger from './component-lib/components/modal/ModalTrigger'
 
+import Tab from './component-lib/components/tabs/Tab'
+import Tabs from './component-lib/components/tabs/Tabs'
+
 import Tooltip from './component-lib/components/tooltip/Tooltip'
 
 import VMap from './component-lib/components/map/VMap'
@@ -43,7 +46,21 @@ document.addEventListener("DOMContentLoaded", () => {
         el: '#v-app',
         store,
 
-        components: { Accordion, AccordionItem, Carousel, CarouselSlide, ExpandableItem, Modal, ModalTrigger, Tooltip, VMap, VNav, VSelect }
+        components: { 
+          Accordion,
+          AccordionItem,
+          Carousel,
+          CarouselSlide,
+          ExpandableItem,
+          Modal,
+          ModalTrigger,
+          Tab,
+          Tabs,
+          Tooltip,
+          VMap,
+          VNav,
+          VSelect
+        }
       })
     })
   }
