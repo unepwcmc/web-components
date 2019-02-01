@@ -4,11 +4,9 @@
   </template>
   <template slot="content">
     <carousel title="Carousel title" :slide-interval-length="2000">
-      <carousel-slide>Slide 1</carousel-slide>
-      <carousel-slide>Slide 2</carousel-slide>
-      <carousel-slide>Slide 3</carousel-slide>
-      <carousel-slide>Slide 4</carousel-slide>
-      <carousel-slide>Slide 5</carousel-slide>
+    <% (1..5).each do |n| %>
+      <carousel-slide :slides-per-frame="3">Slide <%= n %></carousel-slide>
+    <% end %>
     </carousel>
   </template>
 </expandable-item>

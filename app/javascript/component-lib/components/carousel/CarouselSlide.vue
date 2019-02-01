@@ -1,5 +1,5 @@
 <template>
-  <li :class="['carousel-slide', 'transition', widthClass]">
+  <li :class="['carousel-slide', 'transition']">
     <slot :slideScope="slideScope"></slot>
   </li>
 </template>
@@ -11,15 +11,18 @@ module.exports = {
   name: 'carousel-slide',
 
   props: {
-    slideWidth: {
-      default: 'full-width',
-      type: String
+    slidesPerFrame: {
+      default: 1,
+      type: Number
+    },
+    marginSize: {
+      default: 40,
+      type: Number
     }
   },
 
   data () {
     return {
-      widthClass: `carousel-slide--${this.slideWidth}`,
       slideScope: {},
       isActive: false,
       inputElements: []
@@ -27,6 +30,7 @@ module.exports = {
   },
 
   mounted () {
+    this.setSlideStyle()
     this.inputElements = this.$el.querySelectorAll(INPUT_SELECTORS)
     this.setTabIndices()
   },
@@ -45,6 +49,13 @@ module.exports = {
         el.tabIndex = tabIndex
         if(tabIndex === -1) { el.blur() }
       })
+    },
+
+    setSlideStyle () {
+      const style = this.$el.style
+
+      style.marginLeft = style.marginRight = this.marginSize + 'px'
+      style.width = `calc(${100/this.slidesPerFrame}% - ${2*this.marginSize}px)`
     }
   }
 }

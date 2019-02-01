@@ -357,21 +357,5 @@ $transition-options: 0.6s ease-in-out;
 
 .carousel-slide {
   flex-shrink: 0;
-
-  &--full-width {
-    margin: 0 $padding-side;
-    width: calc(100% - 2 * #{$padding-side});
-  }
-
-  &--half-width {
-    margin: 0 $padding-side;
-    width: calc(50% - 2 * #{$padding-side});
-  }
-
-  &--third-width {
-    margin: 0 $padding-side;
-    $one-third: 100/3;
-    width: calc(#{$one-third}% - 2 * #{$padding-side});
-  }
 }
 </style>
