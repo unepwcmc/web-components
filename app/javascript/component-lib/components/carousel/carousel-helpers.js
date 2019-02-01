@@ -1,8 +1,21 @@
-export const getWidthWithMargins = el => {
-  const style = getElementStyle(el)
+export const getWidthWithMargins = el => el.offsetWidth
+  + getNumericCssProperty(el, 'marginLeft')
+  + getNumericCssProperty(el, 'marginRight')
 
-  return el.offsetWidth + parseInt(style.marginLeft, 10) + parseInt(style.marginRight, 10)
+const getNumericCssProperty = (el, property) => {
+  const propertyStyle = getElementStyle(el)[property]
+
+  if(propertyStyle.indexOf('rem') !== -1) {
+    return convertRem(parseFloat(propertyStyle))
+  }
+  return parseInt(propertyStyle, 10)
 }
+
+const convertRem = value => value * getRootElementFontSize()
+
+//for ie - maybe not the safest method - assumes returns pxs
+const getRootElementFontSize = () => 
+  parseFloat(getComputedStyle(document.documentElement).fontSize)
 
 const getElementStyle = el =>
   el.currentStyle || window.getComputedStyle(el)

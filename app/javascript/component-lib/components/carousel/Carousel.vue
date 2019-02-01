@@ -28,7 +28,7 @@
       <template v-if="showIndicators">
         <button
           v-for="slide in totalSlides"
-          :title="`Move to slide ${slide}`"
+          :title="indicatorTitle(slide)"
           aria-controls="carousel-slides"
           :aria-pressed="isCurrentSlide(slide)"
           :class="['carousel__indicator', selectedSlideClass(slide)]"
@@ -143,6 +143,10 @@ module.exports = {
 
     isCurrentSlideElement (slideElement) {
       return slideElement.style.order == this.totalSlides
+    },
+
+    indicatorTitle (slide) {
+      return 'Move to slide ' + slide
     },
 
     initData () {
@@ -300,6 +304,7 @@ $transition-options: 0.6s ease-in-out;
     }
 
     &__arrow-buttons {
+      pointer-events: none;
       width: 100%;
       
       display: flex;
@@ -313,6 +318,7 @@ $transition-options: 0.6s ease-in-out;
       &__arrow {
         background-color: rgba($grey, 0.4);
         padding: 18px 8px;
+        pointer-events: auto;
       }
 
   &__control-bar {    
