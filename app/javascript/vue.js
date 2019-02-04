@@ -17,6 +17,8 @@ import ExpandableItem from './component-lib/components/expandable-item/Expandabl
 import Modal from './component-lib/components/modal/Modal'
 import ModalTrigger from './component-lib/components/modal/ModalTrigger'
 
+import StickyBar from './component-lib/components/sticky/StickyBar'
+
 import Tab from './component-lib/components/tabs/Tab'
 import Tabs from './component-lib/components/tabs/Tabs'
 
@@ -54,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ExpandableItem,
           Modal,
           ModalTrigger,
+          StickyBar,
           Tab,
           Tabs,
           Tooltip,

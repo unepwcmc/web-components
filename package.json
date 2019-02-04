@@ -7,6 +7,7 @@
     "babel-plugin-transform-custom-element-classes": "^0.1.0",
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "es6-promise": "^4.2.4",
+    "scrollmagic": "^2.0.6",
     "vue": "^2.5.16",
     "vue-loader": "^14.2.2",
     "vue-template-compiler": "^2.5.16",
