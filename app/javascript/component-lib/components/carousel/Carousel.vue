@@ -7,17 +7,23 @@
 
     <div class="carousel__slides-container">
 
-      <ul id="carousel-slides" class="carousel__slides transition" aria-live="off" aria-atomic="true">
+      <ul 
+        id="carousel-slides"
+        class="carousel__slides transition"
+        aria-live="off"
+        aria-atomic="true"
+        v-touch:swipe.right="slideToPrevious"
+        v-touch:swipe.left="slideToNext">
         <template v-for="n in 3">
           <slot :slidesScope="slidesScope"></slot>
         </template>
       </ul>
 
       <div v-if="showArrows && hasMutlipleSlides" class="carousel__arrow-buttons">
-        <button aria-controls="carousel-slides" title="Previous slide" class="carousel__arrow carousel__arrow--left" @click="slideToPrevious()">
+        <button aria-controls="carousel-slides" title="Previous slide" class="carousel__arrow carousel__arrow--left" @click="slideToPrevious">
           L
         </button>
-        <button aria-controls="carousel-slides" title="Next slide" class="carousel__arrow carousel__arrow--right" @click="slideToNext()">
+        <button aria-controls="carousel-slides" title="Next slide" class="carousel__arrow carousel__arrow--right" @click="slideToNext">
           R
         </button>
       </div>
@@ -220,6 +226,7 @@ module.exports = {
     },
 
     moveSlideContainer (changeInIndex) {
+      // console.log(this.slideContainer.style)
       this.slideContainer.style.transform = `translateX(${- changeInIndex * this.slideWidth}px)`
     },
     
