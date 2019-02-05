@@ -1,5 +1,5 @@
 export default (closeCallback, closeOnClickOutside=true, closeOnEscKeypress=true) => ({
-  created () {
+  mounted () {
     if(closeOnClickOutside) {
       window.addEventListener('click', e => {
         if (!this.$el.contains(e.target)) { this[closeCallback]() }
@@ -7,10 +7,13 @@ export default (closeCallback, closeOnClickOutside=true, closeOnEscKeypress=true
     }
 
     if(closeOnEscKeypress) {
-      window.addEventListener('keydown', e => {
+      this.$el.addEventListener('keydown', e => {
         const ESCAPE_KEYCODE = 27
   
-        if (this.isActive && e.keyCode === ESCAPE_KEYCODE) { this[closeCallback]() }
+        if (this.isActive && e.keyCode === ESCAPE_KEYCODE) { 
+          this[closeCallback]()
+          e.stopPropagation()
+        }
       })
     }
   },
