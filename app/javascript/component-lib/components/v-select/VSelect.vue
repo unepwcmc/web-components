@@ -33,12 +33,13 @@
         <input
           :class="defaultInputClass"
           :id="getOptionInputId(option)"
+          :data-mock-focus-id="getMockFocusId(option)"
           :name="dropdownOptionsName"
           :type="inputType"
           :value="option"
           v-model="selectedInternal"
           @change="handleOptionChange(option)">
-        <span :class="getInputClasses(option)"></span>
+        <span :id="getMockFocusId(option)" :class="getInputClasses(option)">Fake</span>
         <label :for="getOptionInputId(option)">{{ option.name }}</label>
       </li>
 
@@ -119,8 +120,12 @@ export default {
       return option.id === this.selectedInternal.id
     },
 
-    getOptionInputId(option) {
-      return `${this.config.id}-${option.id}`
+    getOptionInputId (option) {
+      return `option-${this.config.id}-${option.id}`
+    },
+
+    getMockFocusId (option) {
+      return this.isMultiselect ? this.getOptionInputId(option) + '-mock-focus' : ''
     },
 
     getInputClasses (option) {
@@ -128,8 +133,12 @@ export default {
 
       return {
         [inputClass]: true,
-        [`${inputClass}--active`]: this.isSelected(option),
+        [`${inputClass}--active`]: this.isSelected(option)
       }
+    },
+
+    hasFocus(option) {
+      return document.activeElement.id === this.getOptionInputId(option)
     }
   },
 
@@ -173,6 +182,17 @@ export default {
   .drop-arrow {
     transform: rotate(180deg)
   }
+}
+
+.v-select__radio--active {
+  font-weight: bolder
+}
+.v-select__checkbox--active {
+  font-weight: bolder
+}
+
+.focussed {
+  outline: solid 1px blue;
 }
 </style>
 
