@@ -74,38 +74,38 @@ td {
 //--------------------------------------------------
 .sg-h1 {
   @include font-size('h1');
-  font-weight: $bold;
+  font-weight: $font-weight-h1;
   line-height: $line-height-h1;
 }
 
 .sg-h2 {
   @include font-size('h2');
-  font-weight: $bold;
+  font-weight: $font-weight-h2;
   line-height: $line-height-h;
 }
 
 .sg-h3 {
   @include font-size('h3');
-  font-weight: $bold;
+  font-weight: $font-weight-h3;
   line-height: $line-height-h;
 }
 
 .sg-h4 {
   @include font-size('h4');
-  font-weight: $light;
+  font-weight: $font-weight-h4;
   line-height: $line-height-h;
 }
 
 .sg-p {
   @include font-size('p');
-  font-weight: $light;
+  font-weight: $font-weight-p;
   line-height: $line-height-p;
 }
 
 .sg-li {
   @include font-size('p');
-  font-weight: $light;
-  line-height: $line-height-l;
+  font-weight: $font-weight-p;
+  line-height: $line-height-li;
 }
 
 //--------------------------------------------------
