@@ -1,0 +1,25 @@
+<% 
+data = [
+  {
+    name: 'Bar 1',
+    value: 20
+  },
+  {
+    name: 'Bar 2',
+    value: 95
+  },
+  {
+    name: 'Bar 3',
+    value: 63
+  }
+].to_json
+%>
+
+<expandable-item>
+  <template slot="header">
+    <h2>HorizontalBarChart<h2>
+  </template>
+  <template slot="content">
+    <horizontal-bar-chart :data="<%= data %>" :x-axis-max="100" id="horizontal-bar-chart-1">
+  </template>
+</expandable-item>
