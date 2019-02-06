@@ -4,6 +4,26 @@
 
 <script>
 import * as d3 from 'd3'
+const DEFAULT_CONFIG = {
+  width: 550,
+  height: 240,
+  marginLeft: 50, 
+  marginRight: 20,
+  marginBottom: 30,
+
+  sortByValue: true,
+  unit: '%',
+  barLabelPadding: 10,
+  
+  yDomainPadding: .5,
+  yTickPadding: 10,
+  yTickSize: 0,
+
+  xAxisMax: 100,
+  xTickCount: 6,
+  xTickPadding: 10,
+  xTickSize: 0,
+}
 
 export default {
   name: "horizontal-bar-chart",
@@ -11,20 +31,12 @@ export default {
   props: {
     id: String,
     data: Array, // {name: String, value: Number}[]
-    xAxisMax: Number
+    chartConfig: Object
   },
 
   data () {
     return {
-      config: {
-        width: 555,
-        height: 240,
-        marginLeft: 140, 
-        marginRight: 20,
-        marginBottom: 30,
-        unit: '%',
-        yTickPadding: 10
-      },
+      config: {},
       chartWidth: 0,
       chartHeight: 0,
       svgId: 'd3-horizontal-bar-chart'
@@ -32,6 +44,7 @@ export default {
   },
 
   created () {
+    this.config = {...DEFAULT_CONFIG, ...this.chartConfig}
     this.chartWidth = this.config.width - this.config.marginLeft - this.config.marginRight
     this.chartHeight = this.config.height - this.config.marginBottom
     this.svgId = 'd3-' + this.id
@@ -64,7 +77,6 @@ export default {
   methods: {
     renderChart () {
       const data = this.data
-
       const svg = this.createSVG()
 
       const chart = svg.append('g')
@@ -74,16 +86,16 @@ export default {
       const y = d3.scaleBand().range([this.chartHeight, 0])
 
       // the largest bar should appear at the top
-      data.sort((a, b) =>  a.value - b.value)
+      if(this.config.sortByValue) { data.sort((a, b) =>  a.value - b.value) }
 
       // if a max value has been passed through as a prop, use this to create the x axis domain
-      if(this.xAxisMax){
-        x.domain([0, this.xAxisMax])
+      if(this.config.xAxisMax){
+        x.domain([0, this.config.xAxisMax])
       } else {
         x.domain([0, d3.max(data, d => d.value)])
       }
 
-      y.domain(data.map(d => d.name)).padding(.5)
+      y.domain(data.map(d => d.name)).padding(this.config.yDomainPadding)
 
       // add chart background
       chart.append('rect')
@@ -97,15 +109,15 @@ export default {
         .attr('transform', `translate(0, ${this.chartHeight})`)
         .call(
           d3.axisBottom(x)
-            .ticks(6)
-            .tickSize(0)
-            .tickPadding(10)
+            .ticks(this.config.xTickCount)
+            .tickSize(this.config.xTickSize)
+            .tickPadding(this.config.xTickPadding)
         )
 
       // add y axis
       chart.append('g')
         .attr('class', 'yaxis')
-        .call(d3.axisLeft(y).tickSize(0).tickPadding(this.config.yTickPadding))
+        .call(d3.axisLeft(y).tickSize(this.config.yTickSize).tickPadding(this.config.yTickPadding))
         .selectAll('.tick text')
         .call(this.wrap, this.config.marginLeft - this.config.yTickPadding)
 
@@ -113,7 +125,7 @@ export default {
       chart.append('g')
         .attr('class', 'gridlines')
         .attr('transform', 'translate(0, ' + this.chartHeight + ')')
-        .call(d3.axisBottom(x).ticks(6).tickSize(-this.chartHeight, 0, 0).tickFormat(''))
+        .call(d3.axisBottom(x).ticks(this.config.xTickCount).tickSize(-this.chartHeight, 0, 0).tickFormat(''))
 
       // add bars
       const bar = chart.selectAll('.bar')
@@ -133,8 +145,8 @@ export default {
           .attr('class', d => {
             //if bar is less than 10% width then add additional class
 
-            if(x(d.value)/this.xAxisMax < 0.1){
-              return 'bar-label bar-label--dark'
+            if(x(d.value)/this.config.xAxisMax < 0.1){
+              return 'bar-label bar-label--small-bar'
             } else {
               return 'bar-label'
             }
@@ -143,10 +155,10 @@ export default {
             let start = 0
 
             //if bar is less than 10% width then show label at the end
-            if(x(d.value)/this.xAxisMax < 0.1){
-              start = x(d.value) + 10
+            if(d.value/this.config.xAxisMax < 0.1){
+              start = x(d.value) + this.config.barLabelPadding
             } else {
-              start = x(d.value) - 10
+              start = x(d.value) - this.config.barLabelPadding
             }
 
             return `translate(${start}, ${y.bandwidth()/2 + 4})`
@@ -154,7 +166,7 @@ export default {
           .attr('text-anchor', d => {
             //if bar is less than 10% width then show label at the end
             
-            if(x(d.value)/this.xAxisMax < 0.1){
+            if(d.value/this.config.xAxisMax < 0.1){
               return 'start'
             } else {
               return 'end'
@@ -185,11 +197,11 @@ export default {
       text.each(function () {
         const text = d3.select(this)
         const words = text.text().split(/\s+/).reverse()
-        let line = []
-        let lineNumber = 0
         const lineHeight = 1.1
         const x = text.attr('x')
         const dy = 0
+        let line = []
+        let lineNumber = 0
 
         let tspan = text.text(null)
           .append('tspan')

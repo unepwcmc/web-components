@@ -2,7 +2,7 @@
 data = [
   {
     name: 'Bar 1',
-    value: 20
+    value: 9
   },
   {
     name: 'Bar 2',
@@ -20,6 +20,6 @@ data = [
     <h2>HorizontalBarChart<h2>
   </template>
   <template slot="content">
-    <horizontal-bar-chart :data="<%= data %>" :x-axis-max="100" id="horizontal-bar-chart-1">
+    <horizontal-bar-chart :chart-config="{unit: '$'}" :data="<%= data %>" id="horizontal-bar-chart-1">
   </template>
 </expandable-item>

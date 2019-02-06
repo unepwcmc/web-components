@@ -9,8 +9,8 @@
 // - positioning
 // - margin & padding
 // - backgrounds
-// - hover
 // - buttons
+// - user interaction
 //
 //--------------------------------------------------
 // fouc (flash of unstyled content)
@@ -116,15 +116,6 @@ $image-placeholder: black;
 }
 
 //--------------------------------------------------
-// hover
-//--------------------------------------------------
-.hover--pointer {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-//--------------------------------------------------
 // screen overlay
 //--------------------------------------------------
 .screen-overlay {
@@ -145,4 +136,21 @@ $image-placeholder: black;
   background: transparent;
   border: none;
   color: inherit;
+}
+
+//--------------------------------------------------
+// user interaction
+//--------------------------------------------------
+.no-select {
+  -webkit-touch-callout: none; 
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none; 
+}
+
+.hover--pointer {
+  &:hover {
+    cursor: pointer;
+  }
 }
