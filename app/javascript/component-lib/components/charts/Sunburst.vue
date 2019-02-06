@@ -31,7 +31,7 @@ export default {
 
   props: { 
     data: Object, //{ name: String, children: {name: String, size: Number, breakdown: {name: String, size: Number}[]} }
-    propsConfig: Object //
+    propsConfig: Object // {fractionalStrokeWidth: Number}
   },
 
   data () {

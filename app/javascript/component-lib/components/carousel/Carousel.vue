@@ -226,7 +226,6 @@ module.exports = {
     },
 
     moveSlideContainer (changeInIndex) {
-      // console.log(this.slideContainer.style)
       this.slideContainer.style.transform = `translateX(${- changeInIndex * this.slideWidth}px)`
     },
     

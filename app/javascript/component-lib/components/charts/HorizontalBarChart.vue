@@ -21,7 +21,6 @@ const DEFAULT_CONFIG = {
   yTickPadding: 10,
   yTickSize: 0,
 
-  xAxisMax: 100,
   xTickCount: 6,
   xTickPadding: 10,
   xTickSize: 0,
