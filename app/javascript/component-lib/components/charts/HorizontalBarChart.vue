@@ -57,7 +57,6 @@ export default {
 
   mounted () {
     this.renderChart()
-    //TODO: generate scenes 
     const chartScrollMagic = new ScrollMagic.Controller()
 
     new ScrollMagic.Scene({ triggerElement: '.sm-bar-chart', reverse: false })
