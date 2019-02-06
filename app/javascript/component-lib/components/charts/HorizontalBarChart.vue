@@ -4,6 +4,8 @@
 
 <script>
 import * as d3 from 'd3'
+import ScrollMagic from 'scrollmagic'
+
 const DEFAULT_CONFIG = {
   width: 550,
   height: 240,
@@ -56,13 +58,11 @@ export default {
   mounted () {
     this.renderChart()
     //TODO: generate scenes 
-//     marineScrollMagic = new ScrollMagic.Controller()
+    const chartScrollMagic = new ScrollMagic.Controller()
 
-// # scenes
-// new ScrollMagic.Scene({ triggerElement: '.sm-bar-chart', reverse: false })
-//   .setClassToggle('.sm-bar-chart', 'd3-horizontal-bar-chart-animate')
-//   .addTo(marineScrollMagic)
-// )
+    new ScrollMagic.Scene({ triggerElement: '.sm-bar-chart', reverse: false })
+      .setClassToggle('.sm-bar-chart', 'd3-horizontal-bar-chart-animate')
+      .addTo(chartScrollMagic)
   },
 
   methods: {
@@ -221,14 +221,58 @@ export default {
 </script>
 
 <style lang="scss">
-.d3-horizontal-bar-chart__svg {
-  .background {
-    fill: aliceblue;
+@keyframes fullOpacity {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fullScaleX {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fullScaleXY {
+  to {
+    transform: scale(1);
+  }
+}
+
+.d3-horizontal-bar-chart {
+  // hack to get the svg to scale in IE11
+    // width: 100%;
+    
+    // position: relative;
+  // end hack
+
+  &-animate {
+    .bar { animation: fullScaleX .8s forwards linear; }
+    .bar-label { animation: fullOpacity .2s .8s forwards linear; }
   }
 
-  .bar {
-    fill: lightgrey;
+  &__svg { 
+    // hack to get the svg to scale in IE11
+      // display: block;
+      // position: absolute;
+      // top: 0;
+      // left: 0;
+    // end hack
   }
+
+    .background { fill: rgba(lightblue, 0.4); }
+
+    .bar {
+      fill: rgba(0, 0, 0, .4);
+      transform: scaleX(0);
+    }
+
+    .bar-label {
+      fill: white;
+      font-size: 14;
+      opacity: 0;
+
+      &--small-bar { fill: #666666; }
+    }
 }
 </style>
 
