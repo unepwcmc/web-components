@@ -39,7 +39,10 @@ export default {
       config: {},
       chartWidth: 0,
       chartHeight: 0,
-      svgId: 'd3-horizontal-bar-chart'
+      svgId: 'd3-horizontal-bar-chart',
+      chart: {},
+      x: {},
+      y: {}
     }
   },
 
@@ -76,107 +79,104 @@ export default {
 
   methods: {
     renderChart () {
-      const data = this.data
-      const svg = this.createSVG()
+      this.initChartAndScales()
+      this.sortData()
+      this.initXDomain()
+      this.initYDomain()
+      this.addChartBackground()
+      this.addXAxis()
+      this.addYAxis()
+      this.addGridlines()   
+      this.addBars()
+    },
 
-      const chart = svg.append('g')
+    initChartAndScales () {
+      this.chart = this.createSVG().append('g')
         .attr('transform', 'translate(' + this.config.marginLeft + ', 0)')
 
-      const x = d3.scaleLinear().range([0, this.chartWidth])
-      const y = d3.scaleBand().range([this.chartHeight, 0])
+      this.x = d3.scaleLinear().range([0, this.chartWidth])
+      this.y = d3.scaleBand().range([this.chartHeight, 0])
+    },
 
-      // the largest bar should appear at the top
-      if(this.config.sortByValue) { data.sort((a, b) =>  a.value - b.value) }
+    sortData() {
+      if(this.config.sortByValue) { this.data.sort((a, b) =>  a.value - b.value) }
+    },
 
-      // if a max value has been passed through as a prop, use this to create the x axis domain
+    initXDomain() {
       if(this.config.xAxisMax){
-        x.domain([0, this.config.xAxisMax])
+        this.x.domain([0, this.config.xAxisMax])
       } else {
-        x.domain([0, d3.max(data, d => d.value)])
+        this.x.domain([0, d3.max(this.data, d => d.value)])
       }
+    },
 
-      y.domain(data.map(d => d.name)).padding(this.config.yDomainPadding)
+    initYDomain() {
+      this.y.domain(this.data.map(d => d.name)).padding(this.config.yDomainPadding)
+    },
 
-      // add chart background
-      chart.append('rect')
+    addChartBackground() {
+      this.chart.append('rect')
         .attr('width', this.chartWidth)
         .attr('height', this.chartHeight)
         .attr('class', 'background')
+    },
 
-      // add x axis
-      chart.append('g')
+    addXAxis() {
+      this.chart.append('g')
         .attr('class', 'xaxis')
         .attr('transform', `translate(0, ${this.chartHeight})`)
         .call(
-          d3.axisBottom(x)
+          d3.axisBottom(this.x)
             .ticks(this.config.xTickCount)
             .tickSize(this.config.xTickSize)
             .tickPadding(this.config.xTickPadding)
         )
+    },
 
-      // add y axis
-      chart.append('g')
+    addYAxis() {
+      this.chart.append('g')
         .attr('class', 'yaxis')
-        .call(d3.axisLeft(y).tickSize(this.config.yTickSize).tickPadding(this.config.yTickPadding))
+        .call(d3.axisLeft(this.y).tickSize(this.config.yTickSize).tickPadding(this.config.yTickPadding))
         .selectAll('.tick text')
         .call(this.wrap, this.config.marginLeft - this.config.yTickPadding)
+    },
 
-      // add gridlines
-      chart.append('g')
+    addGridlines() {
+      this.chart.append('g')
         .attr('class', 'gridlines')
         .attr('transform', 'translate(0, ' + this.chartHeight + ')')
-        .call(d3.axisBottom(x).ticks(this.config.xTickCount).tickSize(-this.chartHeight, 0, 0).tickFormat(''))
+        .call(d3.axisBottom(this.x).ticks(this.config.xTickCount).tickSize(-this.chartHeight, 0, 0).tickFormat(''))
+    },
 
-      // add bars
-      const bar = chart.selectAll('.bar')
-        .data(data)
+    addBars() {
+      const bar = this.chart.selectAll('.bar')
+        .data(this.data)
         .enter().append('g')
-        .attr('transform', d => `translate(0,${y(d.name)})`)
+        .attr('transform', d => `translate(0,${this.y(d.name)})`)
 
-        bar.append('rect')
-          .attr('class', 'bar')
-          .attr('x', 0)
-          .attr('y', 0)
-          .attr('height', y.bandwidth())
-          .attr('width', d => x(d.value))
-        
-        // add bar labels
-        bar.append('text')
-          .attr('class', d => {
-            //if bar is less than 10% width then add additional class
+      bar.append('rect')
+        .attr('class', 'bar')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('height', this.y.bandwidth())
+        .attr('width', d => this.x(d.value))
+      
+      const isBarShort = d => d.value/this.config.xAxisMax < 0.1
 
-            if(x(d.value)/this.config.xAxisMax < 0.1){
-              return 'bar-label bar-label--small-bar'
-            } else {
-              return 'bar-label'
-            }
-          })
-          .attr('transform', d => { 
-            let start = 0
+      bar.append('text')
+        .attr('class', d => isBarShort(d) ? 'bar-label bar-label--small-bar': 'bar-label')
+        .attr('transform', d => {           
+          const paddingDirection = isBarShort(d) ? 1 : -1
+          const start = this.x(d.value) + paddingDirection * this.config.barLabelPadding
 
-            //if bar is less than 10% width then show label at the end
-            if(d.value/this.config.xAxisMax < 0.1){
-              start = x(d.value) + this.config.barLabelPadding
-            } else {
-              start = x(d.value) - this.config.barLabelPadding
-            }
-
-            return `translate(${start}, ${y.bandwidth()/2 + 4})`
-          })
-          .attr('text-anchor', d => {
-            //if bar is less than 10% width then show label at the end
-            
-            if(d.value/this.config.xAxisMax < 0.1){
-              return 'start'
-            } else {
-              return 'end'
-            }
-          })
-          .text(d => this.styledNumber(d.value) + this.config.unit)
+          return `translate(${start}, ${this.y.bandwidth()/2 + 4})`
+        })
+        .attr('text-anchor', d => isBarShort(d) ? 'start' : 'end')
+        .text(d => this.styledNumber(d.value) + this.config.unit)
     },
 
     createSVG () {
-      const svg = d3.select('#' + this.svgId)
+      return d3.select('#' + this.svgId)
         .append('svg')
         .attr('class', 'd3-horizontal-bar-chart__svg')
         .attr('xmlns', 'http://www.w3.org/1999/xhtml')
@@ -185,8 +185,6 @@ export default {
         .attr('preserveAspectRatio', 'xMidYMid')
         .attr('width', '100%')
         .attr('height', '100%')
-
-      return svg
     },
 
     styledNumber (number) {
@@ -195,11 +193,12 @@ export default {
 
     wrap (text, width) {
       text.each(function () {
+        const lineHeight = 1.1
         const text = d3.select(this)
         const words = text.text().split(/\s+/).reverse()
-        const lineHeight = 1.1
         const x = text.attr('x')
-        const dy = 0
+        
+        const dy = 0 //prop?
         let line = []
         let lineNumber = 0
 
