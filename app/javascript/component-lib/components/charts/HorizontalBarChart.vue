@@ -59,21 +59,9 @@ export default {
 //     marineScrollMagic = new ScrollMagic.Controller()
 
 // # scenes
-// new ScrollMagic.Scene({ triggerElement: '.sm-infographic', reverse: false })
-//   .setClassToggle('.sm-infographic .infographic__bar--pa', 'infographic__bar--pa--animate')
-//   .addTo(marineScrollMagic)
-
 // new ScrollMagic.Scene({ triggerElement: '.sm-bar-chart', reverse: false })
 //   .setClassToggle('.sm-bar-chart', 'd3-horizontal-bar-chart-animate')
 //   .addTo(marineScrollMagic)
-
-// new ScrollMagic.Scene({ triggerElement: '.sm-size-distribution', reverse: false })
-//   .setClassToggle('.sm-size-distribution .sm-bar', 'v-horizontal-bars__bar-wrapper-animate')
-//   .addTo(marineScrollMagic)
-
-// new ScrollMagic.Scene({ triggerElement: '.sm-size-distribution', reverse: false })
-// .setClassToggle('.sm-size-distribution .sm-rectangle', 'v-rectangles__rectangle-animate')
-// .addTo(marineScrollMagic)
 // )
   },
 
