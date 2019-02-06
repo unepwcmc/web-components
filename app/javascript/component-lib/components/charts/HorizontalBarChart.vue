@@ -1,5 +1,5 @@
 <template>
-  <div :id="svgId" class="d3-horizontal-bar-chart sm-bar-chart"></div>
+  <div :id="svgId" class="d3-horizontal-bar-chart sm-bar-chart" :style="{ paddingTop: paddingTop }"></div>
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default {
   props: {
     id: String,
     data: Array, // {name: String, value: Number}[]
-    chartConfig: Object
+    propsConfig: Object
   },
 
   data () {
@@ -49,7 +49,7 @@ export default {
   },
 
   created () {
-    this.config = {...DEFAULT_CONFIG, ...this.chartConfig}
+    this.config = {...DEFAULT_CONFIG, ...this.propsConfig}
     this.chartWidth = this.config.width - this.config.marginLeft - this.config.marginRight
     this.chartHeight = this.config.height - this.config.marginBottom
     this.svgId = 'd3-' + this.id
@@ -215,6 +215,12 @@ export default {
         }
       })        
     }
+  },
+
+  computed: {
+    paddingTop () {
+      return (this.config.height / this.config.width) * 100 + '%'
+    }
   }
 }
 </script>
@@ -239,9 +245,9 @@ export default {
 
 .d3-horizontal-bar-chart {
   // hack to get the svg to scale in IE11
-    // width: 100%;
+    width: 100%;
     
-    // position: relative;
+    position: relative;
   // end hack
 
   &-animate {
@@ -251,10 +257,10 @@ export default {
 
   &__svg { 
     // hack to get the svg to scale in IE11
-      // display: block;
-      // position: absolute;
-      // top: 0;
-      // left: 0;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
     // end hack
   }
 

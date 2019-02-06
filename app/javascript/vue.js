@@ -31,6 +31,7 @@ import VNav from './component-lib/components/nav/VNav'
 import VSelect from './component-lib/components/v-select/VSelect'
 
 import HorizontalBarChart from './component-lib/components/charts/HorizontalBarChart'
+import Sunburst from './component-lib/components/charts/Sunburst'
 
 // Custom elements aren't supported by JSDOM, so break tests
 // import defineCustomAriaElements from './component-lib/helpers/aria-definitions'
@@ -63,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
           Modal,
           ModalTrigger,
           StickyBar,
+          Sunburst,
           Tab,
           Tabs,
           Tooltip,
