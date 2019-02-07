@@ -12,6 +12,8 @@ import AccordionItem from './component-lib/components/accordion/AccordionItem'
 import Carousel from './component-lib/components/carousel/Carousel'
 import CarouselSlide from './component-lib/components/carousel/CarouselSlide'
 
+import ChartArea from './component-lib/components/charts/ChartArea'
+
 import ExpandableItem from './component-lib/components/expandable-item/ExpandableItem'
 
 import Modal from './component-lib/components/modal/Modal'
@@ -56,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
           AccordionItem,
           Carousel,
           CarouselSlide,
+          ChartArea,
           ExpandableItem,
           Modal,
           ModalTrigger,

@@ -1,0 +1,41 @@
+<%
+global_area_chart = {
+  id: "global-area-chart",
+  legend: [
+    {
+      title: "Proportion of cover by protected areas"
+    }
+  ],
+  datasets: [
+    {
+      title: "Ocean",
+      class: "marine",
+      percent: 71,
+      cssPercent: 71,
+      protected_areas: {
+        title: "1.",
+        percent: 5
+      }
+    },
+    {
+      title: "Land",
+      class: "land",
+      percent: 29,
+      cssPercent: 29,
+      protected_areas: {
+        title: "1.",
+        percent: 12
+      }
+    }
+  ]
+}
+%>
+<expandable-item>
+  <template slot="header">
+<h2>ChartArea</h2>
+  </template>
+  <template slot="content">
+    <chart-area id="<%= global_area_chart[:id] %>" :datasets="<%= global_area_chart[:datasets].to_json %>" :legend="<%= global_area_chart[:legend].to_json %>"></chart-area>
+</template>
+</expandable-item>
+
