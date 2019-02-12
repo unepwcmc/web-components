@@ -11,23 +11,23 @@
               :height="svg.height - svg.paddingTop" 
               fill="#EBEBEB" />
 
-            <text v-if="axis" x="-70" y="-90" font-size="18">
-              <tspan v-for="t in axis.y" x="-70" :dy="24">{{ t }}</tspan>
+            <text v-if="axisLabels" x="-70" y="-90" :font-size="fontSize">
+              <tspan v-for="t in axisLabels.y" x="-70" dy="1.4em">{{ t }}</tspan>
             </text>
 
             <text v-for="y in yAxis" 
               :x="-x.chartPadding" 
               :y="y.coord "
               text-anchor="end"
-              font-size="18"
-              font-weight="300"
+              :font-size="fontSize"
+              :font-weight="fontWeight"
               transform="translate(0, 5)">{{ y.labelText }}</text>
 
             <text v-for="x in xAxis" 
               :x="x.coord" 
               :y="y.chartHeight + y.chartPadding" 
-              font-size="18"
-              font-weight="300"
+              :font-size="fontSize"
+              :font-weight="fontWeight"
               text-anchor="middle">{{ x.labelText }}</text>
 
             <chart-line-dataset 
@@ -35,26 +35,26 @@
               :index="index"
               :path="getPath(line.datapoints)"
               :middle="getPathMiddle(line.datapoints)"
-              :colour="colours[index]">
+              :colour="getLineColourPair(line)">
             </chart-line-dataset>
 
-            <template v-if="targets">
-              <chart-line-target-y v-for="target, index in targets"
+            <template v-if="yTargets">
+              <chart-line-target-y v-for="yTarget in yTargets"
                 :minX="normaliseX(x.min)" 
                 :maxX="normaliseX(x.max)" 
-                :y="normaliseY(target.y)" 
-                :title="target.title"
-                :colour="targetColours[index]">
+                :y="normaliseY(yTarget.y)"
+                :line-style="yTarget.lineStyle"
+                :label="yTarget.label">
               </chart-line-target-y>
             </template>
 
-            <template v-if="commitments">
-              <chart-line-target-x v-for="commitment, index in commitments"
+            <template v-if="xTargets">
+              <chart-line-target-x v-for="xTarget in xTargets"
                 :minY="normaliseY(y.min)" 
                 :maxY="normaliseY(y.max)" 
-                :x="normaliseX(commitment.x)"
-                :line="commitment.line"
-                :label="commitment.label">
+                :x="normaliseX(xTarget.x)"
+                :line-style="xTarget.lineStyle"
+                :label="xTarget.label">
               </chart-line-target-x>
             </template>
           </svg>
@@ -62,148 +62,166 @@
       </div>
     </div>
 
-    <chart-legend v-if="legend" :rows="legend" :colours="legendColours"></chart-legend>
+    <chart-legend v-if="hasLegend" :rows="legend"></chart-legend>
   </div>  
 </template>
 
 <script>
-  import ChartLineDataset from './ChartLineDataset'
-  import ChartLineTargetX from './ChartLineTargetX'
-  import ChartLineTargetY from './ChartLineTargetY'
-  import ChartLegend from './ChartLegend'
+import ChartLineDataset from './ChartLineDataset'
+import ChartLineTargetX from './ChartLineTargetX'
+import ChartLineTargetY from './ChartLineTargetY'
+import ChartLegend from './ChartLegend'
 
-  export default {
-    name: 'chart-line',
+const DEFAULT_LINE_COLOUR = {
+line: '#000000',
+text: '#ffffff'
+}
 
-    components: { ChartLineTargetX, ChartLineTargetY, ChartLineDataset, ChartLegend },
+export default {
+  name: 'chart-line',
 
-    props: {
-      lines: {
-        type: Array,
-        required: true
+  components: { ChartLineTargetX, ChartLineTargetY, ChartLineDataset, ChartLegend },
+
+  props: {
+    lines: {
+      type: Array, // {datapoints: Datapoint[], colours: Colour[], title: String }[]
+      required: true
+    },
+    xTargets: Array,
+    yTargets: Array,
+    axisLabels: Object,
+    hasLegend: {
+      type: Boolean,
+      default: true
+    },
+    fontSize: {
+      default: 'inherit',
+      type: String
+    },
+    fontWeight: {
+      type: String,
+      default: 'inherit'
+    },
+  },
+
+  data () {
+    return {
+      svg: {
+        width: 1030,
+        height: 650,
+        paddingTop: 50
       },
-      targets: Array,
-      axis: Object,
-      commitments: Array,
-      legend: Array
-    },
-
-    data () {
-      return {
-        svg: {
-          width: 1030,
-          height: 650,
-          paddingTop: 50
-        },
-        x: {
-          precision: 1,
-          chartWidth: 890,
-          chartPadding: 24,
-          min:0,
-          max: 0,
-          axisMarks: 6
-        },
-        y: {
-          precision: 1,
-          chartHeight: 500,
-          chartPadding: 34,
-          min: 0,
-          max: 0,
-          axisMarks: 8
-        },
-        colours: [
-          {
-            line: '#207D94',
-            text: '#ffffff'
-          },
-          {
-            line: '#6FD9F2',
-            text: '#000000'
-          },
-          {
-            line: '#86BF37',
-            text: '#000000'
-          }
-        ],
-        legendColours: ['#207D94', '#6FD9F2', '#86BF37'],
-        targetColours: ['rgba(29, 125, 166, 0.4)', 'rgba(113, 163, 43, 0.4)']
-      }
-    },
-
-    computed: {
-      yAxis () {
-        return this.getAxis('y')
+      x: {
+        precision: 1,
+        chartWidth: 890, //TODO: calculate from width and height
+        chartPadding: 24,
+        min:0,
+        max: 0,
+        axisMarks: 10
       },
+      y: {
+        precision: 1,
+        chartHeight: 500,
+        chartPadding: 34,
+        min: 0,
+        max: 0,
+        axisMarks: 8
+      },
+      yTargetColours: ['rgba(29, 125, 166, 0.4)', 'rgba(113, 163, 43, 0.4)']
+    }
+  },
 
-      xAxis () {
-        return this.getAxis('x')
+  computed: {
+    yAxis () {
+      return this.getAxis('y')
+    },
+
+    xAxis () {
+      return this.getAxis('x')
+    },
+
+    legend () {
+      const lines = [...this.lines]
+
+      if (lines.length) {
+        lines.forEach(line => { 
+          line.colour = this.getLineColourPair(line).line
+        })
       }
+
+      return lines
+    }
+  },
+
+  created () {
+    this.x.min = this.getMinMax('min', 'x')
+    this.x.max = this.getMinMax('max', 'x')
+    this.y.max = this.getMinMax('max', 'y')
+    console.log(this.axisLabels)
+  },
+
+  methods: {
+    getPath(dataset) {
+      let path = ''
+      
+      dataset.forEach((point, index) => {
+        let command = index == 0 ? 'M' : 'L'
+
+        path += ` ${command} ${this.normaliseX(point.x)} ${this.normaliseY(point.y)}`
+      })
+
+      return path
     },
 
-    created () {
-      this.x.min = this.getMinMax('min', 'x')
-      this.x.max = this.getMinMax('max', 'x')
-      this.y.max = this.getMinMax('max', 'y')
+    getPathMiddle (dataset) {
+      //used to add circle to a dataset with key used in the legend
+      let middle = dataset[Math.floor(dataset.length/2)]
+
+      return { x: this.normaliseX(middle.x), y: this.normaliseY(middle.y) }
     },
 
-    methods: {
-      getPath(dataset) {
-        let path = ''
-        
-        dataset.forEach((point, index) => {
-          let command = index == 0 ? 'M' : 'L'
+    getAxis (axis) {
+      let array = [], n = this[axis].min
+      const incrementor = (this[axis].max - this[axis].min)/ this[axis].axisMarks
 
-          path += ` ${command} ${this.normaliseX(point.x)} ${this.normaliseY(point.y)}`
+      while( n < this[axis].max + incrementor) {
+        array.push({
+          coord: this[`normalise${axis.toUpperCase()}`](n),
+          labelText: Math.ceil(n/this[axis].precision)*this[axis].precision
         })
 
-        return path
-      },
-
-      getPathMiddle (dataset) {
-        //used to add circle to a dataset with key used in the legend
-        let middle = dataset[Math.floor(dataset.length/2)]
-
-        return { x: this.normaliseX(middle.x), y: this.normaliseY(middle.y) }
-      },
-
-      getAxis (axis) {
-        let array = [], n = this[axis].min
-        const incrementor = (this[axis].max - this[axis].min)/ this[axis].axisMarks
-
-        while( n < this[axis].max + incrementor) {
-          array.push({
-            coord: this[`normalise${axis.toUpperCase()}`](n),
-            labelText: Math.ceil(n/this[axis].precision)*this[axis].precision
-          })
-
-          n += incrementor
-        }
-
-        return array
-      },
-
-      getMinMax(type, prop) {
-        let array = []
-
-        this.lines.forEach(line => {
-          array.push(Math[type](...line.datapoints.map((t) => {
-            return t[prop]
-          })))
-        }) 
-      
-        return Math.max(...array)
-      },
-
-      normaliseX (value) {
-        // subtract the min value incase the axis doesn't start at 0
-        return (((value - this.x.min) / (this.x.max - this.x.min)) * this.x.chartWidth)
-      },
-
-      normaliseY (value) {
-        // y origin is at the top so subtract axis value from height
-        // subtract the min value incase the axis doesn't start at 0
-        return (this.y.chartHeight - ((value - this.y.min) / (this.y.max - this.y.min)) * this.y.chartHeight)
+        n += incrementor
       }
+
+      return array
+    },
+
+    getMinMax(type, prop) {
+      let array = []
+
+      this.lines.forEach(line => {
+        array.push(Math[type](...line.datapoints.map((t) => {
+          return t[prop]
+        })))
+      }) 
+    
+      return Math.max(...array)
+    },
+
+    normaliseX (value) {
+      // subtract the min value incase the axis doesn't start at 0
+      return (((value - this.x.min) / (this.x.max - this.x.min)) * this.x.chartWidth)
+    },
+
+    normaliseY (value) {
+      // y origin is at the top so subtract axis value from height
+      // subtract the min value incase the axis doesn't start at 0
+      return (this.y.chartHeight - ((value - this.y.min) / (this.y.max - this.y.min)) * this.y.chartHeight)
+    },
+
+    getLineColourPair (line) {
+      return line.colour ? line.colour : DEFAULT_LINE_COLOUR
     }
   }
+}
 </script>

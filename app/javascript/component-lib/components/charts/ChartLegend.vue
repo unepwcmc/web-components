@@ -2,7 +2,7 @@
   <ul class="chart--legend ul-unstyled flex flex-wrap">
     <li v-for="row, index in rows" class="chart__legend-item flex flex-v-center" :class="themeClass">
       <span v-if="row.line" class="chart__legend-key" :style="lineStyle"></span>
-      <span v-else class="chart__legend-key" :style="style(index)"></span>
+      <span v-else class="chart__legend-key" :style="style(row)"></span>
       <span class="chart__legend-text bold">{{ index + 1 }}.</span> 
       <span class="chart__legend-text">{{ row.title }}</span>
     </li>
@@ -14,12 +14,11 @@
     name: 'chart-legend',
 
     props: {
-      rows: { //{ line: Line, title: String }[]
+      rows: { //{ line: Line, title: String, colour: Colour }[]
         type: Array,
         required: true
       },
-      theme: String,
-      colours: Array
+      theme: String
     },
 
     data () {
@@ -39,15 +38,13 @@
     },
 
     methods: {
-      style (index) {
+      style (row) {
         let styling = {}
 
-        if(this.colours) {
-          const colour = this.colours[index]
+        if(row.colour) {
+          styling['background-color'] = row.colour
 
-          styling['background-color'] = this.colours[index]
-
-          if(colour == '#ffffff') { styling['border'] = 'solid 1px #cccccc' } 
+          if(row.colour == '#ffffff') { styling['border'] = 'solid 1px #cccccc' } 
         }
 
         return styling

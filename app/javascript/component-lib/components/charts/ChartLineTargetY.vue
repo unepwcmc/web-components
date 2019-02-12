@@ -1,38 +1,56 @@
 <template>
   <g>
-    <text v-if="title" :x="minX" :y="y - 10" font-size="18" font-weight="300">{{ title }}</text>
-    <path :d="path" :stroke="colour" stroke-width="4" stroke-linecap="round" />
+    <text v-if="label" :x="minX" :y="y - 10" :font-size="fontSize" :font-weight="fontWeight">{{ label }}</text>
+    <path :d="path" :stroke="style.colour" :stroke-width="style.strokeWidth" stroke-linecap="round" :stroke-dasharray="style.dashArray" />
   </g>
 </template>
 
 <script>
-  export default {
-    name: 'chart-line-target-x',
+const DEFAULT_LINE_STYLE = {
+  colour: '#000000',
+  strokeWidth: '4',
+  dashArray: ''
+}
 
-    props: {
-      minX: {
-        type: Number,
-        required: true
-      },
-      maxX: {
-        type: Number,
-        required: true
-      },
-      y: {
-        type: Number,
-        required: true
-      },
-      title: String,
-      colour: {
-        type: String,
-        default: '#000000'
-      }
+export default {
+  name: 'chart-line-target-x',
+
+  props: {
+    minX: {
+      type: Number,
+      required: true
+    },
+    maxX: {
+      type: Number,
+      required: true
+    },
+    y: {
+      type: Number,
+      required: true
+    },
+    label: String,
+    lineStyle: {
+      type: Object,
+      default: () => {}
+    },
+    fontSize: {
+      type: String,
+      default: 'inherit'
+    },
+    fontWeight: {
+      type: String,
+      default: 'inherit'
+    },
+  },
+
+  computed: {
+    path () {
+      return `M ${this.minX} ${this.y} H ${this.maxX}`
     },
 
-    computed: {
-      path () {
-        return `M ${this.minX} ${this.y} H ${this.maxX}`
-      }
+    style () {
+      return {...DEFAULT_LINE_STYLE, ...this.lineStyle}
     }
   }
+}
 </script>

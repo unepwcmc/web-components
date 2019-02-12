@@ -12,26 +12,26 @@
 </template>
 
 <script>
-  export default {
-    name: 'chart-line-dataset',
+export default {
+  name: 'chart-line-dataset',
 
-    props: {
-      path: {
-        type: String,
-        required: true
-      },
-      index: {
-        type: Number,
-        required: true
-      },
-      colour: {
-        type: Object,
-        required: true
-      },
-      middle: {
-        type: Object,
-        required: true
-      }
+  props: {
+    path: {
+      type: String,
+      required: true
+    },
+    index: {
+      type: Number,
+      required: true
+    },
+    colour: {
+      type: Object,
+      required: true
+    },
+    middle: {
+      type: Object,
+      required: true
     }
   }
+}
 </script>
