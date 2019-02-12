@@ -14,7 +14,7 @@
     name: 'chart-legend',
 
     props: {
-      rows: {
+      rows: { //{ line: Line, title: String }[]
         type: Array,
         required: true
       },

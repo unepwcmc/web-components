@@ -5,7 +5,7 @@
     <div class="chart__chart">
       <div v-for="row in rows" class="chart__row flex flex-v-center flex-h-between" :class="themeClass">
         <span class="chart__bar" :style="{ width: row.percent + '%' }"></span> 
-        <span class="chart__percent">{{ row.percent }}%</span>
+        <span class="chart__percent">{{ value(row) }}{{ units }}</span>
         <span class="chart__label">{{ row.label }}</span>
       </div>
     </div>
@@ -19,9 +19,19 @@
     props: {
       title: String,
       theme: String,
-      rows: {
+      rows: { // {label: label, value: Number, percent}
         type: Array,
         required: true
+      },
+      units: {
+        type: String,
+        default: '%'
+      }
+    },
+
+    methods: {
+      value (row) {
+        return row.value ? row.value : row.percent
       }
     },
 

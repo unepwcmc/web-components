@@ -3,30 +3,37 @@ rows = [
   {
     label: 'Africa',
     percent: 10,
+    value: 1000,
   },
   {
     label: 'Asia & Pacific',
     percent: 14,
+    value: 1400,
   },
   {
     label: 'Europe',
     percent: 45,
+    value: 4500,
   },
   {
     label: 'Latin America & Caribbean',
     percent: 56,
+    value: 5600,
   },
   {
     label: 'North America',
     percent: 23,
+    value: 2300,
   },
   {
     label: 'Polar',
     percent: 67,
+    value: 6700,
   },
   {
     label: 'West Asia',
     percent: 87,
+    value: 8700,
   }
 ]
 %>
@@ -35,7 +42,7 @@ rows = [
 <h2>ChartRow</h2>
   </template>
   <template slot="content">
-    <chart-row title="Chart title" theme="green" :rows="<%= rows.to_json %>"></chart-row>
+    <chart-row title="Chart title" theme="green" :rows="<%= rows.to_json %>" units=" things"></chart-row>
   </template>
 </expandable-item>
 
