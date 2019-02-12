@@ -4,7 +4,7 @@
 
     <ul class="chart__chart ul-unstyled flex">
       <li v-for="row in rows" class="chart__bar flex flex-v-center" :class="themeClass" :style="{ width: row.percent + '%' }">
-        <span v-if="row.percent > 0" class="chart__percent">{{ row.percent}}%</span>
+        <span v-if="row.percent > 0" class="chart__percent">{{ getValue(row) }}{{ units }}</span>
       </li>
     </ul>
     
@@ -23,12 +23,22 @@
     props: {
       title: String,
       theme: String,
-      rows: {
+      rows: { // {label: label, value: Number, percent}
         type: Array,
         required: true
       },
       legend: {
         type: Array
+      },
+      units: {
+        type: String,
+        default: '%'
+      }
+    },
+
+    methods: {
+      getValue (row) {
+        return row.value ? row.value : row.percent
       }
     },
 

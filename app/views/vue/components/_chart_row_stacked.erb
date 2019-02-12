@@ -24,22 +24,27 @@ stacked_row_charts = {
       rows: [
         {
           percent: 34,
+          value: 340,
           label: "1."
         },
         {
           percent: 45,
+          value: 450,
           label: "2."
         },
         {
           percent: 12,
+          value: 120,
           label: "3."
         },
         {
           percent: 78,
-          label: "4."
+          percent: 780,
+          labvalueel: "4."
         },
         {
           percent: 29,
+          value: 290,
           label: "5."
         }
       ]
@@ -83,6 +88,7 @@ stacked_row_charts = {
         title="<%= chart[:chart_title] %>"
         :rows="<%= chart[:rows].to_json %>"
         theme="<%= chart[:theme] %>"
+        units="km"
         :legend="<%= stacked_row_charts[:legend].to_json %>">
       </chart-row-stacked>
     <% end %>
