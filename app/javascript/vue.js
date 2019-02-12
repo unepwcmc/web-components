@@ -13,6 +13,10 @@ import Carousel from './component-lib/components/carousel/Carousel'
 import CarouselSlide from './component-lib/components/carousel/CarouselSlide'
 
 import ChartArea from './component-lib/components/charts/ChartArea'
+import ChartColumn from './component-lib/components/charts/ChartColumn'
+import ChartLine from './component-lib/components/charts/ChartLine'
+import ChartRow from './component-lib/components/charts/ChartRow'
+import ChartRowStacked from './component-lib/components/charts/ChartRowStacked'
 
 import ExpandableItem from './component-lib/components/expandable-item/ExpandableItem'
 
@@ -59,6 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
           Carousel,
           CarouselSlide,
           ChartArea,
+          ChartColumn,
+          ChartLine,
+          ChartRow,
+          ChartRowStacked,
           ExpandableItem,
           Modal,
           ModalTrigger,

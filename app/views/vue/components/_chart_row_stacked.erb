@@ -1,0 +1,91 @@
+<%
+stacked_row_charts = {
+  legend: [
+    {
+      title: "Over 60%"
+    },
+    {
+      title: "30-60%"
+    },
+    {
+      title: "10-30%"
+    },
+    {
+      title: "Under 10%"
+    },
+    {
+      title: 'No Assessments'
+    }
+  ],
+  charts: [
+    {
+      chart_title: "Terrestrial",
+      theme: "green",
+      rows: [
+        {
+          percent: 34,
+          label: "1."
+        },
+        {
+          percent: 45,
+          label: "2."
+        },
+        {
+          percent: 12,
+          label: "3."
+        },
+        {
+          percent: 78,
+          label: "4."
+        },
+        {
+          percent: 29,
+          label: "5."
+        }
+      ]
+    },
+    {
+      chart_title: "Marine",
+      theme: "blue",
+      rows: [
+        {
+          percent: 16,
+          label: "1."
+        },
+        {
+          percent: 32,
+          label: "2."
+        },
+        {
+          percent: 5,
+          label: "3."
+        },
+        {
+          percent: 87,
+          label: "4."
+        },
+        {
+          percent: 54,
+          label: "5."
+        }
+      ]
+    }
+  ]
+}
+%>
+<expandable-item>
+  <template slot="header">
+<h2>ChartRowStacked</h2>
+  </template>
+  <template slot="content">
+    <% stacked_row_charts[:charts].each do |chart| %>
+      <chart-row-stacked
+        title="<%= chart[:chart_title] %>"
+        :rows="<%= chart[:rows].to_json %>"
+        theme="<%= chart[:theme] %>"
+        :legend="<%= stacked_row_charts[:legend].to_json %>">
+      </chart-row-stacked>
+    <% end %>
+  </template>
+</expandable-item>
+

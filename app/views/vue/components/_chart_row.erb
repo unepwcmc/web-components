@@ -1,0 +1,41 @@
+<%
+rows = [
+  {
+    label: 'Africa',
+    percent: 10,
+  },
+  {
+    label: 'Asia & Pacific',
+    percent: 14,
+  },
+  {
+    label: 'Europe',
+    percent: 45,
+  },
+  {
+    label: 'Latin America & Caribbean',
+    percent: 56,
+  },
+  {
+    label: 'North America',
+    percent: 23,
+  },
+  {
+    label: 'Polar',
+    percent: 67,
+  },
+  {
+    label: 'West Asia',
+    percent: 87,
+  }
+]
+%>
+<expandable-item>
+  <template slot="header">
+<h2>ChartRow</h2>
+  </template>
+  <template slot="content">
+    <chart-row title="Chart title" theme="green" :rows="<%= rows.to_json %>"></chart-row>
+  </template>
+</expandable-item>
+

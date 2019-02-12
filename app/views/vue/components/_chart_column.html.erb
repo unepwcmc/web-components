@@ -1,0 +1,41 @@
+<%
+columns = [
+  {
+    label: 'Africa',
+    value: 10,
+  },
+  {
+    label: 'Asia & Pacific',
+    value: 14,
+  },
+  {
+    label: 'Europe',
+    value: 45,
+  },
+  {
+    label: 'Latin America & Caribbean',
+    value: 56,
+  },
+  {
+    label: 'North America',
+    value: 23,
+  },
+  {
+    label: 'Polar',
+    value: 67,
+  },
+  {
+    label: 'West Asia',
+    value: 87,
+  }
+].to_json
+%>
+<expandable-item>
+  <template slot="header">
+<h2>ChartColumn</h2>
+  </template>
+  <template slot="content">
+    <chart-column units="%" :columns="<%= columns %>"></chart-column>
+</template>
+</expandable-item>
+

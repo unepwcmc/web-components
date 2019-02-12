@@ -1,0 +1,67 @@
+<%
+lines = [{
+  datapoints: [
+    { x: 2000, y: 23 },
+    { x: 2001, y: 34 },
+    { x: 2002, y: 24 },
+    { x: 2003, y: 23 },
+    { x: 2004, y: 25 },
+    { x: 2005, y: 26 },
+    { x: 2006, y: 28 },
+    { x: 2007, y: 35 },
+    { x: 2008, y: 56 },
+    { x: 2009, y: 53 },
+    { x: 2010, y: 54 }
+  ]
+}]
+
+line_chart = {
+  lines: lines,
+  axis: {
+    y: ["Area", "(Million km²)"]
+  },
+  targets: [
+    {
+      y: 36,
+      title: "Marine target (10%)"
+    },
+    {
+      y: 23,
+      title: "Terrestrial target (17%)"
+    }
+  ],
+  commitments: [
+    {
+      x: 2018,
+      line: true,
+      label: ["Future", "Commitments"]
+    }
+  ],
+  legend: [
+    {
+      title: "ABNJ"
+    },
+    {
+      title: "EEZ"
+    },
+    {
+      title: "Land"
+    }
+  ]
+}
+%>
+<expandable-item>
+  <template slot="header">
+<h2>ChartLine</h2>
+  </template>
+  <template slot="content">
+    <chart-line 
+      :lines="<%= line_chart[:lines].to_json %>" 
+      :targets="<%= line_chart[:targets].to_json %>"
+      :commitments="<%= line_chart[:commitments].to_json %>"
+      :legend="<%= line_chart[:legend].to_json %>"
+      :axis="<%= line_chart[:axis].to_json %>">
+    </chart-line>
+  </template>
+</expandable-item>
+
