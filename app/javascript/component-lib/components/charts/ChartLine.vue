@@ -157,7 +157,6 @@ export default {
     this.x.min = this.getMinMax('min', 'x')
     this.x.max = this.getMinMax('max', 'x')
     this.y.max = this.getMinMax('max', 'y')
-    console.log(this.axisLabels)
   },
 
   methods: {
