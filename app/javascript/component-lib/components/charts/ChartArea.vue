@@ -2,14 +2,14 @@
 <div class="chart__wrapper">
   <div class="chart--area">
     <div class="chart__chart flex">
-      <div v-for="dataset in datasets" class="chart__dataset" :style="style(dataset.cssPercent)">
+      <div v-for="dataset in datasets" class="chart__dataset" :style="style(dataset.percent)">
         <div class="chart__bar" :class="['chart__bar-' + dataset.class]" :style="{ height: height + 'px' }">
-          <p class="chart__label no-margin">{{ dataset.title }} <span class="chart__label-percentage">{{dataset.percent }}%</span></p>
+          <p class="chart__label no-margin">{{ dataset.title }} <span class="chart__label-percentage">{{ dataset.value }}{{ units }}</span></p>
         </div>
 
-        <div v-if="dataset.protected_areas">
-          <div class="chart__bar chart__bar-pa" :style="getPaSize(dataset.cssPercent, dataset.protected_areas.percent)">
-            <p class="chart__label-pa no-margin">{{ dataset.protected_areas.title }} <span class="chart__label-percentage">{{dataset.protected_areas.percent }}%</span></p>
+        <div v-if="dataset.inner_square">
+          <div class="chart__bar chart__bar-pa" :style="getInnerSquareSize(dataset.percent, dataset.inner_square.percent)">
+            <p class="chart__label-pa no-margin">{{ dataset.inner_square.title }} <span class="chart__label-percentage">{{dataset.inner_square.value }}{{ units }}</span></p>
           </div>
         </div>
       </div>
@@ -29,26 +29,36 @@
     components: { ChartLegend },
 
     props: {
-      datasets: {
+      datasets: { // {title: String, class: String, value: Number, percent: Number, innerSquare: {title: String, value: Number, percent: Number}}
         type: Array,
         required: true
+      },
+      height: {
+        type: Number,
+        default: 180
       },
       id: {
         type: String,
         required: true
       },
-      legend: Array,
+      units: {
+        type: String,
+        default: '%'
+      },
+      legend: Array, //see ChartLegend for types
     },
 
     data () {
       return {
-        height: 180,
         chartWidth: 0
       }
     },
 
     mounted () {
       this.chartWidth = this.$el.clientWidth
+      window.onresize = () => {
+        this.chartWidth = this.$el.clientWidth
+      }
     },
 
     methods: {
@@ -56,13 +66,13 @@
         return `width: ${percent}%`
       },
 
-      getPaSize (parentPercent, paPercent) {
-        const parentArea = this.chartWidth * this.height * (parentPercent/100),
-          paArea = parentArea * (paPercent/100),
-          paAreaLength = Math.round(Math.sqrt(paArea))
+      getInnerSquareSize (parentPercent, innerPercent) {
+        const parentArea = this.chartWidth * this.height * (parentPercent/100)
+        const innerArea = parentArea * (innerPercent/100)
+        const innerAreaLength = Math.round(Math.sqrt(innerArea))
 
-        return { width: `${paAreaLength}px`, height: `${paAreaLength}px` }
+        return { width: `${innerAreaLength}px`, height: `${innerAreaLength}px` }
       }
-    }
+    },
   }
 </script>

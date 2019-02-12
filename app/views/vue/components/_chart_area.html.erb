@@ -10,20 +10,22 @@ global_area_chart = {
     {
       title: "Ocean",
       class: "marine",
+      value: 7100,
       percent: 71,
-      cssPercent: 71,
-      protected_areas: {
+      inner_square: {
         title: "1.",
+        value: 500,
         percent: 5
       }
     },
     {
       title: "Land",
       class: "land",
+      value: 2900,
       percent: 29,
-      cssPercent: 29,
-      protected_areas: {
+      inner_square: {
         title: "1.",
+        value: 1200,
         percent: 12
       }
     }
@@ -35,7 +37,7 @@ global_area_chart = {
 <h2>ChartArea</h2>
   </template>
   <template slot="content">
-    <chart-area id="<%= global_area_chart[:id] %>" :datasets="<%= global_area_chart[:datasets].to_json %>" :legend="<%= global_area_chart[:legend].to_json %>"></chart-area>
+    <chart-area id="<%= global_area_chart[:id] %>" :datasets="<%= global_area_chart[:datasets].to_json %>" units="km^2" :legend="<%= global_area_chart[:legend].to_json %>"></chart-area>
 </template>
 </expandable-item>
 
