@@ -146,7 +146,7 @@ export default {
 
     chartPaddingTop () { return this.fontSize * 1.5 },
 
-    svgPaddingTop () {return this.fontSize * 5 },
+    svgPaddingTop () {return this.chartPaddingTop + this.fontSize * 3 },
 
     xAxisYDisplacement () { return this.chartHeight + this.chartPaddingBottom },
 
