@@ -3,29 +3,28 @@
     <div class="chart__wrapper-ie11">
       <div class="chart__scrollable">
         <div v-if="lines" class="chart__chart" style="width:100%;">
-          <svg width="100%" height="100%" :viewBox="`-70 -${svgPaddingTop} ${svg.width} ${svg.height}`" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" class="chart__svg">
+          <svg width="100%" height="100%" :viewBox="`-${chartPaddingSides} -${svgPaddingTop} ${svg.width} ${svg.height}`" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" class="chart__svg">
             <rect 
-              :x="-70"
+              :x="-chartPaddingSides"
               :y="`-${chartPaddingTop}`" 
               :width="svg.width" 
               :height="backgroundHeight" 
               fill="#EBEBEB" />
 
-            <text v-if="axisLabels" x="-70" y="-4.5em" :font-size="fontSize">
-              <tspan v-for="t in axisLabels.y" x="-70" dy="1.25em">{{ t }}</tspan>
+            <text v-if="axisLabels" :x="-chartPaddingSides" :y="-4.5 * fontSize" :font-size="fontSize">
+              <tspan v-for="t in axisLabels.y" :x="-chartPaddingSides" :dy="1.25 * fontSize">{{ t }}</tspan>
             </text>
 
             <text v-for="y in yAxis" 
               :x="-chartPaddingLeft" 
               :y="y.coord"
-              dy="0.3em"
               text-anchor="end"
               :font-size="fontSize"
               :font-weight="fontWeight">{{ y.labelText }}</text>
 
             <text v-for="x in xAxis" 
               :x="x.coord" 
-              :y="xAxisY" 
+              :y="xAxisYDisplacement" 
               :font-size="fontSize"
               :font-weight="fontWeight"
               text-anchor="middle">{{ x.labelText }}</text>
@@ -76,10 +75,25 @@ import ChartLineTargetX from './ChartLineTargetX'
 import ChartLineTargetY from './ChartLineTargetY'
 import ChartLegend from './ChartLegend'
 
+//TODO: targets
+
 const DEFAULT_LINE_COLOUR = {
 line: '#000000',
 text: '#ffffff'
 }
+const DEFAULT_X_AXIS_CONFIG = {
+  precision: 1,
+  min: 0,
+  max: 0,
+  axisMarks: 10
+}
+const DEFAULT_Y_AXIS_CONFIG = {
+  precision: 1,
+  min: 0,
+  max: 0,
+  axisMarks: 8
+}
+const AXIS_PADDING = 30
 
 export default {
   name: 'chart-line',
@@ -106,6 +120,12 @@ export default {
       type: String,
       default: 'inherit'
     },
+    xAxisConfig: Object,
+    yAxisConfig: Object,
+    chartPaddingSides: {
+      type: Number,
+      default: 80
+    }
   },
 
   data () {
@@ -113,61 +133,34 @@ export default {
       svg: {
         width: 1030,
         height: 650
-      },
-      x: {
-        precision: 1,
-        chartWidth: 890, //TODO: calculate from width and height
-        min: 0,
-        max: 0,
-        axisMarks: 10
-      },
-      y: {
-        precision: 1,
-        chartPadding: 34,
-        min: 0,
-        max: 0,
-        axisMarks: 8
-      },
-      yTargetColours: ['rgba(29, 125, 166, 0.4)', 'rgba(113, 163, 43, 0.4)']
+      }
     }
   },
 
   computed: {
-    yAxis () {
-      return this.getAxis('y')
-    },
+    x () { return {...DEFAULT_X_AXIS_CONFIG, ...this.xAxisConfig} },
 
-    xAxis () {
-      return this.getAxis('x')
-    },
+    y () { return {...DEFAULT_Y_AXIS_CONFIG, ...this.yAxisConfig} },
 
-    svgPaddingTop () {
-      return this.fontSize * 5
-    },
+    yAxis () { return this.getAxis('y') },
 
-    chartPaddingLeft () {
-      return 20
-    },
+    xAxis () { return this.getAxis('x') },
 
-    chartPaddingTop () {
-      return this.fontSize * 1.5
-    },
+    backgroundHeight () {return this.svg.height - this.svgPaddingTop },
 
-    chartPaddingBottom () {
-      return this.fontSize + 20
-    },
+    chartHeight () {return this.backgroundHeight - this.chartPaddingTop - this.fontSize - this.chartPaddingBottom },
 
-    backgroundHeight () {
-      return this.svg.height - this.svgPaddingTop //account for 1.5em shift up
-    },
+    chartWidth () {return this.svg.width - 2 * this.chartPaddingSides },
 
-    chartHeight () {
-      return this.backgroundHeight - this.chartPaddingTop - this.fontSize - this.chartPaddingBottom
-    },
+    chartPaddingBottom () { return this.fontSize + AXIS_PADDING },
 
-    xAxisY () {
-      return this.chartHeight + this.chartPaddingBottom
-    },
+    chartPaddingLeft () { return AXIS_PADDING },
+
+    chartPaddingTop () { return this.fontSize * 1.5 },
+
+    svgPaddingTop () {return this.fontSize * 5 },
+
+    xAxisYDisplacement () { return this.chartHeight + this.chartPaddingBottom },
 
     legend () {
       const legend = []
@@ -198,7 +191,7 @@ export default {
       let path = ''
       
       dataset.forEach((point, index) => {
-        let command = index == 0 ? 'M' : 'L'
+        const command = index == 0 ? 'M' : 'L'
 
         path += ` ${command} ${this.normaliseX(point.x)} ${this.normaliseY(point.y)}`
       })
@@ -214,11 +207,11 @@ export default {
     },
 
     getAxis (axis) {
-      let array = [], n = this[axis].min
+      let axisTickLabels = [], n = this[axis].min
       const incrementor = (this[axis].max - this[axis].min)/ this[axis].axisMarks
 
       while( n < this[axis].max + incrementor) {
-        array.push({
+        axisTickLabels.push({
           coord: this[`normalise${axis.toUpperCase()}`](n),
           labelText: Math.ceil(n/this[axis].precision)*this[axis].precision
         })
@@ -226,7 +219,11 @@ export default {
         n += incrementor
       }
 
-      return array
+      return axisTickLabels
+    },
+
+    getLineColourPair (line) {
+      return line.colour ? line.colour : DEFAULT_LINE_COLOUR
     },
 
     getMinMax(type, prop) {
@@ -243,7 +240,7 @@ export default {
 
     normaliseX (value) {
       // subtract the min value incase the axis doesn't start at 0
-      return (((value - this.x.min) / (this.x.max - this.x.min)) * this.x.chartWidth)
+      return this.chartWidth * (value - this.x.min) / (this.x.max - this.x.min)
     },
 
     normaliseY (value) {
@@ -251,10 +248,6 @@ export default {
       // subtract the min value incase the axis doesn't start at 0
       return this.chartHeight * (1 - (value - this.y.min) / (this.y.max - this.y.min))
     },
-
-    getLineColourPair (line) {
-      return line.colour ? line.colour : DEFAULT_LINE_COLOUR
-    }
   }
 }
 </script>
