@@ -19,14 +19,12 @@
               :x="-chartPaddingLeft" 
               :y="y.coord"
               text-anchor="end"
-              :font-size="fontSize"
-              :font-weight="fontWeight">{{ y.labelText }}</text>
+              :font-size="fontSize">{{ y.labelText }}</text>
 
             <text v-for="x in xAxis" 
               :x="x.coord" 
               :y="xAxisYDisplacement" 
               :font-size="fontSize"
-              :font-weight="fontWeight"
               text-anchor="middle">{{ x.labelText }}</text>
 
             <chart-line-dataset 
@@ -44,8 +42,7 @@
                 :y="normaliseY(yTarget.y)"
                 :line-style="yTarget.lineStyle"
                 :label="yTarget.label"
-                :font-size="fontSize"
-                :font-weight="fontWeight">
+                :font-size="fontSize">
               </chart-line-target-y>
             </template>
 
@@ -56,8 +53,7 @@
                 :x="normaliseX(xTarget.x)"
                 :line-style="xTarget.lineStyle"
                 :label="xTarget.label"
-                :font-size="fontSize"
-                :font-weight="fontWeight">
+                :font-size="fontSize">
               </chart-line-target-x>
             </template>
           </svg>
@@ -115,10 +111,6 @@ export default {
     fontSize: {
       default: 14,
       type: Number
-    },
-    fontWeight: {
-      type: String,
-      default: 'inherit'
     },
     xAxisConfig: Object,
     yAxisConfig: Object,
