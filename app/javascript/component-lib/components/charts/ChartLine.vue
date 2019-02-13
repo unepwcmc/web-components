@@ -71,8 +71,6 @@ import ChartLineTargetX from './ChartLineTargetX'
 import ChartLineTargetY from './ChartLineTargetY'
 import ChartLegend from './ChartLegend'
 
-//TODO: targets
-
 const DEFAULT_LINE_COLOUR = {
 line: '#000000',
 text: '#ffffff'
