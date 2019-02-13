@@ -89,6 +89,10 @@ const DEFAULT_Y_AXIS_CONFIG = {
   max: 0,
   axisMarks: 8
 }
+const DEFAULT_SVG_CONFIG = {
+  width: 1000,
+  height: 650
+}
 const AXIS_PADDING = 30
 
 export default {
@@ -117,22 +121,16 @@ export default {
     chartPaddingSides: {
       type: Number,
       default: 80
-    }
-  },
-
-  data () {
-    return {
-      svg: {
-        width: 1030,
-        height: 650
-      }
-    }
+    },
+    svgConfig: Object
   },
 
   computed: {
     x () { return {...DEFAULT_X_AXIS_CONFIG, ...this.xAxisConfig} },
 
     y () { return {...DEFAULT_Y_AXIS_CONFIG, ...this.yAxisConfig} },
+
+    svg () { return {...DEFAULT_SVG_CONFIG, ... this.svgConfig} },
 
     yAxis () { return this.getAxis('y') },
 
