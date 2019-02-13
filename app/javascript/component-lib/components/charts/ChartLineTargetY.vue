@@ -1,6 +1,6 @@
 <template>
   <g>
-    <text v-if="label" :x="minX" :y="y - 10" :font-size="fontSize" :font-weight="fontWeight">{{ label }}</text>
+    <text v-if="label" :x="minX" :y="y" dy="-0.6em" :font-size="fontSize" :font-weight="fontWeight">{{ label }}</text>
     <path :d="path" :stroke="style.colour" :stroke-width="style.strokeWidth" stroke-linecap="round" :stroke-dasharray="style.dashArray" />
   </g>
 </template>
@@ -34,8 +34,8 @@ export default {
       default: () => {}
     },
     fontSize: {
-      type: String,
-      default: 'inherit'
+      type: Number,
+      default: 14
     },
     fontWeight: {
       type: String,

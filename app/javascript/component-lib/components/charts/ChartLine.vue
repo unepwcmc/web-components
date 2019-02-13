@@ -3,29 +3,29 @@
     <div class="chart__wrapper-ie11">
       <div class="chart__scrollable">
         <div v-if="lines" class="chart__chart" style="width:100%;">
-          <svg width="100%" height="100%" :viewBox="`-70 -80 ${svg.width} ${svg.height}`" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" class="chart__svg">
+          <svg width="100%" height="100%" :viewBox="`-70 -${svgPaddingTop} ${svg.width} ${svg.height}`" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" class="chart__svg">
             <rect 
               :x="-70"
-              :y="-30" 
+              :y="`-${chartPaddingTop}`" 
               :width="svg.width" 
-              :height="svg.height - svg.paddingTop" 
+              :height="backgroundHeight" 
               fill="#EBEBEB" />
 
-            <text v-if="axisLabels" x="-70" y="-90" :font-size="fontSize">
-              <tspan v-for="t in axisLabels.y" x="-70" dy="1.4em">{{ t }}</tspan>
+            <text v-if="axisLabels" x="-70" y="-4.5em" :font-size="fontSize">
+              <tspan v-for="t in axisLabels.y" x="-70" dy="1.25em">{{ t }}</tspan>
             </text>
 
             <text v-for="y in yAxis" 
-              :x="-x.chartPadding" 
-              :y="y.coord "
+              :x="-chartPaddingLeft" 
+              :y="y.coord"
+              dy="0.3em"
               text-anchor="end"
               :font-size="fontSize"
-              :font-weight="fontWeight"
-              transform="translate(0, 5)">{{ y.labelText }}</text>
+              :font-weight="fontWeight">{{ y.labelText }}</text>
 
             <text v-for="x in xAxis" 
               :x="x.coord" 
-              :y="y.chartHeight + y.chartPadding" 
+              :y="xAxisY" 
               :font-size="fontSize"
               :font-weight="fontWeight"
               text-anchor="middle">{{ x.labelText }}</text>
@@ -44,7 +44,9 @@
                 :maxX="normaliseX(x.max)" 
                 :y="normaliseY(yTarget.y)"
                 :line-style="yTarget.lineStyle"
-                :label="yTarget.label">
+                :label="yTarget.label"
+                :font-size="fontSize"
+                :font-weight="fontWeight">
               </chart-line-target-y>
             </template>
 
@@ -54,7 +56,9 @@
                 :maxY="normaliseY(y.max)" 
                 :x="normaliseX(xTarget.x)"
                 :line-style="xTarget.lineStyle"
-                :label="xTarget.label">
+                :label="xTarget.label"
+                :font-size="fontSize"
+                :font-weight="fontWeight">
               </chart-line-target-x>
             </template>
           </svg>
@@ -95,8 +99,8 @@ export default {
       default: true
     },
     fontSize: {
-      default: 'inherit',
-      type: String
+      default: 14,
+      type: Number
     },
     fontWeight: {
       type: String,
@@ -108,20 +112,17 @@ export default {
     return {
       svg: {
         width: 1030,
-        height: 650,
-        paddingTop: 50
+        height: 650
       },
       x: {
         precision: 1,
         chartWidth: 890, //TODO: calculate from width and height
-        chartPadding: 24,
-        min:0,
+        min: 0,
         max: 0,
         axisMarks: 10
       },
       y: {
         precision: 1,
-        chartHeight: 500,
         chartPadding: 34,
         min: 0,
         max: 0,
@@ -140,16 +141,49 @@ export default {
       return this.getAxis('x')
     },
 
-    legend () {
-      const lines = [...this.lines]
+    svgPaddingTop () {
+      return this.fontSize * 5
+    },
 
-      if (lines.length) {
-        lines.forEach(line => { 
-          line.colour = this.getLineColourPair(line).line
+    chartPaddingLeft () {
+      return 20
+    },
+
+    chartPaddingTop () {
+      return this.fontSize * 1.5
+    },
+
+    chartPaddingBottom () {
+      return this.fontSize + 20
+    },
+
+    backgroundHeight () {
+      return this.svg.height - this.svgPaddingTop //account for 1.5em shift up
+    },
+
+    chartHeight () {
+      return this.backgroundHeight - this.chartPaddingTop - this.fontSize - this.chartPaddingBottom
+    },
+
+    xAxisY () {
+      return this.chartHeight + this.chartPaddingBottom
+    },
+
+    legend () {
+      const legend = []
+
+      if (this.lines.length) {
+        this.lines.forEach(line => {
+          const legendItem = {
+            ...line,
+            colour: this.getLineColourPair(line).line
+          }
+
+          legend.push(legendItem)
         })
       }
 
-      return lines
+      return legend
     }
   },
 
@@ -215,7 +249,7 @@ export default {
     normaliseY (value) {
       // y origin is at the top so subtract axis value from height
       // subtract the min value incase the axis doesn't start at 0
-      return (this.y.chartHeight - ((value - this.y.min) / (this.y.max - this.y.min)) * this.y.chartHeight)
+      return this.chartHeight * (1 - (value - this.y.min) / (this.y.max - this.y.min))
     },
 
     getLineColourPair (line) {

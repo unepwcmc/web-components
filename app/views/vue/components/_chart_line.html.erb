@@ -87,10 +87,6 @@ line_chart = {
     {
       y: 36,
       label: "Marine target (10%)"
-    },
-    {
-      y: 23,
-      label: "Terrestrial target (17%)"
     }
   ],
   commitments: [
@@ -119,7 +115,8 @@ line_chart = {
       :lines="<%= line_chart[:lines].to_json %>" 
       :y-targets="<%= line_chart[:targets].to_json %>"
       :x-targets="<%= line_chart[:commitments].to_json %>"
-      :axis-labels="<%= line_chart[:axisLabels].to_json %>">
+      :axis-labels="<%= line_chart[:axisLabels].to_json %>"
+      :font-size="14">
     </chart-line>
   </template>
 </expandable-item>
