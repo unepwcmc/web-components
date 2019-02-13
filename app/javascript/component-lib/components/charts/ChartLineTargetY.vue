@@ -29,10 +29,7 @@ export default {
       required: true
     },
     label: String,
-    lineStyle: {
-      type: Object,
-      default: () => {}
-    },
+    lineStyle: Object,
     fontSize: {
       type: Number,
       default: 14

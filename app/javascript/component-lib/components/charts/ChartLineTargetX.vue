@@ -2,8 +2,8 @@
   <g>
     <path :d="path" :stroke="style.colour" :stroke-width="style.strokeWidth" stroke-linecap="round" :stroke-dasharray="style.dashArray" />
 
-    <text v-if="label" :x="x" dx="0.6em" :y="`50%`" :font-size="fontSize" :font-weight="fontWeight">
-      <tspan v-for="t in label" :x="x" dx="0.6em" dy="1.25em">{{ t }}</tspan>
+    <text v-if="label" :x="x" dx="0.6em" y="5%" :font-size="fontSize" :font-weight="fontWeight">
+      <tspan v-for="t in label" :x="x" dx="0.6em" dy="1.2em">{{ t }}</tspan>
     </text>
   </g>
 </template>
@@ -31,10 +31,7 @@ export default {
       type: Number,
       required: true
     },
-    lineStyle: {
-      type: Object,
-      default: () => {}
-    },
+    lineStyle: Object,
     label: Array,
     colour: {
       type: String,
