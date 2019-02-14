@@ -26,7 +26,7 @@ export default {
   },
   data () {
     return {
-      isActive: true,
+      isActive: false,
       contentId: `expandable-item-content-${this._uid}`
     }
   },

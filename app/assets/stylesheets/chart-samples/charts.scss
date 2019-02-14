@@ -158,10 +158,10 @@ $theme-rainbow: $chart-pink $chart-yellow $chart-green $chart-blue $grey-light;
 //--------------------------------------------------
 // charts
 //--------------------------------------------------
-  @import './charts/chart-area';
-  @import './charts/chart-column';
-  @import './charts/chart-doughnut';
-  @import './charts/chart-line';
-  @import './charts/chart-row';
-  @import './charts/chart-stacked-row';
+  @import './chart-area';
+  @import './chart-column';
+  @import './chart-doughnut';
+  @import './chart-line';
+  @import './chart-row';
+  @import './chart-stacked-row';
 }
