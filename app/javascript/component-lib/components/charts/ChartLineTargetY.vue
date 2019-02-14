@@ -8,8 +8,8 @@
 <script>
 const DEFAULT_LINE_STYLE = {
   colour: '#000000',
-  strokeWidth: '4',
-  dashArray: ''
+  strokeWidth: '2',
+  dashArray: '6 8'
 }
 
 export default {

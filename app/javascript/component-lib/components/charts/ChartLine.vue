@@ -9,7 +9,7 @@
               :y="`-${chartPaddingTop}`" 
               :width="svg.width" 
               :height="backgroundHeight" 
-              fill="#EBEBEB" />
+              :fill="backgroundColour" />
 
             <text v-if="axisLabels" :x="-chartPaddingSides" :y="-4.5 * fontSize" :font-size="fontSize">
               <tspan v-for="t in axisLabels.y" :x="-chartPaddingSides" :dy="1.25 * fontSize">{{ t }}</tspan>
@@ -71,27 +71,26 @@ import ChartLineTargetX from './ChartLineTargetX'
 import ChartLineTargetY from './ChartLineTargetY'
 import ChartLegend from './ChartLegend'
 
+const AXIS_PADDING = 30
+const DEFAULT_BACKGROUND_COLOUR = '#ffffff'
+const DEFAULT_CHART_PADDING_SIDES = 80
+const DEFAULT_FONT_SIZE = 14
 const DEFAULT_LINE_COLOUR = {
 line: '#000000',
 text: '#ffffff'
-}
-const DEFAULT_X_AXIS_CONFIG = {
-  precision: 1,
-  min: 0,
-  max: 0,
-  axisMarks: 10
-}
-const DEFAULT_Y_AXIS_CONFIG = {
-  precision: 1,
-  min: 0,
-  max: 0,
-  axisMarks: 8
 }
 const DEFAULT_SVG_CONFIG = {
   width: 1000,
   height: 650
 }
-const AXIS_PADDING = 30
+const DEFAULT_X_AXIS_CONFIG = {
+  precision: 1,
+  axisMarks: 10
+}
+const DEFAULT_Y_AXIS_CONFIG = {
+  precision: 1,
+  axisMarks: 8
+}
 
 export default {
   name: 'chart-line',
@@ -111,14 +110,18 @@ export default {
       default: true
     },
     fontSize: {
-      default: 14,
+      default: DEFAULT_FONT_SIZE,
       type: Number
     },
     xAxisConfig: Object,
     yAxisConfig: Object,
     chartPaddingSides: {
       type: Number,
-      default: 80
+      default: DEFAULT_CHART_PADDING_SIDES
+    },
+    backgroundColour: {
+      type: String,
+      default: DEFAULT_BACKGROUND_COLOUR
     },
     svgConfig: Object
   },
@@ -171,6 +174,7 @@ export default {
   created () {
     this.x.min = this.getMinMax('min', 'x')
     this.x.max = this.getMinMax('max', 'x')
+    this.y.min = 0
     this.y.max = this.getMinMax('max', 'y')
   },
 
