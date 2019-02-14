@@ -8,7 +8,7 @@
       </li>
     </ul>
     
-    <chart-legend v-if="legend" :rows="legend" :theme="theme" class="chart__legend"></chart-legend>
+    <chart-legend v-if="legend" :legend-items="legend" :theme="theme" class="chart__legend"></chart-legend>
   </div>
 </template>
 
@@ -23,7 +23,7 @@
     props: {
       title: String,
       theme: String,
-      rows: { // {label: label, value: Number, percent}
+      rows: { // Row[]
         type: Array,
         required: true
       },

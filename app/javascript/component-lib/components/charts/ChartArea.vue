@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <chart-legend v-if="legend" :rows="legend"></chart-legend>
+    <chart-legend v-if="legend" :legend-items="legend"></chart-legend>
   </div>
 </div>
 </template>
@@ -45,7 +45,7 @@
         type: String,
         default: '%'
       },
-      legend: Array, //see ChartLegend for types
+      legend: Array, // Legend
     },
 
     data () {

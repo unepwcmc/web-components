@@ -1,10 +1,9 @@
 <template>
   <ul class="chart--legend ul-unstyled flex flex-wrap">
-    <li v-for="row, index in rows" class="chart__legend-item flex flex-v-center" :class="themeClass">
-      <span v-if="row.line" class="chart__legend-key" :style="lineStyle"></span>
-      <span v-else class="chart__legend-key" :style="style(row)"></span>
+    <li v-for="item, index in legendItems" class="chart__legend-item flex flex-v-center" :class="themeClass">
+      <span :class="['chart__legend-key', {'chart__legend-key--line': isLine} ]" :style="style(item)"></span>
       <span class="chart__legend-text bold">{{ index + 1 }}.</span> 
-      <span class="chart__legend-text">{{ row.title }}</span>
+      <span class="chart__legend-text">{{ item.title }}</span>
     </li>
   </ul>
 </template>
@@ -14,21 +13,15 @@
     name: 'chart-legend',
 
     props: {
-      rows: { //{ line: Line, title: String, colour: Colour }[]
+      legendItems: { //{ title: String, colour: String }[]
         type: Array,
         required: true
       },
+      isLine: {
+        type: Boolean,
+        default: false
+      },
       theme: String
-    },
-
-    data () {
-      return {
-        lineStyle: {
-          'border-top': 'dashed 1px #871313',
-          'background-color': 'transparent',
-          'height': 0
-        }
-      }
     },
 
     computed: {
@@ -38,13 +31,13 @@
     },
 
     methods: {
-      style (row) {
+      style (item) {
         let styling = {}
 
-        if(row.colour) {
-          styling['background-color'] = row.colour
+        if(item.colour) {
+          styling['background-color'] = item.colour
 
-          if(row.colour == '#ffffff') { styling['border'] = 'solid 1px #cccccc' } 
+          if(item.colour == '#ffffff') { styling['border'] = 'solid 1px #cccccc' } 
         }
 
         return styling

@@ -19,7 +19,7 @@
     props: {
       title: String,
       theme: String,
-      rows: { // {label: label, value: Number, percent}
+      rows: { // Row[]
         type: Array,
         required: true
       },

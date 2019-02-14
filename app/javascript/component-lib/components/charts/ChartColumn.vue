@@ -24,7 +24,10 @@
         type: Array,
         required: true
       },
-      units: String
+      units: {
+        type: String,
+        default: '%'
+      }
     },
 
     methods: {

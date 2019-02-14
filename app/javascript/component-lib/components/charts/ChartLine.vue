@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <chart-legend v-if="hasLegend" :rows="legend"></chart-legend>
+    <chart-legend v-if="hasLegend" :is-line="true" :legend-items="legendDatasets"></chart-legend>
   </div>  
 </template>
 
@@ -100,7 +100,7 @@ export default {
 
   props: {
     lines: {
-      type: Array, // {datapoints: Datapoint[], colours: Colour[], title: String }[]
+      type: Array, // Line[]
       required: true
     },
     xTargets: Array,
@@ -150,21 +150,21 @@ export default {
 
     xAxisYDisplacement () { return this.chartHeight + this.chartPaddingBottom },
 
-    legend () {
-      const legend = []
+    legendDatasets () {
+      const legendDatasets = []
 
       if (this.lines.length) {
         this.lines.forEach(line => {
-          const legendItem = {
+          const legendDataset = {
             ...line,
             colour: this.getLineColourPair(line).line
           }
 
-          legend.push(legendItem)
+          legendDatasets.push(legendDataset)
         })
       }
 
-      return legend
+      return legendDatasets
     }
   },
 
