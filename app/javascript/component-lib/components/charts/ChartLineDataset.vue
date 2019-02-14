@@ -7,7 +7,7 @@
       stroke-width="6" />
 
     <circle :cx="middle.x" :cy="middle.y" :fill="colour.line" r="18">{{ index + 1 }}</circle>
-    <text :x="middle.x" :y="middle.y" :fill="colour.text" text-anchor="middle" dominant-baseline="middle" font-size="18" font-weight="900">{{ index + 1 }}</text>
+    <text :x="middle.x" :y="middle.y" :fill="colour.text" text-anchor="middle" dominant-baseline="middle" :font-size="fontSize" :font-weight="fontWeight">{{ index + 1 }}</text>
   </g>
 </template>
 
@@ -31,6 +31,14 @@ export default {
     middle: {
       type: Object,
       required: true
+    },
+    fontSize : {
+      type: Number,
+      default: 18
+    },
+    fontWeight : {
+      type: Number,
+      default: 900
     }
   }
 }
