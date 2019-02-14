@@ -39,7 +39,7 @@
           :value="option"
           v-model="selectedInternal"
           @change="handleOptionChange(option)">
-        <span :id="getMockFocusId(option)" :class="getInputClasses(option)">Fake</span>
+        <span :id="getMockFocusId(option)" :class="getMockInputClasses(option)">Fake</span>
         <label :for="getOptionInputId(option)">{{ option.name }}</label>
       </li>
 
@@ -51,6 +51,7 @@
 <script>
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 import mixinFocusCapture from '../../mixins/mixin-focus-capture'
+import mixinFocusMocker from '../../mixins/mixin-focus-mocker'
 
 const UNDEFINED_ID = '__UNDEFINED__';
 const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
@@ -72,7 +73,7 @@ export default {
       }
   },
 
-  mixins: [mixinPopupCloseListeners('closeSelect'), mixinFocusCapture('isActive')],
+  mixins: [mixinPopupCloseListeners('closeSelect'), mixinFocusCapture('isActive'), mixinFocusMocker],
 
   data () {
     return {
@@ -125,15 +126,16 @@ export default {
     },
 
     getMockFocusId (option) {
-      return this.isMultiselect ? this.getOptionInputId(option) + '-mock-focus' : ''
+      return this.getOptionInputId(option) + '-mock-focus'
     },
 
-    getInputClasses (option) {
+    getMockInputClasses (option) {
       const inputClass = `v-select__${this.inputType}`
 
       return {
         [inputClass]: true,
-        [`${inputClass}--active`]: this.isSelected(option)
+        [`${inputClass}--active`]: this.isSelected(option),
+        'focussed': this.getMockFocusId(option) === this.currentMockFocusId
       }
     },
 

@@ -43,10 +43,10 @@ import VSelect from './component-lib/components/v-select/VSelect'
 // create event hub and export so that it can be imported into .vue files
 export const eventHub = new Vue()
 
-import attachFocusMockingEvents from './component-lib/utils/focus-mocker'
-attachFocusMockingEvents()
+import FocusMockerHub from './component-lib/utils/focus-mocker-hub.js'
+export const focusMockerHub = new Vue(FocusMockerHub)
 
-document.addEventListener("DOMContentLoaded", () => { 
+document.addEventListener('DOMContentLoaded', () => { 
   if(document.getElementById('v-app')) {
 
     Vue.use(TurbolinksAdapter)
