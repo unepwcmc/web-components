@@ -135,12 +135,8 @@ export default {
       return {
         [inputClass]: true,
         [`${inputClass}--active`]: this.isSelected(option),
-        'focussed': this.getMockFocusId(option) === this.currentMockFocusId
+        'focussed': this.hasMockFocus(this.getMockFocusId(option))
       }
-    },
-
-    hasFocus(option) {
-      return document.activeElement.id === this.getOptionInputId(option)
     }
   },
 

@@ -19,6 +19,10 @@ export default {
 
     removeMockFocus () {
       this.currentMockFocusId = ''
+    },
+
+    hasMockFocus (id) {
+      return this.currentMockFocusId === '' ? false : id === this.currentMockFocusId
     }
   }
 }
