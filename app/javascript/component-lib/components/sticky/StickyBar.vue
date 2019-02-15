@@ -37,14 +37,14 @@
   }
 }
 
-@keyframes unstickNav {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
+// @keyframes unstickNav {
+//   from {
+//     transform: translateY(100%);
+//   }
+//   to {
+//     transform: translateY(0);
+//   }
+// }
 
 .sm-target-sticky {
   background-color: lightgrey;
@@ -57,9 +57,9 @@
   position: absolute;
   top: 100px;
 
-  &--unstuck {
-    animation: unstickNav .25s forwards linear;
-  }
+  // &--unstuck {
+  //   animation: unstickNav .25s forwards linear;
+  // }
 
   &--stuck {    
     display: block;
