@@ -1,6 +1,7 @@
+/* eslint-disable linebreak-style */
 export default {
   escapeRegExp (string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
   },
 
   kebabToCamel (string) {
@@ -44,5 +45,15 @@ export default {
 
   randomNumber () {
     return Math.floor(Math.random() * 1000) + 1000
+  },
+
+  removeSpecialCharacters (string) {
+    return string.replace(/['[]()\/"]/g, '')
+  },
+
+  convertToId (string) {
+    return this.removeSpecialCharacters(
+      this.spacesToKebab(string)
+    ).toLowerCase()
   }
 }

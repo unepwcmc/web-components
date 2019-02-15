@@ -23,15 +23,20 @@ export default {
 
   mixins: [mixinFocusCapture('isActive'), mixinPopupCloseListeners('closeModal', false, true)],
 
-  data() {
-    return {
-      mixinTriggerId: 'modal-trigger',
+  props: {
+    id: {
+      type: String,
+      required: true
     }
   },
 
   computed: {
     isActive () {
       return this.$store.state.modal.isActive
+    },
+
+    mixinTriggerId () {
+      return 'modal-trigger-' + this.id
     }
   },
 

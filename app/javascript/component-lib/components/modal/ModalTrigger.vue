@@ -1,6 +1,6 @@
 <template>
   <button
-    id="modal-trigger"
+    :id="triggerId"
     class="modal__trigger button--beige-dark"
     aria-haspopup="dialog"
     @click="openModal"><slot></slot></button>
@@ -9,6 +9,19 @@
 <script>
 export default {
   name: 'modal-trigger',
+
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+
+  computed: {
+    triggerId () {
+      return 'modal-trigger-' + this.id
+    }
+  },
 
   methods: {
     openModal () {

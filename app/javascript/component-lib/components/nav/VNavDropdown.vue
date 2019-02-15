@@ -48,10 +48,7 @@ export default {
 
   data() {
     return {
-      isActive: false,
-
-      mixinModalId: `nav-dropdown-${this.item.label.toLowerCase()}`,
-      mixinTriggerId: `nav-dropdown-toggle-${this.item.label.toLowerCase()}`
+      isActive: false
     }
   },
 
@@ -70,6 +67,14 @@ export default {
   computed: {
     hasTwoColumns () {
       return !this.isBurger && this.item.children.length > 4
+    },
+
+    mixinModalId () {
+      return `nav-dropdown-${this.item.id}`
+    },
+
+    mixinTriggerId () {
+      return `nav-dropdown-toggle-${this.item.id}`
     }
   }
 }

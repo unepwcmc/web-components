@@ -1,14 +1,14 @@
 <template>
-  <aside class="carousel" aria-labelledby="carousel-heading">
+  <aside class="carousel" :aria-labelledby="headerId">
 
-    <h1 id="carousel-heading" :class="{'screen-reader': !showTitle}">{{ title }}</h1>
+    <h1 :id="headerId" :class="{'screen-reader': !showTitle}">{{ title }}</h1>
 
     <h2 :class="{'screen-reader': !showSlideCount}">{{ currentSlide }} of {{ totalSlides }}</h2>
 
     <div class="carousel__slides-container">
 
       <ul 
-        id="carousel-slides"
+        :id="slidesId"
         class="carousel__slides transition"
         aria-live="off"
         aria-atomic="true"
@@ -20,10 +20,10 @@
       </ul>
 
       <div v-if="showArrows && hasMutlipleSlides" class="carousel__arrow-buttons">
-        <button aria-controls="carousel-slides" title="Previous slide" class="carousel__arrow carousel__arrow--left" @click="slideToPrevious">
+        <button :aria-controls="slidesId" title="Previous slide" class="carousel__arrow carousel__arrow--left" @click="slideToPrevious">
           L
         </button>
-        <button aria-controls="carousel-slides" title="Next slide" class="carousel__arrow carousel__arrow--right" @click="slideToNext">
+        <button :aria-controls="slidesId" title="Next slide" class="carousel__arrow carousel__arrow--right" @click="slideToNext">
           R
         </button>
       </div>
@@ -35,7 +35,7 @@
         <button
           v-for="slide in totalSlides"
           :title="indicatorTitle(slide)"
-          aria-controls="carousel-slides"
+          :aria-controls="slidesId"
           :aria-pressed="isCurrentSlide(slide)"
           :class="['carousel__indicator', selectedSlideClass(slide)]"
           @click="changeSlide(slide)"></button>
@@ -86,6 +86,8 @@ module.exports = {
 
   data() {
     return {
+      headerId: 'carousel-heading-' + this._uid,
+      slidesId: 'carousel-slides-' + this._uid,
       currentSlide: 1,
       totalSlides: 0,
       childSlideComponents: this.$children,
@@ -157,7 +159,7 @@ module.exports = {
 
     initData () {
       this.totalSlides = this.childSlideComponents.length / 3
-      this.slideContainer = this.$el.querySelector('#carousel-slides')
+      this.slideContainer = this.$el.querySelector('#' + this.slidesId)
     },
 
     initSlideOrders () {
