@@ -22,7 +22,7 @@ const getElementStyle = el =>
 
 export const getNewOrder = (oldOrder, changeInIndex, totalSlides) => {
   const newOrderBeforeMod = oldOrder - changeInIndex
-  let newOrder;
+  let newOrder
 
   if (newOrderBeforeMod < 0) {
     newOrder = newOrderBeforeMod + totalSlides * 3

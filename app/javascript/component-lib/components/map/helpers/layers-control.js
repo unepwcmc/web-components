@@ -24,7 +24,7 @@ class LayersControl {
       s.value = style
 
       s.onclick = (e) => {
-        this._map.setStyle('mapbox://styles/mapbox/' + style + '-v9');
+        this._map.setStyle('mapbox://styles/mapbox/' + style + '-v9')
       }
 
       let l = document.createElement('label')

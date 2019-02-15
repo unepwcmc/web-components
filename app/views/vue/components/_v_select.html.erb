@@ -13,7 +13,7 @@ options = [
   { id: 1, name: 'Option 1' },
   { id: 2, name: 'Option 2' },
   { id: 3, name: 'Option 3' }
-].to_json
+]
 %>
 
 <expandable-item>
@@ -22,10 +22,10 @@ options = [
   </template>
   <template slot="content">
     <h3>VSelect - Single</h2>
-    <v-select :config="<%= config_singular %>" :options="<%= options %>"></v-select>
+    <v-select :config="<%= config_singular %>" :options="<%= options.to_json %>" :selected="<%= options[0].to_json %>"></v-select>
 
     <h3>VSelect - Multi</h2>
-    <v-select :config="<%= config_multi %>" :options="<%= options %>"></v-select>
+    <v-select :config="<%= config_multi %>" :options="<%= options.to_json %>" :selected="<%= options[0,2].to_json %>"></v-select>
   </template>
 </expandable-item>
 
