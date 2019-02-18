@@ -37,8 +37,7 @@
           :name="dropdownOptionsName"
           :type="inputType"
           :value="option"
-          v-model="selectedInternal"
-          @change="handleOptionChange(option)">
+          v-model="selectedInternal">
         <span :id="getMockFocusId(option)" :class="getMockInputClasses(option)">Fake</span>
         <label :for="getOptionInputId(option)">{{ option.name }}</label>
       </li>
@@ -59,6 +58,8 @@ const DEFAULT_SELECT_MESSAGE = 'Select option'
 const DEFAULT_MULTISELECT_MESSAGE = 'Select options'
 
 export default {
+  mixins: [mixinPopupCloseListeners('closeSelect'), mixinFocusCapture('isActive'), mixinFocusMocker],
+
   props: {
       config: {
         required: true,
@@ -73,7 +74,19 @@ export default {
       }
   },
 
-  mixins: [mixinPopupCloseListeners('closeSelect'), mixinFocusCapture('isActive'), mixinFocusMocker],
+  created () {
+    this.initializeSelectedInternal()
+  },
+
+  watch: {
+    selected (newSelectedOption) {
+      this.selectedInternal = newSelectedOption
+    },
+
+    selectedInternal (newSelectedInternal) {
+      this.$emit('update:selected-option', newSelectedInternal)
+    }
+  },
 
   data () {
     return {
@@ -92,6 +105,26 @@ export default {
     }
   },
 
+  computed: {
+    isDisabled () {
+      return !this.options.length
+    },
+
+    selectionMessage () {
+      if (this.isMultiselect) {
+        const selectedNames = this.selectedInternal.map(option => option.name)
+
+        return selectedNames.length ? selectedNames.join(', ') : DEFAULT_MULTISELECT_MESSAGE
+      }
+
+      return this.selectedInternal.id === UNDEFINED_ID ? DEFAULT_SELECT_MESSAGE : this.selectedInternal.name
+    },
+
+    defaultInputClass () {
+      return `v-select__default-${this.inputType}`
+    }
+  },
+
   methods: {
     closeSelect () {
       this.isActive = false
@@ -107,10 +140,6 @@ export default {
       } else {
         this.selectedInternal = this.selected
       }
-    },
-
-    handleOptionChange (selected) {
-      this.$emit('update:selected-option', this.selectedInternal)
     },
 
     isSelected (option) {
@@ -137,36 +166,6 @@ export default {
         [`${inputClass}--active`]: this.isSelected(option),
         'focussed': this.hasMockFocus(this.getMockFocusId(option))
       }
-    }
-  },
-
-  computed: {
-    isDisabled () {
-      return !this.options.length
-    },
-
-    selectionMessage () {
-      if (this.isMultiselect) {
-        const selectedNames = this.selectedInternal.map(option => option.name)
-
-        return selectedNames.length ? selectedNames.join(', ') : DEFAULT_MULTISELECT_MESSAGE
-      }
-
-      return this.selectedInternal.id === UNDEFINED_ID ? DEFAULT_SELECT_MESSAGE : this.selectedInternal.name
-    },
-
-    defaultInputClass () {
-      return `v-select__default-${this.inputType}`
-    }
-  },
-
-  created () {
-    this.initializeSelectedInternal()
-  },
-
-  watch: {
-    selected (newSelectedOption) {
-      this.selectedInternal = newSelectedOption
     }
   }
 }
