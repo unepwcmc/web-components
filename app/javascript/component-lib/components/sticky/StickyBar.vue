@@ -56,6 +56,7 @@
   display: block;
   position: absolute;
   top: 100px;
+  left: 0;
 
   // &--unstuck {
   //   animation: unstickNav .25s forwards linear;
