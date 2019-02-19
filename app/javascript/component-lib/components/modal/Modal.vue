@@ -4,7 +4,7 @@
 
       <div class="modal__content">
         <button class="button--plain modal__close" @click="closeModal">
-          <i>close</i>
+          <span>close</span>
         </button>
 
         <slot></slot>
@@ -51,27 +51,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.modal {
-  background-color: rgba(black, .6);
-  
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 300;
-
-  &--active { display: block; }
-
-  &__dialog {
-    background-color: white;
-
-    position: absolute;
-    top: 50%;
-    right: 50%;
-  }
-}
-</style>

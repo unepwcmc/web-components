@@ -43,11 +43,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.expandable-item--active {
-  .drop-arrow {
-    transform: rotate(180deg)
-  }
-}
-</style>

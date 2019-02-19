@@ -1,7 +1,7 @@
 <template>
   <button
     :id="triggerId"
-    class="modal__trigger button--beige-dark"
+    class="modal__trigger"
     aria-haspopup="dialog"
     @click="openModal"><slot></slot></button>
 </template>

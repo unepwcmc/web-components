@@ -1,4 +1,5 @@
 .expandable-item {
+  border: $border-regular $grey;
   margin-bottom: rem-calc(20);
 
   &__header {
@@ -7,8 +8,7 @@
   }
 
   &__container {
-    border: solid rem-calc(1) lightgrey;
-    border-top: none;
+    border-top: $border-regular $grey;
   }
 
   &--active {

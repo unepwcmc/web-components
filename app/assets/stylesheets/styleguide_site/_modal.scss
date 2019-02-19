@@ -1,0 +1,26 @@
+.modal {
+  background-color: rgba($black, .6);
+  
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $z-300;
+
+  &--active { display: block; }
+
+  &__close, &__trigger {
+    @extend .sg-h4;
+    background-color: transparent;
+    border: $border-thin $grey;
+  }
+
+  &__dialog {
+    @extend .item-center;
+    @include item-padding;
+
+    background-color: $white;
+  }
+}
