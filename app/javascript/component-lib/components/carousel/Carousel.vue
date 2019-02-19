@@ -9,7 +9,7 @@
 
       <ul 
         :id="slidesId"
-        class="carousel__slides transition"
+        class="carousel__slides transition ul--unstyled"
         aria-live="off"
         aria-atomic="true"
         v-touch:swipe.right="slideToPrevious"
@@ -20,12 +20,16 @@
       </ul>
 
       <div v-if="showArrows && hasMutlipleSlides" class="carousel__arrow-buttons">
-        <button :aria-controls="slidesId" title="Previous slide" class="carousel__arrow carousel__arrow--left" @click="slideToPrevious">
-          L
-        </button>
-        <button :aria-controls="slidesId" title="Next slide" class="carousel__arrow carousel__arrow--right" @click="slideToNext">
-          R
-        </button>
+        <button 
+          :aria-controls="slidesId" 
+          title="Previous slide" 
+          class="carousel__arrow carousel__arrow--left hover--pointer" 
+          @click="slideToPrevious">L</button>
+        <button 
+          :aria-controls="slidesId"
+          title="Next slide"
+          class="carousel__arrow carousel__arrow--right hover--pointer"
+          @click="slideToNext">R</button>
       </div>
 
     </div>
@@ -37,11 +41,15 @@
           :title="indicatorTitle(slide)"
           :aria-controls="slidesId"
           :aria-pressed="isCurrentSlide(slide)"
-          :class="['carousel__indicator', selectedSlideClass(slide)]"
+          :class="['carousel__indicator hover--pointer', selectedSlideClass(slide)]"
           @click="changeSlide(slide)"></button>
       </template>
 
-      <button :title="pauseTitle" v-if="this.slideIntervalLength" class="carousel__pause" @click="toggleSlideInterval">
+      <button 
+        v-if="this.slideIntervalLength" 
+        :title="pauseTitle" 
+        class="carousel__pause hover--pointer" 
+        @click="toggleSlideInterval">
         <span :class="[pauseIconClass]">P</span>
       </button>
     </div>
@@ -278,94 +286,3 @@ module.exports = {
   }
 }
 </script>
-
-<style lang="scss">
-$grey: grey;
-$padding-top-bottom: 25px;
-$padding-side: 40px;
-
-$indicator-height: 14px;
-$indicator-row-height: $indicator-height + $padding-top-bottom * 2;
-$transition-options: 0.6s ease-in-out;
-
-.transition {
-  &.carousel__slides {
-    transition: transform $transition-options;
-  }
-}
-
-.carousel {
-  padding-top: $padding-top-bottom;
-
-  position: relative;
-
-  &__slides-container {
-    width: 100%; height: calc(100% - #{$indicator-row-height});
-    overflow: hidden;
-  }
-
-    &__slides {
-      padding: 0;
-      height: 100%;
-      
-      position: relative;
-      display: flex;
-    }
-
-    &__arrow-buttons {
-      pointer-events: none;
-      width: 100%;
-      
-      display: flex;
-      justify-content: space-between;
-      position: absolute;
-      top: 50%;
-      left: 0;
-
-      transform: translateY(-50%);
-    }
-
-      &__arrow {
-        background-color: rgba($grey, 0.4);
-        padding: 18px 8px;
-        pointer-events: auto;
-      }
-
-  &__control-bar {    
-    color: grey;
-    padding: 0 $padding-side;
-    height: $indicator-row-height;
-
-    display: flex;
-    align-items: center;
-  }
-
-    &__pause {
-      background-color: rgba($grey, 0.4);
-      border-radius: 50%;
-      width: 2em; height: 2em;
-
-      justify-self: flex-end;
-      margin-left: auto;
-    }
-
-    &__indicator {
-      background-color: rgba($grey, 0.4);
-      border-radius: 50%;
-      margin-right: $indicator-height / 3;
-      width: $indicator-height; height: $indicator-height;
-
-      display: inline-block;
-
-      transition: background-color $transition-options;
-
-      &--selected {
-        background-color: $grey;
-      }
-    }
-}
-
-.carousel-slide {
-  flex-shrink: 0;
-}
-</style>

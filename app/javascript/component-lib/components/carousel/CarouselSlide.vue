@@ -16,7 +16,7 @@ module.exports = {
       type: Number
     },
     marginSize: {
-      default: 40,
+      default: 10,
       type: Number
     }
   },
