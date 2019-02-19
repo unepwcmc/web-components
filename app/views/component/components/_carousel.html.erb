@@ -1,0 +1,7 @@
+<h2>Carousel</h2>
+
+<carousel title="Carousel title" :slide-interval-length="2000">
+<% (1..5).each do |n| %>
+  <carousel-slide :slides-per-frame="3">Slide <%= n %></carousel-slide>
+<% end %>
+</carousel>

@@ -42,11 +42,7 @@ pages = [
 ].to_json
 %>
 
-<expandable-item>
-  <template slot="header">
-    <h2>VNav</h2>
-  </template>
-  <template slot="content">
-    <v-nav :pages="<%= pages %>"></v-nav>
-  </template>
-</expandable-item>
+<h2>VNav</h2>
+
+<v-nav :pages="<%= pages %>"></v-nav>
+  

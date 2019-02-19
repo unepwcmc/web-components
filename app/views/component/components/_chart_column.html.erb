@@ -30,12 +30,7 @@ columns = [
   }
 ].to_json
 %>
-<expandable-item>
-  <template slot="header">
-<h2>ChartColumn</h2>
-  </template>
-  <template slot="content">
-    <chart-column units="%" :columns="<%= columns %>"></chart-column>
-</template>
-</expandable-item>
 
+<h2>ChartColumn</h2>
+
+<chart-column units="%" :columns="<%= columns %>"></chart-column>

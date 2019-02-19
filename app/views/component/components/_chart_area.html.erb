@@ -43,12 +43,7 @@ global_area_chart = {
   ]
 }
 %>
-<expandable-item>
-  <template slot="header">
-<h2>ChartArea</h2>
-  </template>
-  <template slot="content">
-    <chart-area id="<%= global_area_chart[:id] %>" :datasets="<%= global_area_chart[:datasets].to_json %>" units="km^2" :legend="<%= global_area_chart[:legend].to_json %>"></chart-area>
-</template>
-</expandable-item>
 
+<h2>ChartArea</h2>
+
+<chart-area id="<%= global_area_chart[:id] %>" :datasets="<%= global_area_chart[:datasets].to_json %>" units="km^2" :legend="<%= global_area_chart[:legend].to_json %>"></chart-area>

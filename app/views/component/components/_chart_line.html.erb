@@ -106,18 +106,13 @@ line_chart = {
   ]
 }
 %>
-<expandable-item>
-  <template slot="header">
-<h2>ChartLine</h2>
-  </template>
-  <template slot="content">
-    <chart-line 
-      :lines="<%= line_chart[:lines].to_json %>" 
-      :y-targets="<%= line_chart[:targets].to_json %>"
-      :x-targets="<%= line_chart[:commitments].to_json %>"
-      :axis-labels="<%= line_chart[:axisLabels].to_json %>"
-      :font-size="20">
-    </chart-line>
-  </template>
-</expandable-item>
 
+<h2>ChartLine</h2>
+
+<chart-line 
+  :lines="<%= line_chart[:lines].to_json %>" 
+  :y-targets="<%= line_chart[:targets].to_json %>"
+  :x-targets="<%= line_chart[:commitments].to_json %>"
+  :axis-labels="<%= line_chart[:axisLabels].to_json %>"
+  :font-size="20">
+</chart-line>

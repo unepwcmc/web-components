@@ -1,0 +1,9 @@
+<div id="v-app" class="page-container">
+  <h1>Vue Components</h1>
+  <%= link_to 'Style guide', styleguide_path %>
+  <ul>
+  <% @components.each do |comp| %>
+  <li><%= link_to comp[:name], component_path(comp[:id]) %></li>
+  <% end %>
+  </ul>
+</div>
