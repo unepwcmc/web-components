@@ -1,0 +1,37 @@
+@keyframes open {
+  from { max-height: 0; }
+  to { max-height: 500px; }
+}
+
+@keyframes close {
+  from { max-height: 500px; }
+  to { max-height: 0; }
+}
+
+.accordion-toggle-enter-active {
+  animation: open .5s forwards ease-in;
+}
+
+.accordion-toggle-leave-active {
+  animation: close .5s forwards ease-out;
+}
+
+.accordion-item {
+  border: $border-regular $grey;
+  margin-bottom: rem-calc(10);
+
+  &__toggle {
+    @extend .sg-h3;
+    width: 100%;
+  }
+
+  &__content-wrapper {
+    border-top: $border-regular $grey;
+    overflow: hidden;
+    height: auto;
+  }
+
+    &__content {
+      @include item-padding;
+    }
+}
