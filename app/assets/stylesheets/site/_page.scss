@@ -1,3 +1,4 @@
 .page-container {
-  padding: rem-calc(10);
+  @include gutters;
+  @extend .page-padding;
 }

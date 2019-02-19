@@ -5,6 +5,9 @@ import Vue2TouchEvents from 'vue2-touch-events'
 // store
 import store from './component-lib/store/store.js'
 
+// site
+import ComponentViewer from './site/ComponentViewer'
+
 // vue components
 import Accordion from './component-lib/components/accordion/Accordion'
 import AccordionItem from './component-lib/components/accordion/AccordionItem'
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ChartLine,
           ChartRow,
           ChartRowStacked,
+          ComponentViewer,
           ExpandableItem,
           Modal,
           ModalTrigger,

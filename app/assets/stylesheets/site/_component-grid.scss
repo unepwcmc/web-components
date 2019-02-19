@@ -1,0 +1,30 @@
+.component-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: rem-calc(15);
+
+  @include breakpoint($small) {  
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include breakpoint($medium) {  
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  &::before {
+    content: '';
+    width: 0;
+    padding-bottom: 100%;
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+  }
+  
+  > *:first-child {
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+  }
+  &__element {
+    border: $border-regular $grey;
+    width: 100%; height: 100%;
+  }
+}
