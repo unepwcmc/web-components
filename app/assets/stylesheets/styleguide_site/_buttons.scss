@@ -1,0 +1,36 @@
+//--------------------------------------------------
+// button - resuable styles
+//--------------------------------------------------
+%sg-button {
+  background-color: $button-default-color;
+  border-radius: $button-radius;
+  color: $body-font-color;
+  cursor: pointer;
+  padding: rem-calc(14 28);
+  text-align: center;
+  text-decoration: none;
+
+  display: inline-block;
+}
+
+//--------------------------------------------------
+// button - sizes
+//--------------------------------------------------
+.sg-button {
+  &--small {
+    @include font-size('p');
+    padding: $button-padding-small;
+  }
+
+  &--medium {
+    @include font-size('h4');
+    padding: $button-padding-medium;
+  }
+
+//--------------------------------------------------
+// button - classes
+//--------------------------------------------------
+  &--plain {
+    @extend %sg-button;
+  }
+}

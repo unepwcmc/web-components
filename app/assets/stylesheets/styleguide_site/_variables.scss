@@ -12,6 +12,7 @@
 // - padding
 // - tables
 // - topbars and footers
+// - branding
 
 //--------------------------------------------------
 // borders
@@ -28,31 +29,31 @@ $border-regular: solid $border-width-regular;
 $white: #ffffff;
 $black: #000000;
 
-$accent: red;
-$button-default: lightblue;
-$header-text: lightgreen;
-$background: yellow;
+$grey-light: #e1e1e1;
+$grey: #cdcdcd;
 
 //--------------------------------------------------
 // buttons
 //--------------------------------------------------
-$button-radius: rem-calc(10);
+$button-radius: 0;
+$button-default-color: $grey;
 
-$button-padding-small: rem-calc(6 20);
-$button-padding-medium: rem-calc(12 20);
+
+$button-padding-small: rem-calc(10 10);
+$button-padding-medium: rem-calc(20 30);
 
 //--------------------------------------------------
 // shadows
 //--------------------------------------------------
+$shadow-light: rem-calc(0 1 2 1) rgba($black, 0.3);
 $shadow-dark: rem-calc(0 1 2 1) rgba($black, 0.5);
 
 //--------------------------------------------------
 // fonts
 //--------------------------------------------------
-$font-roboto: 'Roboto', sans-serif;
 $fontello: 'fontello';
 
-$body-font: $font-roboto;
+$body-font: 'Roboto', sans-serif;
 $body-font-color: $black;
 
 $thin: 100;
@@ -61,9 +62,9 @@ $regular: 400;
 $bold: 500;
 $bolder: 700;
 
-$font-weight-h1: $bold;
-$font-weight-h2: $bold;
-$font-weight-h3: $bold;
+$font-weight-h1: $light;
+$font-weight-h2: $light;
+$font-weight-h3: $light;
 $font-weight-h4: $light;
 $font-weight-p: $light;
 
@@ -80,7 +81,7 @@ $line-height-li: 1.5;
   @if $el == 'p' { font-size: rem-calc(14); }
 
   @include breakpoint($small) {
-    @if $el == 'h1' { font-size: rem-calc(34); }
+    @if $el == 'h1' { font-size: rem-calc(30); }
     @if $el == 'h2' { font-size: rem-calc(24); }
     @if $el == 'h3' { font-size: rem-calc(20); }
     @if $el == 'h4' { font-size: rem-calc(20); }
@@ -148,7 +149,22 @@ $table-cell-padding: rem-calc(8);
 //--------------------------------------------------
 // topbars and footers
 //--------------------------------------------------
-$navbar-height-small: rem-calc(60);
-$navbar-height-medium: rem-calc(80);
+$navbar-height-small: rem-calc(80);
+$navbar-height-medium: rem-calc(100);
+
+$footer-height-desktop: rem-calc(140);
+
+@mixin nav-height {
+  height: $navbar-height-small;
+  
+  @include breakpoint($small) {
+    height: $navbar-height-medium;
+  }
+}
 
 $footer-height-desktop: rem-calc(100);
+
+//--------------------------------------------------
+// branding
+//--------------------------------------------------
+$unepwcmc-w-to-h-ratio: 118/27;

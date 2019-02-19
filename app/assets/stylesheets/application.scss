@@ -5,12 +5,14 @@
 @import './utilities/helpers.scss';
 
 // Site
+@import './styleguide_site/variables.scss';
+@import './styleguide_site/base.scss';
 @import './site/*';
+@import './styleguide_site/*';
 
 // Components
-@import './style-guide/variables';
-@import './style-guide/base';
-@import './style-guide/*';
-
-// Charts
-@import './chart-samples/charts.scss';
+.styleguide_example {
+  @import './styleguide_example/variables.scss';
+  @import './styleguide_example/base.scss';
+  @import './styleguide_example/*';
+}

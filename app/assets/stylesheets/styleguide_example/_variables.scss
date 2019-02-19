@@ -12,6 +12,7 @@
 // - padding
 // - tables
 // - topbars and footers
+// - branding
 
 //--------------------------------------------------
 // borders
@@ -28,18 +29,18 @@ $border-regular: solid $border-width-regular;
 $white: #ffffff;
 $black: #000000;
 
-$accent: orange;
-$button-default: gold;
-$header-text: magenta;
-$background: lightblue;
+$accent: red;
+$button-default: lightblue;
+$header-text: lightgreen;
+$background: yellow;
 
 //--------------------------------------------------
 // buttons
 //--------------------------------------------------
-$button-radius: 0;
+$button-radius: rem-calc(10);
 
-$button-padding-small: rem-calc(10 10);
-$button-padding-medium: rem-calc(20 30);
+$button-padding-small: rem-calc(6 20);
+$button-padding-medium: rem-calc(12 20);
 
 //--------------------------------------------------
 // shadows
@@ -49,11 +50,11 @@ $shadow-dark: rem-calc(0 1 2 1) rgba($black, 0.5);
 //--------------------------------------------------
 // fonts
 //--------------------------------------------------
-$font-arial: 'Arial', sans-serif;
+$font-roboto: 'Roboto', sans-serif;
 $fontello: 'fontello';
 
-$body-font: $font-arial;
-$body-font-color: navy;
+$body-font: $font-roboto;
+$body-font-color: $black;
 
 $thin: 100;
 $light: 300;
@@ -61,11 +62,11 @@ $regular: 400;
 $bold: 500;
 $bolder: 700;
 
-$font-weight-h1: $bolder;
-$font-weight-h2: $regular;
-$font-weight-h3: $regular;
+$font-weight-h1: $bold;
+$font-weight-h2: $bold;
+$font-weight-h3: $bold;
 $font-weight-h4: $light;
-$font-weight-p: $thin;
+$font-weight-p: $light;
 
 $line-height-h1: 1.25;
 $line-height-h: 1.2;
@@ -77,14 +78,14 @@ $line-height-li: 1.5;
   @if $el == 'h2' { font-size: rem-calc(20); }
   @if $el == 'h3' { font-size: rem-calc(18); }
   @if $el == 'h4' { font-size: rem-calc(18); }
-  @if $el == 'p' { font-size: rem-calc(12); }
+  @if $el == 'p' { font-size: rem-calc(14); }
 
   @include breakpoint($small) {
-    @if $el == 'h1' { font-size: rem-calc(54); }
-    @if $el == 'h2' { font-size: rem-calc(46); }
-    @if $el == 'h3' { font-size: rem-calc(28); }
+    @if $el == 'h1' { font-size: rem-calc(34); }
+    @if $el == 'h2' { font-size: rem-calc(24); }
+    @if $el == 'h3' { font-size: rem-calc(20); }
     @if $el == 'h4' { font-size: rem-calc(20); }
-    @if $el == 'p' { font-size: rem-calc(14); }
+    @if $el == 'p' { font-size: rem-calc(16); }
   }
 }
 
@@ -142,13 +143,11 @@ $item-padding-large: rem-calc(26);
 //--------------------------------------------------
 // tables
 //--------------------------------------------------
-$collapse-table-borders: false;
-$table-cell-padding: rem-calc(12);
+$collapse-table-borders: true;
+$table-cell-padding: rem-calc(8);
 
 //--------------------------------------------------
 // topbars and footers
 //--------------------------------------------------
-$navbar-height-small: rem-calc(80);
-$navbar-height-medium: rem-calc(120);
-
-$footer-height-desktop: rem-calc(140);
+$navbar-height-small: rem-calc(60);
+$navbar-height-medium: rem-calc(80);

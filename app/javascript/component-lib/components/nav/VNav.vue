@@ -93,32 +93,30 @@ $black: #000000;
 $white: #ffffff;
 
 .nav {
-  background-color: rgba($black, 0.5);
-  color: $white;
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+  }
 
-    &__close {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 1;
-    }
+  .drop-arrow {
+    transform: rotate(0deg) scale(0.8);
+  }
+  
+  &__dropdown--active {
+    .drop-arrow { transform: rotate(180deg) scale(0.8); }
+    .nav__dropdown-menu { display: block; }
+  }
 
-    .drop-arrow {
-      transform: rotate(0deg) scale(0.8);
-    }
-    
-    &__dropdown--active {
-      .drop-arrow { transform: rotate(180deg) scale(0.8); }
-      .nav__dropdown-menu { display: block; }
-    }
-
-      &__dropdown-menu { display: none; }
+    &__dropdown-menu { display: none; }
 
 //--------------------------------------------------
 // burger nav
 //--------------------------------------------------
   &--pane {
     background-color: $black;
+    color: $white;
     width: 100%;
         
     display: block;

@@ -1,0 +1,32 @@
+$nav-item-separation: rem-calc(26);
+
+.nav {
+  @include gutters;
+  @include nav-height;
+
+  background-color: $white;
+  box-shadow: $shadow-light;
+
+  &__logo {
+    $logo-height-fraction: 0.6;
+    margin-right: $nav-item-separation;
+    height: $logo-height-fraction * 100 + '%';
+
+    &--unepwcmc {
+      width: $logo-height-fraction * $unepwcmc-w-to-h-ratio * $navbar-height-small;
+
+      @include breakpoint($small) {
+        width: $logo-height-fraction * $unepwcmc-w-to-h-ratio * $navbar-height-medium;
+      }
+    }
+  }
+
+  &__items {
+    @extend .ul--unstyled;
+    @extend .ul--inline;
+  }
+
+    &__item {
+      margin-right: $nav-item-separation; 
+    }
+}

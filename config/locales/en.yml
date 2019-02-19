@@ -30,4 +30,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  common:
+    comp_lib: 'Component library'
+    style_guide: 'Style guide'
+    vue_comps: 'Vue components'
+    logo: 'Logo'
+  branding:
+    unep_wcmc_full: 'UN Environment World Conservation Monitoring Centre'

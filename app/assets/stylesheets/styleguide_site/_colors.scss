@@ -1,0 +1,14 @@
+.bg {
+  &--accent {
+    background-color: $grey-light;
+  }
+  &--button {
+    background-color: $button-default-color;
+  }
+  &--header-text {
+    background-color: $grey-light;
+  }
+  &--background {
+    background-color: $grey;
+  }
+}
