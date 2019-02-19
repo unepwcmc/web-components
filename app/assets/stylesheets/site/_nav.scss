@@ -29,6 +29,20 @@ $nav-item-separation: rem-calc(26);
   }
 
     &__item {
-      margin-right: $nav-item-separation; 
+      @extend .sg-h3;
+
+      margin-right: $nav-item-separation;
+
+      &:last-child {
+        margin-right: 0; 
+      }
+    }
+
+    &__link {
+      text-decoration: none;
+
+      &--current {
+        text-decoration: underline;
+      }
     }
 }

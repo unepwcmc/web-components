@@ -1,11 +1,11 @@
 <nav class="nav flex flex-v-center">
   <%= image_tag 'https://s3.amazonaws.com/wcmc.logo/UNEP_WCMC_logo.svg', alt: t('branding.unep_wcmc_full') + t('common.logo'), class: "nav__logo nav__logo--unepwcmc" %>
   <ul class="nav__items flex flex-v-center">
-    <li>
-      <%= link_to t('common.comp_lib'), root_path, class: "nav__item" %>
+    <li class="nav__item">
+      <%= link_to t('common.comp_lib'), root_path, class: nav_link_class(root_path) %>
     </li>
     <li class="nav__item">
-      <%= link_to t('common.style_guide'), styleguide_path, class: "nav__item" %>
+      <%= link_to t('common.style_guide'), styleguide_path, class: nav_link_class(styleguide_path) %>
     </li>
   </ul>
 </nav>

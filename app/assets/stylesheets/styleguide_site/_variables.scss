@@ -77,14 +77,14 @@ $line-height-li: 1.5;
   @if $el == 'h1' { font-size: rem-calc(24); }
   @if $el == 'h2' { font-size: rem-calc(20); }
   @if $el == 'h3' { font-size: rem-calc(18); }
-  @if $el == 'h4' { font-size: rem-calc(18); }
+  @if $el == 'h4' { font-size: rem-calc(16); }
   @if $el == 'p' { font-size: rem-calc(14); }
 
   @include breakpoint($small) {
     @if $el == 'h1' { font-size: rem-calc(30); }
     @if $el == 'h2' { font-size: rem-calc(24); }
     @if $el == 'h3' { font-size: rem-calc(20); }
-    @if $el == 'h4' { font-size: rem-calc(20); }
+    @if $el == 'h4' { font-size: rem-calc(18); }
     @if $el == 'p' { font-size: rem-calc(16); }
   }
 }
