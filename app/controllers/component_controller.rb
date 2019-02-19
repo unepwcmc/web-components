@@ -1,6 +1,7 @@
 class ComponentController < ApplicationController
   def index
     @components = components
+    @categories = categories
   end
 
   def show

@@ -7,9 +7,21 @@
   -webkit-font-smoothing: antialiased;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   font-family: $body-font;
   margin: 0;
+  height: 100%;
+}
+
+#v-app {
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 h1 {

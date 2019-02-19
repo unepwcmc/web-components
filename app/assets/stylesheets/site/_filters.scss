@@ -1,6 +1,5 @@
 .filters {
   background-color: $grey-light;
-  height: 100%;
 
   &__list {
     @include item-padding(('top', 'bottom'), 'margin');
@@ -15,6 +14,10 @@
       padding-bottom: 0.5em;
       text-align: left;
       width: 100%;
+
+      &--selected {
+        background-color: $grey;
+      }
 
       &:hover {
         background-color: $grey;
