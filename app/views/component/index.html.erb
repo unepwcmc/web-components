@@ -1,7 +1,16 @@
-<div class="page-container">
-  <ul>
-  <% @components.each do |comp| %>
-  <li><%= link_to comp[:name], component_path(comp[:id]) %></li>
-  <% end %>
-  </ul>
+<div class="flex">
+  <aside class="filters flex-1-quarter">
+    <ul class="filters__list ul--unstyled">
+      <% @components.each do |comp| %>
+        <li><button class="filters__list-item sg-h3 hover--pointer"><%= comp[:name] %></button></li>
+      <% end %>
+    </ul>
+  </aside>
+  <main>
+    <ul>
+      <% @components.each do |comp| %>
+        <li class="component-grid__element"><%= link_to comp[:name], component_path(comp[:id]) %></li>
+      <% end %>
+    </ul>
+  </main>
 </div>

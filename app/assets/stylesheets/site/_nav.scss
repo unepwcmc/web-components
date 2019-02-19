@@ -6,6 +6,8 @@ $nav-item-separation: rem-calc(26);
 
   background-color: $white;
   box-shadow: $shadow-light;
+  
+  position: relative;
 
   &__logo {
     $logo-height-fraction: 0.6;
