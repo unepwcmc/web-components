@@ -151,6 +151,8 @@ $table-cell-padding: rem-calc(8);
 //--------------------------------------------------
 $navbar-height-small: rem-calc(80);
 $navbar-height-medium: rem-calc(100);
+$v-navbar-height-small: rem-calc(50);
+$v-navbar-height-medium: rem-calc(60);
 
 $footer-height-desktop: rem-calc(140);
 
@@ -159,6 +161,18 @@ $footer-height-desktop: rem-calc(140);
   
   @include breakpoint($small) {
     height: $navbar-height-medium;
+  }
+}
+
+@mixin v-nav-height($height-type: '') {
+  @if $height-type != '' {
+    $height-type: $height-type + '-'
+  }
+  
+  #{$height-type}height: $v-navbar-height-small;
+  
+  @include breakpoint($small) {
+    #{$height-type}height: $v-navbar-height-medium;
   }
 }
 
