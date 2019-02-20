@@ -5,7 +5,7 @@
 </template>
 
 <script>
-const INPUT_SELECTORS = 'select, input, textarea, button, a, [tabindex]:not([tabindex="-1"])'
+import { getInputs } from '../../helpers/focus-helpers';
 
 export default {
   name: 'carousel-slide',
@@ -31,7 +31,7 @@ export default {
 
   mounted () {
     this.setSlideStyle()
-    this.inputElements = this.$el.querySelectorAll(INPUT_SELECTORS)
+    this.inputElements = getInputs(this.$el)
     this.setTabIndices()
   },
 

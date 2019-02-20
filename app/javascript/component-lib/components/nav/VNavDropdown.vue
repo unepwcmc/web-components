@@ -5,7 +5,7 @@
       aria-haspopup="true"
       :aria-expanded="isActive"
       :aria-controls="mixinModalId"
-      class="nav__dropdown-toggle hover--pointer flex-inline button--unstyled"
+      class="nav__dropdown-toggle hover--pointer flex-inline flex-v-center button--unstyled"
       @click="toggleDropdown">
       <label :for="mixinModalId" class="nav__select nav__select--dropdown">{{item.label}}</label>
       <span class="drop-arrow arrow-svg"></span>

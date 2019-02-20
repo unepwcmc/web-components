@@ -1,43 +1,17 @@
-const INPUT_SELECTORS = 'select, input, textarea, button, a, [tabindex]:not([tabindex="-1"])'
-const TAB_KEYCODE = 9
+import { getInputs, preventTab, TAB_KEYCODE } from "../helpers/focus-helpers";
 
 export default (toggleVariable) => ({
   data() {
     return {
-      firstInput: {}
+      firstInput: {},
+      lastInput: {},
+      modalElement: {}
     }
   },
 
   mounted () {
-    const modalElement = this.mixinModalId ? document.querySelector('#' + this.mixinModalId) : this.$el
-    const inputs = modalElement.querySelectorAll(INPUT_SELECTORS)
-    const firstInput = inputs[0]
-    const lastInput = inputs[inputs.length - 1]
-
-    this.firstInput = firstInput
-
-    const isRadioGroup = this.mixinIsRadioGroup !== undefined ? this.mixinIsRadioGroup : false
-
-    if (isRadioGroup) {
-      modalElement.addEventListener('keydown', e => {
-        if (e.keyCode === TAB_KEYCODE) {
-          e.preventDefault()
-        }
-      })
-    } else {
-      lastInput.addEventListener('keydown', e => {
-        if (e.keyCode === TAB_KEYCODE && !e.shiftKey) {
-          e.preventDefault()
-          firstInput.focus()
-        }
-      })
-  
-      firstInput.addEventListener('keydown', e => {
-        if (e.keyCode === TAB_KEYCODE && e.shiftKey) {
-          e.preventDefault()
-          lastInput.focus()
-        }
-      })
+    if(this[toggleVariable]) {
+      this.addEventListeners()
     }
   },
 
@@ -46,12 +20,56 @@ export default (toggleVariable) => ({
       document.activeElement.blur()
 
       if (isExpanded) {
+        this.addEventListeners()
+
         this.$nextTick(() => {
           this.firstInput.focus()
         })
-      } else if (this.mixinTriggerId) {
-        document.querySelector('#' + this.mixinTriggerId).focus()
+      } else {
+        this.removeEventListeners()
+
+        if (this.mixinTriggerId) {
+          document.querySelector('#' + this.mixinTriggerId).focus()
+        }
       }
     }
+  },
+
+  methods: {
+    addEventListeners() {
+      this.modalElement = this.mixinModalId ? document.querySelector('#' + this.mixinModalId) : this.$el
+      const inputs = getInputs(this.modalElement)
+      this.firstInput = inputs[0]
+      this.lastInput = inputs[inputs.length - 1]
+  
+      const isRadioGroup = this.mixinIsRadioGroup !== undefined ? this.mixinIsRadioGroup : false
+  
+      if (isRadioGroup) {
+        this.modalElement.addEventListener('keydown', preventTab)
+      } else {
+        this.lastInput.addEventListener('keydown', this.handleLastInputTab)
+        this.firstInput.addEventListener('keydown', this.handleFirstInputTab)
+      }
+    },
+
+    removeEventListeners () {
+      this.modalElement.removeEventListener('keydown', preventTab)
+      this.firstInput.removeEventListener('keydown', this.handleFirstInputTab)
+      this.lastInput.removeEventListener('keydown', this.handleLastInputTab)
+    },
+
+    handleFirstInputTab (e) {
+      if (e.keyCode === TAB_KEYCODE && e.shiftKey) {
+        e.preventDefault()
+        this.lastInput.focus()
+      }
+    },
+
+    handleLastInputTab (e) {
+      if (e.keyCode === TAB_KEYCODE && !e.shiftKey) {
+        e.preventDefault()
+        this.firstInput.focus()
+      }
+    },
   }
 })
