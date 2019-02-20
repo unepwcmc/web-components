@@ -1,0 +1,29 @@
+.tabs {
+  &__triggers {
+    @include gutters('left', 'margin');
+  }
+}
+
+.tab {
+  &__trigger {
+    @extend .sg-h3;
+
+    border: none;
+    border-top: $border-regular $grey;
+    border-right: $border-regular $grey;
+    border-radius: 0;
+
+    &:first-child {
+      border-left: $border-regular $grey;
+    }
+
+    &--active {
+      background-color: $grey-light;
+    }
+  }
+
+  &__container {
+    @include item-padding;
+    border: $border-regular $grey;
+  }
+}

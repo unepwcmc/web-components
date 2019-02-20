@@ -1,0 +1,37 @@
+$tooltip-background-color: $grey;
+
+.tooltip {
+  position: relative;
+
+  &__trigger {
+    cursor: pointer;
+  }
+
+  &__target {
+    @include item-padding;
+    width: rem-calc(200);
+
+    background-color: $tooltip-background-color;
+
+    position: absolute;
+    top: 145%;
+    left: 50%;
+    z-index: 1;
+
+    transform: translateX(-50%);
+
+    &:after {
+      border-bottom: solid 10px $tooltip-background-color;
+      border-right: solid 10px transparent;
+      border-left: solid 10px transparent;
+      content: '';
+      width: 0; height: 0;
+
+      position: absolute;
+      top: -10px;
+      left: 50%;
+
+      transform: translateX(-50%);
+    }
+  }
+}

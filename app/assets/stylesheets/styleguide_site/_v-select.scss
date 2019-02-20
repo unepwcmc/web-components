@@ -1,0 +1,56 @@
+$padding: rem-calc(5 10);
+
+.v-select {
+  width: rem-calc(250);
+
+  &__label {
+    @extend .sg-h3;
+  }
+  
+  &--disabled {
+    opacity: 0.5;
+  }
+
+  &__toggle {
+    @extend .sg-h4;
+    @extend .flex;
+    @extend .flex-v-center;
+    @extend .flex-h-between;
+
+    background-color: transparent;
+    border: $border-regular $grey;
+    padding: $padding;
+    width: 100%;
+  
+    &--active {
+      .drop-arrow {
+        transform: rotate(180deg)
+      }
+    }
+  }
+
+    &__dropdown-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+  &__dropdown {
+    @extend .sg-h4;
+
+    border: $border-regular $grey;
+    border-top: none;
+    padding: $padding;
+  }
+
+  &__radio--active {
+    font-weight: bolder
+  }
+  &__checkbox--active {
+    font-weight: bolder
+  }
+
+  .focussed {
+    outline: $border-thin $grey-light;
+  }
+}

@@ -16,10 +16,8 @@ options = [
 ]
 %>
 
-<h2>VSelects</h2>
-
-<h3>VSelect - Single</h2>
+<h1>VSelect - Single</h1>
 <v-select :config="<%= config_singular %>" :options="<%= options.to_json %>" :selected="<%= options[0].to_json %>"></v-select>
 
-<h3>VSelect - Multi</h2>
+<h1>VSelect - Multi</h1>
 <v-select :config="<%= config_multi %>" :options="<%= options.to_json %>" :selected="<%= options[0,2].to_json %>"></v-select>

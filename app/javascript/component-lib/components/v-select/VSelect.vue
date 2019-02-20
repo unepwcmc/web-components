@@ -24,7 +24,7 @@
       :id="dropdownId" 
       :aria-multiselectable="isMultiselect" 
       :role="popupRole" 
-      class="v-select__dropdown">
+      class="v-select__dropdown ul--unstyled">
 
       <li
         class="v-select__option"
@@ -38,7 +38,7 @@
           :type="inputType"
           :value="option"
           v-model="selectedInternal">
-        <span :id="getMockFocusId(option)" :class="getMockInputClasses(option)">Fake</span>
+        <span :id="getMockFocusId(option)" :class="getMockInputClasses(option)"></span>
         <label :for="getOptionInputId(option)">{{ option.name }}</label>
       </li>
 
@@ -170,26 +170,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.v-select--disabled {
-  opacity: 0.5;
-}
-.v-select__toggle--active {
-  .drop-arrow {
-    transform: rotate(180deg)
-  }
-}
-
-.v-select__radio--active {
-  font-weight: bolder
-}
-.v-select__checkbox--active {
-  font-weight: bolder
-}
-
-.focussed {
-  outline: solid 1px blue;
-}
-</style>
-

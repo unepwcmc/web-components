@@ -7,7 +7,7 @@
         :aria-controls="child.tabId"
         :aria-selected="child.isActive"
         @click="click(child)" 
-        :class="['tab__trigger flex-no-shrink', { 'tab--active' : child.isActive }]">
+        :class="['tab__trigger flex-no-shrink', { 'tab__trigger--active' : child.isActive }]">
         <label :for="child.tabId" class="tab__title hover--pointer">{{ child.title }}</label>
       </button>
     </div>

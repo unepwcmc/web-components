@@ -1,0 +1,11 @@
+.example-tooltip.tooltip {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.example-tooltip__icon {
+  background-color: $grey-light;
+  border-radius: 50%;
+  width: rem-calc(20); height: rem-calc(20);
+}
