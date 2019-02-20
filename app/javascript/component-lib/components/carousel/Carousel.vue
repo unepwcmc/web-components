@@ -62,7 +62,7 @@ import { getChangeInIndex, getNewOrder, getWidthWithMargins, modGreaterThanZero 
 
 const smallTimeout = 20
 
-module.exports = {
+export default {
   name: 'carousel',
 
   props: {

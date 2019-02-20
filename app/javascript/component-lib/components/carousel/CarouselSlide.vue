@@ -7,7 +7,7 @@
 <script>
 const INPUT_SELECTORS = 'select, input, textarea, button, a, [tabindex]:not([tabindex="-1"])'
 
-module.exports = {
+export default {
   name: 'carousel-slide',
 
   props: {
