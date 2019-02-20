@@ -12,9 +12,8 @@
     "vue-template-compiler": "^2.5.16",
     "vue-turbolinks": "^2.0.1",
     "vue2-touch-events": "^1.1.1",
-    "vuex": "^3.0.1"
-  },
-  "devDependencies": {
+    "vuex": "^3.0.1",
+
     "@vue/test-utils": "^1.0.0-beta.28",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
@@ -26,7 +25,9 @@
     "jest": "^23.6.0",
     "jquery": "^3.3.1",
     "regenerator-runtime": "^0.13.1",
-    "vue-jest": "^3.0.2",
+    "vue-jest": "^3.0.2"
+  },
+  "devDependencies": {
     "webpack-dev-server": "2.11.2"
   },
   "scripts": {
