@@ -9,7 +9,10 @@ set :nvm_node, 'v9.0.0'
 set :nvm_map_bins, %w{node npm yarn}
 
 
-
+set :yarn_target_path, -> { release_path.join('client') } #
+set :yarn_flags, '--production --silent --no-progress'    # default
+set :yarn_roles, :all                                     # default
+set :yarn_env_variables, {}
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
