@@ -11,13 +11,13 @@ export const preventTab = e => {
 }
 
 export const disableTabbing = el => {
-  getInputs(el).forEach(input => {
+  Array.prototype.forEach.call(getInputs(el), input => {
     input.tabIndex = DISABLED_TAB_VALUE
   })
 }
 
 export const reenableTabbing = el => {
-  el.querySelectorAll(`[tabindex='${DISABLED_TAB_VALUE}']`).forEach(input => {
+  Array.prototype.forEach.call(el.querySelectorAll(`[tabindex='${DISABLED_TAB_VALUE}']`), input => {
     input.tabIndex = 0
   })
 }

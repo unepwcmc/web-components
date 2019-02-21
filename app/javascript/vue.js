@@ -43,6 +43,11 @@ import VSelect from './component-lib/components/v-select/VSelect'
 // import defineCustomAriaElements from './component-lib/helpers/aria-definitions'
 // defineCustomAriaElements()
 
+import { polyfill as objectAssign } from 'es6-object-assign'
+objectAssign()
+import { customPolyfill } from './component-lib/utils/custom-polyfills'
+customPolyfill()
+
 // create event hub and export so that it can be imported into .vue files
 export const eventHub = new Vue()
 

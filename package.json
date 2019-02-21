@@ -6,6 +6,7 @@
     "@turf/turf": "^5.1.6",
     "d3": "^5.8.2",
     "es6-promise": "^4.2.4",
+    "es6-object-assign": "^1.1.0",
     "scrollmagic": "^2.0.6",
     "vue": "^2.5.16",
     "vue-loader": "^14.2.2",
