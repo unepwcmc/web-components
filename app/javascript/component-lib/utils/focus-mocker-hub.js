@@ -14,7 +14,7 @@ export default {
 
   methods: {
     detectBlur () {
-      if(this.lastActiveElement.getAttribute('data-mock-focus-id')) {
+      if(this.lastActiveElement && this.lastActiveElement.getAttribute('data-mock-focus-id')) {
         this.$emit('remove-mock-focus', this.lastActiveElement.getAttribute('data-mock-focus-id'))
       }
       this.lastActiveElement = document.activeElement
