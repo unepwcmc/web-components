@@ -76,6 +76,7 @@ $dropdown-width: rem-calc(240);
       }
 
       &__dropdown-wrapper {
+        background-color: $white;
         border: $border-regular $grey;
         border-top: none;
         box-shadow: $shadow-light;
