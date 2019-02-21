@@ -4,7 +4,7 @@ export default (closeCallback, isActive='isActive', closeOnClickOutside=true, cl
   mounted () {
     if(closeOnClickOutside) {
       window.addEventListener('click', e => {
-        if (!this.$el.contains(e.target)) { this[closeCallback]() }
+        if (!this.$el.contains(e.target) && this[isActive]) { this[closeCallback](e) }
       })
     }
 
@@ -13,7 +13,7 @@ export default (closeCallback, isActive='isActive', closeOnClickOutside=true, cl
   
         if (e.keyCode === ESCAPE_KEYCODE) { 
           if(this[isActive]) {
-            this[closeCallback]()
+            this[closeCallback](e)
             e.stopPropagation()
           }
         }

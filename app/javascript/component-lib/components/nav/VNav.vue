@@ -45,7 +45,11 @@ export default {
     VNavLink
   },
 
-  mixins: [mixinResponsive, mixinPopupCloseListeners('closeNavPane', 'isNavPaneActive'), mixinFocusCapture('isNavPaneActive')],
+  mixins: [
+    mixinResponsive, 
+    mixinPopupCloseListeners('closeNavPane', 'isNavPaneActive'), 
+    mixinFocusCapture({toggleVariable: 'isNavPaneActive', closeCallback: 'closeNavPane', openCallback: 'openNavPane'})
+  ],
 
   props: {
     pages: {

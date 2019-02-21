@@ -1,11 +1,40 @@
 import { getInputs, preventTab, TAB_KEYCODE } from "../helpers/focus-helpers";
 
-export default (toggleVariable) => ({
+export default ({toggleVariable, closeCallback, openCallback}) => ({
   data() {
     return {
       firstInput: {},
-      lastInput: {},
-      modalElement: {}
+      lastInput: {}
+    }
+  },
+
+  created () {
+    if(closeCallback) {
+      const originalCloseCallback = this[closeCallback]
+
+      this[closeCallback] = e => {
+        originalCloseCallback()
+        document.activeElement.blur()
+        this.removeEventListeners()
+
+        if (!e.detail) {
+          this.mixinFocusTriggerElementIfExists()
+        }
+      }
+    }
+
+    if(openCallback) {
+      const originalOpenCallback = this[openCallback]
+  
+      this[openCallback] = e => {
+        originalOpenCallback()
+        document.activeElement.blur()
+        this.addEventListeners()
+  
+        if (!e.detail) {
+          this.$nextTick(() => { this.mixinFocusFirstInputIfExists() })
+        }
+      }
     }
   },
 
@@ -17,31 +46,44 @@ export default (toggleVariable) => ({
 
   watch: {
     [toggleVariable] (isExpanded) {
-      document.activeElement.blur()
-
-      if (isExpanded) {
+      if (isExpanded && !openCallback) {
+        console.log('open')
+        document.activeElement.blur()
         this.addEventListeners()
 
         this.$nextTick(() => {
-          this.firstInput.focus()
+          this.mixinFocusFirstInputIfExists()
         })
-      } else {
+      } else if (!isExpanded && !closeCallback) {
+        console.log('close')
+
+        document.activeElement.blur()
         this.removeEventListeners()
 
-        if (this.mixinTriggerId) {
-          document.querySelector('#' + this.mixinTriggerId).focus()
-        }
+        this.mixinFocusTriggerElementIfExists()
       }
+    }
+  },
+
+  computed: {
+    triggerElement () {
+      if (this.mixinTriggerId) {
+        return document.querySelector('#' + this.mixinTriggerId)
+      }
+
+      return null
+    },
+
+    modalElement () {
+      return  this.mixinModalId ? document.querySelector('#' + this.mixinModalId) : this.$el
     }
   },
 
   methods: {
     addEventListeners() {
-      this.modalElement = this.mixinModalId ? document.querySelector('#' + this.mixinModalId) : this.$el
-      const inputs = getInputs(this.modalElement)
-      this.firstInput = inputs[0]
-      this.lastInput = inputs[inputs.length - 1]
-  
+      this.setInputs()
+      if (!this.firstInput) { return }
+
       const isRadioGroup = this.mixinIsRadioGroup !== undefined ? this.mixinIsRadioGroup : false
   
       if (isRadioGroup) {
@@ -58,18 +100,43 @@ export default (toggleVariable) => ({
       this.lastInput.removeEventListener('keydown', this.handleLastInputTab)
     },
 
+    setInputs () {
+      const inputs = getInputs(this.modalElement)
+
+      this.firstInput = inputs[0]
+      this.lastInput = inputs[inputs.length - 1]
+    },
+
     handleFirstInputTab (e) {
       if (e.keyCode === TAB_KEYCODE && e.shiftKey) {
         e.preventDefault()
-        this.lastInput.focus()
+        this.mixinFocusLastInputIfExists()
       }
     },
 
     handleLastInputTab (e) {
       if (e.keyCode === TAB_KEYCODE && !e.shiftKey) {
         e.preventDefault()
+        this.mixinFocusFirstInputIfExists()
+      }
+    },
+
+    mixinFocusLastInputIfExists () {
+      if (this.lastInput) {
+        this.lastInput.focus()
+      }
+    },
+
+    mixinFocusFirstInputIfExists () {
+      if (this.firstInput) {
         this.firstInput.focus()
       }
     },
+
+    mixinFocusTriggerElementIfExists () {
+      if (this.triggerElement) {
+        this.triggerElement.focus()
+      }
+    }
   }
 })

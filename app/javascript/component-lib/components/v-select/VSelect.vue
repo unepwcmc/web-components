@@ -58,7 +58,11 @@ const DEFAULT_SELECT_MESSAGE = 'Select option'
 const DEFAULT_MULTISELECT_MESSAGE = 'Select options'
 
 export default {
-  mixins: [mixinPopupCloseListeners('closeSelect'), mixinFocusCapture('isActive'), mixinFocusMocker],
+  mixins: [
+    mixinPopupCloseListeners('closeSelect'),
+    mixinFocusCapture({toggleVariable: 'isActive', closeCallback: 'closeSelect', openCallback: 'openSelect'}),
+    mixinFocusMocker
+  ],
 
   props: {
       config: {
@@ -130,8 +134,16 @@ export default {
       this.isActive = false
     },
 
-    toggleSelect () {
-      this.isActive = this.options.length ? !this.isActive : false
+    openSelect () {
+      this.isActive = true
+    },
+
+    toggleSelect (e) {
+      if (this.options.length && !this.isActive) {
+        this.openSelect(e)
+      } else {
+        this.closeSelect(e)
+      }
     },
 
     initializeSelectedInternal () {

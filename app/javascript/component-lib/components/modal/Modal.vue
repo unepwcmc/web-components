@@ -21,7 +21,10 @@ import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 export default {
   name: 'modal',
 
-  mixins: [mixinFocusCapture('isActive'), mixinPopupCloseListeners('closeModal', 'isActive', false, true)],
+  mixins: [
+    mixinFocusCapture({toggleVariable: 'isActive', closeCallback: 'closeModal'}), 
+    mixinPopupCloseListeners('closeModal', 'isActive', false, true)
+  ],
 
   props: {
     id: {

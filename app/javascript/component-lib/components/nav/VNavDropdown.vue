@@ -33,7 +33,10 @@ export default {
     VNavLink
   },
 
-  mixins: [mixinFocusCapture('isActive'), mixinPopupCloseListeners('closeDropdown')],
+  mixins: [
+    mixinFocusCapture({toggleVariable: 'isActive', closeCallback: 'closeDropdown', openCallback: 'openDropdown'}),
+    mixinPopupCloseListeners('closeDropdown')
+  ],
 
   props: {
     item: {
@@ -59,8 +62,8 @@ export default {
     openDropdown () {
       this.isActive = true
     },
-    toggleDropdown () {
-      this.isActive ? this.closeDropdown() : this.openDropdown()
+    toggleDropdown (e) {
+      this.isActive ? this.closeDropdown(e) : this.openDropdown(e)
     }
   },
 
