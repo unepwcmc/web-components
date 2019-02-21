@@ -22,6 +22,11 @@ class ApplicationController < ActionController::Base
         category_id: 'charts'
       },
       {
+        id: 'chart_doughnut',
+        name: 'ChartDoughnut',
+        category_id: 'charts'
+      },
+      {
         id: 'chart_line',
         name: 'ChartLine',
         category_id: 'charts'

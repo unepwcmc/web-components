@@ -1,0 +1,58 @@
+<%
+doughnut_chart = {
+  id: 'doughnut-chart',
+  source: "Source of the data for the map",
+  datasets: [
+    {
+      title: 'Africa',
+      description: 'Lorem ipsum description goes here',
+      url: 'http://google.com',
+      value: 10
+    },
+    {
+      title: 'Asia & Pacific',
+      description: 'Lorem ipsum description goes here',
+      url: 'http://google.com',
+      value: 14
+    },
+    {
+      title: 'Europe',
+      description: 'Lorem ipsum description goes here',
+      url: 'http://google.com',
+      value: 45
+    },
+    {
+      title: 'Latin America & Caribbean',
+      description: 'Lorem ipsum description goes here',
+      url: 'http://google.com',
+      value: 56
+    },
+    {
+      title: 'North America',
+      description: 'Lorem ipsum description goes here',
+      url: 'http://google.com',
+      value: 23
+    },
+    {
+      title: 'Polar',
+      description: 'Lorem ipsum description goes here',
+      url: 'http://google.com',
+      value: 67
+    },
+    {
+      title: 'West Asia',
+      description: 'Lorem ipsum description goes here',
+      url: 'http://google.com',
+      value: 87
+    }
+  ]
+}
+%>
+
+<h2>ChartDoughnut</h2>
+
+<chart-doughnut 
+  id="<%= doughnut_chart[:id] %>" 
+  :datasets="<%= doughnut_chart[:datasets].to_json %>" 
+  source="<%= doughnut_chart[:source] %>">
+</chart-doughnut>
