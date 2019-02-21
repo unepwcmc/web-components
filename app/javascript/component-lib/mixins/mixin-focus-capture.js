@@ -47,7 +47,6 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
   watch: {
     [toggleVariable] (isExpanded) {
       if (isExpanded && !openCallback) {
-        console.log('open')
         document.activeElement.blur()
         this.addEventListeners()
 
@@ -55,7 +54,6 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
           this.mixinFocusFirstInputIfExists()
         })
       } else if (!isExpanded && !closeCallback) {
-        console.log('close')
 
         document.activeElement.blur()
         this.removeEventListeners()

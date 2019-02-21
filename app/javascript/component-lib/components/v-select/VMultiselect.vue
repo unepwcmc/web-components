@@ -58,7 +58,7 @@ const DEFAULT_MULTISELECT_MESSAGE = 'Select options'
 
 export default {
   mixins: [
-    mixinPopupCloseListeners('closeSelect'),
+    mixinPopupCloseListeners({closeCallback: 'closeSelect'}),
     mixinFocusCapture({toggleVariable: 'isActive', closeCallback: 'closeSelect', openCallback: 'openSelect'}),
     mixinFocusMocker
   ],

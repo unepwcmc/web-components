@@ -20,7 +20,7 @@
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 
 export default {
-  mixins: [mixinPopupCloseListeners('close')],
+  mixins: [mixinPopupCloseListeners({closeCallback: 'close'})],
   props: {
     title: String
   },

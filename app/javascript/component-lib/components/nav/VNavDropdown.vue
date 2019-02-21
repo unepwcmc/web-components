@@ -35,7 +35,7 @@ export default {
 
   mixins: [
     mixinFocusCapture({toggleVariable: 'isActive', closeCallback: 'closeDropdown', openCallback: 'openDropdown'}),
-    mixinPopupCloseListeners('closeDropdown')
+    mixinPopupCloseListeners({closeCallback: 'closeDropdown'})
   ],
 
   props: {

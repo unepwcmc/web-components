@@ -47,7 +47,7 @@ export default {
 
   mixins: [
     mixinResponsive, 
-    mixinPopupCloseListeners('closeNavPane', 'isNavPaneActive'), 
+    mixinPopupCloseListeners({closeCallback: 'closeNavPane', toggleVariable: 'isNavPaneActive'}), 
     mixinFocusCapture({toggleVariable: 'isNavPaneActive', closeCallback: 'closeNavPane', openCallback: 'openNavPane'})
   ],
 
