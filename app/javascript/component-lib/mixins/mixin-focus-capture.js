@@ -17,7 +17,7 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
         document.activeElement.blur()
         this.removeEventListeners()
 
-        if (!e.detail) {
+        if (e && !e.detail) {
           this.mixinFocusTriggerElementIfExists()
         }
       }
@@ -31,7 +31,7 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
         document.activeElement.blur()
         this.addEventListeners()
   
-        if (!e.detail) {
+        if (e && !e.detail) {
           this.$nextTick(() => { this.mixinFocusFirstInputIfExists() })
         }
       }
