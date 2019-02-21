@@ -22,7 +22,8 @@
     <ul 
       v-show="isActive" 
       :id="dropdownId" 
-      role="radiogroup" 
+      aria-multiselectable="true" 
+      role="group" 
       class="v-select__dropdown ul--unstyled">
 
       <li
@@ -30,8 +31,8 @@
         v-for="option in options"
         :key="option.id">
         <input
-          class="v-select__default-radio"
-          type="radio"
+          class="v-select__default-checkbox"
+          type="checkbox"
           :id="getOptionInputId(option)"
           :data-mock-focus-id="getMockFocusId(option)"
           :name="dropdownOptionsName"
@@ -53,7 +54,7 @@ import mixinFocusMocker from '../../mixins/mixin-focus-mocker'
 
 const UNDEFINED_ID = '__UNDEFINED__';
 const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
-const DEFAULT_SELECT_MESSAGE = 'Select option'
+const DEFAULT_MULTISELECT_MESSAGE = 'Select options'
 
 export default {
   mixins: [
@@ -72,7 +73,7 @@ export default {
         type: Array
       },
       selected: {
-        default: null,
+        default: [],
       }
   },
 
@@ -93,14 +94,13 @@ export default {
   data () {
     return {
       isActive: false,
-      selectedInternal: null,
+      selectedInternal: [],
       dropdownId: 'v-select-dropdown-' + this.config.id,
       dropdownOptionsName: 'v-select-dropdown-input' + this.config.id,
       toggleId: 'v-select-toggle-' + this.config.id,
 
       mixinModalId: 'v-select-dropdown-' + this.config.id,
       mixinTriggerId: 'v-select-toggle-' + this.config.id,
-      mixinIsRadioGroup: true
     }
   },
 
@@ -110,7 +110,9 @@ export default {
     },
 
     selectionMessage () {
-      return this.selectedInternal.id === UNDEFINED_ID ? DEFAULT_SELECT_MESSAGE : this.selectedInternal.name
+      const selectedNames = this.selectedInternal.map(option => option.name)
+
+      return selectedNames.length ? selectedNames.join(', ') : DEFAULT_MULTISELECT_MESSAGE
     }
   },
 
@@ -133,14 +135,14 @@ export default {
 
     initializeSelectedInternal () {
       if (this.selected === null) {
-        this.selectedInternal = UNDEFINED_OBJECT
+        this.selectedInternal =  []
       } else {
         this.selectedInternal = this.selected
       }
     },
 
     isSelected (option) {
-      return option.id === this.selectedInternal.id
+      return this.selectedInternal.find(selectedOption => option.id === selectedOption.id)
     },
 
     getOptionInputId (option) {
@@ -152,7 +154,7 @@ export default {
     },
 
     getMockInputClasses (option) {
-      const inputClass = 'v-select__radio'
+      const inputClass = 'v-select__checkbox'
 
       return {
         [inputClass]: true,

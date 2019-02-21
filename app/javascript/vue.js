@@ -37,6 +37,7 @@ import VMap from './component-lib/components/map/VMap'
 
 import VNav from './component-lib/components/nav/VNav'
 
+import VMultiselect from './component-lib/components/v-select/VMultiselect'
 import VSelect from './component-lib/components/v-select/VSelect'
 
 // Custom elements aren't supported by JSDOM, so break tests
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
           Tooltip,
           VMap,
           VNav,
+          VMultiselect,
           VSelect
         }
       })
