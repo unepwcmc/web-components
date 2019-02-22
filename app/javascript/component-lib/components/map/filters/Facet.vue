@@ -1,5 +1,5 @@
 <template>
-  <div class="filters flex flex-column">
+  <div class="map-filters flex flex-column">
     <dataset
       v-for="dataset in datasets"
       :key="dataset.id"
