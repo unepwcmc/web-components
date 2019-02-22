@@ -2,7 +2,7 @@
   "name": "style-guide",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^3.5.5",
+    "@rails/webpacker": "^3.5",
     "@turf/turf": "^5.1.6",
     "@vue/test-utils": "^1.0.0-beta.28",
     "babel-core": "^6.26.3",

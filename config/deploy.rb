@@ -1,4 +1,4 @@
-lock '3.8.2'
+lock '3.11.0'
 
 set :application, 'style-guide'
 set :repo_url, 'https://github.com/unepwcmc/style-guide.git'
@@ -7,7 +7,6 @@ set :repo_url, 'https://github.com/unepwcmc/style-guide.git'
 set :nvm_type, :user # or :system, depends on your nvm setup
 set :nvm_node, 'v9.0.0'
 set :nvm_map_bins, %w{node npm yarn}
-
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
