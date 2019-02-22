@@ -1,5 +1,10 @@
 .filters {
   background-color: $grey-light;
+  width: 100%;
+
+  @include breakpoint($small) {
+    width: 25vw;
+  }
 
   &__list {
     @include item-padding(('top', 'bottom'), 'margin');

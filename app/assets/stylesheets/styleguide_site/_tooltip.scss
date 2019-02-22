@@ -1,4 +1,5 @@
 $tooltip-background-color: $grey;
+$border-style: solid rem-calc(10);
 
 .tooltip {
   position: relative;
@@ -21,14 +22,14 @@ $tooltip-background-color: $grey;
     transform: translateX(-50%);
 
     &:after {
-      border-bottom: solid 10px $tooltip-background-color;
-      border-right: solid 10px transparent;
-      border-left: solid 10px transparent;
+      border-bottom: $border-style $tooltip-background-color;
+      border-right: $border-style transparent;
+      border-left: $border-style transparent;
       content: '';
       width: 0; height: 0;
 
       position: absolute;
-      top: -10px;
+      top: - rem-calc(10);
       left: 50%;
 
       transform: translateX(-50%);

@@ -1,0 +1,7 @@
+.component-viewer {
+  flex-direction: column;
+
+  @include breakpoint($small) {
+    flex-direction: row;
+  }
+}
