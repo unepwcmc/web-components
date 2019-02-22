@@ -18,11 +18,10 @@ body {
 }
 
 #v-app {
-  height: 100%;
-
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 100%;
+  padding-bottom: $footer-height-desktop;
+  min-height: 100vh;
+  
+  position: relative;
 }
 
 h1 {
