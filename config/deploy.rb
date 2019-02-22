@@ -1,4 +1,4 @@
-lock '3.8.2'
+lock '3.11.0'
 
 set :application, 'style-guide'
 set :repo_url, 'https://github.com/unepwcmc/style-guide.git'
