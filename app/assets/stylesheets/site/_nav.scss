@@ -14,6 +14,10 @@ $nav-item-separation: rem-calc(26);
     margin-right: $nav-item-separation;
     height: $logo-height-fraction * 100 + '%';
 
+    display: none;
+
+    @include breakpoint($small) {display: block;}
+
     &--unepwcmc {
       width: $logo-height-fraction * $unepwcmc-w-to-h-ratio * $navbar-height-small;
 

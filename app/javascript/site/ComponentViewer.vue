@@ -1,6 +1,6 @@
 <template>
-  <div class="flex">
-  <aside class="filters flex-1-quarter">
+  <div class="component-viewer flex">
+  <aside class="filters flex-no-shrink">
     <ul class="filters__list ul--unstyled">
       <li v-for="category in categories" 
         :class="{'filters__list-item--selected': isSelectedCategory(category.id)}">
@@ -11,7 +11,7 @@
       </li>
     </ul>
   </aside>
-  <main id="component-grid" class="flex-3-quarters">
+  <main id="component-grid">
     <ul class="component-grid ul--unstyled">
       <li v-for="comp in components" v-if="belongsToSelectedCategory(comp)" class="component-grid__element sg-h3">
         <a :href="getComponentPath(comp.id)">{{ comp.name }}</a>
