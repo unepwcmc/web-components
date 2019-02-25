@@ -5,6 +5,9 @@
   @include breakpoint($small) {
     width: 25vw;
   }
+  @include breakpoint($large) {
+    width: rem-calc($large)/4;
+  }
 
   &__list {
     @include item-padding(('top', 'bottom'), 'margin');
