@@ -67,9 +67,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.dummy-class-for-deploy-to-be-removed{
-  display: none;
-}
-</style>
