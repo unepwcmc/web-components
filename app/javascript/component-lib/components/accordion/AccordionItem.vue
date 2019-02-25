@@ -8,7 +8,7 @@
       class="accordion-item__toggle button--unstyled hover--pointer flex flex-h-between"
       @click="toggleAccordionContent()">
       <label :for="toggleId" class="accordion-item__title">{{ title }}</label>
-      <span class="material-icons">{{ arrow }}</span>
+      <span class="accordion-item__toggle-icon">{{ arrow }}</span>
     </button>
     
     <transition name="accordion-toggle">

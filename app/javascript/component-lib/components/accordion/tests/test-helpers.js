@@ -1,15 +1,15 @@
-// export default wrapper => ({  
-//   accordionItems: () => wrapper.findAll('.accordion-item'),
+export default wrapper => ({  
+  accordionItems: () => wrapper.findAll('.accordion-item'),
 
-//   accordionItemByIndex(index=0) { return this.accordionItems().at(index) },
+  accordionItemByIndex(index=0) { return this.accordionItems().at(index) },
   
-//   itemContent(index) { return this.accordionItemByIndex(index).find('.accordion-item__content') },
+  itemContent(index) { return this.accordionItemByIndex(index).find('.accordion-item__content') },
   
-//   itemTitleText(index) { return this.accordionItemByIndex(index).find('.accordion-item__title').text() },
+  itemTitleText(index) { return this.accordionItemByIndex(index).find('.accordion-item__title').text() },
 
-//   itemContentWrapper(index) { return this.accordionItemByIndex(index).find('.accordion-item__content-wrapper') },
+  itemContentWrapper(index) { return this.accordionItemByIndex(index).find('.accordion-item__content-wrapper') },
   
-//   toggleItem(index) { return this.accordionItemByIndex(index).find('.accordion-item__toggle').trigger('click') },
+  toggleItem(index) { return this.accordionItemByIndex(index).find('.accordion-item__toggle').trigger('click') },
   
-//   itemToggleIcon(index) { return this.accordionItemByIndex(index).find('.accordion-item__toggle i') }
-// })
+  itemToggleIcon(index) { return this.accordionItemByIndex(index).find('.accordion-item__toggle-icon') }
+})
