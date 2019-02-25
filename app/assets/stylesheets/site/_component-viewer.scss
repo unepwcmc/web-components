@@ -1,11 +1,4 @@
-.component-viewer {
-  flex-direction: column;
-
-  @include breakpoint($small) {
-    flex-direction: row;
-  }
-}
-
+$min-height: calc(100vh - #{$footer-height-desktop} - #{$navbar-height-medium});
 $page-padding-right: 10vw;
 $filters-width: 25vw;
 $comp-grid-width: 100vw - $filters-width - $page-padding-right;
@@ -13,6 +6,15 @@ $filters-width-large: rem-calc($large)/4;
 $comp-grid-width-large: calc(100vw - #{$page-padding-right} - #{$filters-width-large});
 $item-margin: rem-calc(8);
 $comp-grid-padding: rem-calc(14);
+
+.component-viewer {
+  flex-direction: column;
+
+  @include breakpoint($small) {
+    flex-direction: row;
+    min-height: $min-height;
+  }
+}
 
 @mixin grid-element-dimensions($col-count, $grid-width: $comp-grid-width) {
   $width: calc((#{$grid-width} - 2 * #{$comp-grid-padding}) / #{$col-count} - 2 * #{$item-margin});
