@@ -1,0 +1,19 @@
+.expandable-item {
+  border: $border-regular $grey;
+  margin-bottom: rem-calc(20);
+
+  &__header {
+    background: transparent;
+    width: 100%;
+  }
+
+  &__container {
+    border-top: $border-regular $grey;
+  }
+
+  &--active {
+    .drop-arrow {
+      transform: rotate(180deg);
+    }
+  }
+}

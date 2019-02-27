@@ -81,13 +81,15 @@ stacked_row_charts = {
 
 <h1>ChartRowStacked</h1>
 
-<% stacked_row_charts[:charts].each do |chart| %>
-  <chart-row-stacked
-    title="<%= chart[:chart_title] %>"
-    :rows="<%= chart[:rows].to_json %>"
-    theme="<%= chart[:theme] %>"
-    units="km"
-    :legend="<%= stacked_row_charts[:legend].to_json %>">
-  </chart-row-stacked>
-<% end %>
+<div class="<%= styleguide_class %>">
+  <% stacked_row_charts[:charts].each do |chart| %>
+    <chart-row-stacked
+      title="<%= chart[:chart_title] %>"
+      :rows="<%= chart[:rows].to_json %>"
+      theme="<%= chart[:theme] %>"
+      units="km"
+      :legend="<%= stacked_row_charts[:legend].to_json %>">
+    </chart-row-stacked>
+  <% end %>
+</div>
   

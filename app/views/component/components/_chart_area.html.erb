@@ -46,4 +46,6 @@ global_area_chart = {
 
 <h1>ChartArea</h1>
 
-<chart-area id="<%= global_area_chart[:id] %>" :datasets="<%= global_area_chart[:datasets].to_json %>" units="km^2" :legend="<%= global_area_chart[:legend].to_json %>"></chart-area>
+<div class="<%= styleguide_class %>">
+  <chart-area id="<%= global_area_chart[:id] %>" :datasets="<%= global_area_chart[:datasets].to_json %>" units="km^2" :legend="<%= global_area_chart[:legend].to_json %>"></chart-area>
+</div>

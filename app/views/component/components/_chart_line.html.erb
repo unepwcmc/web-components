@@ -109,10 +109,12 @@ line_chart = {
 
 <h1>ChartLine</h1>
 
-<chart-line 
-  :lines="<%= line_chart[:lines].to_json %>" 
-  :y-targets="<%= line_chart[:targets].to_json %>"
-  :x-targets="<%= line_chart[:commitments].to_json %>"
-  :axis-labels="<%= line_chart[:axisLabels].to_json %>"
-  :font-size="20">
-</chart-line>
+<div class="<%= styleguide_class %>">
+  <chart-line 
+    :lines="<%= line_chart[:lines].to_json %>" 
+    :y-targets="<%= line_chart[:targets].to_json %>"
+    :x-targets="<%= line_chart[:commitments].to_json %>"
+    :axis-labels="<%= line_chart[:axisLabels].to_json %>"
+    :font-size="20">
+  </chart-line>
+</div>
