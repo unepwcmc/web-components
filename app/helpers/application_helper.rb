@@ -8,7 +8,11 @@ module ApplicationHelper
     link_class += current_uri == path ? "site-nav__link--current" : ''
   end
 
+  def styleguide_id
+    params[:styleguide] || 'site'
+  end
+
   def styleguide_class
-    "styleguide-#{params[:styleguide] || 'site'}"
+    "styleguide-#{styleguide_id}"
   end
 end
