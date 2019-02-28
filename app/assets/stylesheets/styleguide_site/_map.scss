@@ -6,11 +6,21 @@ $pane-trigger-width: rem-calc(40);
   width: 100%;
 }
 
-.map__container {
-  overflow: hidden;
-  height: 50rem;
+.map {
+  &__container {
+    overflow: hidden;
+    height: rem-calc(380);
 
-  position: relative;
+    position: relative;
+
+    @include breakpoint($small) {
+      height: rem-calc(700);
+    }
+  }
+
+    &__wrapper {
+      height: 100%;
+    }
 }
 //--------------------------------------------------
 // Mapbox controls
@@ -43,8 +53,11 @@ $pane-trigger-width: rem-calc(40);
 }
 
 .mapboxgl-ctrl.mapboxgl-ctrl-geocoder {
-  max-width: 400px;
-  width: 400px;
+  width: 100%;
+
+  @include breakpoint($small) {
+    width: rem-calc(400);
+  }
 }
 
 .mapboxgl-ctrl.mapboxgl-ctrl-geocoder input[type="text"] {
