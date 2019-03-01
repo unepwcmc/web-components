@@ -10,6 +10,10 @@ describe('Accordion', () => {
   const ACCORDION_ITEM_TEXT = 'Accordion Item Content'
   const ACCORDION_ITEM_HTML_CONTENT = `<div class="accordion-item__slot-content">${ACCORDION_ITEM_TEXT}</div>`
 
+  beforeEach(() => {
+    AccordionItem._Ctor = null //FIXME: not a good solution... needs more work!
+  })
+
   test('renders multiple accordion items using slots', () => {
     const wrapper = helpers.shallowInitializeWrapper(Accordion, {
       slots: {
@@ -175,7 +179,6 @@ describe('Accordion', () => {
 
   //FIXME: can't seem to find a way of adding multiple custom components as slots with props.
   // scopedSlots doesn't take arrays and slots doesn't take a function using $createElement
-  // current tests aren't isolated... only work when .only is used. AccordionItem is being edited...
   [
     {
       description:
@@ -209,7 +212,7 @@ describe('Accordion', () => {
       isFinallyActive1,
       isFinallyActive2
     }) => {
-      test.skip(description, () => {
+      test(description, () => {
         const AccordionItem1 = helpers.addDefaultProp(AccordionItem, [
           ['id', '1'],
           ['open', isInitiallyActive1]
