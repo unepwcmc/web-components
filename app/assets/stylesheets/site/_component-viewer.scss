@@ -49,6 +49,10 @@ $comp-grid-padding: rem-calc(14);
 }
 
 .filters {
+  @include item-padding(('top', 'bottom'));
+  max-height: rem-calc(150);
+  overflow: scroll;
+
   background-color: $grey-light;
   width: 100%;
 
@@ -60,7 +64,7 @@ $comp-grid-padding: rem-calc(14);
   }
 
   &__list {
-    @include item-padding(('top', 'bottom'), 'margin');
+    @include breakpoint($small) { max-height: none; }
   }
 
     &__list-item {
@@ -78,7 +82,8 @@ $comp-grid-padding: rem-calc(14);
       }
 
       &:hover {
-        background-color: $grey;
+        background-color: $wcmc-blue;
+        color: $white;
       }
     }
 }
