@@ -57,14 +57,11 @@ $comp-grid-padding: rem-calc(14);
   width: 100%;
 
   @include breakpoint($small) {
+    max-height: none;
     width: $filters-width;
   }
   @include breakpoint($large) {
     width: $filters-width-large;
-  }
-
-  &__list {
-    @include breakpoint($small) { max-height: none; }
   }
 
     &__list-item {
