@@ -2,7 +2,7 @@
   <div class="component-viewer flex">
     <aside class="filters flex-no-shrink">
       <ul class="filters__list ul--unstyled">
-        <li v-for="category in categories" 
+        <li v-for="category in categoriesWithAll" 
           :class="{'filters__list-item--selected': isSelectedCategory(category.id)}">
           <button
             aria-controls="component-grid"
@@ -35,11 +35,14 @@ export default {
 
   data () {
     return {
-      selectedCategoryId: null
+      selectedCategoryId: 'all'
     }
   },
 
   computed: {
+    categoriesWithAll () {
+      return [{id: 'all', name: 'All'}, ...this.categories]
+    }
   },
 
   methods: {
@@ -48,7 +51,7 @@ export default {
     },
 
     clickCategory (id) {
-      this.selectedCategoryId = this.selectedCategoryId === id ? null : id
+      this.selectedCategoryId = id
     },
 
     isSelectedCategory (id) {
@@ -56,7 +59,7 @@ export default {
     },
 
     belongsToSelectedCategory (component) {
-      return this.selectedCategoryId === null ? true : component.category_id === this.selectedCategoryId
+      return this.selectedCategoryId === 'all' ? true : component.category_id === this.selectedCategoryId
     }
   }
 }
