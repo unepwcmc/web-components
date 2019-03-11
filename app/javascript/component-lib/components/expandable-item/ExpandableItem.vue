@@ -23,9 +23,6 @@ import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 
 export default {
   mixins: [mixinPopupCloseListeners({closeCallback: 'close'})],
-  props: {
-    title: String
-  },
   data () {
     return {
       isActive: false,
