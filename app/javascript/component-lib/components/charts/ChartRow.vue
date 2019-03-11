@@ -1,6 +1,6 @@
 <template>
   <div class="chart--row">
-    <h4 v-if="title" class="chart__title">{{ title }}</h4>
+    <h2 v-if="title" class="chart__title">{{ title }}</h2>
 
     <div class="chart__chart">
       <div v-for="row in rows" class="chart__row flex flex-v-center flex-h-between" :class="themeClass">

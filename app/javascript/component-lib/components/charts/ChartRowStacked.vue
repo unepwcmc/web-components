@@ -1,6 +1,6 @@
 <template>
   <div class="chart--row-stacked">
-    <h3 v-if="title" class="chart__title">{{ title }}</h3>
+    <h2 v-if="title" class="chart__title">{{ title }}</h2>
 
     <ul class="chart__chart ul-unstyled flex">
       <li v-for="row in rows" class="chart__bar flex flex-v-center" :class="themeClass" :style="{ width: row.percent + '%' }">
