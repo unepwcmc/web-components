@@ -1,8 +1,8 @@
 set :stage, :staging
-set :branch, "develop"
+set :branch, "supported-staging"
 
 
-server "web-staging.linode.unep-wcmc.org", user: 'wcmc', roles: %w{app web db}
+server "web-supported-staging.linode.unep-wcmc.org", user: 'wcmc', roles: %w{app web db}
 
 set :application, "style-guide"
 set :server_name, "style-guide"
