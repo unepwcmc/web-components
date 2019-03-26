@@ -9,7 +9,7 @@
       <slot name="header"></slot>
       <span class="drop-arrow drop-arrow--end arrow-svg"></span>
     </button>
-    <div v-if="isActive" :id="contentId" class="expandable-item__container item-padding">
+    <div v-show="isActive" :id="contentId" class="expandable-item__container item-padding">
       <slot name="content"></slot>
     </div>
   </div>

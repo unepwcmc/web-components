@@ -56,9 +56,9 @@
 
     mounted () {
       this.chartWidth = this.$el.clientWidth
-      window.onresize = () => {
+      window.addEventListener('resize', () => {
         this.chartWidth = this.$el.clientWidth
-      }
+      })
     },
 
     methods: {
