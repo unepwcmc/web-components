@@ -4,11 +4,11 @@
       <button 
         v-for="child, index in children"
         :id="triggerId(child)"
-        :aria-controls="child.tabId"
+        :aria-controls="child.id"
         :aria-selected="child.isActive"
         @click="click(child)" 
         :class="['tab__trigger flex-no-shrink', { 'tab__trigger--active' : child.isActive }]">
-        <label :for="child.tabId" class="tab__title hover--pointer">{{ child.title }}</label>
+        <label :for="child.id" class="tab__title hover--pointer">{{ child.title }}</label>
       </button>
     </div>
     <div class="tab__container">
@@ -27,7 +27,8 @@ export default {
 
   data () {
     return {
-      children: []
+      children: [],
+      selectedId: ''
     }
   },
 
@@ -41,18 +42,24 @@ export default {
       this.children.forEach(child => {
         child.isActive = child.id === selectedChild.id
       })
+
+      this.selectedId = selectedChild.id
     },
 
     initTabs () {
       this.children.forEach((child, index) => {
         child.isActive = this.initActiveId ? 
-          child.tabId === this.initActiveId :
+          child.id === this.initActiveId :
           index === 0
+
+        if (child.isActive) {
+          this.selectedId = child.id
+        }
       })
     },
 
     triggerId (child) {
-      return child.tabId + '_trigger'
+      return child.id + '-trigger'
     }
   }
 }
