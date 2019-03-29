@@ -1,6 +1,6 @@
 import { eventHub } from '../../vue'
 
-export const mixinResponsive = {
+export default {
   data () {
     return {
       windowWidth: 0,

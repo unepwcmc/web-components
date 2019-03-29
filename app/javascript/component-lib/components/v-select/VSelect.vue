@@ -1,8 +1,8 @@
 <template>
-  <div class="v-select relative hover--pointer" :class="{'v-select--disabled': isDisabled}">
+  <div class="v-select relative" :class="{'v-select--disabled': isDisabled}">
     <input type="hidden" :name="config.id" :id="config.id" v-model="selectedInternal.name" />
 
-    <div class="v-select__label hover--pointer">
+    <div v-if="config.label" class="v-select__label hover--pointer">
       <label :for="toggleId" class="v-select__selection">{{ config.label }}</label>
       <slot name="label-icon"></slot>
     </div>
@@ -29,16 +29,18 @@
         class="v-select__option"
         v-for="option in options"
         :key="option.id">
-        <input
-          class="v-select__default-radio"
-          type="radio"
-          :id="getOptionInputId(option)"
-          :data-mock-focus-id="getMockFocusId(option)"
-          :name="dropdownOptionsName"
-          :value="option"
-          v-model="selectedInternal">
-        <span :id="getMockFocusId(option)" :class="getMockInputClasses(option)"></span>
-        <label :for="getOptionInputId(option)">{{ option.name }}</label>
+        <label :for="getOptionInputId(option)">
+          <input
+            class="v-select__default-radio"
+            type="radio"
+            :id="getOptionInputId(option)"
+            :data-mock-focus-id="getMockFocusId(option)"
+            :name="dropdownOptionsName"
+            :value="option"
+            v-model="selectedInternal">
+          <span :id="getMockFocusId(option)" :class="['flex-no-shrink', getMockInputClasses(option)]"></span>
+          <span>{{ option.name }}</span>
+        </label>
       </li>
 
     </ul> 
