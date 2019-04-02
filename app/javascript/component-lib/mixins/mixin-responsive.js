@@ -1,6 +1,6 @@
 import { eventHub } from '../../vue'
 
-export const mixinResponsive = {
+export default {
   data () {
     return {
       windowWidth: 0,
@@ -16,7 +16,7 @@ export const mixinResponsive = {
     this.updateWindowSize()
 
     // allow for multiple functions to be called on window resize
-    window.onresize = function () { eventHub.$emit('windowResized') }
+    window.addEventListener('resize', () => eventHub.$emit('windowResized'))
 
     eventHub.$on('windowResized', this.updateWindowSize)
   },

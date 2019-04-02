@@ -111,10 +111,10 @@ export default {
   },
 
   created() {
-    window.onresize = () => {
+    window.addEventListener('resize', () => {
       this.setSlideWidth()
       this.initSlideContainerPosition()
-    }
+    })
   },
 
   mounted () {

@@ -3,8 +3,8 @@ import { getInputs, preventTab, TAB_KEYCODE } from "../helpers/focus-helpers";
 export default ({toggleVariable, closeCallback, openCallback}) => ({
   data() {
     return {
-      firstInput: {},
-      lastInput: {}
+      firstInput: null,
+      lastInput: null
     }
   },
 
@@ -42,6 +42,10 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
     if(this[toggleVariable]) {
       this.addEventListeners()
     }
+  },
+
+  beforeDestroy() {
+    this.removeEventListeners()
   },
 
   watch: {
@@ -93,9 +97,9 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
     },
 
     removeEventListeners () {
-      this.modalElement.removeEventListener('keydown', preventTab)
-      this.firstInput.removeEventListener('keydown', this.handleFirstInputTab)
-      this.lastInput.removeEventListener('keydown', this.handleLastInputTab)
+      if (this.modalElement) { this.modalElement.removeEventListener('keydown', preventTab) }
+      if (this.firstInput) { this.firstInput.removeEventListener('keydown', this.handleFirstInputTab) }
+      if (this.lastInput) { this.lastInput.removeEventListener('keydown', this.handleLastInputTab) }
     },
 
     setInputs () {

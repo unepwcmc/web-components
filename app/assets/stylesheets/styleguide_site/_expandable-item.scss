@@ -10,10 +10,4 @@
   &__container {
     border-top: $border-regular $grey;
   }
-
-  &--active {
-    .drop-arrow {
-      transform: rotate(180deg);
-    }
-  }
 }

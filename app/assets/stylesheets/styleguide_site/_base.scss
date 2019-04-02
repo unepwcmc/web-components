@@ -17,6 +17,10 @@ body {
   height: 100%;
 }
 
+main {
+  display: block;
+}
+
 #v-app {
   padding-bottom: $footer-height-desktop;
   min-height: 100vh;
