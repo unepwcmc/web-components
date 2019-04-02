@@ -1,6 +1,6 @@
 <template>
   <div class="v-select relative" :class="{'v-select--disabled': isDisabled}">
-    <input type="hidden" :name="config.id" :id="config.id" v-model="selectedInternal.name" />
+    <input type="hidden" :name="config.id" :id="config.id" v-model="selectedInternal" />
 
     <div v-if="config.label" class="v-select__label hover--pointer">
       <label :for="toggleId" class="v-select__selection">{{ config.label }}</label>
