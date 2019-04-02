@@ -7,7 +7,9 @@
       class="expandable-item__header hover--pointer flex flex-v-center"
       @click="toggle">
       <slot name="header"></slot>
-      <span class="drop-arrow drop-arrow--end arrow-svg"></span>
+      <span 
+        class="drop-arrow drop-arrow--end arrow-svg"
+        :style="arrowTransformStyle"></span>
     </button>
     <div v-show="isActive" :id="contentId" class="expandable-item__container item-padding">
       <slot name="content"></slot>
@@ -30,6 +32,15 @@ export default {
       contentId: `expandable-item-content-${this._uid}`
     }
   },
+
+  computed: {
+    arrowTransformStyle () {
+      return {
+        transform: this.isActive ? 'rotate(180deg)' : 'rotate(0deg)'
+      }
+    }
+  },
+  
   methods: {
     toggle () {
       this.isActive ? this.close() : this.open()

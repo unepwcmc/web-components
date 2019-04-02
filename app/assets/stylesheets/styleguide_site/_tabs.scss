@@ -12,6 +12,7 @@
     border-top: $border-regular $grey;
     border-right: $border-regular $grey;
     border-radius: 0;
+    padding: rem-calc(5);
 
     &:first-child {
       border-left: $border-regular $grey;

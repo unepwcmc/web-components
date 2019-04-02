@@ -1,16 +1,20 @@
 <template>
   <div class="tabs">
-    <div class="tabs__triggers flex flex-nowrap">
-      <button 
+    <ul role="tablist" class="tabs__triggers ul--unstyled flex flex-nowrap">
+      <li 
         v-for="child, index in children"
+        role="tab"
+        tabindex="0"
         :id="triggerId(child)"
         :aria-controls="child.id"
         :aria-selected="child.isActive"
+        @keypress.enter.prevent="click(child)" 
+        @keypress.space.prevent="click(child)" 
         @click="click(child)" 
         :class="['tab__trigger flex-no-shrink', { 'tab__trigger--active' : child.isActive }]">
         <label :for="child.id" class="tab__title hover--pointer">{{ child.title }}</label>
-      </button>
-    </div>
+      </li>
+    </ul>
     <div class="tab__container">
       <slot></slot>
     </div>
@@ -59,7 +63,7 @@ export default {
     },
 
     triggerId (child) {
-      return child.id + '-trigger'
+      return 'tab-trigger-' + child.id
     }
   }
 }

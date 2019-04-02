@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isActive" :id="id" :aria-labelledby="triggerId" class="tab">
+  <div v-show="isActive" role="tabpanel" :id="id" :aria-labelledby="triggerId" class="tab">
     <slot></slot>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
 
   computed: {
     triggerId () {
-      return this.id + '-trigger'
+      return 'tab-trigger-' + this.id
     }
   }
 }

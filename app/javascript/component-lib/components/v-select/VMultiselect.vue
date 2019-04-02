@@ -8,6 +8,7 @@
     </div>
 
     <button
+      type="button"
       class="v-select__toggle"
       :class="{'v-select__toggle--active': isActive}"
       :id="toggleId"
@@ -75,7 +76,7 @@ export default {
         type: Array
       },
       selected: {
-        default: [],
+        default: () => [],
       }
   },
 
