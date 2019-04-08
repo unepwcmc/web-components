@@ -1,3 +1,5 @@
+$border: solid rem-calc(1) $grey;
+$checkbox-width: rem-calc(15);
 $padding: rem-calc(5 10);
 
 .v-select {
@@ -43,14 +45,50 @@ $padding: rem-calc(5 10);
     padding: $padding;
   }
 
-  &__radio--active {
-    font-weight: bolder
-  }
-  &__checkbox--active {
-    font-weight: bolder
+  &__default-checkbox, &__default-radio {
+    @extend %hidden-input;
+    top: $checkbox-width;
+    left: $checkbox-width / 2;
   }
 
-  .focussed {
-    outline: $border-thin $grey-light;
+  &__checkbox, &__radio {
+    border: $border;
+    cursor: pointer;
+    margin-right: rem-calc(8);
+    width: $checkbox-width; height: $checkbox-width;
+
+    display: inline-block;
+  }
+
+  &__radio {
+    border-radius: 50%;
   }
 }
+
+@include custom_input_checked('.v-select__default-checkbox', '.v-select__checkbox') {
+  &::after {
+    background: $wcmc-blue image-url('icons/tick.svg') center no-repeat;
+    content: '';
+    background-size: 70%;
+    width: $checkbox-width - rem-calc(2);
+    height: $checkbox-width - rem-calc(2);
+
+    display: block;
+  }
+}
+@include custom_input_checked('.v-select__default-radio', '.v-select__radio') {
+  position: relative;
+  &::after {
+    @extend .item-center;
+    background: $wcmc-blue;
+    border-radius: 50%;
+    content: '';
+    width: 60%;
+    padding-top: 60%;
+
+    display: block;
+  }
+}
+
+@include custom_input_focus_default('.v-select__default-checkbox', '.v-select__checkbox');
+@include custom_input_focus_default('.v-select__default-radio', '.v-select__radio');
