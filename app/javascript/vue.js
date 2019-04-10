@@ -33,6 +33,8 @@ import Tabs from './component-lib/components/tabs/Tabs'
 
 import Tooltip from './component-lib/components/tooltip/Tooltip'
 
+import VForm from './component-lib/components/form/VForm'
+
 import VMap from './component-lib/components/map/VMap'
 
 import VNav from './component-lib/components/nav/VNav'
@@ -81,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
           Tab,
           Tabs,
           Tooltip,
+          VForm,
           VMap,
           VNav,
           VMultiselect,

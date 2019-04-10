@@ -5,6 +5,7 @@
     "@rails/webpacker": "^3.5",
     "@turf/turf": "~5.0.0",
     "@vue/test-utils": "^1.0.0-beta.28",
+    "axios": "^0.18.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
     "babel-plugin-transform-custom-element-classes": "^0.1.0",

@@ -69,7 +69,12 @@ class ApplicationController < ActionController::Base
       {
         id: 'v_select',
         name: 'VSelect',
-        category_id: 'selects'
+        category_id: 'forms'
+      },
+      {
+        id: 'v_form',
+        name: 'VForm',
+        category_id: 'forms'
       },
       {
         id: 'v_map',
@@ -98,6 +103,14 @@ class ApplicationController < ActionController::Base
         name: 'Dropdowns'
       },
       {
+        id: 'forms',
+        name: 'Forms'
+      },
+      {
+        id: 'maps',
+        name: 'Maps'
+      },
+      {
         id: 'modals',
         name: 'Modals'
       },
@@ -112,14 +125,6 @@ class ApplicationController < ActionController::Base
       {
         id: 'tooltips',
         name: 'Tooltips'
-      },
-      {
-        id: 'selects',
-        name: 'Selects'
-      },
-      {
-        id: 'maps',
-        name: 'Maps'
       },
     ]
   end

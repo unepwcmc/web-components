@@ -1,0 +1,18 @@
+<h1>VForm</h1>
+
+<v-form
+    title="Sent"
+    error-message="It looks like there has been an error submitting your form."
+    success-message="Thank you for your submission!">
+    <%= form_tag('', remote: true, authenticity_token: true, class: 'form') do %>
+      <%= label_tag 'full_name', 'Full name', class: 'form__label' %>
+      <%= send(
+        "text_field_tag", 
+        'full_name', 
+        '',
+        required: true, 
+        class: 'form__field'
+      ) %>
+      <%= submit_tag 'Send', class: 'form__submit', 'data-no-turbolink': true %>
+    <% end %>
+  </v-form>
