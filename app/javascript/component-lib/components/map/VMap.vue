@@ -20,6 +20,7 @@
 import * as turf from "@turf/turf"
 
 import LayersControl from "./helpers/layers-control.js"
+import { getFirstSymbolLayerId } from "./helpers/map-layer-helpers.js"
 import { mixinCarto } from "./mixins/mixin-carto.js"
 import { eventHub } from "../../../vue.js"
 import FilterPane from "./filters/FilterPane"
@@ -38,7 +39,8 @@ export default {
       mapboxToken:
         "pk.eyJ1IjoibGV2aWF0aGFuczE3IiwiYSI6ImNpeDd5YWIzZTAwM3Myb29jaHNleW02YTgifQ.KOR1dSr7sTbWUtXw4V6tpA",
       cartoUsername: "carbon-tool",
-      cartoApiKey: "f7762e628586b3ff41a371b8e89ea0069e975299"
+      cartoApiKey: "f7762e628586b3ff41a371b8e89ea0069e975299",
+      firstSymbolLayerId: ''
     }
   },
 
@@ -63,6 +65,7 @@ export default {
      * so we reload all layers on the new map
      */
     map.on("style.load", () => {
+      this.setFirstSymbolLayerId()
       eventHub.$emit("map-reload-layers", map.isStyleLoaded())
     })
 
@@ -80,10 +83,15 @@ export default {
       map.addControl(layersControl, "bottom-left")
       map.addControl(navControl, "bottom-left")
       map.addControl(geocoderControl, "top-left")
+      this.setFirstSymbolLayerId()
     })
   },
 
   methods: {
+    setFirstSymbolLayerId () {
+      this.firstSymbolLayerId = getFirstSymbolLayerId(this.map)
+    },
+
     addLayer(layer) {
       if (layer.type === "Raster") {
         this.addRasterLayer(layer)
@@ -120,7 +128,7 @@ export default {
         layout: {
           visibility: layer.visible ? "visible" : "none"
         }
-      })
+      }, this.firstSymbolLayerId)
 
       this.map.setPaintProperty(layer.name, "raster-opacity", 0.5)
     },
@@ -157,7 +165,7 @@ export default {
           layout: {
             visibility: visible ? "visible" : "none"
           }
-        })
+        }, this.firstSymbolLayerId)
       })
     },
     createVectorLineLayer(visible, carto) {
@@ -181,7 +189,7 @@ export default {
           layout: {
             visibility: visible ? "visible" : "none"
           }
-        })
+        }, this.firstSymbolLayerId)
       })
     },
 

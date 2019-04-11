@@ -30,3 +30,16 @@ export const getLayers = (datasetId, config, isSelected) => {
 
   return layers
 }
+
+export const getFirstSymbolLayerId = map => {
+  let firstSymbolId = ''
+
+  for (const layer of map.getStyle().layers) {
+    if (layer.type === 'symbol') {
+      firstSymbolId = layer.id
+      break
+    }
+  }
+
+  return firstSymbolId
+}
