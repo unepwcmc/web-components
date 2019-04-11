@@ -4,7 +4,9 @@ class ApplicationController < ActionController::Base
       {
         id: 'accordion',
         name: 'Accordion',
-        category_id: 'accordions'
+        category_id: 'accordions',
+        description: 'A list of items that expand/shrink on selection/deselection.',
+        projects: ['ENCORE', 'IBAT']
       },
       {
         id: 'carousel',
