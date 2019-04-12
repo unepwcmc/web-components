@@ -102,95 +102,66 @@ export default {
     },
 
     addRasterLayer(layer) {
+      const sourceOptions = {
+        type: "raster",
+        tileSize: 256
+      }
       // Mapbox tileset
       if (layer.mapbox && layer.mapbox.tileset) {
-        this.map.addSource(layer.name, {
-          type: "raster",
-          url: `mapbox://${layer.mapbox.tileset}`,
-          tileSize: 256
-        })
-
+        sourceOptions.url = `mapbox://${layer.mapbox.tileset}`
       // Generic tile endpoint
       } else if (layer.mapbox && layer.mapbox.endpoint) {
-        this.map.addSource(layer.name, {
-          type: "raster",
-          tiles: [layer.mapbox.endpoint],
-          tileSize: 256
-        })
+        sourceOptions.tiles = [layer.mapbox.endpoint]
       }
 
       this.map.addLayer({
         id: layer.name,
         type: "raster",
-        source: layer.name,
+        source: sourceOptions,
         paint: {
-          "raster-resampling": "nearest"
+          "raster-resampling": "nearest",
+          "raster-opacity": 0.5
         },
         layout: {
           visibility: layer.visible ? "visible" : "none"
         }
       }, this.firstSymbolLayerId)
-
-      this.map.setPaintProperty(layer.name, "raster-opacity", 0.5)
     },
 
     addVectorLayer(layer) {
-      if (layer.type === "Vector") {
-        this.createVectorShapeLayer(layer.visible, layer.carto)
-      } else if (layer.type === "VectorLine") {
-        this.createVectorLineLayer(layer.visible, layer.carto)
-      }
-    },
-
-    createVectorShapeLayer(visible, carto) {
+      const carto = layer.carto
       const tiles = this.createCartoTiles(carto)
+      const isLineType = layer.type === "VectorLine"
 
       tiles.getTiles(() => {
-        this.map.addSource(carto.id, {
-          type: "vector",
-          tiles:
-            tiles.mapProperties.mapProperties.metadata.tilejson.vector.tiles
-        })
-
-        this.map.addLayer({
+        const options = {
           id: carto.id,
-          type: "fill",
-          source: carto.id,
+          type: isLineType ? "line" : "fill",
+          source: {
+            type: "vector",
+            tiles: tiles.mapProperties.mapProperties.metadata.tilejson.vector.tiles
+          },
           "source-layer": "layer0",
-          paint: {
+          layout: {
+            visibility: layer.visible ? "visible" : "none"
+          }
+        }
+
+        if (isLineType) {
+          options.paint = {
+            "line-width": 3,
+            "line-color": carto.colour
+          }
+        } else {
+          options.paint = {
             "fill-color": carto.colour
               ? carto.colour
               : `#${(Math.random().toString(16) + "000000").substring(2, 8)}`,
             "fill-opacity": 0.5
-          },
-          layout: {
-            visibility: visible ? "visible" : "none"
           }
-        }, this.firstSymbolLayerId)
-      })
-    },
-    createVectorLineLayer(visible, carto) {
-      const tiles = this.createCartoTiles(carto)
-
-      tiles.getTiles(() => {
-        this.map.addSource(carto.id, {
-          type: "vector",
-          tiles:
-            tiles.mapProperties.mapProperties.metadata.tilejson.vector.tiles
-        })
-        this.map.addLayer({
-          id: carto.id,
-          type: "line",
-          source: carto.id,
-          "source-layer": "layer0",
-          paint: {
-            "line-width": 3,
-            "line-color": carto.colour
-          },
-          layout: {
-            visibility: visible ? "visible" : "none"
-          }
-        }, this.firstSymbolLayerId)
+        }
+        
+        this.map.addLayer(options, this.firstSymbolLayerId)
       })
     },
 
