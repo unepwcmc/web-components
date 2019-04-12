@@ -82,51 +82,50 @@ $pane-trigger-width: rem-calc(40);
 }
 
 .map-pane {
-  &--target {
-    padding-left: $pane-trigger-width;
-    width: 100%;
+  padding-left: $pane-trigger-width;
+  width: 100%;
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: rem-calc(68);
+  z-index: $z-100;
+
+  $trigger-shift: -$pane-trigger-width;
+  transform: translateX(100%) translateX($trigger-shift);
+
+  transition: transform 0.4s ease-in-out;
+
+  @include breakpoint($medium) {
+    width: rem-calc(360);
+    top:0;
+  }
+
+  &--active {
+    transform: translateX(0);
+  }
+
+  &__content {
+    @include item-padding;
+
+    background-color: $pane-color;
+    overflow-y: scroll;
+    height: 100%;
+  }
+
+  &__close {
+    @extend .sg-h2;
+
+    background-color: $pane-color;
+    border: none;
+    width: $pane-trigger-width;
 
     position: absolute;
-    right: 0;
-    bottom: 0;
-    top: rem-calc(68);
-    z-index: $z-100;
-
-    $trigger-shift: -$pane-trigger-width;
-    transform: translateX(100%) translateX($trigger-shift);
-
-    transition: transform 0.4s ease-in-out;
-
-    @include breakpoint($medium) {
-      width: rem-calc(360);
-      top:0;
-    }
-
-    &--active {
-      transform: translateX(0);
-    }
-
-    &__content {
-      @include item-padding;
-
-      background-color: $pane-color;
-      overflow-y: scroll;
-      height: 100%;
-    }
-
-    &__close {
-      @extend .sg-h2;
-
-      background-color: $pane-color;
-      border: none;
-      width: $pane-trigger-width;
-
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
+    top: 0;
+    left: 0;
   }
 }
+
 .map-filters {
   &__default-radio-button {
     margin-right: rem-calc(8);

@@ -53,7 +53,8 @@ export default {
   },
 
   destroyed() {
-    eventHub.$off("map-reload-layers", this.toggleDataset)
+    eventHub.$off("map-reload-layers", this.reloadDataset)
+    eventHub.$off("deselect-" + this.datasetId, this.deselectDataset)  
   },
 
   computed: {
