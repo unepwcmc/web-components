@@ -1,7 +1,7 @@
 
 <template>
   <div class="map__container">
-    <div class="map-wrapper">
+    <div class="map__wrapper">
       <div :id="id" class="map"></div>
     </div>
     <filter-pane id="filters-layers"></filter-pane>
@@ -20,7 +20,7 @@
 import * as turf from "@turf/turf"
 
 import LayersControl from "./helpers/layers-control.js"
-import { getFirstSymbolLayerId } from "./helpers/map-layer-helpers.js"
+import { getFirstSymbolLayerId, correctTabFlow } from "./helpers/map-helpers.js"
 import { mixinCarto } from "./mixins/mixin-carto.js"
 import { eventHub } from "../../../vue.js"
 import FilterPane from "./filters/FilterPane"
@@ -84,6 +84,7 @@ export default {
       map.addControl(navControl, "bottom-left")
       map.addControl(geocoderControl, "top-left")
       this.setFirstSymbolLayerId()
+      correctTabFlow(this.$el)
     })
   },
 

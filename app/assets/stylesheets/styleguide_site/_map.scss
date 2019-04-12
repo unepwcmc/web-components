@@ -1,9 +1,18 @@
 $pane-color: $grey;
 $pane-trigger-width: rem-calc(40);
 
-.mapboxgl-map {
-  height: 50rem;
-  width: 100%;
+.mapboxgl {
+  &-map {
+    height: 100%;
+    width: 100%;
+  }
+
+  &-canvas {
+    border: rem-calc(2) solid $grey;
+    &:focus {
+      border-color: rgba($wcmc-blue, 0.5);
+    }
+  }
 }
 
 .map {
@@ -81,7 +90,7 @@ $pane-trigger-width: rem-calc(40);
     right: 0;
     bottom: 0;
     top: rem-calc(68);
-    z-index: 1;
+    z-index: $z-100;
 
     $trigger-shift: -$pane-trigger-width;
     transform: translateX(100%) translateX($trigger-shift);
