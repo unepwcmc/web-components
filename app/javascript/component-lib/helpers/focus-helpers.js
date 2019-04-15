@@ -21,3 +21,17 @@ export const reenableTabbing = el => {
     input.tabIndex = 0
   })
 }
+
+export const getRadioToFocus = optionEls => {
+  let radioToFocus = null
+
+  for (let i = 0; i < optionEls.length; i++) {
+    const input = optionEls[i].querySelector('input')
+
+    if(optionEls[i].style.display !== 'none' && (!radioToFocus || input.checked)) {
+      radioToFocus = input
+    }
+  }
+
+  return radioToFocus
+}

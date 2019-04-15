@@ -41,6 +41,7 @@ import VNav from './component-lib/components/nav/VNav'
 
 import VMultiselect from './component-lib/components/v-select/VMultiselect'
 import VSelect from './component-lib/components/v-select/VSelect'
+import VSelectSearchable from './component-lib/components/v-select/VSelectSearchable'
 
 // Custom elements aren't supported by JSDOM, so break tests
 // import defineCustomAriaElements from './component-lib/helpers/aria-definitions'
@@ -87,7 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
           VMap,
           VNav,
           VMultiselect,
-          VSelect
+          VSelect,
+          VSelectSearchable
         }
       })
     })

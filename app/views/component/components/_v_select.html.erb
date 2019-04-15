@@ -1,23 +1,31 @@
 <%
 config_singular = {
-  isMultiple: false,
   label: 'Singular select',
-  id: '1'
+  id: 'select_0'
+}.to_json
+config_searchable_singular = {
+  label: 'Searchable singular select',
+  id: 'select_1'
 }.to_json
 config_multi = {
-  isMultiple: true,
   label: 'Multiselect',
-  id: '2'
+  id: 'select_2'
 }.to_json
 options = [
   { id: 1, name: 'Option 1' },
   { id: 2, name: 'Option 2' },
-  { id: 3, name: 'Option 3' }
+  { id: 3, name: 'Option 13' },
+  { id: 4, name: 'Option 23' },
+  { id: 5, name: 'Option 12' },
+  { id: 6, name: 'Option 11' }
 ]
 %>
 
-<h1>VSelect - Single</h1>
-<v-select :config="<%= config_singular %>" :options="<%= options.to_json %>" :selected="<%= options[0].to_json %>"></v-select>
+<h1>VSelect</h1>
+<v-select :config="<%= config_singular %>" :options="<%= options.to_json %>" :selected="<%= options[3].to_json %>"></v-select>
 
-<h1>VSelect - Multi</h1>
+<h1>VSelectSearchable</h1>
+<v-select-searchable :config="<%= config_searchable_singular %>" :options="<%= options.to_json %>" :selected="<%= options[3].to_json %>"></v-select-searchable>
+
+<h1>VMultiselect</h1>
 <v-multiselect :config="<%= config_multi %>" :options="<%= options.to_json %>" :selected="<%= options[0,2].to_json %>"></v-multiselect>
