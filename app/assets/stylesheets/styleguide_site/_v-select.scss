@@ -58,7 +58,6 @@ $select-text-color: $black;
       margin: 0;
       padding-left: $select-padding-side;
       padding-right: $search-icons-width;
-      outline-offset: rem-calc(2); // for focus
       width: 100%; height: 100%;
 
       &::-ms-clear {
@@ -156,6 +155,28 @@ $select-text-color: $black;
     &__radio {
       border-radius: 50%;
     }
+
+  &--search {
+    .v-select {
+      &__dropdown {
+        padding: 0;
+      }
+
+      &__option {
+        padding: rem-calc(4) $select-padding-side;
+
+        &--selected {
+          background: $wcmc-blue;
+        }
+        &--highlighted {
+          background: $grey-light;
+        }
+        &:hover {
+          background: rgba($wcmc-blue, 0.5);
+        }
+      }
+    }
+  }
 }
 
 @include custom_input_checked('.v-select__default-checkbox', '.v-select__checkbox') {
