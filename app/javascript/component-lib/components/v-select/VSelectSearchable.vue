@@ -110,7 +110,11 @@ export default {
     },
 
     highlightedOptionId () {
-      return this.isActive ? this.getOptionInputId(this.filteredOptions[this.highlightedOptionIndex]) : null
+      if (this.isActive && this.filteredOptions.length) {
+        return this.getOptionInputId(this.filteredOptions[this.highlightedOptionIndex])
+      }
+      
+      return null
     },
 
     showOptions () {
@@ -133,6 +137,10 @@ export default {
   },
 
   watch: {
+    searchTerm () {
+      this.highlightedOptionIndex = 0
+    },
+
     selected (newSelectedOption) {
       this.selectedInternal = newSelectedOption
     },
@@ -237,8 +245,7 @@ export default {
             this.decrementKeyboardFocus()
             break;
           case KEYCODES.enter:
-          case KEYCODES.space:
-            this.selectOption(this.filteredOptions[this.highlightedOptionIndex])
+            if(this.filteredOptions.length) { this.selectOption(this.filteredOptions[this.highlightedOptionIndex]) }
             break;
           case KEYCODES.esc:
             document.activeElement.blur()
