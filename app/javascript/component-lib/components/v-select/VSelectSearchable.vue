@@ -13,7 +13,7 @@
         :class="['v-select__search-input', hasSelectedClass]"
         type="text" 
         v-model="searchTerm" 
-        :placeholder="selectionMessage"
+        :placeholder="placeholder"
         aria-haspopup="true"
         :aria-controls="dropdownId"
         :disabled="isDisabled"
@@ -45,7 +45,7 @@
             :value="option"
             v-model="selectedInternal">
           <span class="v-select__radio flex-no-shrink"></span>
-          <span @click="closeSelect" class="v-select__option-text">{{ option.name }}</span>
+          <span class="v-select__option-text">{{ option.name }}</span>
         </label>
       </li>
 
@@ -96,7 +96,7 @@ export default {
       return !this.options.length
     },
 
-    selectionMessage () {
+    placeholder () {
       return this.selectedInternal.id === UNDEFINED_ID ? DEFAULT_SELECT_MESSAGE : this.selectedInternal.name
     },
 
