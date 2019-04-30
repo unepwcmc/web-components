@@ -1,15 +1,16 @@
+import { KEYCODES } from "./keyboard-helpers";
+
 const INPUT_SELECTORS = 'select, input, textarea, button, a, [tabindex]:not([tabindex="-1"])'
 const DISABLED_TAB_VALUE = -5;
-export const TAB_KEYCODE = 9;
 
-export const isTabForward = e => e.keyCode === TAB_KEYCODE && !e.shiftKey
+export const isTabForward = e => e.keyCode === KEYCODES.tab && !e.shiftKey
 
-export const isTabBackward = e => e.keyCode === TAB_KEYCODE && e.shiftKey
+export const isTabBackward = e => e.keyCode === KEYCODES.tab && e.shiftKey
 
 export const getInputs = el => el.querySelectorAll(INPUT_SELECTORS)
 
 export const preventTab = e => {
-  if (e.keyCode === TAB_KEYCODE) {
+  if (e.keyCode === KEYCODES.tab) {
     e.preventDefault()
   }
 }
