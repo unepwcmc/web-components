@@ -45,7 +45,7 @@
 
       <li
         v-for="(option, index) in filteredOptions"
-        :class="['v-select__option hover--pointer', {'v-select__option--selected': isSelected(option), 'v-select__option--highlighted': isHighlighted(index)}]"
+        :class="['v-select__option hover--pointer', conditionalOptionClasses(option, index)]"
         role="option"
         :aria-selected="isHighlighted(index)"
         :id="getOptionInputId(option)"
@@ -61,7 +61,6 @@
 </template>
 
 <script>
-//TODO: exttract option classes
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 import { isTabForward, isTabBackward, getRadioToFocus } from '../../helpers/focus-helpers'
 import { KEYCODES } from '../../helpers/keyboard-helpers'
@@ -113,7 +112,7 @@ export default {
       if (this.isActive && this.filteredOptions.length) {
         return this.getOptionInputId(this.filteredOptions[this.highlightedOptionIndex])
       }
-      
+
       return null
     },
 
@@ -203,6 +202,13 @@ export default {
 
     getOptionInputId (option) {
       return `option-${this.config.id}-${option.id}`
+    },
+
+    conditionalOptionClasses (option, index) {
+      return {
+        'v-select__option--selected': this.isSelected(option),
+        'v-select__option--highlighted': this.isHighlighted(index)
+      }
     },
 
     matchesSearchTerm (option) {
