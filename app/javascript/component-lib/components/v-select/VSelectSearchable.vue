@@ -10,7 +10,7 @@
     <div :class="['v-select__search relative', {'v-select__search--active': isActive}]">
       <input
         id="v-select-search"
-        class="v-select__search-input"
+        :class="['v-select__search-input', hasSelectedClass]"
         type="text" 
         v-model="searchTerm" 
         :placeholder="selectionMessage"
@@ -18,9 +18,11 @@
         :aria-controls="dropdownId"
         :disabled="isDisabled"
         @focus="openSelect">
-      <span class="v-select__search-icon flex-no-shrink" v-show="!searchTerm"></span>
-      <button id="v-select-search-reset" class="v-select__search-icon v-select__search-icon--reset hover--pointer flex-no-shrink" v-show="searchTerm" @click="resetSearchTerm"></button>
-      <span @click="toggleSelect" class="drop-arrow arrow-svg hover--pointer flex-no-shrink"></span>
+      <span class="v-select__search-icons">
+        <span class="v-select__search-icon" v-show="!showResetIcon"></span>
+        <button id="v-select-search-reset" class="v-select__search-icon v-select__search-icon--reset hover--pointer" v-show="showResetIcon" @click="resetSearchTerm"></button>
+        <span @click="toggleSelect" class="drop-arrow drop-arrow--margin-right arrow-svg hover--pointer"></span>
+      </span>
     </div>
 
     <ul 
@@ -43,7 +45,7 @@
             :value="option"
             v-model="selectedInternal">
           <span class="v-select__radio flex-no-shrink"></span>
-          <span>{{ option.name }}</span>
+          <span @click="closeSelect" class="v-select__option-text">{{ option.name }}</span>
         </label>
       </li>
 
@@ -96,6 +98,16 @@ export default {
 
     selectionMessage () {
       return this.selectedInternal.id === UNDEFINED_ID ? DEFAULT_SELECT_MESSAGE : this.selectedInternal.name
+    },
+
+    showResetIcon () {
+      return this.searchTerm && this.isActive
+    },
+
+    hasSelectedClass () {
+      return {
+        'v-select__search-input--has-selected': this.selectedInternal.id !== UNDEFINED_ID
+      }
     }
   },
 
