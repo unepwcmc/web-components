@@ -37,3 +37,5 @@ en:
     logo: 'Logo'
   branding:
     unep_wcmc_full: 'UN Environment World Conservation Monitoring Centre'
+  component_page:
+    projects_intro: 'Used in the following projects:'
