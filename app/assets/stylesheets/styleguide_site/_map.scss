@@ -2,7 +2,7 @@ $pane-color: $grey;
 $pane-trigger-width: rem-calc(40);
 
 .mapboxgl-map {
-  height: 50rem;
+  height: 600px;
   width: 100%;
 }
 
@@ -14,7 +14,7 @@ $pane-trigger-width: rem-calc(40);
     position: relative;
 
     @include breakpoint($small) {
-      height: rem-calc(700);
+      height: rem-calc(600);
     }
   }
 

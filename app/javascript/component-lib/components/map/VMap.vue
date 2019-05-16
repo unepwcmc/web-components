@@ -18,6 +18,7 @@
  *   map-hide-layers: hide the layer with provided id (must already have been created)
  */
 import * as turf from "@turf/turf"
+import axios from 'axios'
 
 import LayersControl from "./helpers/layers-control.js"
 import { mixinCarto } from "./mixins/mixin-carto.js"
@@ -31,12 +32,22 @@ export default {
     FilterPane
   },
 
+  props: {
+    hasDrawControls: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   data() {
     return {
       id: "map--type",
       currentLayerSetId: null,
-      mapboxToken:
-        "pk.eyJ1IjoibGV2aWF0aGFuczE3IiwiYSI6ImNpeDd5YWIzZTAwM3Myb29jaHNleW02YTgifQ.KOR1dSr7sTbWUtXw4V6tpA",
+      mapboxInfo: {
+          // accessToken: process.env.MAPBOX_TOKEN,
+          accessToken: "pk.eyJ1IjoibGV2aWF0aGFuczE3IiwiYSI6ImNpeDd5YWIzZTAwM3Myb29jaHNleW02YTgifQ.KOR1dSr7sTbWUtXw4V6tpA",
+          baseUrl: 'https://api.mapbox.com/geocoding/v5/mapbox.places'
+        },
       cartoUsername: "carbon-tool",
       cartoApiKey: "f7762e628586b3ff41a371b8e89ea0069e975299"
     }
@@ -47,7 +58,7 @@ export default {
     eventHub.$on("map-hide-layers", this.hideLayers)
     eventHub.$on("map-set-curr", this.setLayers)
 
-    mapboxgl.accessToken = this.mapboxToken
+    mapboxgl.accessToken = this.mapboxInfo.accessToken
 
     const map = new mapboxgl.Map({
       container: this.id,
@@ -80,10 +91,35 @@ export default {
       map.addControl(layersControl, "bottom-left")
       map.addControl(navControl, "bottom-left")
       map.addControl(geocoderControl, "top-left")
+
+      // if(this.hasDrawControls) { this.addDrawControls() }
     })
+
+    const lngLat = "-74.0060,40.7128"
+    axios
+      .get(`${this.mapboxInfo.baseUrl}/${lngLat}.json?access_token=${this.mapboxInfo.accessToken}`)
+      .then((response) => {
+        // const country = response.data.features[0].place_name
+
+        // console.log('country', country)
+
+        console.log(response)
+      })
   },
 
   methods: {
+    addDrawControls () {
+      // TODO alternative required for touch devices see IBAT
+      this.draw = new MapboxDraw({
+        touchEnabled: false,
+        controls: {
+          combine_features: false,
+          uncombine_features: false
+        }
+      })
+      this.map.addControl(this.draw, 'bottom-right')
+    },
+
     addLayer(layer) {
       if (layer.type === "Raster") {
         this.addRasterLayer(layer)
