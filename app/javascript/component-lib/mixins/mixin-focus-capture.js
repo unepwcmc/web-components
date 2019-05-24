@@ -1,4 +1,4 @@
-import { getInputs, preventTab, TAB_KEYCODE } from "../helpers/focus-helpers";
+import { getInputs, preventTab, isTabForward, isTabBackward } from "../helpers/focus-helpers";
 
 export default ({toggleVariable, closeCallback, openCallback}) => ({
   data() {
@@ -123,14 +123,14 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
     },
 
     handleFirstInputTab (e) {
-      if (e.keyCode === TAB_KEYCODE && e.shiftKey) {
+      if (isTabBackward(e)) {
         e.preventDefault()
         this.mixinFocusLastInputIfExists()
       }
     },
 
     handleLastInputTab (e) {
-      if (e.keyCode === TAB_KEYCODE && !e.shiftKey) {
+      if (isTabForward(e)) {
         e.preventDefault()
         this.mixinFocusFirstInputIfExists()
       }

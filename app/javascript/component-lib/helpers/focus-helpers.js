@@ -1,6 +1,11 @@
 const INPUT_SELECTORS = 'select, input, textarea, button, a, [tabindex]:not([tabindex="-1"])'
-const DISABLED_TAB_VALUE = -5;
-export const TAB_KEYCODE = 9;
+const DISABLED_TAB_VALUE = -5
+
+export const TAB_KEYCODE = 9
+
+export const isTabForward = e => e.keyCode === TAB_KEYCODE && !e.shiftKey
+
+export const isTabBackward = e => e.keyCode === TAB_KEYCODE && e.shiftKey
 
 export const getInputs = el => el.querySelectorAll(INPUT_SELECTORS)
 
