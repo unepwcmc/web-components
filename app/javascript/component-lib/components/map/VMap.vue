@@ -20,7 +20,7 @@
 import * as turf from "@turf/turf"
 
 import LayersControl from "./helpers/layers-control.js"
-import { getFirstSymbolLayerId, correctTabFlow } from "./helpers/map-helpers.js"
+import { getFirstForegroundLayerId, correctTabFlow } from "./helpers/map-helpers.js"
 import mixinCarto from "./mixins/mixin-carto.js"
 import mixinAddLayers from "./mixins/mixin-add-layers.js"
 import { eventHub } from "../../../vue.js"
@@ -41,7 +41,7 @@ export default {
         "pk.eyJ1IjoibGV2aWF0aGFuczE3IiwiYSI6ImNpeDd5YWIzZTAwM3Myb29jaHNleW02YTgifQ.KOR1dSr7sTbWUtXw4V6tpA",
       cartoUsername: "carbon-tool",
       cartoApiKey: "f7762e628586b3ff41a371b8e89ea0069e975299",
-      firstSymbolLayerId: ''
+      firstForegroundLayerId: ''
     }
   },
 
@@ -66,7 +66,7 @@ export default {
      * so we reload all layers on the new map
      */
     map.on("style.load", () => {
-      this.setFirstSymbolLayerId()
+      this.setFirstForegroundLayerId()
       eventHub.$emit("map-reload-layers", map.isStyleLoaded())
     })
 
@@ -84,21 +84,21 @@ export default {
       map.addControl(layersControl, "bottom-left")
       map.addControl(navControl, "bottom-left")
       map.addControl(geocoderControl, "top-left")
-      this.setFirstSymbolLayerId()
+      this.setFirstForegroundLayerId()
       correctTabFlow(this.$el)
     })
   },
 
   methods: {
-    setFirstSymbolLayerId () {
-      this.firstSymbolLayerId = getFirstSymbolLayerId(this.map)
+    setFirstForegroundLayerId () {
+      this.firstForegroundLayerId = getFirstForegroundLayerId(this.map)
     },
 
     addLayer(layer) {
       if (layer.type === "Raster") {
-        this.addRasterLayer(layer, this.firstSymbolLayerId)
+        this.addRasterLayer(layer, this.firstForegroundLayerId)
       } else {
-        this.addVectorLayer(layer, this.firstSymbolLayerId)
+        this.addVectorLayer(layer, this.firstForegroundLayerId)
       }
     },
 

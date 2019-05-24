@@ -33,17 +33,19 @@ export const getLayers = (datasetId, config, isSelected) => {
   return layers
 }
 
-export const getFirstSymbolLayerId = map => {
+export const getFirstForegroundLayerId = map => {
+  let firstBoundaryId = ''
   let firstSymbolId = ''
 
   for (const layer of map.getStyle().layers) {
-    if (layer.type === 'symbol') {
-      firstSymbolId = layer.id
+    if (layer.id.match('admin') && layer.id.match('boundaries')) {
+      firstBoundaryId = layer.id
       break
+    } else if (layer.type === 'symbol') {
+      firstSymbolId = layer.id
     }
   }
-
-  return firstSymbolId
+  return firstBoundaryId || firstSymbolId
 }
 
 export const correctTabFlow = mapWrapper => {
