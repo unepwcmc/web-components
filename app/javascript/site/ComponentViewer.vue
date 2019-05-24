@@ -1,24 +1,27 @@
 <template>
-  <div class="flex">
-  <aside class="filters flex-1-quarter">
-    <ul class="filters__list ul--unstyled">
-      <li v-for="category in categories" 
-        :class="{'filters__list-item--selected': isSelectedCategory(category.id)}">
-        <button
-          aria-controls="component-grid"
-          class="filters__list-item sg-h3 hover--pointer"
-          @click="clickCategory(category.id)">{{ category.name }}</button>
-      </li>
-    </ul>
-  </aside>
-  <main id="component-grid" class="flex-3-quarters">
-    <ul class="component-grid ul--unstyled page-container">
-      <li v-for="comp in components" v-if="belongsToSelectedCategory(comp)" class="component-grid__element sg-h3">
-        <a :href="getComponentPath(comp.id)">{{ comp.name }}</a>
-      </li>
-    </ul>
-  </main>
-</div>
+  <div class="component-viewer flex">
+    <aside class="filters flex-no-shrink">
+      <ul class="filters__list ul--unstyled">
+        <li v-for="category in categoriesWithAll" 
+          :class="{'filters__list-item--selected': isSelectedCategory(category.id)}">
+          <button
+            aria-controls="component-grid"
+            class="filters__list-item sg-h3 hover--pointer"
+            @click="clickCategory(category.id)">{{ category.name }}</button>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="component-grid__wrapper">
+      <h1 class="screen-reader">Component Viewer</h1>
+
+      <ul id="component-grid" class="component-grid ul--unstyled">
+        <li v-for="comp in components" v-if="belongsToSelectedCategory(comp)" class="component-grid__element sg-h3">
+          <a :href="getComponentPath(comp.id)">{{ comp.name }}</a>
+        </li>
+      </ul>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -32,11 +35,14 @@ export default {
 
   data () {
     return {
-      selectedCategoryId: null
+      selectedCategoryId: 'all'
     }
   },
 
   computed: {
+    categoriesWithAll () {
+      return [{id: 'all', name: 'All'}, ...this.categories]
+    }
   },
 
   methods: {
@@ -45,7 +51,7 @@ export default {
     },
 
     clickCategory (id) {
-      this.selectedCategoryId = this.selectedCategoryId === id ? null : id
+      this.selectedCategoryId = id
     },
 
     isSelectedCategory (id) {
@@ -53,7 +59,7 @@ export default {
     },
 
     belongsToSelectedCategory (component) {
-      return this.selectedCategoryId === null ? true : component.category_id === this.selectedCategoryId
+      return this.selectedCategoryId === 'all' ? true : component.category_id === this.selectedCategoryId
     }
   }
 }

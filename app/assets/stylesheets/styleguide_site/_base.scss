@@ -17,12 +17,15 @@ body {
   height: 100%;
 }
 
-#v-app {
-  height: 100%;
+main {
+  display: block;
+}
 
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 100%;
+#v-app {
+  padding-bottom: $footer-height-desktop;
+  min-height: 100vh;
+  
+  position: relative;
 }
 
 h1 {

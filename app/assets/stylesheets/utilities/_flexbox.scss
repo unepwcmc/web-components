@@ -86,6 +86,8 @@
 //--------------------------------------------------
 // columns
 //--------------------------------------------------
+// N.B. flex-basis doesn't work properly in IE11, so be careful using these classes!
+
 .flex-1-half { flex: 0 1 50%; }
 
 .flex-1-third { flex: 0 1 33%; }

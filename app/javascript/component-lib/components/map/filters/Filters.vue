@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-for="filter, index in filters">
-      <h3>{{ filter.name }}</h3>
+      <h2>{{ filter.name }}</h2>
       <facet :id="filter.id" :datasets="filter.datasets"></facet>
     </template>
   </div>

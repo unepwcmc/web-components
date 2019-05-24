@@ -1,14 +1,14 @@
 <template>
-  <div class="filters__filter flex" :class="{ 'filter--active': isActive}">
-    <input type="radio" class="filters__default-radio-button" :checked="isActive" @click="toggleDataset">
-    <i class="filters__radio-button"></i>
-    <div class="filters__filter-container">
-      <div class="filters__filter-legend">
-        <h3 class="filters__filter-title">{{ name }}</h3>
+  <div class="map-filters__filter flex" :class="{ 'map-filter--active': isActive}">
+    <input type="radio" class="map-filters__default-radio-button hover--pointer" :checked="isActive" @click="toggleDataset">
+    <i class="map-filters__radio-button hover--pointer"></i>
+    <div class="map-filters__filter-container">
+      <div class="map-filters__filter-legend">
+        <h3 class="map-filters__filter-title">{{ name }}</h3>
 
-        <div class="filters__filter-legend__gradient" :style="legendGradient"></div>
+        <div class="map-filters__filter-legend__gradient" :style="legendGradient"></div>
 
-        <div class="filters__filter-legend__labels flex flex-h-between">
+        <div class="map-filters__filter-legend__labels flex flex-h-between">
           <span>Low</span>
           <span>High</span>
         </div>

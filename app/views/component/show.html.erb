@@ -1,3 +1,13 @@
-<div class="page-container relative">
+<main class="page-container relative">
+  <h1><%= @component[:name] %></h1>
+  <p><%= @component[:description] %></p>
+  <p><%= t('component_page.projects_intro') %>
+    <ul>
+      <% (@component[:projects] || []).each do |project| %>
+        <li><%= project %></li>
+      <% end %>
+    </ul>
+  </p>
+
   <%= render "component/components/#{@component[:id]}" %>
-</div>
+</main>

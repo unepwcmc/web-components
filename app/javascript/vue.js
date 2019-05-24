@@ -1,4 +1,3 @@
-import TurbolinksAdapter from 'vue-turbolinks'
 import Vue from 'vue/dist/vue.esm'
 import Vue2TouchEvents from 'vue2-touch-events'
 
@@ -33,6 +32,8 @@ import Tabs from './component-lib/components/tabs/Tabs'
 
 import Tooltip from './component-lib/components/tooltip/Tooltip'
 
+import VForm from './component-lib/components/form/VForm'
+
 import VMap from './component-lib/components/map/VMap'
 
 import VNav from './component-lib/components/nav/VNav'
@@ -45,51 +46,46 @@ import VSelect from './component-lib/components/v-select/VSelect'
 // defineCustomAriaElements()
 
 import { polyfill as objectAssign } from 'es6-object-assign'
-objectAssign()
 import { customPolyfill } from './component-lib/utils/custom-polyfills'
+objectAssign()
 customPolyfill()
 
 // create event hub and export so that it can be imported into .vue files
 export const eventHub = new Vue()
 
-import FocusMockerHub from './component-lib/utils/focus-mocker-hub.js'
-export const focusMockerHub = new Vue(FocusMockerHub)
-
 document.addEventListener('DOMContentLoaded', () => { 
   if(document.getElementById('v-app')) {
 
-    Vue.use(TurbolinksAdapter)
     Vue.use(Vue2TouchEvents)
 
-    document.addEventListener('turbolinks:load', () => {
-      const app = new Vue({
-        el: '#v-app',
-        store,
+    const app = new Vue({
+      el: '#v-app',
+      store,
 
-        components: { 
-          Accordion,
-          AccordionItem,
-          Carousel,
-          CarouselSlide,
-          ChartArea,
-          ChartColumn,
-          ChartLine,
-          ChartRow,
-          ChartRowStacked,
-          ComponentViewer,
-          ExpandableItem,
-          Modal,
-          ModalTrigger,
-          StickyBar,
-          Tab,
-          Tabs,
-          Tooltip,
-          VMap,
-          VNav,
-          VMultiselect,
-          VSelect
-        }
-      })
+      components: { 
+        Accordion,
+        AccordionItem,
+        Carousel,
+        CarouselSlide,
+        ChartArea,
+        ChartColumn,
+        ChartLine,
+        ChartRow,
+        ChartRowStacked,
+        ComponentViewer,
+        ExpandableItem,
+        Modal,
+        ModalTrigger,
+        StickyBar,
+        Tab,
+        Tabs,
+        Tooltip,
+        VForm,
+        VMap,
+        VNav,
+        VMultiselect,
+        VSelect
+      }
     })
   }
 })

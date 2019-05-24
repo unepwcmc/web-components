@@ -3,8 +3,9 @@ import { getInputs, preventTab, TAB_KEYCODE } from "../helpers/focus-helpers";
 export default ({toggleVariable, closeCallback, openCallback}) => ({
   data() {
     return {
-      firstInput: {},
-      lastInput: {}
+      firstInput: null,
+      lastInput: null,
+      modalElement: null
     }
   },
 
@@ -15,7 +16,7 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
       this[closeCallback] = e => {
         originalCloseCallback()
         document.activeElement.blur()
-        this.removeEventListeners()
+        this.forgetModal()
 
         if (e && !e.detail) {
           this.mixinFocusTriggerElementIfExists()
@@ -28,12 +29,15 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
   
       this[openCallback] = e => {
         originalOpenCallback()
-        document.activeElement.blur()
-        this.addEventListeners()
+
+        this.$nextTick(() => {
+          document.activeElement.blur()
+          this.addEventListeners()
   
-        if (e && !e.detail) {
-          this.$nextTick(() => { this.mixinFocusFirstInputIfExists() })
-        }
+          if (e && !e.detail) {
+            this.mixinFocusFirstInputIfExists()
+          }
+        })
       }
     }
   },
@@ -44,19 +48,22 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
     }
   },
 
+  beforeDestroy() {
+    this.forgetModal()
+  },
+
   watch: {
     [toggleVariable] (isExpanded) {
       if (isExpanded && !openCallback) {
-        document.activeElement.blur()
-        this.addEventListeners()
-
         this.$nextTick(() => {
+          document.activeElement.blur()
+          this.addEventListeners()
           this.mixinFocusFirstInputIfExists()
         })
       } else if (!isExpanded && !closeCallback) {
 
         document.activeElement.blur()
-        this.removeEventListeners()
+        this.forgetModal()
 
         this.mixinFocusTriggerElementIfExists()
       }
@@ -70,16 +77,12 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
       }
 
       return null
-    },
-
-    modalElement () {
-      return  this.mixinModalId ? document.querySelector('#' + this.mixinModalId) : this.$el
     }
   },
 
   methods: {
     addEventListeners() {
-      this.setInputs()
+      this.setModalElements()
       if (!this.firstInput) { return }
 
       const isRadioGroup = this.mixinIsRadioGroup !== undefined ? this.mixinIsRadioGroup : false
@@ -92,17 +95,31 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
       }
     },
 
-    removeEventListeners () {
-      this.modalElement.removeEventListener('keydown', preventTab)
-      this.firstInput.removeEventListener('keydown', this.handleFirstInputTab)
-      this.lastInput.removeEventListener('keydown', this.handleLastInputTab)
+    forgetModal () {
+      this.removeEventListeners()
+      this.resetModalElements()
     },
 
+    removeEventListeners () {
+      if (this.modalElement) { this.modalElement.removeEventListener('keydown', preventTab) }
+      if (this.firstInput) { this.firstInput.removeEventListener('keydown', this.handleFirstInputTab) }
+      if (this.lastInput) { ;this.lastInput.removeEventListener('keydown', this.handleLastInputTab) }
+    },
+    
+    setModalElements() {
+      this.modalElement = this.mixinModalId ? document.querySelector('#' + this.mixinModalId) : this.$el
+      this.setInputs()
+    },
+    
     setInputs () {
       const inputs = getInputs(this.modalElement)
-
+      
       this.firstInput = inputs[0]
       this.lastInput = inputs[inputs.length - 1]
+    },
+    
+    resetModalElements() {
+      this.modalElement = this.firstInput = this.lastInput = null
     },
 
     handleFirstInputTab (e) {

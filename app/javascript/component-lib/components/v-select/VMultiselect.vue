@@ -1,13 +1,14 @@
 <template>
-  <div class="v-select relative hover--pointer" :class="{'v-select--disabled': isDisabled}">
-    <input type="hidden" :name="config.id" :id="config.id" v-model="selectedInternal.name" />
+  <div class="v-select relative" :class="{'v-select--disabled': isDisabled}">
+    <input type="hidden" :name="config.id" :id="config.id" v-model="selectedInternal" />
 
-    <div class="v-select__label hover--pointer">
+    <div v-if="config.label" class="v-select__label hover--pointer">
       <label :for="toggleId" class="v-select__selection">{{ config.label }}</label>
       <slot name="label-icon"></slot>
     </div>
 
     <button
+      type="button"
       class="v-select__toggle"
       :class="{'v-select__toggle--active': isActive}"
       :id="toggleId"
@@ -30,16 +31,17 @@
         class="v-select__option"
         v-for="option in options"
         :key="option.id">
-        <input
-          class="v-select__default-checkbox"
-          type="checkbox"
-          :id="getOptionInputId(option)"
-          :data-mock-focus-id="getMockFocusId(option)"
-          :name="dropdownOptionsName"
-          :value="option"
-          v-model="selectedInternal">
-        <span :id="getMockFocusId(option)" :class="getMockInputClasses(option)"></span>
-        <label :for="getOptionInputId(option)">{{ option.name }}</label>
+        <label :for="getOptionInputId(option)">
+          <input
+            class="v-select__default-checkbox"
+            type="checkbox"
+            :id="getOptionInputId(option)"
+            :name="dropdownOptionsName"
+            :value="option"
+            v-model="selectedInternal">
+          <span class="v-select__checkbox flex-no-shrink"></span>
+          <span>{{ option.name }}</span>
+        </label>
       </li>
 
     </ul> 
@@ -50,7 +52,6 @@
 <script>
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 import mixinFocusCapture from '../../mixins/mixin-focus-capture'
-import mixinFocusMocker from '../../mixins/mixin-focus-mocker'
 
 const UNDEFINED_ID = '__UNDEFINED__';
 const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
@@ -60,7 +61,6 @@ export default {
   mixins: [
     mixinPopupCloseListeners({closeCallback: 'closeSelect'}),
     mixinFocusCapture({toggleVariable: 'isActive', closeCallback: 'closeSelect', openCallback: 'openSelect'}),
-    mixinFocusMocker
   ],
 
   props: {
@@ -73,7 +73,7 @@ export default {
         type: Array
       },
       selected: {
-        default: [],
+        default: () => [],
       }
   },
 
@@ -147,20 +147,6 @@ export default {
 
     getOptionInputId (option) {
       return `option-${this.config.id}-${option.id}`
-    },
-
-    getMockFocusId (option) {
-      return this.getOptionInputId(option) + '-mock-focus'
-    },
-
-    getMockInputClasses (option) {
-      const inputClass = 'v-select__checkbox'
-
-      return {
-        [inputClass]: true,
-        [`${inputClass}--active`]: this.isSelected(option),
-        'focussed': this.hasMockFocus(this.getMockFocusId(option))
-      }
     }
   }
 }

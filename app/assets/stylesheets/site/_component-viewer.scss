@@ -1,0 +1,92 @@
+$min-height: calc(100vh - #{$footer-height-desktop} - #{$navbar-height-medium});
+$page-padding-right: 10vw;
+$filters-width: 25vw;
+$comp-grid-width: 100vw - $filters-width - $page-padding-right;
+$filters-width-large: rem-calc($large)/4;
+$comp-grid-width-large: calc(100vw - #{$page-padding-right} - #{$filters-width-large});
+$item-margin: rem-calc(8);
+$comp-grid-padding: rem-calc(14);
+
+.component-viewer {
+  flex-direction: column;
+
+  @include breakpoint($small) {
+    flex-direction: row;
+    height: $min-height;
+  }
+}
+
+@mixin grid-element-dimensions($col-count, $grid-width: $comp-grid-width) {
+  $width: calc((#{$grid-width} - 2 * #{$comp-grid-padding}) / #{$col-count} - 2 * #{$item-margin});
+  width: $width; height: $width;
+}
+
+.component-grid__wrapper {
+  padding: $comp-grid-padding;
+  width: 100%;
+}
+
+.component-grid {
+  overflow-y: scroll;
+  width: 100%; height: 100%;
+
+  display: flex;
+  flex-wrap: wrap;
+  
+  &__element {
+    @include item-padding;
+    
+    border: $border-regular $grey;
+    margin: $item-margin;
+    @include grid-element-dimensions(1, 100vw);
+
+    @include breakpoint($small) {
+      @include grid-element-dimensions(2);
+    }
+
+    @include breakpoint($medium) {
+      @include grid-element-dimensions(3);
+    }
+
+    @include breakpoint($large) {
+      @include grid-element-dimensions(3, $comp-grid-width-large);
+    }
+  }
+}
+
+.filters {
+  @include item-padding(('top', 'bottom'));
+  max-height: rem-calc(150);
+  overflow-y: scroll;
+
+  background-color: $grey-light;
+  width: 100%;
+
+  @include breakpoint($small) {
+    max-height: none;
+    width: $filters-width;
+  }
+  @include breakpoint($large) {
+    width: $filters-width-large;
+  }
+
+    &__list-item {
+      @include gutters;
+
+      background-color: transparent;
+      border: none;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      text-align: left;
+      width: 100%;
+
+      &--selected {
+        background-color: $grey;
+      }
+
+      &:hover {
+        background-color: $wcmc-blue;
+        color: $white;
+      }
+    }
+}

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-  <head lang="en">
+<html lang="en">
+  <head>
     <title>StyleGuide</title>
     <meta content='width=device-width,initial-scale=1.0' name='viewport'>
     <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' rel='stylesheet' /> 
@@ -12,11 +12,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'application' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
 
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>
