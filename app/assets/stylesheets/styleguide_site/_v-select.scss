@@ -63,17 +63,6 @@ $select-text-color: $black;
       &::-ms-clear {
         display: none;
       }
-
-      &:focus {
-        @include placeholder { opacity: 0; }
-      }
-
-      &--has-selected {
-        @include placeholder {
-          color: $select-text-color;
-          opacity: 1;
-        }
-      }
     }
 
     &__search-icons {

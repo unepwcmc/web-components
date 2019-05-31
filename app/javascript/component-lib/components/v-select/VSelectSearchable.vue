@@ -11,7 +11,7 @@
       <label class="screen-reader" for="v-select-search">{{ config.label }} search</label>
       <input
         id="v-select-search"
-        :class="['v-select__search-input', hasSelectedClass]"
+        class="v-select__search-input"
         type="text"
         role="combobox"
         aria-haspopup="listbox"
@@ -91,7 +91,7 @@ export default {
     return {
       isActive: false,
       selectedInternal: null,
-      highlightedOptionIndex: 0,
+      highlightedOptionIndex: -1,
       searchTerm: '',
       dropdownId: 'v-select-dropdown-' + this.config.id,
       dropdownOptionsName: 'v-select-dropdown-input' + this.config.id,
@@ -100,44 +100,42 @@ export default {
   },
 
   computed: {
-    isDisabled () {
-      return !this.options.length
-    },
-
     filteredOptions () {
       return this.options.filter(option => this.matchesSearchTerm(option))
     },
 
+    hasKeyboardFocus () {
+      return this.highlightedOptionIndex >= 0
+    },
+
     highlightedOptionId () {
-      if (this.isActive && this.filteredOptions.length) {
+      if (this.isActive && this.filteredOptions.length && this.hasKeyboardFocus) {
         return this.getOptionInputId(this.filteredOptions[this.highlightedOptionIndex])
       }
 
       return null
     },
 
+    isDisabled () {
+      return !this.options.length
+    },
+
+    placeholder () {
+      return DEFAULT_SELECT_MESSAGE
+    },
+
     showOptions () {
       return this.isActive && Boolean(this.filteredOptions.length)
     },
 
-    placeholder () {
-      return this.selectedInternal.id === UNDEFINED_ID ? DEFAULT_SELECT_MESSAGE : this.selectedInternal.name
-    },
-
     showResetIcon () {
       return this.searchTerm && this.isActive
-    },
-
-    hasSelectedClass () {
-      return {
-        'v-select__search-input--has-selected': this.selectedInternal.id !== UNDEFINED_ID
-      }
     }
   },
 
   watch: {
     searchTerm () {
-      this.highlightedOptionIndex = 0
+      this.resetHighlightedIndex()
     },
 
     selected (newSelectedOption) {
@@ -161,12 +159,13 @@ export default {
 
   methods: {
     closeSelect () {
-      this.searchTerm = ''
-      this.highlightedOptionIndex = 0
+      this.setSearchTermToSelected()
+      this.resetHighlightedIndex()
       this.isActive = false
     },
 
     openSelect () {
+      this.searchTerm = ''
       this.isActive = true
     },
 
@@ -178,17 +177,12 @@ export default {
       }
     },
 
-    selectOption (option) {
-      this.selectedInternal = option
-      this.closeSelect()
-      document.activeElement.blur()
-    },
-
     initializeSelectedInternal () {
       if (this.selected === null) {
         this.selectedInternal = UNDEFINED_OBJECT
       } else {
         this.selectedInternal = this.selected
+        this.setSearchTermToSelected()
       }
     },
 
@@ -196,8 +190,18 @@ export default {
       return option.id === this.selectedInternal.id
     },
 
+    selectOption (option) {
+      this.selectedInternal = option
+      this.closeSelect()
+      document.activeElement.blur()
+    },
+
     isHighlighted (index) {
       return index === this.highlightedOptionIndex
+    },
+
+    resetHighlightedIndex() {
+      this.highlightedOptionIndex = -1
     },
 
     getOptionInputId (option) {
@@ -221,6 +225,10 @@ export default {
     resetSearchTerm () {
       this.$el.querySelector('#v-select-search').focus()
       this.searchTerm = ''
+    },
+
+    setSearchTermToSelected () {
+      this.searchTerm = this.selectedInternal.name
     },
     
     addTabFromSearchListener () {
@@ -251,7 +259,9 @@ export default {
             this.decrementKeyboardFocus()
             break;
           case KEYCODES.enter:
-            if(this.filteredOptions.length) { this.selectOption(this.filteredOptions[this.highlightedOptionIndex]) }
+            if(this.filteredOptions.length && this.hasKeyboardFocus) { 
+                this.selectOption(this.filteredOptions[this.highlightedOptionIndex])
+              }
             break;
           case KEYCODES.esc:
             document.activeElement.blur()
@@ -271,7 +281,7 @@ export default {
     decrementKeyboardFocus () {
       if (this.highlightedOptionIndex === 0) {
         this.highlightedOptionIndex = this.filteredOptions.length - 1
-      } else {
+      } else if (this.hasKeyboardFocus) {
         this.highlightedOptionIndex--
       }
     }
