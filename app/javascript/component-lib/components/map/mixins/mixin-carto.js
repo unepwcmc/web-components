@@ -1,4 +1,4 @@
-export const mixinCarto = {
+export default {
   data () {
     return {
       layerObject: '',

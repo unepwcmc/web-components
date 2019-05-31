@@ -1,7 +1,10 @@
 import { KEYCODES } from "./keyboard-helpers";
 
 const INPUT_SELECTORS = 'select, input, textarea, button, a, [tabindex]:not([tabindex="-1"])'
-const DISABLED_TAB_VALUE = -5;
+
+const DISABLED_TAB_VALUE = -5
+
+export const TAB_KEYCODE = 9
 
 export const isTabForward = e => e.keyCode === KEYCODES.tab && !e.shiftKey
 
