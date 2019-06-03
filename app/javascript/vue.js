@@ -17,6 +17,7 @@ import CarouselSlide from './component-lib/components/carousel/CarouselSlide'
 import ChartArea from './component-lib/components/charts/ChartArea'
 import ChartColumn from './component-lib/components/charts/ChartColumn'
 import ChartLine from './component-lib/components/charts/ChartLine'
+import ChartLineSvgjs from './component-lib/components/charts/ChartLineSvgjs'
 import ChartRow from './component-lib/components/charts/ChartRow'
 import ChartRowStacked from './component-lib/components/charts/ChartRowStacked'
 
@@ -70,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ChartArea,
         ChartColumn,
         ChartLine,
+        ChartLineSvgjs,
         ChartRow,
         ChartRowStacked,
         ComponentViewer,

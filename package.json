@@ -12,6 +12,7 @@
     "es6-promise": "^4.2.6",
     "jest": "^23.6.0",
     "scrollmagic": "^2.0.6",
+    "svg.js": "^2.7.1",
     "vue": "^2.6.10",
     "vue-jest": "^3.0.4",
     "vue-loader": "^15.7.0",

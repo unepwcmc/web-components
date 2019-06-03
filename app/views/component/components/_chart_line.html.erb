@@ -114,3 +114,10 @@ line_chart = {
   :axis-labels="<%= line_chart[:axisLabels].to_json %>"
   :font-size="20">
 </chart-line>
+<chart-line-svgjs 
+  :lines="<%= line_chart[:lines].to_json %>" 
+  :y-targets="<%= line_chart[:targets].to_json %>"
+  :x-targets="<%= line_chart[:commitments].to_json %>"
+  :axis-labels="<%= line_chart[:axisLabels].to_json %>"
+  :font-size="20">
+</chart-line-svgjs>
