@@ -11,10 +11,10 @@
         </li>
       </ul>
     </aside>
-    <main id="component-grid">
+    <main class="component-grid__wrapper">
       <h1 class="screen-reader">Component Viewer</h1>
 
-      <ul class="component-grid ul--unstyled">
+      <ul id="component-grid" class="component-grid ul--unstyled">
         <li v-for="comp in components" v-if="belongsToSelectedCategory(comp)" class="component-grid__element sg-h3">
           <a :href="getComponentPath(comp.id)">{{ comp.name }}</a>
         </li>

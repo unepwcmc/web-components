@@ -12,7 +12,7 @@ $comp-grid-padding: rem-calc(14);
 
   @include breakpoint($small) {
     flex-direction: row;
-    min-height: $min-height;
+    height: $min-height;
   }
 }
 
@@ -21,8 +21,14 @@ $comp-grid-padding: rem-calc(14);
   width: $width; height: $width;
 }
 
-.component-grid {
+.component-grid__wrapper {
   padding: $comp-grid-padding;
+  width: 100%;
+}
+
+.component-grid {
+  overflow-y: scroll;
+  width: 100%; height: 100%;
 
   display: flex;
   flex-wrap: wrap;
@@ -51,7 +57,7 @@ $comp-grid-padding: rem-calc(14);
 .filters {
   @include item-padding(('top', 'bottom'));
   max-height: rem-calc(150);
-  overflow: scroll;
+  overflow-y: scroll;
 
   background-color: $grey-light;
   width: 100%;

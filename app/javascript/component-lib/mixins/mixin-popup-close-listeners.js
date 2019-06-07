@@ -1,4 +1,4 @@
-const ESCAPE_KEYCODE = 27
+import { KEYCODES } from "../helpers/keyboard-helpers"
 
 export default ({closeCallback, toggleVariable='isActive', closeOnClickOutside=true, closeOnEscKeypress=true}) => ({
   mounted () {
@@ -17,7 +17,7 @@ export default ({closeCallback, toggleVariable='isActive', closeOnClickOutside=t
     },
 
     escKeypressHandler (e) {
-      if (e.keyCode === ESCAPE_KEYCODE) { 
+      if (e.keyCode === KEYCODES.esc) { 
         if(this[toggleVariable]) {
           this[closeCallback](e)
           e.stopPropagation()

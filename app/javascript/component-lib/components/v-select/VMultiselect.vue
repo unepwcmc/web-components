@@ -31,16 +31,15 @@
         class="v-select__option"
         v-for="option in options"
         :key="option.id">
-        <label :for="getOptionInputId(option)">
+        <label class="v-select__option-label" :for="getOptionInputId(option)">
           <input
             class="v-select__default-checkbox"
             type="checkbox"
             :id="getOptionInputId(option)"
-            :data-mock-focus-id="getMockFocusId(option)"
             :name="dropdownOptionsName"
             :value="option"
             v-model="selectedInternal">
-          <span :id="getMockFocusId(option)" :class="['flex-no-shrink', getMockInputClasses(option)]"></span>
+          <span class="v-select__checkbox flex-no-shrink"></span>
           <span>{{ option.name }}</span>
         </label>
       </li>
@@ -53,7 +52,6 @@
 <script>
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 import mixinFocusCapture from '../../mixins/mixin-focus-capture'
-import mixinFocusMocker from '../../mixins/mixin-focus-mocker'
 
 const UNDEFINED_ID = '__UNDEFINED__';
 const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
@@ -63,7 +61,6 @@ export default {
   mixins: [
     mixinPopupCloseListeners({closeCallback: 'closeSelect'}),
     mixinFocusCapture({toggleVariable: 'isActive', closeCallback: 'closeSelect', openCallback: 'openSelect'}),
-    mixinFocusMocker
   ],
 
   props: {
@@ -150,20 +147,6 @@ export default {
 
     getOptionInputId (option) {
       return `option-${this.config.id}-${option.id}`
-    },
-
-    getMockFocusId (option) {
-      return this.getOptionInputId(option) + '-mock-focus'
-    },
-
-    getMockInputClasses (option) {
-      const inputClass = 'v-select__checkbox'
-
-      return {
-        [inputClass]: true,
-        [`${inputClass}--active`]: this.isSelected(option),
-        'focussed': this.hasMockFocus(this.getMockFocusId(option))
-      }
     }
   }
 }

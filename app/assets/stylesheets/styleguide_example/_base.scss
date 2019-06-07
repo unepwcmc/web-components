@@ -128,8 +128,8 @@ td {
   @each $s in $sides {
     #{$type}-#{$s}: $item-padding-small;
 
-    @include breakpoint($medium) { #{$type}-#{$s}: $item-padding-medium; }
-    @include breakpoint($large) { #{$type}-#{$s}: $item-padding-large; }
+    @include breakpoint($small) { #{$type}-#{$s}: $item-padding-medium; }
+    @include breakpoint($medium) { #{$type}-#{$s}: $item-padding-large; }
   }
 }
 
