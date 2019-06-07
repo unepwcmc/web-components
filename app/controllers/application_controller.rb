@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
         name: 'Styleguide Site'
       }
     ]
+  end
 
   def projects
     {
