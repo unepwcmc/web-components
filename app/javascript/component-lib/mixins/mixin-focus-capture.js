@@ -1,4 +1,4 @@
-import { getInputs, preventTab, isTabForward, isTabBackward } from "../helpers/focus-helpers";
+import { getInputs, preventTab, isTabBackward, isTabForward } from "../helpers/focus-helpers";
 
 export default ({toggleVariable, closeCallback, openCallback}) => ({
   data() {

@@ -30,7 +30,7 @@
         class="v-select__option"
         v-for="option in options"
         :key="option.id">
-        <label :for="getOptionInputId(option)">
+        <label class="v-select__option-label" :for="getOptionInputId(option)">
           <input
             class="v-select__default-radio"
             type="radio"
