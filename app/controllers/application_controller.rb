@@ -1,4 +1,19 @@
 class ApplicationController < ActionController::Base
+  def styleguides
+    [
+      {
+        id: 'example',
+        name: 'Example',
+        component_ids: [
+          'carousel'
+        ]
+      },
+      {
+        id: 'site',
+        name: 'Styleguide Site'
+      }
+    ]
+
   def projects
     {
       encore: 'ENCORE',

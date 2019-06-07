@@ -3,11 +3,13 @@
     <h2>Colors</h2>
   </template>
   <template slot="content">
-    <div class="colors flex flex-wrap">
-      <div class="colors__box bg--accent"><p>Accent</p></div>
-      <div class="colors__box bg--button"><p>Button</p></div>
-      <div class="colors__box bg--header-text"><p>Header text</p></div>
-      <div class="colors__box bg--background"><p>Background</p></div>
+    <div class="<%= styleguide_class %>">
+      <div class="colors flex flex-wrap">
+        <div class="colors__box bg--accent"><p>Accent</p></div>
+        <div class="colors__box bg--button"><p>Button</p></div>
+        <div class="colors__box bg--header-text"><p>Header text</p></div>
+        <div class="colors__box bg--background"><p>Background</p></div>
+      </div>
     </div>
   </template>
 </expandable-item>
