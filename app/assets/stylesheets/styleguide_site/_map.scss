@@ -106,7 +106,7 @@ $pane-trigger-width: rem-calc(40);
   }
 
   &__content {
-    @include item-padding;
+    @include item-spacing;
 
     background-color: $pane-color;
     overflow-y: scroll;

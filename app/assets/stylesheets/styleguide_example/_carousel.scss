@@ -89,7 +89,7 @@ $transition-options: 0.6s ease-in-out;
 }
 
 .carousel-slide {
-  @include item-padding;
+  @include item-spacing;
   background-color: rgba($background, 0.4);
   border-radius: rem-calc(20);
   flex-shrink: 0;

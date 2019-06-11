@@ -7,7 +7,7 @@ $border-style: solid rem-calc(10);
   }
 
   &__target {
-    @include item-padding;
+    @include item-spacing;
     width: rem-calc(200);
 
     background-color: $tooltip-background-color;

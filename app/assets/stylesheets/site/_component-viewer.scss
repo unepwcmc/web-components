@@ -34,7 +34,7 @@ $comp-grid-padding: rem-calc(14);
   flex-wrap: wrap;
   
   &__element {
-    @include item-padding;
+    @include item-spacing;
     
     border: $border-regular $grey;
     margin: $item-margin;
@@ -55,7 +55,7 @@ $comp-grid-padding: rem-calc(14);
 }
 
 .filters {
-  @include item-padding(('top', 'bottom'));
+  @include item-spacing(('top', 'bottom'));
   max-height: rem-calc(150);
   overflow-y: scroll;
 
