@@ -8,49 +8,26 @@
 }
 
 body {
+  color: $body-font-color;
   font-family: $body-font;
   margin: 0;
 }
 
-h1 {
-  @extend .sg-h1;
+h1 { @extend .sg-h1; }
+h2 { @extend .sg-h2; }
+h3 { @extend .sg-h3; }
+h4 { @extend .sg-h4; }
+
+p { }
+
+a { 
+  color: inherit; 
+  font-size: inherit;
 }
 
-h2 {
-  @extend .sg-h2;
-}
+li { @extend .sg-li; }
 
-h3 {
-  @extend .sg-h3;
-}
-
-h4 {
-  @extend .sg-h4;
-}
-
-p {
-  @extend .sg-p;
-
-  a {
-    text-decoration: underline;
-    
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
-a {
-  color: inherit;
-}
-
-li {
-  @extend .sg-li;
-}
-
-label {
-  @extend .sg-p;
-}
+label { @extend .sg-p; }
 
 table, th, td {
   border: $border-thin $black;
@@ -61,13 +38,16 @@ th, td {
   padding: $table-cell-padding;
 }
 
-th {
-  @extend .sg-h3;
+th { @extend .sg-h3; }
+
+td { @extend .sg-p; }
+
+blockquote { 
+  @include font-size('blockquote');
+  line-height: $line-height-blockquote;
 }
 
-td {
-  @extend .sg-p;
-}
+span { font-size: inherit; }
 
 //--------------------------------------------------
 // text
@@ -97,10 +77,11 @@ td {
 }
 
 .sg-p {
-  @include font-size('p');
+  font-size: inherit;
   font-weight: $font-weight-p;
   line-height: $line-height-p;
 }
+
 
 .sg-li {
   @include font-size('p');
@@ -111,28 +92,6 @@ td {
 //--------------------------------------------------
 // site structure - reusable styles/mixins
 //--------------------------------------------------
-@mixin gutters($sides:'both', $type:'padding') {
-  $sides: if($sides == 'both', ('left', 'right'), ($sides));
-
-  @each $s in $sides {
-    #{$type}-#{$s}: $gutter-small;
-
-    @include breakpoint($medium) { #{$type}-#{$s}: $gutter-medium; }
-    @include breakpoint($large) { #{$type}-#{$s}: $gutter-large; }
-  }
-}
-
-@mixin item-padding($sides:'all', $type:'padding') {
-  $sides: if($sides == 'all', ('top','bottom','left','right'), ($sides));
-
-  @each $s in $sides {
-    #{$type}-#{$s}: $item-padding-small;
-
-    @include breakpoint($small) { #{$type}-#{$s}: $item-padding-medium; }
-    @include breakpoint($medium) { #{$type}-#{$s}: $item-padding-large; }
-  }
-}
-
 %container {
   @include gutters('both', 'padding');
 
@@ -145,6 +104,11 @@ td {
 //--------------------------------------------------
 .site-width {
   @include breakpoint($large){ width: $site-width; }
+}
+
+.site-width-medium {
+  @include breakpoint($small){ width: $site-width-medium-tablet; }
+  @include breakpoint($medium){ width: $site-width-medium-desktop; }
 }
 
 .gutter {
@@ -165,17 +129,9 @@ td {
   @extend .site-width;
   @extend %container;
 
-  &--small {
-    @extend %container;
-    max-width: $container-width-small;
-
-    @include breakpoint($medium){ width: $container-width-small; }
-  }
-
   &--medium {
+    @extend .site-width-medium;
     @extend %container;
-    @include breakpoint($small){ width: $container-width-medium; }
-    @include breakpoint($medium){ width: $container-width-large; }
   }
 }
 
@@ -185,14 +141,14 @@ td {
 
 .page-padding--top {
   padding-top: $page-padding-top-small;
-  @include breakpoint($small) { padding-top: $page-padding-top-medium; }
-  @include breakpoint($medium) { padding-top: $page-padding-top-large; }
+  @include breakpoint($small) { padding-top: $page-padding-top-tablet; }
+  @include breakpoint($medium) { padding-top: $page-padding-top-desktop; }
 }
 
 .page-padding--bottom {
   padding-bottom: $page-padding-bottom-small;
-  @include breakpoint($small) { padding-bottom: $page-padding-bottom-medium; }
-  @include breakpoint($medium) { padding-bottom: $page-padding-bottom-large; }
+  @include breakpoint($small) { padding-bottom: $page-padding-bottom-tablet; }
+  @include breakpoint($medium) { padding-bottom: $page-padding-bottom-desktop; }
 }
 
 .page-padding {
@@ -205,14 +161,14 @@ td {
 //--------------------------------------------------
 .section-padding--top {
   padding-top: $section-padding-top-small;
-  @include breakpoint($small) { padding-top: $section-padding-top-medium; }
-  @include breakpoint($medium) { padding-top: $section-padding-top-large; }
+  @include breakpoint($small) { padding-top: $section-padding-top-tablet; }
+  @include breakpoint($medium) { padding-top: $section-padding-top-desktop; }
 }
 
 .section-padding--bottom {
   padding-bottom: $section-padding-bottom-small;
-  @include breakpoint($small) { padding-bottom: $section-padding-bottom-medium; }
-  @include breakpoint($medium) { padding-bottom: $section-padding-bottom-large; }
+  @include breakpoint($small) { padding-bottom: $section-padding-bottom-tablet; }
+  @include breakpoint($medium) { padding-bottom: $section-padding-bottom-desktop; }
 }
 
 .section-padding {
@@ -223,17 +179,17 @@ td {
 //--------------------------------------------------
 // item padding
 //--------------------------------------------------
-.item-padding--sides {
-  @include item-padding(('left', 'right'))
-}
+.item-padding--top { @include item-padding(('top')); }
+.item-padding--bottom { @include item-padding(('bottom')); }
+.item-padding--sides { @include item-padding(('left', 'right')); }
 
-.item-padding--top-bottom {
-  @include item-padding(('top', 'bottom'))
-}
+.item-padding { @include item-padding(); }
 
-.item-padding {
-  @include item-padding()
-}
+.item-margin--top { @include item-padding(('top'), 'margin'); }
+.item-margin--bottom { @include item-padding(('bottom'), 'margin'); }
+.item-margin--sides { @include item-padding(('left', 'right'), 'margin');}
+
+.item-margin { @include item-padding(('all'),'margin'); }
 
 //--------------------------------------------------
 // helper classes
