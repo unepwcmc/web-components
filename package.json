@@ -23,7 +23,11 @@
     "webpack-dev-server": "^3.3.1"
   },
   "scripts": {
-    "test": "NODE_ENV=test jest --watchAll --verbose=false"
+    "test": "NODE_ENV=test jest --watchAll --verbose=false",
+    "build": "RAILS_ENV=production NODE_ENV=production ./bin/webpack",
+    "dev": "./bin/webpack-dev-server",
+    "serve": "rails s",
+    "network-serve": "bash ./scripts/network-serve.sh"
   },
   "jest": {
     "roots": [
