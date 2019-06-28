@@ -19,7 +19,7 @@
 
   &__dialog {
     @extend .item-center;
-    @include item-padding;
+    @include item-spacing;
 
     background-color: $white;
   }

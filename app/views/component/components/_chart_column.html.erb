@@ -31,4 +31,6 @@ columns = [
 ].to_json
 %>
 
-<chart-column units="%" :columns="<%= columns %>"></chart-column>
+<div class="<%= styleguide_class %>">
+  <chart-column units="%" :columns="<%= columns %>"></chart-column>
+</div>

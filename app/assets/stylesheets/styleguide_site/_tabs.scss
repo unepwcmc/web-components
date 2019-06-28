@@ -24,7 +24,7 @@
   }
 
   &__container {
-    @include item-padding;
+    @include item-spacing;
     border: $border-regular $grey;
   }
 }

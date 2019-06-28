@@ -11,7 +11,6 @@
         </li>
       </ul>
     </aside>
-
     <main class="component-grid__wrapper">
       <h1 class="screen-reader">Component Viewer</h1>
 

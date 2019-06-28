@@ -21,11 +21,19 @@ options = [
 ]
 %>
 
+
 <h2>VSelect - Single</h2>
-<v-select :config="<%= config_singular %>" :options="<%= options.to_json %>" :selected="<%= options[3].to_json %>"></v-select>
+<div class="<%= styleguide_class %>">
+  <v-select :config="<%= config_singular %>" :options="<%= options.to_json %>" :selected="<%= options[3].to_json %>"></v-select>
+</div>
 
 <h2>VSelectSearchable</h2>
-<v-select-searchable :config="<%= config_searchable_singular %>" :options="<%= options.to_json %>" :selected="<%= options[3].to_json %>"></v-select-searchable>
+<div class="<%= styleguide_class %>">
+  <v-select-searchable :config="<%= config_searchable_singular %>" :options="<%= options.to_json %>" :selected="<%= options[3].to_json %>"></v-select-searchable>
+</div>
 
 <h2>VMultiselect</h2>
-<v-multiselect :config="<%= config_multi %>" :options="<%= options.to_json %>" :selected="<%= options[0,2].to_json %>"></v-multiselect>
+<div class="<%= styleguide_class %>">
+  <v-multiselect :config="<%= config_multi %>" :options="<%= options.to_json %>" :selected="<%= options[0,2].to_json %>"></v-multiselect>
+</div>
+
