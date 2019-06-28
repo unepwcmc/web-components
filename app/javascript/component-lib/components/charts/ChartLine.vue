@@ -63,6 +63,28 @@
               :labels="getDatapointLabels(line.datapoints)"
               :colour="getLineColours(line)">
             </chart-line-dataset>
+
+            <template v-if="yTargets">
+              <chart-line-target-y v-for="yTarget in yTargets"
+                :minX="normaliseX(x.min)" 
+                :maxX="normaliseX(x.max)" 
+                :y="normaliseY(yTarget.y)"
+                :line-style="yTarget.lineStyle"
+                :label="yTarget.label"
+                :font-size="fontSize">
+              </chart-line-target-y>
+            </template>
+
+            <template v-if="xTargets">
+              <chart-line-target-x v-for="xTarget in xTargets"
+                :minY="normaliseY(y.min)" 
+                :maxY="normaliseY(y.max)" 
+                :x="normaliseX(xTarget.x)"
+                :line-style="xTarget.lineStyle"
+                :label="xTarget.label"
+                :font-size="fontSize">
+              </chart-line-target-x>
+            </template>
           </svg>
         </div>
       </div>
@@ -76,6 +98,8 @@
 import ChartLineDataset from './ChartLineDataset'
 import ChartAxis from './helpers/ChartAxis.js'
 import ChartAxisLabel from './ChartAxisLabel.vue'
+import ChartLineTargetX from './ChartLineTargetX.vue'
+import ChartLineTargetY from './ChartLineTargetY.vue'
 import { DEFAULT_COLOUR } from './helpers/chart-constants.js'
 import { DEFAULT_SVG_CONFIG } from './helpers/chart-constants.js'
 
@@ -87,7 +111,7 @@ const DEFAULT_FONT_SIZE = 14
 export default {
   name: 'chart-line',
 
-  components: { ChartLineDataset, ChartAxisLabel },
+  components: { ChartLineDataset, ChartAxisLabel, ChartLineTargetX, ChartLineTargetY },
 
   props: {
     lines: {
