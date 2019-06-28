@@ -37,7 +37,7 @@
 //--------------------------------------------------
 // lists
 //--------------------------------------------------
-.ul--unstyled {
+@mixin ul--unstyled {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -133,10 +133,11 @@ $image-placeholder: black;
 //--------------------------------------------------
 // buttons
 //--------------------------------------------------
-.button--unstyled {
+@mixin button--unstyled {
   background: transparent;
   border: none;
   color: inherit;
+  padding: 0;
 }
 
 //--------------------------------------------------
@@ -159,13 +160,13 @@ $image-placeholder: black;
 .screen-reader {
 	border: 0;
 	clip: rect(0 0 0 0);
-	height: rem-calc(1);
-	margin: - rem-calc(1);
+	height: 1px;
+	margin: - 1px;
 	overflow: hidden;
 	padding: 0;
 	position: absolute;
 	white-space: nowrap;
-	width: rem-calc(1);
+	width: 1px;
 }
 
 //--------------------------------------------------
