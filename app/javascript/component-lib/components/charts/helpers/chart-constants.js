@@ -1,6 +1,6 @@
 export const DEFAULT_SVG_CONFIG = {
   svgPaddingTop: 70,
-  svgBackgroundColour: 30,
+  svgBackgroundColour: 'transparent',
   chartPaddingTop: 70,
   chartPaddingBottom: 40,
   chartPaddingSides: 80,

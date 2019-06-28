@@ -88,6 +88,7 @@ line_chart = {
   ],
   config: {
     svgPaddingTop: 70,
+    svgBackgroundColour: '#31A0C9',
     chartPaddingTop: 70,
     chartPaddingBottom: 50,
     chartBackgroundColour: '#ffffff',
@@ -178,16 +179,16 @@ chart_with_labels = {
 %>
 
 <div class="<%= styleguide_class %>">
-  <chart-line-labelled 
+  <chart-line 
     :lines="<%= line_chart[:lines].to_json %>" 
     :options="<%= line_chart[:config].to_json %>"
     :y-targets="<%= line_chart[:targets].to_json %>"
     :x-targets="<%= line_chart[:commitments].to_json %>">
-  </chart-line-labelled>
+  </chart-line>
 
-  <chart-line-labelled 
+  <chart-line 
     :lines="<%= chart_with_labels[:data].to_json %>" 
     :options="<%= chart_with_labels[:config].to_json %>"
   >
-  </chart-line-labelled>
+  </chart-line>
 </div>

@@ -3,59 +3,66 @@
     <div class="chart__wrapper-ie11">
       <div class="chart__scrollable">
         <div v-if="lines" class="chart__chart" style="width:100%;">
-          <svg width="100%" height="100%" :viewBox="`-${chartPaddingSides} -${svgPaddingTop} ${svg.width} ${svg.height}`" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" class="chart__svg">
+          <svg width="100%" height="100%" :viewBox="`-${chartPaddingSides} -${svgPaddingTop} ${config.width} ${config.height}`" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" class="chart__svg">
             <rect 
               :x="-chartPaddingSides"
-              :y="`-${chartPaddingTop}`" 
-              :width="svg.width" 
+              :y="-chartPaddingTop"
+              :width="config.width" 
+              :height="config.height" 
+              :fill="svgBackgroundColour" />
+
+            <rect 
+              :x="-chartPaddingSides"
+              :y="-chartPaddingTop" 
+              :rx="20"
+              :width="config.width" 
               :height="backgroundHeight" 
-              :fill="backgroundColour" />
+              :fill="chartBackgroundColour" />
 
-            <text v-if="axisLabels" :x="-chartPaddingSides" :y="-4.5 * fontSize" :font-size="fontSize">
-              <tspan v-for="t in axisLabels.y" :x="-chartPaddingSides" :dy="1.25 * fontSize">{{ t }}</tspan>
-            </text>
+            <template v-if="yAxisConfig.showAxis">
+                            
+              <chart-axis-label 
+                v-if="yAxisConfig.label" 
+                type="y"
+                :label="yAxisConfig.label"
+                :font-size="yAxisConfig.fontSize"
+                :chartPadding="chartPaddingSides"
+              />
 
-            <text v-for="y in yAxis" 
-              :x="-chartPaddingLeft" 
-              :y="y.coord"
-              text-anchor="end"
-              :font-size="fontSize">{{ y.labelText }}</text>
+              <text v-for="y in yAxis" 
+                :x="-chartPaddingLeft" 
+                :y="y.coord"
+                text-anchor="end"
+                :font-size="fontSize"
+                :fill="yAxisConfig.color"
+                :label="yAxisConfig.label">{{ y.labelText }}</text>
+            </template>
+            
+            <template v-if="xAxisConfig.showAxis">
 
-            <text v-for="x in xAxis" 
-              :x="x.coord" 
-              :y="xAxisYDisplacement" 
-              :font-size="fontSize"
-              text-anchor="middle">{{ x.labelText }}</text>
+              <chart-axis-label 
+                v-if="xAxisConfig.label" 
+                :label="xAxisConfig.label"
+                :font-size="yAxisConfig.fontSize"
+                :chartPadding="chartPaddingSides"
+              />
+
+              <text v-for="x in xAxis" 
+                :x="x.coord" 
+                :y="xAxisYDisplacement" 
+                :font-size="fontSize"
+                text-anchor="middle"
+                :fill="xAxisConfig.color"
+                :label="xAxisConfig.label">{{ x.labelText }}</text>
+            </template>
 
             <chart-line-dataset 
               v-for="line, index in lines"
               :index="index"
               :path="getPath(line.datapoints)"
-              :middle="getPathMiddle(line.datapoints)"
-              :colour="getLineColourPair(line)">
+              :labels="getDatapointLabels(line.datapoints)"
+              :colour="getLineColours(line)">
             </chart-line-dataset>
-
-            <template v-if="yTargets">
-              <chart-line-target-y v-for="yTarget in yTargets"
-                :minX="normaliseX(x.min)" 
-                :maxX="normaliseX(x.max)" 
-                :y="normaliseY(yTarget.y)"
-                :line-style="yTarget.lineStyle"
-                :label="yTarget.label"
-                :font-size="fontSize">
-              </chart-line-target-y>
-            </template>
-
-            <template v-if="xTargets">
-              <chart-line-target-x v-for="xTarget in xTargets"
-                :minY="normaliseY(y.min)" 
-                :maxY="normaliseY(y.max)" 
-                :x="normaliseX(xTarget.x)"
-                :line-style="xTarget.lineStyle"
-                :label="xTarget.label"
-                :font-size="fontSize">
-              </chart-line-target-x>
-            </template>
           </svg>
         </div>
       </div>
@@ -67,39 +74,24 @@
 
 <script>
 import ChartLineDataset from './ChartLineDataset'
-import ChartLineTargetX from './ChartLineTargetX'
-import ChartLineTargetY from './ChartLineTargetY'
-import ChartLegend from './ChartLegend'
+import ChartAxis from './helpers/ChartAxis.js'
+import ChartAxisLabel from './ChartAxisLabel.vue'
+import { DEFAULT_COLOUR } from './helpers/chart-constants.js'
+import { DEFAULT_SVG_CONFIG } from './helpers/chart-constants.js'
 
 const AXIS_PADDING = 30
-const DEFAULT_BACKGROUND_COLOUR = '#ffffff'
-const DEFAULT_CHART_PADDING_SIDES = 80
+const DEFAULT_BACKGROUND_COLOUR = 'transparent'
 const DEFAULT_FONT_SIZE = 14
-const DEFAULT_LINE_COLOUR = {
-line: '#000000',
-text: '#ffffff'
-}
-const DEFAULT_SVG_CONFIG = {
-  width: 1000,
-  height: 650
-}
-const DEFAULT_X_AXIS_CONFIG = {
-  precision: 1,
-  axisMarks: 10
-}
-const DEFAULT_Y_AXIS_CONFIG = {
-  precision: 1,
-  axisMarks: 8
-}
+
 
 export default {
   name: 'chart-line',
 
-  components: { ChartLineTargetX, ChartLineTargetY, ChartLineDataset, ChartLegend },
+  components: { ChartLineDataset, ChartAxisLabel },
 
   props: {
     lines: {
-      type: Array, // Line[]
+      type: Array,
       required: true
     },
     xTargets: Array,
@@ -107,51 +99,52 @@ export default {
     axisLabels: Object,
     hasLegend: {
       type: Boolean,
-      default: true
+      default: false
     },
     fontSize: {
       default: DEFAULT_FONT_SIZE,
       type: Number
     },
-    xAxisConfig: Object,
-    yAxisConfig: Object,
-    chartPaddingSides: {
-      type: Number,
-      default: DEFAULT_CHART_PADDING_SIDES
-    },
-    backgroundColour: {
-      type: String,
-      default: DEFAULT_BACKGROUND_COLOUR
-    },
-    svgConfig: Object
+    options: {
+      type: Object,
+      default: () => { return { ...DEFAULT_SVG_CONFIG }}
+    }
+  }, 
+
+  data () {
+    return {
+      x: {},
+      y: {}
+    }
   },
 
   computed: {
-    x () { return {...DEFAULT_X_AXIS_CONFIG, ...this.xAxisConfig} },
+    xAxisConfig () { return {...DEFAULT_SVG_CONFIG.x, ...this.config.x }},
+    yAxisConfig () { return {...DEFAULT_SVG_CONFIG.y, ...this.config.y }},
 
-    y () { return {...DEFAULT_Y_AXIS_CONFIG, ...this.yAxisConfig} },
+    xAxis () { return new ChartAxis('x', this.x.min, this.x.max, this.xAxisConfig, this.chartWidth).createAxis() },
+    yAxis () { return new ChartAxis('y', this.y.min, this.y.max, this.yAxisConfig, this.chartHeight).createAxis() },
 
-    svg () { return {...DEFAULT_SVG_CONFIG, ... this.svgConfig} },
+    config () { return {...DEFAULT_SVG_CONFIG, ...this.options}},
 
-    yAxis () { return this.getAxis('y') },
+    svgBackgroundColour () { return this.config.svgBackgroundColour },
+    chartBackgroundColour () { return this.config.chartBackgroundColour },
 
-    xAxis () { return this.getAxis('x') },
+    backgroundHeight () { return this.config.height },
 
-    backgroundHeight () {return this.svg.height - this.svgPaddingTop },
+    chartHeight () { return this.backgroundHeight - this.chartPaddingTop - this.fontSize - this.chartPaddingBottom - this.xAxisConfig.offset },
 
-    chartHeight () {return this.backgroundHeight - this.chartPaddingTop - this.fontSize - this.chartPaddingBottom },
-
-    chartWidth () {return this.svg.width - 2 * this.chartPaddingSides },
-
-    chartPaddingBottom () { return this.fontSize + AXIS_PADDING },
+    chartWidth () { return this.config.width - 2 * this.chartPaddingSides },
 
     chartPaddingLeft () { return AXIS_PADDING },
 
-    chartPaddingTop () { return this.fontSize * 1.5 },
+    chartPaddingSides () { return this.config.chartPaddingSides },
 
-    svgPaddingTop () {return this.chartPaddingTop + this.fontSize * 3 },
+    svgPaddingTop () { return this.config.svgPaddingTop },
+    chartPaddingTop () { return this.config.chartPaddingTop },
+    chartPaddingBottom () { return this.config.chartPaddingBottom },
 
-    xAxisYDisplacement () { return this.chartHeight + this.chartPaddingBottom },
+    xAxisYDisplacement () { return this.chartHeight + this.xAxisConfig.offset },
 
     legendDatasets () {
       const legendDatasets = []
@@ -160,7 +153,7 @@ export default {
         this.lines.forEach(line => {
           const legendDataset = {
             ...line,
-            colour: this.getLineColourPair(line).line
+            colour: this.getLineColours(line).line
           }
 
           legendDatasets.push(legendDataset)
@@ -198,24 +191,44 @@ export default {
       return { x: this.normaliseX(middle.x), y: this.normaliseY(middle.y) }
     },
 
-    getAxis (axis) {
-      let axisTickLabels = [], n = this[axis].min
-      const incrementor = (this[axis].max - this[axis].min)/ this[axis].axisMarks
+    getDatapointLabels (datapoints) {
+      let labels = []
 
-      while( n < this[axis].max + incrementor) {
-        axisTickLabels.push({
-          coord: this[`normalise${axis.toUpperCase()}`](n),
-          labelText: Math.ceil(n/this[axis].precision)*this[axis].precision
+      if(this.config.datapointLabels == 'all') {
+        datapoints.forEach((point, index) => {
+          labels.push({ 
+            x: this.normaliseX(point.x), 
+            y: this.normaliseY(point.y),
+            value: point.y
+          })
         })
-
-        n += incrementor
       }
 
-      return axisTickLabels
-    },
+      if(this.config.datapointLabels == 'middle') {
+        const middle = datapoints[Math.floor(datapoints.length/2)]
 
-    getLineColourPair (line) {
-      return line.colour ? line.colour : DEFAULT_LINE_COLOUR
+        return [{ 
+          x: this.normaliseX(middle.x), 
+          y: this.normaliseY(middle.y) ,
+          value: '' // fix this
+        }]
+      } 
+
+      return labels
+    },
+    
+    getLineColours (line) {
+      let lineColours = line
+
+      if(lineColours.colour) {
+        if(!lineColours.colour.line) { lineColours.colour.line = DEFAULT_COLOUR.line }
+        if(!lineColours.colour.fill) { lineColours.colour.fill = DEFAULT_COLOUR.fill }
+        if(!lineColours.colour.text) { lineColours.colour.text = DEFAULT_COLOUR.text }
+      } else {
+        lineColours.colour = { line: DEFAULT_COLOUR.line, fill: DEFAULT_COLOUR.fill, text: DEFAULT_COLOUR.text }
+      }
+
+      return lineColours.colour
     },
 
     getMinMax(type, prop) {
