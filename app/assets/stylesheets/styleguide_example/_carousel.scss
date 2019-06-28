@@ -1,9 +1,9 @@
-$padding-top-bottom: rem-calc(25);
-$padding-side: rem-calc(40);
+$padding-top-bottom: rem-calc(40);
+$padding-side: rem-calc(45);
 
-$carousel-height: rem-calc(250);
-$arrow-button-width: rem-calc(25);
-$indicator-height: rem-calc(14);
+$carousel-height: rem-calc(300);
+$arrow-button-width: rem-calc(40);
+$indicator-height: rem-calc(40);
 $indicator-row-height: $indicator-height + $padding-top-bottom * 2;
 $transition-options: 0.6s ease-in-out;
 
@@ -14,7 +14,7 @@ $transition-options: 0.6s ease-in-out;
 }
 
 .carousel {
-  border: $border-thin $grey;
+  border: $border-thin $background;
   padding-top: $padding-top-bottom;
   height: $carousel-height;
 
@@ -48,7 +48,7 @@ $transition-options: 0.6s ease-in-out;
     }
 
       &__arrow {
-        background-color: rgba($grey, 0.4);
+        background-color: rgba($background, 0.4);
         padding: rem-calc(18 0);
         pointer-events: auto;
         text-align: center;
@@ -56,7 +56,7 @@ $transition-options: 0.6s ease-in-out;
       }
 
   &__control-bar {    
-    color: grey;
+    color: $header-text;
     padding: 0 $padding-side;
     height: $indicator-row-height;
 
@@ -65,8 +65,7 @@ $transition-options: 0.6s ease-in-out;
   }
 
     &__pause {
-      background-color: rgba($grey, 0.4);
-      border-radius: 50%;
+      background-color: rgba($button-default, 0.4);
       width: 2em; height: 2em;
 
       justify-self: flex-end;
@@ -74,7 +73,7 @@ $transition-options: 0.6s ease-in-out;
     }
 
     &__indicator {
-      background-color: rgba($grey, 0.4);
+      background-color: rgba($button-default, 0.4);
       border-radius: 50%;
       margin-right: $indicator-height / 3;
       width: $indicator-height; height: $indicator-height;
@@ -84,13 +83,14 @@ $transition-options: 0.6s ease-in-out;
       transition: background-color $transition-options;
 
       &--selected {
-        background-color: $grey;
+        background-color: $accent;
       }
     }
 }
 
 .carousel-slide {
   @include item-spacing;
-  background-color: $grey-light;
+  background-color: rgba($background, 0.4);
+  border-radius: rem-calc(20);
   flex-shrink: 0;
 }

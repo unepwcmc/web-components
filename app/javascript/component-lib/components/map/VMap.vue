@@ -1,7 +1,7 @@
 
 <template>
   <div class="map__container">
-    <div class="map-wrapper">
+    <div class="map__wrapper">
       <div :id="id" class="map"></div>
     </div>
     <filter-pane id="filters-layers"></filter-pane>
@@ -21,12 +21,14 @@ import * as turf from "@turf/turf"
 import axios from 'axios'
 
 import LayersControl from "./helpers/layers-control.js"
-import { mixinCarto } from "./mixins/mixin-carto.js"
+import { getFirstForegroundLayerId, correctTabFlow } from "./helpers/map-helpers.js"
+import mixinCarto from "./mixins/mixin-carto.js"
+import mixinAddLayers from "./mixins/mixin-add-layers.js"
 import { eventHub } from "../../../vue.js"
 import FilterPane from "./filters/FilterPane"
 
 export default {
-  mixins: [mixinCarto],
+  mixins: [mixinCarto, mixinAddLayers],
 
   components: {
     FilterPane
@@ -49,7 +51,8 @@ export default {
           baseUrl: 'https://api.mapbox.com/geocoding/v5/mapbox.places'
         },
       cartoUsername: "carbon-tool",
-      cartoApiKey: "f7762e628586b3ff41a371b8e89ea0069e975299"
+      cartoApiKey: "f7762e628586b3ff41a371b8e89ea0069e975299",
+      firstForegroundLayerId: ''
     }
   },
 
@@ -74,6 +77,7 @@ export default {
      * so we reload all layers on the new map
      */
     map.on("style.load", () => {
+      this.setFirstForegroundLayerId()
       eventHub.$emit("map-reload-layers", map.isStyleLoaded())
     })
 
@@ -91,8 +95,10 @@ export default {
       map.addControl(layersControl, "bottom-left")
       map.addControl(navControl, "bottom-left")
       map.addControl(geocoderControl, "top-left")
-
       // if(this.hasDrawControls) { this.addDrawControls() }
+
+      this.setFirstForegroundLayerId()
+      correctTabFlow(this.$el)
     })
 
     const lngLat = "-74.0060,40.7128"
@@ -119,110 +125,17 @@ export default {
       })
       this.map.addControl(this.draw, 'bottom-right')
     },
+    
+    setFirstForegroundLayerId () {
+      this.firstForegroundLayerId = getFirstForegroundLayerId(this.map)
+    },
 
     addLayer(layer) {
       if (layer.type === "Raster") {
-        this.addRasterLayer(layer)
+        this.addRasterLayer(layer, this.firstForegroundLayerId)
       } else {
-        this.addVectorLayer(layer)
+        this.addVectorLayer(layer, this.firstForegroundLayerId)
       }
-    },
-
-    addRasterLayer(layer) {
-      // Mapbox tileset
-      if (layer.mapbox && layer.mapbox.tileset) {
-        this.map.addSource(layer.name, {
-          type: "raster",
-          url: `mapbox://${layer.mapbox.tileset}`,
-          tileSize: 256
-        })
-
-      // Generic tile endpoint
-      } else if (layer.mapbox && layer.mapbox.endpoint) {
-        this.map.addSource(layer.name, {
-          type: "raster",
-          tiles: [layer.mapbox.endpoint],
-          tileSize: 256
-        })
-      }
-
-      this.map.addLayer({
-        id: layer.name,
-        type: "raster",
-        source: layer.name,
-        paint: {
-          "raster-resampling": "nearest"
-        },
-        layout: {
-          visibility: layer.visible ? "visible" : "none"
-        }
-      })
-
-      this.map.setPaintProperty(layer.name, "raster-opacity", 0.5)
-    },
-
-    addVectorLayer(layer) {
-      if (layer.type === "Vector") {
-        this.createVectorShapeLayer(layer.visible, layer.carto)
-      } else if (layer.type === "VectorLine") {
-        this.createVectorLineLayer(layer.visible, layer.carto)
-      }
-    },
-
-    createVectorShapeLayer(visible, carto) {
-      const tiles = this.createCartoTiles(carto)
-
-      tiles.getTiles(() => {
-        this.map.addSource(carto.id, {
-          type: "vector",
-          tiles:
-            tiles.mapProperties.mapProperties.metadata.tilejson.vector.tiles
-        })
-
-        this.map.addLayer({
-          id: carto.id,
-          type: "fill",
-          source: carto.id,
-          "source-layer": "layer0",
-          paint: {
-            "fill-color": carto.colour
-              ? carto.colour
-              : `#${(Math.random().toString(16) + "000000").substring(2, 8)}`,
-            "fill-opacity": 0.5
-          },
-          layout: {
-            visibility: visible ? "visible" : "none"
-          }
-        })
-      })
-    },
-    createVectorLineLayer(visible, carto) {
-      const tiles = this.createCartoTiles(carto)
-
-      tiles.getTiles(() => {
-        this.map.addSource(carto.id, {
-          type: "vector",
-          tiles:
-            tiles.mapProperties.mapProperties.metadata.tilejson.vector.tiles
-        })
-        this.map.addLayer({
-          id: carto.id,
-          type: "line",
-          source: carto.id,
-          "source-layer": "layer0",
-          paint: {
-            "line-width": 3,
-            "line-color": carto.colour
-          },
-          layout: {
-            visibility: visible ? "visible" : "none"
-          }
-        })
-      })
-    },
-
-    createCartoTiles(carto) {
-      return this.createTiles(this.cartoUsername, this.cartoApiKey, carto)
     },
 
     setLayers(layerSet) {

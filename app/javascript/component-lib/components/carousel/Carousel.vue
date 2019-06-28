@@ -19,7 +19,7 @@
         </template>
       </ul>
 
-      <div v-if="showArrows && hasMutlipleSlides" class="carousel__arrow-buttons">
+      <div v-if="showArrows && hasMultipleSlides" class="carousel__arrow-buttons">
         <button 
           :aria-controls="slidesId" 
           title="Previous slide" 
@@ -34,7 +34,7 @@
 
     </div>
 
-    <div v-if="hasMutlipleSlides" class="carousel__control-bar">
+    <div v-if="hasMultipleSlides" class="carousel__control-bar">
       <template v-if="showIndicators">
         <button
           v-for="slide in totalSlides"
@@ -127,12 +127,12 @@ export default {
   },
 
   computed: {
-    hasMutlipleSlides () {
+    hasMultipleSlides () {
       return this.childSlideComponents.length > 3
     },
 
     showSlideCount () {
-      return this.showCount && this.hasMutlipleSlides
+      return this.showCount && this.hasMultipleSlides
     },
 
     pauseIconClass () {

@@ -1,4 +1,3 @@
-import TurbolinksAdapter from 'vue-turbolinks'
 import Vue from 'vue/dist/vue.esm'
 import Vue2TouchEvents from 'vue2-touch-events'
 
@@ -41,6 +40,7 @@ import VNav from './component-lib/components/nav/VNav'
 
 import VMultiselect from './component-lib/components/v-select/VMultiselect'
 import VSelect from './component-lib/components/v-select/VSelect'
+import VSelectSearchable from './component-lib/components/v-select/VSelectSearchable'
 
 // Custom elements aren't supported by JSDOM, so break tests
 // import defineCustomAriaElements from './component-lib/helpers/aria-definitions'
@@ -57,39 +57,37 @@ export const eventHub = new Vue()
 document.addEventListener('DOMContentLoaded', () => { 
   if(document.getElementById('v-app')) {
 
-    Vue.use(TurbolinksAdapter)
     Vue.use(Vue2TouchEvents)
 
-    document.addEventListener('turbolinks:load', () => {
-      const app = new Vue({
-        el: '#v-app',
-        store,
+    const app = new Vue({
+      el: '#v-app',
+      store,
 
-        components: { 
-          Accordion,
-          AccordionItem,
-          Carousel,
-          CarouselSlide,
-          ChartArea,
-          ChartColumn,
-          ChartLine,
-          ChartRow,
-          ChartRowStacked,
-          ComponentViewer,
-          ExpandableItem,
-          Modal,
-          ModalTrigger,
-          StickyBar,
-          Tab,
-          Tabs,
-          Tooltip,
-          VForm,
-          VMap,
-          VNav,
-          VMultiselect,
-          VSelect
-        }
-      })
+      components: { 
+        Accordion,
+        AccordionItem,
+        Carousel,
+        CarouselSlide,
+        ChartArea,
+        ChartColumn,
+        ChartLine,
+        ChartRow,
+        ChartRowStacked,
+        ComponentViewer,
+        ExpandableItem,
+        Modal,
+        ModalTrigger,
+        StickyBar,
+        Tab,
+        Tabs,
+        Tooltip,
+        VForm,
+        VMap,
+        VNav,
+        VMultiselect,
+        VSelect,
+        VSelectSearchable
+      }
     })
   }
 })

@@ -23,7 +23,7 @@
  * visible by events that are received by Map.vue that shows/hides individual layers
  */
 import { eventHub } from "../../../../vue.js"
-import { getLayers } from "../helpers/map-layer-helpers.js"
+import { getLayers } from "../helpers/map-helpers.js"
 
 export default {
   name: "layer",
@@ -53,7 +53,8 @@ export default {
   },
 
   destroyed() {
-    eventHub.$off("map-reload-layers", this.toggleDataset)
+    eventHub.$off("map-reload-layers", this.reloadDataset)
+    eventHub.$off("deselect-" + this.datasetId, this.deselectDataset)  
   },
 
   computed: {

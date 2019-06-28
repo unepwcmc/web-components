@@ -1,4 +1,4 @@
-class LayersControl {
+export default class LayersControl {
   onAdd(map) {
     this._map = map
     this._container = document.createElement('div')
@@ -46,5 +46,3 @@ class LayersControl {
     this._map = undefined
   }
 }
-
-module.exports = LayersControl

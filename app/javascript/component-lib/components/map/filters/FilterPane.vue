@@ -1,8 +1,8 @@
 <template>
-  <div class="map-pane--target" :class="{ 'map-pane--target--active' : isActive}">
-    <button @click.prevent="togglePane" class="map-pane--target__close hover--pointer">{{paneIcon}}</button>
+  <div class="map-pane" :class="{ 'map-pane--active' : isActive}">
+    <button id="map-pane-close" @click.prevent="togglePane" class="map-pane__close hover--pointer">{{paneIcon}}</button>
 
-    <div class="map-pane--target__content">
+    <div class="map-pane__content">
       <filters :filters="filtersArray"></filters>
     </div>
   </div>

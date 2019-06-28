@@ -46,14 +46,6 @@ h4 {
 
 p {
   @extend .sg-p;
-
-  a {
-    text-decoration: underline;
-    
-    &:hover {
-      text-decoration: none;
-    }
-  }
 }
 
 a {
@@ -145,14 +137,14 @@ button:hover, button:active { outline: none; }
   }
 }
 
-@mixin item-padding($sides:'all', $type:'padding') {
+@mixin item-spacing($sides:'all', $type:'padding') {
   $sides: if($sides == 'all', ('top','bottom','left','right'), ($sides));
 
   @each $s in $sides {
-    #{$type}-#{$s}: $item-padding-small;
+    #{$type}-#{$s}: $item-spacing-small;
 
-    @include breakpoint($medium) { #{$type}-#{$s}: $item-padding-medium; }
-    @include breakpoint($large) { #{$type}-#{$s}: $item-padding-large; }
+    @include breakpoint($medium) { #{$type}-#{$s}: $item-spacing-medium; }
+    @include breakpoint($large) { #{$type}-#{$s}: $item-spacing-large; }
   }
 }
 
@@ -247,15 +239,15 @@ button:hover, button:active { outline: none; }
 // item padding
 //--------------------------------------------------
 .item-padding--sides {
-  @include item-padding(('left', 'right'))
+  @include item-spacing(('left', 'right'))
 }
 
 .item-padding--top-bottom {
-  @include item-padding(('top', 'bottom'))
+  @include item-spacing(('top', 'bottom'))
 }
 
 .item-padding {
-  @include item-padding()
+  @include item-spacing()
 }
 
 //--------------------------------------------------
