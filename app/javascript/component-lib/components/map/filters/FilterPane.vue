@@ -13,11 +13,14 @@ import helpers from "../../../helpers/helpers.js"
 import { eventHub } from "../../../../vue.js"
 import { EXAMPLE_FILTERS } from "../helpers/example-layers.js"
 import Filters from "./Filters.vue"
+import mixinDisableTabbing from '../../../mixins/mixin-disable-tabbing'
 
 export default {
   name: "filter-pane",
 
   components: { Filters },
+
+  mixins: [mixinDisableTabbing('isActive')],
 
   props: {
     id: {
