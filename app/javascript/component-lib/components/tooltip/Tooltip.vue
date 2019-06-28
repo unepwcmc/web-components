@@ -28,7 +28,7 @@
     data () {
       return {
         isActive: false,
-        id: this._uid
+        id: `tooltip_${this._uid}`
       }
     },
 
