@@ -19,42 +19,25 @@
               :height="backgroundHeight" 
               :fill="chartBackgroundColour" />
 
-            <template v-if="yAxisConfig.showAxis">
-                            
-              <chart-axis-label 
-                v-if="yAxisConfig.label" 
-                type="y"
-                :label="yAxisConfig.label"
-                :font-size="yAxisConfig.fontSize"
-                :chartPadding="chartPaddingSides"
-              />
+            <chart-axis
+              v-if="xAxisConfig.showAxis"
+              type="x"
+              :min="x.min" 
+              :max="x.max"
+              :y="xAxisYDisplacement" 
+              :config="xAxisConfig"
+              :size="chartWidth"
+            />
 
-              <text v-for="y in yAxis" 
-                :x="-chartPaddingLeft" 
-                :y="y.coord"
-                text-anchor="end"
-                :font-size="fontSize"
-                :fill="yAxisConfig.color"
-                :label="yAxisConfig.label">{{ y.labelText }}</text>
-            </template>
-            
-            <template v-if="xAxisConfig.showAxis">
-
-              <chart-axis-label 
-                v-if="xAxisConfig.label" 
-                :label="xAxisConfig.label"
-                :font-size="yAxisConfig.fontSize"
-                :chartPadding="chartPaddingSides"
-              />
-
-              <text v-for="x in xAxis" 
-                :x="x.coord" 
-                :y="xAxisYDisplacement" 
-                :font-size="fontSize"
-                text-anchor="middle"
-                :fill="xAxisConfig.color"
-                :label="xAxisConfig.label">{{ x.labelText }}</text>
-            </template>
+            <chart-axis
+              v-if="yAxisConfig.showAxis"
+              type="y"
+              :min="y.min" 
+              :max="y.max"
+              :x="-chartPaddingLeft"
+              :config="yAxisConfig"
+              :size="chartHeight"
+            />
 
             <chart-line-dataset 
               v-for="line, index in lines"
@@ -66,8 +49,8 @@
 
             <template v-if="yTargets">
               <chart-line-target-y v-for="yTarget in yTargets"
-                :minX="normaliseX(x.min)" 
-                :maxX="normaliseX(x.max)" 
+                :minX="x.minNormalised" 
+                :maxX="x.maxNormalised" 
                 :y="normaliseY(yTarget.y)"
                 :line-style="yTarget.lineStyle"
                 :label="yTarget.label"
@@ -77,8 +60,8 @@
 
             <template v-if="xTargets">
               <chart-line-target-x v-for="xTarget in xTargets"
-                :minY="normaliseY(y.min)" 
-                :maxY="normaliseY(y.max)" 
+                :minY="y.minNormalised" 
+                :maxY="y.maxNormalised" 
                 :x="normaliseX(xTarget.x)"
                 :line-style="xTarget.lineStyle"
                 :label="xTarget.label"
@@ -96,8 +79,7 @@
 
 <script>
 import ChartLineDataset from './ChartLineDataset'
-import ChartAxis from './helpers/ChartAxis.js'
-import ChartAxisLabel from './ChartAxisLabel.vue'
+import ChartAxis from './ChartAxis'
 import ChartLineTargetX from './ChartLineTargetX.vue'
 import ChartLineTargetY from './ChartLineTargetY.vue'
 import { DEFAULT_COLOUR } from './helpers/chart-constants.js'
@@ -111,7 +93,7 @@ const DEFAULT_FONT_SIZE = 14
 export default {
   name: 'chart-line',
 
-  components: { ChartLineDataset, ChartAxisLabel, ChartLineTargetX, ChartLineTargetY },
+  components: { ChartLineDataset, ChartAxis, ChartLineTargetX, ChartLineTargetY },
 
   props: {
     lines: {
@@ -145,9 +127,6 @@ export default {
   computed: {
     xAxisConfig () { return {...DEFAULT_SVG_CONFIG.x, ...this.config.x }},
     yAxisConfig () { return {...DEFAULT_SVG_CONFIG.y, ...this.config.y }},
-
-    xAxis () { return new ChartAxis('x', this.x.min, this.x.max, this.xAxisConfig, this.chartWidth).createAxis() },
-    yAxis () { return new ChartAxis('y', this.y.min, this.y.max, this.yAxisConfig, this.chartHeight).createAxis() },
 
     config () { return {...DEFAULT_SVG_CONFIG, ...this.options}},
 
@@ -193,6 +172,11 @@ export default {
     this.x.max = this.getMinMax('max', 'x')
     this.y.min = 0
     this.y.max = this.getMinMax('max', 'y')
+
+    this.x.minNormalised = this.normaliseX(this.x.min)
+    this.x.maxNormalised = this.normaliseX(this.x.max)
+    this.y.minNormalised = this.normaliseY(this.y.min)
+    this.y.maxNormalised = this.normaliseY(this.y.max)
   },
 
   methods: {
