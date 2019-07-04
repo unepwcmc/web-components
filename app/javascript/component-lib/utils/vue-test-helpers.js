@@ -16,6 +16,7 @@ export default PageHelpers => ({
   //temp solution to not being able to define props for multiple children in one slot
   addDefaultProp: (Component, props) => {
     const newComp = Object.assign({}, Component)
+
     newComp.props = {}
     
     props.forEach(prop => {

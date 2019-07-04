@@ -1,43 +1,76 @@
 <template>
-  <nav aria-label="site-nav" class="nav flex flex-v-center flex-h-between">
-    <a href="" title="Home" class="nav__logo">Home</a>
+  <nav
+    aria-label="site-nav"
+    class="nav flex flex-v-center flex-h-between"
+  >
+    <a
+      href=""
+      title="Home"
+      class="nav__logo"
+    >Home</a>
 
     <span class="nav__left flex-hs-start">
-      <slot name="nav-left"></slot>
+      <slot name="nav-left" />
     </span>
 
-    <div :id="mixinModalId" class="nav__item-container flex" :class="navType">
-
-      <button id="close-nav-pane" class="nav__close hover--pointer" v-show="isBurgerNav" @click="closeNavPane">X</button>
-      <ul role="menubar" class="nav__items ul--unstyled flex">
-        <li role="none" class="nav__item relative" v-for="page in pages" :key="page.id">
+    <div
+      :id="mixinModalId"
+      class="nav__item-container flex"
+      :class="navType"
+    >
+      <button
+        v-show="isBurgerNav"
+        id="close-nav-pane"
+        class="nav__close hover--pointer"
+        @click="closeNavPane"
+      >
+        X
+      </button>
+      <ul
+        role="menubar"
+        class="nav__items ul--unstyled flex"
+      >
+        <li
+          v-for="page in pages"
+          :key="page.id"
+          role="none"
+          class="nav__item relative"
+        >
           <v-nav-dropdown
             v-if="page.children"
             :item="page"
-            :is-burger="isBurgerNav">
-          </v-nav-dropdown>
-          <v-nav-link v-else :item="page"></v-nav-link>
+            :is-burger="isBurgerNav"
+          />
+          <v-nav-link
+            v-else
+            :item="page"
+          />
         </li>
       </ul>
-
     </div>
 
     <span class="nav__right">
-      <slot name="nav-right"></slot>
+      <slot name="nav-right" />
     </span>
 
-    <button :id="mixinTriggerId" class="nav__burger hover--pointer" v-show="isBurgerNav" @click="openNavPane">=</button>
-
+    <button
+      v-show="isBurgerNav"
+      :id="mixinTriggerId"
+      class="nav__burger hover--pointer"
+      @click="openNavPane"
+    >
+      =
+    </button>
   </nav>
 </template>
 
 <script>
-import VNavDropdown from "./VNavDropdown.vue"
-import VNavLink from "./VNavLink"
-import mixinResponsive from "../../mixins/mixin-responsive"
-import mixinPopupCloseListeners from "../../mixins/mixin-popup-close-listeners"
-import mixinFocusCapture from "../../mixins/mixin-focus-capture"
-import { disableTabbing, reenableTabbing } from '../../helpers/focus-helpers';
+import VNavDropdown from './VNavDropdown.vue'
+import VNavLink from './VNavLink'
+import mixinResponsive from '../../mixins/mixin-responsive'
+import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
+import mixinFocusCapture from '../../mixins/mixin-focus-capture'
+import { disableTabbing, reenableTabbing } from '../../helpers/focus-helpers'
 
 export default {
   components: {
@@ -71,20 +104,6 @@ export default {
     }
   },
 
-  mounted () {
-    this.areNavPaneItemsVisible ? reenableTabbing(this.navPaneItemContainer) : disableTabbing(this.navPaneItemContainer)
-  },
-
-  methods: {
-    openNavPane() {
-      this.isNavPaneActiveData = true
-    },
-    
-    closeNavPane() {
-      this.isNavPaneActiveData = false
-    }
-  },
-
   computed: {
     isBurgerNav() {
       return this.isAlwaysBurger || !this.isLarge()
@@ -114,6 +133,20 @@ export default {
   watch: {
     areNavPaneItemsVisible (visible) {
       visible ? reenableTabbing(this.navPaneItemContainer) : disableTabbing(this.navPaneItemContainer)
+    }
+  },
+
+  mounted () {
+    this.areNavPaneItemsVisible ? reenableTabbing(this.navPaneItemContainer) : disableTabbing(this.navPaneItemContainer)
+  },
+
+  methods: {
+    openNavPane() {
+      this.isNavPaneActiveData = true
+    },
+    
+    closeNavPane() {
+      this.isNavPaneActiveData = false
     }
   }
 }

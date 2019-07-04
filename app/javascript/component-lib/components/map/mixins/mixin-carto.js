@@ -6,7 +6,7 @@ export default {
   },
 
   methods: {
-      createTiles (username, key, {filter, tables}) {
+    createTiles (username, key, {filter, tables}) {
       let tiles = new cartodb.Tiles({
         user_name: username,
         tiler_protocol: 'https',
@@ -64,6 +64,7 @@ export default {
           css = css + '\n'
         }
       })
+
       return css
     }
   }

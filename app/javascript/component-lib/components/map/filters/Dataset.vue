@@ -1,12 +1,25 @@
 <template>
-  <div class="map-filters__filter flex" :class="{ 'map-filter--active': isActive}">
-    <input type="radio" class="map-filters__default-radio-button hover--pointer" :checked="isActive" @click="toggleDataset">
-    <i class="map-filters__radio-button hover--pointer"></i>
+  <div
+    class="map-filters__filter flex"
+    :class="{ 'map-filter--active': isActive}"
+  >
+    <input
+      type="radio"
+      class="map-filters__default-radio-button hover--pointer"
+      :checked="isActive"
+      @click="toggleDataset"
+    >
+    <i class="map-filters__radio-button hover--pointer" />
     <div class="map-filters__filter-container">
       <div class="map-filters__filter-legend">
-        <h3 class="map-filters__filter-title">{{ name }}</h3>
+        <h3 class="map-filters__filter-title">
+          {{ name }}
+        </h3>
 
-        <div class="map-filters__filter-legend__gradient" :style="legendGradient"></div>
+        <div
+          class="map-filters__filter-legend__gradient"
+          :style="legendGradient"
+        />
 
         <div class="map-filters__filter-legend__labels flex flex-h-between">
           <span>Low</span>
@@ -22,11 +35,11 @@
  * This component holds the box for a specific datasets. It controls whether or not it is
  * visible by events that are received by Map.vue that shows/hides individual layers
  */
-import { eventHub } from "../../../../vue.js"
-import { getLayers } from "../helpers/map-helpers.js"
+import { eventHub } from '../../../../vue.js'
+import { getLayers } from '../helpers/map-helpers.js'
 
 export default {
-  name: "layer",
+  name: 'Layer',
   props: {
     id: {
       required: true,
@@ -47,30 +60,20 @@ export default {
     }
   },
 
-  mounted() {
-    eventHub.$on("map-reload-layers", this.reloadDataset)
-    eventHub.$on("deselect-" + this.datasetId, this.deselectDataset)
-  },
-
-  destroyed() {
-    eventHub.$off("map-reload-layers", this.reloadDataset)
-    eventHub.$off("deselect-" + this.datasetId, this.deselectDataset)  
-  },
-
   computed: {
     isActive() {
       return this.selected
     },
 
     legendGradient() {
-      if (this.layerType === "Raster") {
-        const colors = this.legend.join(", ")
+      if (this.layerType === 'Raster') {
+        const colors = this.legend.join(', ')
 
         return {
           background: `linear-gradient(to right, ${colors})`
         }
       } else {
-        const colors = this.cartoColours.join(", ")
+        const colors = this.cartoColours.join(', ')
 
         return {
           background: `linear-gradient(to right, ${colors})`
@@ -89,12 +92,28 @@ export default {
         layerGroup.layerIds.push(this.datasetId)
       } else {
         for (let i = 0; i < this.layerCount; i++) {
-          layerGroup.layerIds.push(this.datasetId + "_" + i)
+          layerGroup.layerIds.push(this.datasetId + '_' + i)
         }
       }
 
       return layerGroup
     }
+  },
+
+  watch: {
+    selected(isSelected) {
+      isSelected ? this.addDataset() : this.hideDatasetLayers()
+    }
+  },
+
+  mounted() {
+    eventHub.$on('map-reload-layers', this.reloadDataset)
+    eventHub.$on('deselect-' + this.datasetId, this.deselectDataset)
+  },
+
+  destroyed() {
+    eventHub.$off('map-reload-layers', this.reloadDataset)
+    eventHub.$off('deselect-' + this.datasetId, this.deselectDataset)  
   },
 
   methods: {
@@ -127,24 +146,18 @@ export default {
     },
 
     setCurrentDataset() {
-      eventHub.$emit("map-set-curr", this.layerGroup)
+      eventHub.$emit('map-set-curr', this.layerGroup)
     },
 
     hideDatasetLayers() {
-      eventHub.$emit("map-hide-layers", this.layerGroup.layerIds)
+      eventHub.$emit('map-hide-layers', this.layerGroup.layerIds)
     },
 
     createDataset(selected) {
       this.datasetLayersCreated = true
       getLayers(this.datasetId, this.config, selected).forEach(
-        layer => { eventHub.$emit("map-create-layer", layer) }
+        layer => { eventHub.$emit('map-create-layer', layer) }
       )
-    }
-  },
-
-  watch: {
-    selected(isSelected) {
-      isSelected ? this.addDataset() : this.hideDatasetLayers()
     }
   }
 }

@@ -18,6 +18,7 @@ export default class LayersControl {
 
     styles.forEach((style) => {
       let s = document.createElement('input')
+
       s.id = style
       s.type = 'radio'
       s.name = 'style-toggle'
@@ -28,6 +29,7 @@ export default class LayersControl {
       }
 
       let l = document.createElement('label')
+
       l.htmlFor = style
       l.innerText = style
 

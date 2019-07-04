@@ -1,7 +1,14 @@
 <template>
   <ul class="chart--legend ul-unstyled flex flex-wrap">
-    <li v-for="item, index in legendItems" class="chart__legend-item flex flex-v-center" :class="themeClass">
-      <span :class="['chart__legend-key', {'chart__legend-key--line': isLine} ]" :style="style(item)"></span>
+    <li
+      v-for="item, index in legendItems"
+      class="chart__legend-item flex flex-v-center"
+      :class="themeClass"
+    >
+      <span
+        :class="['chart__legend-key', {'chart__legend-key--line': isLine} ]"
+        :style="style(item)"
+      />
       <span class="chart__legend-text bold">{{ index + 1 }}.</span> 
       <span class="chart__legend-text">{{ item.title }}</span>
     </li>
@@ -9,39 +16,39 @@
 </template>
 
 <script>
-  export default {
-    name: 'chart-legend',
+export default {
+  name: 'ChartLegend',
 
-    props: {
-      legendItems: { //{ title: String, colour: String }[]
-        type: Array,
-        required: true
-      },
-      isLine: {
-        type: Boolean,
-        default: false
-      },
-      theme: String
+  props: {
+    legendItems: { //{ title: String, colour: String }[]
+      type: Array,
+      required: true
     },
-
-    computed: {
-      themeClass () {
-        return `theme--${this.theme}`
-      }
+    isLine: {
+      type: Boolean,
+      default: false
     },
+    theme: String
+  },
 
-    methods: {
-      style (item) {
-        let styling = {}
+  computed: {
+    themeClass () {
+      return `theme--${this.theme}`
+    }
+  },
 
-        if(item.colour) {
-          styling['background-color'] = item.colour
+  methods: {
+    style (item) {
+      let styling = {}
 
-          if(item.colour == '#ffffff') { styling['border'] = 'solid 1px #cccccc' } 
-        }
+      if(item.colour) {
+        styling['background-color'] = item.colour
 
-        return styling
+        if(item.colour == '#ffffff') { styling['border'] = 'solid 1px #cccccc' } 
       }
+
+      return styling
     }
   }
+}
 </script>

@@ -2,16 +2,19 @@
   <div>
     <template v-for="filter, index in filters">
       <h2>{{ filter.name }}</h2>
-      <facet :id="filter.id" :datasets="filter.datasets"></facet>
+      <facet
+        :id="filter.id"
+        :datasets="filter.datasets"
+      />
     </template>
   </div>
 </template>
 
 <script>
-import Facet from "./Facet.vue";
+import Facet from './Facet.vue'
 
 export default {
-  name: "filters",
+  name: 'Filters',
 
   components: { Facet },
 
@@ -21,5 +24,5 @@ export default {
       type: Array
     }
   }
-};
+}
 </script>

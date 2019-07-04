@@ -1,59 +1,84 @@
 <template>
-  <aside class="carousel" :aria-labelledby="headerId">
+  <aside
+    class="carousel"
+    :aria-labelledby="headerId"
+  >
+    <h1
+      :id="headerId"
+      :class="{'screen-reader': !showTitle}"
+    >
+      {{ title }}
+    </h1>
 
-    <h1 :id="headerId" :class="{'screen-reader': !showTitle}">{{ title }}</h1>
-
-    <h2 :class="{'screen-reader': !showSlideCount}">{{ currentSlide }} of {{ totalSlides }}</h2>
+    <h2 :class="{'screen-reader': !showSlideCount}">
+      {{ currentSlide }} of {{ totalSlides }}
+    </h2>
 
     <div class="carousel__slides-container">
-
       <ul 
         :id="slidesId"
+        v-touch:swipe.right="slideToPrevious"
+        v-touch:swipe.left="slideToNext"
         class="carousel__slides transition ul--unstyled"
         aria-live="off"
         aria-atomic="true"
-        v-touch:swipe.right="slideToPrevious"
-        v-touch:swipe.left="slideToNext">
+      >
         <template v-for="n in 3">
-          <slot :slidesScope="slidesScope"></slot>
+          <slot 
+            :id="`slot-${n}`"
+            :slidesScope="slidesScope" 
+          />
         </template>
       </ul>
 
-      <div v-if="showArrows && hasMultipleSlides" class="carousel__arrow-buttons">
+      <div
+        v-if="showArrows && hasMultipleSlides"
+        class="carousel__arrow-buttons"
+      >
         <button 
           :aria-controls="slidesId" 
           title="Previous slide" 
           class="carousel__arrow carousel__arrow--left hover--pointer" 
-          @click="slideToPrevious">L</button>
+          @click="slideToPrevious"
+        >
+          L
+        </button>
         <button 
           :aria-controls="slidesId"
           title="Next slide"
           class="carousel__arrow carousel__arrow--right hover--pointer"
-          @click="slideToNext">R</button>
+          @click="slideToNext"
+        >
+          R
+        </button>
       </div>
-
     </div>
 
-    <div v-if="hasMultipleSlides" class="carousel__control-bar">
+    <div
+      v-if="hasMultipleSlides"
+      class="carousel__control-bar"
+    >
       <template v-if="showIndicators">
         <button
-          v-for="slide in totalSlides"
+          v-for="(slide, index) in totalSlides"
+          :key="`slide-${index}`"
           :title="indicatorTitle(slide)"
           :aria-controls="slidesId"
           :aria-pressed="isCurrentSlide(slide)"
           :class="['carousel__indicator hover--pointer', selectedSlideClass(slide)]"
-          @click="changeSlide(slide)"></button>
+          @click="changeSlide(slide)"
+        />
       </template>
 
       <button 
-        v-if="this.slideIntervalLength" 
+        v-if="slideIntervalLength" 
         :title="pauseTitle" 
         class="carousel__pause hover--pointer" 
-        @click="toggleSlideInterval">
+        @click="toggleSlideInterval"
+      >
         <span :class="[pauseIconClass]">P</span>
       </button>
     </div>
-
   </aside>
 </template>
 
@@ -63,7 +88,7 @@ import { getChangeInIndex, getNewOrder, getWidthWithMargins, modGreaterThanZero 
 const smallTimeout = 20
 
 export default {
-  name: 'carousel',
+  name: 'Carousel',
 
   props: {
     title: {
@@ -110,22 +135,6 @@ export default {
     }
   },
 
-  created() {
-    window.addEventListener('resize', () => {
-      this.setSlideWidth()
-      this.initSlideContainerPosition()
-    })
-  },
-
-  mounted () {
-    this.initData()
-    this.initSlideOrders()
-    this.setSlideWidth()
-    this.initSlideContainerPosition()
-    this.setActiveStateOnChildren()
-    this.setSlideIntervalIfConfigured()
-  },
-
   computed: {
     hasMultipleSlides () {
       return this.childSlideComponents.length > 3
@@ -146,6 +155,22 @@ export default {
     showIndicators () {
       return this.showAllIndicators || this.totalSlides < 7
     }
+  },
+
+  created() {
+    window.addEventListener('resize', () => {
+      this.setSlideWidth()
+      this.initSlideContainerPosition()
+    })
+  },
+
+  mounted () {
+    this.initData()
+    this.initSlideOrders()
+    this.setSlideWidth()
+    this.initSlideContainerPosition()
+    this.setActiveStateOnChildren()
+    this.setSlideIntervalIfConfigured()
   },
 
   methods: {

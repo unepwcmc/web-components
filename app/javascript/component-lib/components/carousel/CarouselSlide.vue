@@ -1,14 +1,14 @@
 <template>
   <li :class="['carousel-slide', 'transition']">
-    <slot :slideScope="slideScope"></slot>
+    <slot :slideScope="slideScope" />
   </li>
 </template>
 
 <script>
-import { getInputs } from '../../helpers/focus-helpers';
+import { getInputs } from '../../helpers/focus-helpers'
 
 export default {
-  name: 'carousel-slide',
+  name: 'CarouselSlide',
 
   props: {
     slidesPerFrame: {
@@ -29,16 +29,16 @@ export default {
     }
   },
 
-  mounted () {
-    this.setSlideStyle()
-    this.inputElements = getInputs(this.$el)
-    this.setTabIndices()
-  },
-
   watch: {
     isActive () {
       this.setTabIndices() 
     }
+  },
+
+  mounted () {
+    this.setSlideStyle()
+    this.inputElements = getInputs(this.$el)
+    this.setTabIndices()
   },
 
   methods: {

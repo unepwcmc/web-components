@@ -1,22 +1,31 @@
 <template>
-  <div class="map-pane" :class="{ 'map-pane--active' : isActive}">
-    <button id="map-pane-close" @click.prevent="togglePane" class="map-pane__close hover--pointer">{{paneIcon}}</button>
+  <div
+    class="map-pane"
+    :class="{ 'map-pane--active' : isActive}"
+  >
+    <button
+      id="map-pane-close"
+      class="map-pane__close hover--pointer"
+      @click.prevent="togglePane"
+    >
+      {{ paneIcon }}
+    </button>
 
     <div class="map-pane__content">
-      <filters :filters="filtersArray"></filters>
+      <filters :filters="filtersArray" />
     </div>
   </div>
 </template>
 
 <script>
-import helpers from "../../../helpers/helpers.js"
-import { eventHub } from "../../../../vue.js"
-import { EXAMPLE_FILTERS } from "../helpers/example-layers.js"
-import Filters from "./Filters.vue"
+import helpers from '../../../helpers/helpers.js'
+import { eventHub } from '../../../../vue.js'
+import { EXAMPLE_FILTERS } from '../helpers/example-layers.js'
+import Filters from './Filters.vue'
 import mixinDisableTabbing from '../../../mixins/mixin-disable-tabbing'
 
 export default {
-  name: "filter-pane",
+  name: 'FilterPane',
 
   components: { Filters },
 
@@ -38,16 +47,16 @@ export default {
 
   computed: {
     paneIcon() {
-      return this.isActive ? ">" : "<"
+      return this.isActive ? '>' : '<'
     }
   },
 
   created() {
-    eventHub.$on("reload-all-facets", this.reload)
+    eventHub.$on('reload-all-facets', this.reload)
   },
 
   destroyed() {
-    eventHub.$off("reload-all-facets", this.reload)
+    eventHub.$off('reload-all-facets', this.reload)
   },
 
   methods: {

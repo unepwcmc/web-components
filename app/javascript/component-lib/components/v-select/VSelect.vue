@@ -1,50 +1,68 @@
 <template>
-  <div class="v-select relative" :class="{'v-select--disabled': isDisabled}">
-    <input type="hidden" :name="config.id" :id="config.id" v-model="selectedInternal.name" />
+  <div
+    class="v-select relative"
+    :class="{'v-select--disabled': isDisabled}"
+  >
+    <input
+      :id="config.id"
+      v-model="selectedInternal.name"
+      type="hidden"
+      :name="config.id"
+    >
 
-    <div v-if="config.label" class="v-select__label hover--pointer">
-      <label :for="toggleId" class="v-select__selection">{{ config.label }}</label>
-      <slot name="label-icon"></slot>
+    <div
+      v-if="config.label"
+      class="v-select__label hover--pointer"
+    >
+      <label
+        :for="toggleId"
+        class="v-select__selection"
+      >{{ config.label }}</label>
+      <slot name="label-icon" />
     </div>
 
     <button
+      :id="toggleId"
       type="button"
       class="v-select__toggle"
       :class="{'v-select__toggle--active': isActive}"
-      :id="toggleId"
       aria-haspopup="true"
       :aria-controls="dropdownId"
       :disabled="isDisabled"
-      @click="toggleSelect">
+      @click="toggleSelect"
+    >
       <span class="v-select__dropdown-text">{{ selectionMessage }}</span>
-      <i class="drop-arrow arrow-svg"/>
+      <i class="drop-arrow arrow-svg" />
     </button>
 
     <ul 
       v-show="isActive" 
       :id="dropdownId" 
       role="radiogroup" 
-      class="v-select__dropdown ul--unstyled">
-
+      class="v-select__dropdown ul--unstyled"
+    >
       <li
-        class="v-select__option"
         v-for="option in options"
-        :key="option.id">
-        <label class="v-select__option-label" :for="getOptionInputId(option)">
+        :key="option.id"
+        class="v-select__option"
+      >
+        <label
+          class="v-select__option-label"
+          :for="getOptionInputId(option)"
+        >
           <input
+            :id="getOptionInputId(option)"
+            v-model="selectedInternal"
             class="v-select__default-radio"
             type="radio"
-            :id="getOptionInputId(option)"
             :name="dropdownOptionsName"
             :value="option"
-            v-model="selectedInternal">
-          <span class="v-select__radio flex-no-shrink"></span>
+          >
+          <span class="v-select__radio flex-no-shrink" />
           <span>{{ option.name }}</span>
         </label>
       </li>
-
-    </ul> 
-
+    </ul>
   </div>
 </template>
 
@@ -52,7 +70,7 @@
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 import mixinFocusCapture from '../../mixins/mixin-focus-capture'
 
-const UNDEFINED_ID = '__UNDEFINED__';
+const UNDEFINED_ID = '__UNDEFINED__'
 const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
 const DEFAULT_SELECT_MESSAGE = 'Select option'
 
@@ -63,30 +81,16 @@ export default {
   ],
 
   props: {
-      config: {
-        required: true,
-        type: Object
-      },
-      options: {
-        default: () => [],
-        type: Array
-      },
-      selected: {
-        default: null,
-      }
-  },
-
-  created () {
-    this.initializeSelectedInternal()
-  },
-
-  watch: {
-    selected (newSelectedOption) {
-      this.selectedInternal = newSelectedOption
+    config: {
+      required: true,
+      type: Object
     },
-
-    selectedInternal (newSelectedInternal) {
-      this.$emit('update:selected-option', newSelectedInternal)
+    options: {
+      default: () => [],
+      type: Array
+    },
+    selected: {
+      default: null,
     }
   },
 
@@ -112,6 +116,20 @@ export default {
     selectionMessage () {
       return this.selectedInternal.id === UNDEFINED_ID ? DEFAULT_SELECT_MESSAGE : this.selectedInternal.name
     }
+  },
+
+  watch: {
+    selected (newSelectedOption) {
+      this.selectedInternal = newSelectedOption
+    },
+
+    selectedInternal (newSelectedInternal) {
+      this.$emit('update:selected-option', newSelectedInternal)
+    }
+  },
+
+  created () {
+    this.initializeSelectedInternal()
   },
 
   methods: {
