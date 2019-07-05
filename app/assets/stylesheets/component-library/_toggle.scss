@@ -1,0 +1,11 @@
+.toggle {
+  &__text {
+    display: none;
+  }
+}
+
+.toggle-active { 
+  .toggle__text {
+    display: block; 
+  }
+}
