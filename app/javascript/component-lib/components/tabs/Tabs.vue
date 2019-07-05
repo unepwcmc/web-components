@@ -2,7 +2,7 @@
   <div class="tabs">
     <ul
       role="tablist"
-      class="tabs__triggers ul--unstyled flex flex-nowrap"
+      class="tabs__triggers flex flex-nowrap"
     >
       <li 
         v-for="child in children"

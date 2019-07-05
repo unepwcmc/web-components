@@ -5,7 +5,7 @@
       :aria-haspopup="true"
       :aria-controls="contentId"
       :aria-expanded="isActive"
-      class="accordion-item__toggle button--unstyled hover--pointer flex flex-h-between"
+      class="accordion-item__toggle hover--pointer flex flex-h-between"
       @click="toggleAccordionContent()"
     >
       <label

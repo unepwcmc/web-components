@@ -40,7 +40,7 @@
       :id="dropdownId" 
       aria-multiselectable="true" 
       role="group" 
-      class="v-select__dropdown ul--unstyled"
+      class="v-select__dropdown"
     >
       <li
         v-for="option in options"

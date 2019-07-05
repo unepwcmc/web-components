@@ -39,7 +39,7 @@
       v-show="isActive" 
       :id="dropdownId" 
       role="radiogroup" 
-      class="v-select__dropdown ul--unstyled"
+      class="v-select__dropdown"
     >
       <li
         v-for="option in options"

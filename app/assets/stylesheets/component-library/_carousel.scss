@@ -27,6 +27,8 @@ $transition-options: 0.6s ease-in-out;
   }
 
     &__slides {
+      @include ul--unstyled;
+      
       padding: 0;
       height: 100%;
       

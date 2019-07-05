@@ -1,7 +1,7 @@
 <template>
   <div class="component-viewer flex">
     <aside class="filters flex-no-shrink">
-      <ul class="filters__list ul--unstyled">
+      <ul class="filters__list">
         <li
           v-for="(category, index) in categoriesWithAll"
           :key="`component-viewer-category-${index}`"
@@ -24,7 +24,7 @@
 
       <ul
         id="component-grid"
-        class="component-grid ul--unstyled"
+        class="component-grid"
       >
         <li
           v-for="(comp, index) in filteredComponents"

@@ -7,7 +7,7 @@
       {{ title }}
     </h2>
 
-    <ul class="chart__chart ul-unstyled flex">
+    <ul class="chart__chart flex">
       <li
         v-for="row in rows"
         class="chart__bar flex flex-v-center"

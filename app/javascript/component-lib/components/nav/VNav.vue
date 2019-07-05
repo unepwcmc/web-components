@@ -28,7 +28,7 @@
       </button>
       <ul
         role="menubar"
-        class="nav__items ul--unstyled flex"
+        class="nav__items flex"
       >
         <li
           v-for="page in pages"

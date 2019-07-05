@@ -8,7 +8,7 @@
       aria-haspopup="true"
       :aria-expanded="isActive"
       :aria-controls="mixinModalId"
-      class="nav__dropdown-toggle hover--pointer flex-inline flex-v-center button--unstyled"
+      class="nav__dropdown-toggle hover--pointer flex-inline flex-v-center"
       @click="toggleDropdown"
     >
       <label

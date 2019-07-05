@@ -64,7 +64,7 @@
       v-show="showOptions" 
       :id="dropdownId" 
       role="listbox" 
-      class="v-select__dropdown ul--unstyled"
+      class="v-select__dropdown"
     >
       <li
         v-for="(option, index) in filteredOptions"

@@ -1,5 +1,5 @@
 <template>
-  <ul class="chart--legend ul-unstyled flex flex-wrap">
+  <ul class="chart--legend flex flex-wrap">
     <li
       v-for="(item, index) in legendItems"
       :key="`legend-item-${index}`"

@@ -19,7 +19,7 @@
         :id="slidesId"
         v-touch:swipe.right="slideToPrevious"
         v-touch:swipe.left="slideToNext"
-        class="carousel__slides transition ul--unstyled"
+        class="carousel__slides transition"
         aria-live="off"
         aria-atomic="true"
       >
