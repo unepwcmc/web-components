@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def styleguide_id
-    params[:styleguide] || 'site'
+    params[:styleguide] || 'component-library'
   end
 
   def styleguide_class
