@@ -1,5 +1,5 @@
 <template>
-  <div @click="toggle()" :class="{ 'toggle-active': isActive }">
+  <div @click="toggle" :class="{ 'toggle-active': isActive }">
     <slot></slot>
   </div>
 </template>
