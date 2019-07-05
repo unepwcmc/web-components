@@ -11,16 +11,16 @@
 @import './utilities/form-helpers.scss';
 
 // Site
-@import './styleguide_site/variables.scss';
-@import './styleguide_site/base.scss';
+@import './styleguide-site/variables.scss';
+@import './styleguide-site/base.scss';
 @import './site/*';
 .styleguide-site {
-  @import './styleguide_site/*';
+  @import './styleguide-site/*';
 }
 
 // Components
 .styleguide-example {
-  @import './styleguide_example/variables.scss';
-  @import './styleguide_example/base.scss';
-  @import './styleguide_example/*';
+  @import './styleguide-example/variables.scss';
+  @import './styleguide-example/base.scss';
+  @import './styleguide-example/*';
 }
