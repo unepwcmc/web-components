@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Vue.use(Vue2TouchEvents)
 
-    const app = new Vue({
+    new Vue({
       el: '#v-app',
       store,
 

@@ -24,6 +24,7 @@ export const customPolyfill = () => {
             }
           }
         }
+
         return undefined
       }
     })

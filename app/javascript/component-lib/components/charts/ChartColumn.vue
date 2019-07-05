@@ -16,44 +16,48 @@
 </template>
 
 <script>
-  export default {
-    name: 'chart-column',
+export default {
+  name: 'ChartColumn',
 
-    props: {
-      title: String,
-      columns: {
-        type: Array,
-        required: true
-      },
-      units: {
-        type: String,
-        default: '%'
-      },
-      optomiseColumnHeight: {
-        type: Boolean,
-        default: true
-      } 
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    columns: {
+      type: Array,
+      required: true
+    },
+    units: {
+      type: String,
+      default: '%'
+    },
+    optomiseColumnHeight: {
+      type: Boolean,
+      default: true
+    } 
+  },
+
+  computed: {
+    width () {
+      const total = this.columns.length
+
+      return (100/total) - 3 + '%'
+    }
+  },
+
+  methods: {
+    getColumnLabel (column, index) {
+      return `${index+1}. ${column.value}${this.units}`
     },
 
-    methods: {
-      getColumnLabel (column, index) {
-        return `${index+1}. ${column.value}${this.units}`
-      },
-
-      setMaxValue () {
-        this.maxValue = Math.max.apply(Math, this.columns.map(col => col.value))
-      },
-
-      percent (column) {
-        return this.maxValue ? 100 * column.value / this.maxValue : column.value
-      }
+    setMaxValue () {
+      this.maxValue = Math.max.apply(Math, this.columns.map(col => col.value))
     },
 
-    computed: {
-      width () {
-        const total = this.columns.length
-        return (100/total) - 3 + '%'
-      }
+    percent (column) {
+      return this.maxValue ? 100 * column.value / this.maxValue : column.value
     }
   }
+}
 </script>

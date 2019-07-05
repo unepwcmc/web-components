@@ -1,5 +1,9 @@
 <template>
-    <a role="menuitem" class="nav__select hover--pointer" :href="item.url">{{item.label}}</a>
+  <a
+    role="menuitem"
+    class="nav__select hover--pointer"
+    :href="item.url"
+  >{{ item.label }}</a>
 </template>
 
 <script>

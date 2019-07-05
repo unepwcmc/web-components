@@ -21,6 +21,8 @@
   margin-bottom: rem-calc(10);
 
   &__toggle {
+    @include button--unstyled;
+    
     @extend .sg-h3;
     width: 100%;
   }

@@ -112,6 +112,7 @@ $select-text-color: $black;
       }
 
   &__dropdown {
+    @include ul--unstyled;
     @extend .sg-h4;
 
     border: $border-regular $grey;

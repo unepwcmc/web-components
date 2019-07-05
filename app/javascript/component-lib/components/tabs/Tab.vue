@@ -1,12 +1,18 @@
 <template>
-  <div v-show="isActive" role="tabpanel" :id="id" :aria-labelledby="triggerId" class="tab">
-    <slot></slot>
+  <div
+    v-show="isActive"
+    :id="id"
+    role="tabpanel"
+    :aria-labelledby="triggerId"
+    class="tab"
+  >
+    <slot />
   </div>
 </template>
 
 <script>
 export default {
-  name: "tab",
+  name: 'Tab',
   props: {
     id: {
       required: true,

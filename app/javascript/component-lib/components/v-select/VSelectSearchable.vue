@@ -1,16 +1,34 @@
 <template>
-  <div class="v-select v-select--search relative" :class="{'v-select--disabled': isDisabled}">
-    <input type="hidden" :name="config.id" :id="config.id" v-model="selectedInternal.name" />
+  <div
+    class="v-select v-select--search relative"
+    :class="{'v-select--disabled': isDisabled}"
+  >
+    <input
+      :id="config.id"
+      v-model="selectedInternal.name"
+      type="hidden"
+      :name="config.id"
+    >
 
-    <div v-if="config.label" class="v-select__label">
-      <label :for="toggleId" class="v-select__selection">{{ config.label }}</label>
-      <slot name="label-icon"></slot>
+    <div
+      v-if="config.label"
+      class="v-select__label"
+    >
+      <label
+        :for="toggleId"
+        class="v-select__selection"
+      >{{ config.label }}</label>
+      <slot name="label-icon" />
     </div>
 
     <div :class="['v-select__search relative', {'v-select__search--active': isActive}]">
-      <label class="screen-reader" for="v-select-search">{{ config.label }} search</label>
+      <label
+        class="screen-reader"
+        for="v-select-search"
+      >{{ config.label }} search</label>
       <input
         id="v-select-search"
+        v-model="searchTerm"
         class="v-select__search-input"
         type="text"
         role="combobox"
@@ -18,22 +36,27 @@
         aria-autocomplete="list"
         :aria-expanded="showOptions"
         :aria-owns="dropdownId"
-        :aria-activedescendant="highlightedOptionId"
-        v-model="searchTerm" 
+        :aria-activedescendant="highlightedOptionId" 
         :placeholder="placeholder"
         :disabled="isDisabled"
-        @focus="openSelect">
+        @focus="openSelect"
+      >
 
       <span class="v-select__search-icons">
-        <span class="v-select__search-icon" v-show="!showResetIcon"></span>
+        <span
+          v-show="!showResetIcon"
+          class="v-select__search-icon"
+        />
         <button 
+          v-show="showResetIcon"
           id="v-select-search-reset"
           class="v-select__search-icon v-select__search-icon--reset hover--pointer"
-          v-show="showResetIcon"
-          @click="resetSearchTerm"></button>
+          @click="resetSearchTerm"
+        />
         <span 
           class="drop-arrow drop-arrow--margin-right arrow-svg hover--pointer"
-          @click="toggleSelect"></span>
+          @click="toggleSelect"
+        />
       </span>
     </div>
 
@@ -41,30 +64,29 @@
       v-show="showOptions" 
       :id="dropdownId" 
       role="listbox" 
-      class="v-select__dropdown ul--unstyled">
-
+      class="v-select__dropdown"
+    >
       <li
         v-for="(option, index) in filteredOptions"
+        v-show="matchesSearchTerm(option)"
+        :id="getOptionInputId(option)"
+        :key="option.id"
         :class="['v-select__option hover--pointer', conditionalOptionClasses(option, index)]"
         role="option"
         :aria-selected="isHighlighted(index)"
-        :id="getOptionInputId(option)"
-        :key="option.id"
-        v-show="matchesSearchTerm(option)"
-        @click="selectOption(option)">
+        @click="selectOption(option)"
+      >
         {{ option.name }}
       </li>
-
-    </ul> 
-
+    </ul>
   </div>
 </template>
 
 <script>
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
-import { isTabForward, isTabBackward, getRadioToFocus } from '../../helpers/focus-helpers'
+import { isTabForward, isTabBackward } from '../../helpers/focus-helpers'
 import { KEYCODES } from '../../helpers/keyboard-helpers'
-const UNDEFINED_ID = '__UNDEFINED__';
+const UNDEFINED_ID = '__UNDEFINED__'
 const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
 const DEFAULT_SELECT_MESSAGE = 'Select option'
 
@@ -74,17 +96,18 @@ export default {
   ],
 
   props: {
-      config: {
-        required: true,
-        type: Object
-      },
-      options: {
-        default: () => [],
-        type: Array
-      },
-      selected: {
-        default: null,
-      }
+    config: {
+      required: true,
+      type: Object
+    },
+    options: {
+      default: () => [],
+      type: Array
+    },
+    selected: {
+      type: String,
+      default: null
+    }
   },
 
   data () {
@@ -219,7 +242,7 @@ export default {
       const regex = new RegExp(`${this.searchTerm}`, 'i')
       const match = option.name.match(regex)
 
-      return !Boolean(this.searchTerm) || match
+      return !this.searchTerm || match
     },
 
     resetSearchTerm () {
@@ -252,20 +275,20 @@ export default {
     addArrowKeyListeners () {
       this.$el.querySelector('#v-select-search').addEventListener('keydown', e => {
         switch (e.keyCode) {
-          case KEYCODES.down:
-            this.incremementKeyboardFocus()
-            break;
-          case KEYCODES.up:
-            this.decrementKeyboardFocus()
-            break;
-          case KEYCODES.enter:
-            if(this.filteredOptions.length && this.hasKeyboardFocus) { 
-                this.selectOption(this.filteredOptions[this.highlightedOptionIndex])
-              }
-            break;
-          case KEYCODES.esc:
-            document.activeElement.blur()
-            break;
+        case KEYCODES.down:
+          this.incremementKeyboardFocus()
+          break
+        case KEYCODES.up:
+          this.decrementKeyboardFocus()
+          break
+        case KEYCODES.enter:
+          if(this.filteredOptions.length && this.hasKeyboardFocus) { 
+            this.selectOption(this.filteredOptions[this.highlightedOptionIndex])
+          }
+          break
+        case KEYCODES.esc:
+          document.activeElement.blur()
+          break
         }
       })
     },

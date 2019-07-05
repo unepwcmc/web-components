@@ -2,23 +2,24 @@
   <div class="map-filters flex flex-column">
     <dataset
       v-for="dataset in datasets"
-      :key="dataset.id"
       :id="id+'_'+dataset.id"
+      :key="dataset.id"
       :config="dataset"
-    ></dataset>
+    />
   </div>
 </template>
 
 <script>
-import Dataset from "./Dataset.vue";
+import Dataset from './Dataset.vue'
 
 export default {
-  name: "facet",
+  name: 'Facet',
 
   components: { Dataset },
 
   props: {
     id: {
+      type: String,
       required: true
     },
     datasets: {
@@ -26,5 +27,5 @@ export default {
       type: Array
     }
   }
-};
+}
 </script>

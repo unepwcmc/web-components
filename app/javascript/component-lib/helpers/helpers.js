@@ -30,13 +30,13 @@ export default {
   removeWhiteSpaces (string) {
     const regex = new RegExp(/\s/g)
 
-    return string.replace(regex, g => { return '' })
+    return string.replace(regex, () => { return '' })
   },
 
   spacesToKebab (string) {
     const regex = new RegExp(/\s/g)
 
-    return string.replace(regex, g => { return '-' })
+    return string.replace(regex, () => { return '-' })
   },
 
   trim (string) {

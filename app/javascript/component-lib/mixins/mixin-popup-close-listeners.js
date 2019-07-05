@@ -1,4 +1,4 @@
-import { KEYCODES } from "../helpers/keyboard-helpers"
+import { KEYCODES } from '../helpers/keyboard-helpers'
 
 export default ({closeCallback, toggleVariable='isActive', closeOnClickOutside=true, closeOnEscKeypress=true}) => ({
   mounted () {

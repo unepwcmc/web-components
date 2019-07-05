@@ -1,4 +1,4 @@
-import { getInputs, preventTab, isTabBackward, isTabForward } from "../helpers/focus-helpers";
+import { getInputs, preventTab, isTabBackward, isTabForward } from '../helpers/focus-helpers'
 
 export default ({toggleVariable, closeCallback, openCallback}) => ({
   data() {
@@ -103,7 +103,7 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
     removeEventListeners () {
       if (this.modalElement) { this.modalElement.removeEventListener('keydown', preventTab) }
       if (this.firstInput) { this.firstInput.removeEventListener('keydown', this.handleFirstInputTab) }
-      if (this.lastInput) { ;this.lastInput.removeEventListener('keydown', this.handleLastInputTab) }
+      if (this.lastInput) { this.lastInput.removeEventListener('keydown', this.handleLastInputTab) }
     },
     
     setModalElements() {

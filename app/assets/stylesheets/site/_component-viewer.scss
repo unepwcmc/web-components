@@ -27,6 +27,8 @@ $comp-grid-padding: rem-calc(14);
 }
 
 .component-grid {
+  @include ul--unstyled;
+  
   overflow-y: scroll;
   width: 100%; height: 100%;
 
@@ -68,6 +70,10 @@ $comp-grid-padding: rem-calc(14);
   }
   @include breakpoint($large) {
     width: $filters-width-large;
+  }
+
+  &__list {
+    @include ul--unstyled;
   }
 
     &__list-item {

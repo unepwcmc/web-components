@@ -1,4 +1,4 @@
-import { isTabForward, isTabBackward } from "../../../helpers/focus-helpers"
+import { isTabForward, isTabBackward } from '../../../helpers/focus-helpers'
 
 export const getLayers = (datasetId, config, isSelected) => {
   const layers = []
@@ -11,7 +11,7 @@ export const getLayers = (datasetId, config, isSelected) => {
     }
   }
 
-  if (config.map_type === "Raster") {
+  if (config.map_type === 'Raster') {
     layers.push(layer)
   } else {
     //Vector datasets contain multiple layers
@@ -21,7 +21,7 @@ export const getLayers = (datasetId, config, isSelected) => {
           filter: config.carto_filters[i],
           tables: [config.carto_table],
           colour: config.carto_colors[i],
-          id: datasetId + "_" + i
+          id: datasetId + '_' + i
         },
         ...layer
       }
@@ -45,6 +45,7 @@ export const getFirstForegroundLayerId = map => {
       firstSymbolId = layer.id
     }
   }
+
   return firstBoundaryId || firstSymbolId
 }
 

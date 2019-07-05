@@ -8,6 +8,7 @@ const getNumericCssProperty = (el, property) => {
   if(propertyStyle.indexOf('rem') !== -1) {
     return convertRem(parseFloat(propertyStyle))
   }
+
   return parseInt(propertyStyle, 10)
 }
 
