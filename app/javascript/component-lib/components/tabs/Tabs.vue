@@ -5,8 +5,9 @@
       class="tabs__triggers ul--unstyled flex flex-nowrap"
     >
       <li 
-        v-for="child, index in children"
+        v-for="child in children"
         :id="triggerId(child)"
+        :key="triggerId(child)"
         role="tab"
         tabindex="0"
         :aria-controls="child.id"
@@ -33,7 +34,10 @@ export default {
   name: 'Tabs',
 
   props: {
-    initActiveId: String
+    initActiveId: {
+      type: String,
+      default: ''
+    }
   },
 
   data () {

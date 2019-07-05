@@ -84,7 +84,7 @@
 
 <script>
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
-import { isTabForward, isTabBackward, getRadioToFocus } from '../../helpers/focus-helpers'
+import { isTabForward, isTabBackward } from '../../helpers/focus-helpers'
 import { KEYCODES } from '../../helpers/keyboard-helpers'
 const UNDEFINED_ID = '__UNDEFINED__'
 const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
@@ -105,7 +105,8 @@ export default {
       type: Array
     },
     selected: {
-      default: null,
+      type: String,
+      default: null
     }
   },
 

@@ -45,7 +45,10 @@ export default {
       required: true,
       type: String
     },
-    config: Object
+    config: {
+      type: Object,
+      required: true
+    }
   },
 
   data() {

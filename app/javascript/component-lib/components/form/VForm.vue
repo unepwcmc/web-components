@@ -47,9 +47,18 @@ export default {
   mixins: [ mixinFocusCapture({toggleVariable: 'isPopupActive'}) ],
 
   props: {
-    title: String,
-    errorMessage: String,
-    successMessage: String,
+    title: {
+      type: String,
+      default: ''
+    },
+    errorMessage: {
+      type: String,
+      default: 'There was an error submitting your form.'
+    },
+    successMessage: {
+      type: String,
+      default: 'Your form has been submitted.'
+    }
   },
 
   data() {
@@ -91,18 +100,18 @@ export default {
       const form = this.$el.querySelector('form')
 
       form.addEventListener('submit', e => {
-        const data = new FormData(form)
-        const action = form.getAttribute('action')
+        // const data = new FormData(form)
+        // const action = form.getAttribute('action')
 
         e.preventDefault()
         
         Math.random() < 0.5 ? this.handleSuccess() : this.handleException()
         // axios.post(action, data)
         //   .then(response => {
-        //     this.handleSuccess()
+        //     this.handleSuccess(response)
         //   })
         //   .catch(error => {
-        //     this.handleException()
+        //     this.handleException(error)
         //   })
       })
     }

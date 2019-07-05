@@ -12,6 +12,7 @@
 </template>
 
 <script>
+/* eslint-disable no-undef */
 /**
  * MapExplore is the main map panel and most of the functionality comes from turf & mixin-carto
  * This component just handles 'mapbox layers' on the map and knows nothing about our 'datasets' which may contain
@@ -20,8 +21,6 @@
  *   map-create-layer: creates a single map layer with given id
  *   map-hide-layers: hide the layer with provided id (must already have been created)
  */
-import * as turf from '@turf/turf'
-
 import LayersControl from './helpers/layers-control.js'
 import { getFirstForegroundLayerId, correctTabFlow } from './helpers/map-helpers.js'
 import mixinCarto from './mixins/mixin-carto.js'

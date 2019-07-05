@@ -71,8 +71,6 @@
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 import mixinFocusCapture from '../../mixins/mixin-focus-capture'
 
-const UNDEFINED_ID = '__UNDEFINED__'
-const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
 const DEFAULT_MULTISELECT_MESSAGE = 'Select options'
 
 export default {
@@ -91,6 +89,7 @@ export default {
       type: Array
     },
     selected: {
+      type: Array,
       default: () => [],
     }
   },

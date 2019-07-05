@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { eventHub } from '../../../vue.js'
 import mixinFocusCapture from '../../mixins/mixin-focus-capture'
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 

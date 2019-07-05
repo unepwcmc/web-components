@@ -1,7 +1,8 @@
 <template>
   <ul class="chart--legend ul-unstyled flex flex-wrap">
     <li
-      v-for="item, index in legendItems"
+      v-for="(item, index) in legendItems"
+      :key="`legend-item-${index}`"
       class="chart__legend-item flex flex-v-center"
       :class="themeClass"
     >
@@ -28,7 +29,10 @@ export default {
       type: Boolean,
       default: false
     },
-    theme: String
+    theme: {
+      type: String,
+      default: 'default'
+    }
   },
 
   computed: {

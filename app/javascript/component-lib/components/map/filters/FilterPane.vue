@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import helpers from '../../../helpers/helpers.js'
 import { eventHub } from '../../../../vue.js'
 import { EXAMPLE_FILTERS } from '../helpers/example-layers.js'
 import Filters from './Filters.vue'
@@ -72,7 +71,7 @@ export default {
       this.isActive = false
     },
 
-    reload(e) {
+    reload() {
       //reload data, possibly with request, here
       this.filtersArray = EXAMPLE_FILTERS
     }

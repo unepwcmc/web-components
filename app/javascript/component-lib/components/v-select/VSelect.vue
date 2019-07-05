@@ -90,7 +90,8 @@ export default {
       type: Array
     },
     selected: {
-      default: null,
+      type: String,
+      default: null
     }
   },
 
