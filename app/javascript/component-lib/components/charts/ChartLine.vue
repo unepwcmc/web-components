@@ -2,6 +2,7 @@
   <div class="chart--line">
     <div class="chart__wrapper-ie11">
       <div class="chart__scrollable">
+        UPDATES PENDING - TO MERGE IN FROM UPDATE CHARTS BRANCH
         <div
           v-if="lines"
           class="chart__chart"
@@ -29,7 +30,7 @@
               :y="-4.5 * fontSize"
               :font-size="fontSize"
             >
-              <tspan
+            <!-- <tspan
                 v-for="t in axisLabels.y"
                 :x="-chartPaddingSides"
                 :dy="1.25 * fontSize"
@@ -82,8 +83,8 @@
                 :label="xTarget.label"
                 :font-size="fontSize"
               />
-            </template>
-          </svg>
+            </template> -->
+            </text></svg>
         </div>
       </div>
     </div>
@@ -97,9 +98,9 @@
 </template>
 
 <script>
-import ChartLineDataset from './ChartLineDataset'
-import ChartLineTargetX from './ChartLineTargetX'
-import ChartLineTargetY from './ChartLineTargetY'
+// import ChartLineDataset from './ChartLineDataset'
+// import ChartLineTargetX from './ChartLineTargetX'
+// import ChartLineTargetY from './ChartLineTargetY'
 import ChartLegend from './ChartLegend'
 
 const AXIS_PADDING = 30
@@ -126,7 +127,12 @@ const DEFAULT_Y_AXIS_CONFIG = {
 export default {
   name: 'ChartLine',
 
-  components: { ChartLineTargetX, ChartLineTargetY, ChartLineDataset, ChartLegend },
+  components: { 
+    // ChartLineTargetX, 
+    // ChartLineTargetY, 
+    // ChartLineDataset, 
+    ChartLegend 
+  },
 
   props: {
     lines: {

@@ -9,7 +9,8 @@
 
     <div class="chart__chart">
       <div
-        v-for="row in rows"
+        v-for="(row, index) in rows"
+        :key="getRowKey(index)"
         class="chart__row flex flex-v-center flex-h-between"
         :class="themeClass"
       >
@@ -29,8 +30,14 @@ export default {
   name: 'ChartRow',
 
   props: {
-    title: String,
-    theme: String,
+    title: {
+      type: String,
+      default: ''
+    },
+    theme: {
+      type: String,
+      default: 'default'
+    },
     rows: { // Row[]
       type: Array,
       required: true
@@ -48,6 +55,10 @@ export default {
   },
 
   methods: {
+    getRowKey (index) {
+      return `chart-${this._uid}-row-${index}`
+    },
+
     getValue (row) {
       return row.value ? row.value : row.percent
     }

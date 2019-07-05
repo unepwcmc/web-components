@@ -17,7 +17,8 @@
       :font-weight="fontWeight"
     >
       <tspan
-        v-for="t in label"
+        v-for="(t, index) in label"
+        :key="getLabelKey(index)"
         :x="x"
         dx="0.6em"
         dy="1.2em"
@@ -51,8 +52,14 @@ export default {
       type: Number,
       required: true
     },
-    lineStyle: Object,
-    label: Array,
+    label: {
+      type: String,
+      default: ''
+    },
+    lineStyle: { //{colour: String, strokeWidth: string, dashArray: String}
+      type: Object,
+      default: () => {}
+    },
     colour: {
       type: String,
       default: '#000000'
@@ -74,6 +81,12 @@ export default {
 
     style () {
       return {...DEFAULT_LINE_STYLE, ...this.lineStyle}
+    }
+  },
+
+  methods: {
+    getLabelKey (index) {
+      return `chart-line-target-x-${this._uid}-label-${index}`
     }
   }
 }

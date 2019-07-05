@@ -9,7 +9,8 @@
 
     <ul class="chart__chart flex">
       <li
-        v-for="row in rows"
+        v-for="(row, index) in rows"
+        :key="getRowKey(index)"
         class="chart__bar flex flex-v-center"
         :class="themeClass"
         :style="{ width: row.percent + '%' }"
@@ -39,14 +40,21 @@ export default {
   components: { ChartLegend },
 
   props: {
-    title: String,
-    theme: String,
+    title: {
+      type: String,
+      default: ''
+    },
+    theme: {
+      type: String,
+      default: 'default'
+    },
     rows: { // Row[]
       type: Array,
       required: true
     },
     legend: {
-      type: Array
+      type: Array,
+      default: () => []
     },
     units: {
       type: String,
@@ -61,6 +69,10 @@ export default {
   },
 
   methods: {
+    getRowKey (index) {
+      return `chart-${this._uid}-row-stacked-${index}`
+    },
+
     getValue (row) {
       return row.value ? row.value : row.percent
     }

@@ -43,8 +43,14 @@ export default {
       type: Number,
       required: true
     },
-    label: String,
-    lineStyle: Object,
+    label: {
+      type: String,
+      default: ''
+    },
+    lineStyle: { //{colour: String, strokeWidth: string, dashArray: String}
+      type: Object,
+      default: () => {}
+    },
     fontSize: {
       type: Number,
       default: 14
