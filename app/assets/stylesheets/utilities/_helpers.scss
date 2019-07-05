@@ -45,6 +45,22 @@
 
 .ul--inline li { display: inline-block; }
 
+@mixin list-margin ($side, $value) {
+  margin-#{$side}: $value;
+
+  &:last-child {
+    margin-#{$side}: 0;
+  }
+}
+
+@mixin list-horizontal-margin ($value) {
+  @include list-margin('right', $value)
+}
+
+@mixin list-vertical-margin ($value) {
+  @include list-margin('bottom', $value)
+}
+
 //--------------------------------------------------
 // positioning
 //--------------------------------------------------
