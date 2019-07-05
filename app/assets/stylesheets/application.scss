@@ -2,6 +2,8 @@
 *= require_self
 */
 
+@import './site/variables.scss';
+
 // Utilities
 @import './utilities/wcmc-branding.scss';
 @import './utilities/rem-calc.scss';
@@ -10,17 +12,16 @@
 @import './utilities/helpers.scss';
 @import './utilities/form-helpers.scss';
 
-// Site
-@import './styleguide-site/variables.scss';
-@import './styleguide-site/base.scss';
-@import './site/*';
-.styleguide-site {
-  @import './styleguide-site/*';
+@import './site/base.scss';
+@import './site/*'; //TODO: don't import above files twice
+
+.styleguide-component-library {
+  @import './component-library/*';
 }
 
-// Components
-.styleguide-example {
-  @import './styleguide-example/variables.scss';
-  @import './styleguide-example/base.scss';
-  @import './styleguide-example/*';
+// Styleguides
+.styleguide-example-project {
+  @import './example-project-styleguide/variables.scss';
+  @import './example-project-styleguide/base.scss';
+  @import './example-project-styleguide/*';
 }

@@ -2,15 +2,15 @@ class ApplicationController < ActionController::Base
   def styleguides
     [
       {
-        id: 'example',
+        id: 'example-project',
         name: 'Example',
         component_ids: [
           'carousel'
         ]
       },
       {
-        id: 'site',
-        name: 'Styleguide Site'
+        id: 'component-library',
+        name: 'Component Library'
       }
     ]
   end
