@@ -5,20 +5,21 @@
     :font-size="font"
   >
     <tspan 
-      v-for="text in label" 
+      v-for="(text, index) in label"
+      :key="`chart-axis-label-${_uid}-text-${index}`"
       :x="-chartPaddingSides" 
       :dy="1.25 * font"
-    >{{ text }}
+    >
+      {{ text }}
     </tspan>
-
   </text>
 </template>
 
 <script>
-import { DEFAULT_SVG_CONFIG } from './helpers/chart-constants.js'
+import { DEFAULT_SVG_CONFIG, DEFAULT_FONT } from './helpers/chart-constants.js'
 
 export default {
-  name: 'chart-axis-label',
+  name: 'ChartAxisLabel',
 
   props: {
     label: {
@@ -29,8 +30,14 @@ export default {
       type: String,
       required: true
     },
-    fontSize: Number,
-    chartPadding: Number
+    fontSize: {
+      type: Number,
+      default: DEFAULT_FONT.size
+    },
+    chartPadding: {
+      type: Number,
+      default: DEFAULT_SVG_CONFIG.chartPaddingTop
+    }
   },
 
   computed: {

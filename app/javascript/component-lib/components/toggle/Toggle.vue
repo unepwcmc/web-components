@@ -1,12 +1,15 @@
 <template>
-  <div @click="toggle" :class="{ 'toggle-active': isActive }">
-    <slot></slot>
+  <div
+    :class="{ 'toggle-active': isActive }"
+    @click="toggle"
+  >
+    <slot />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'toggle',
+  name: 'Toggle',
 
   data () {
     return {

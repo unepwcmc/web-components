@@ -25,6 +25,7 @@ export default class ChartAxis {
 
       n += incrementor
     }
+
     return axisTickLabels
   }
 }

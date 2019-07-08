@@ -53,8 +53,8 @@ export default {
       required: true
     },
     label: {
-      type: String,
-      default: ''
+      type: Array,
+      default: () => []
     },
     lineStyle: { //{colour: String, strokeWidth: string, dashArray: String}
       type: Object,

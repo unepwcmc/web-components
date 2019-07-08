@@ -2,16 +2,28 @@
   <div class="chart--line">
     <div class="chart__wrapper-ie11">
       <div class="chart__scrollable">
-        <div v-if="lines" class="chart__chart" style="width:100%;">
-          <svg width="100%" height="100%" :viewBox="`-${chartPaddingSides} -${svgPaddingTop} ${svg.width} ${svg.height}`" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" class="chart__svg">
+        <div
+          v-if="lines"
+          class="chart__chart"
+          style="width:100%;"
+        >
+          <svg
+            width="100%"
+            height="100%"
+            :viewBox="`-${chartPaddingSides} -${svgPaddingTop} ${svg.width} ${svg.height}`"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid"
+            class="chart__svg"
+          >
             <rect 
               :x="-chartPaddingSides"
               :y="`-${chartPaddingTop}`" 
               :width="svg.width" 
               :height="backgroundHeight" 
-              :fill="backgroundColour" />
+              :fill="backgroundColour"
+            />
 
-            <text v-if="axisLabels" :x="-chartPaddingSides" :y="-4.5 * fontSize" :font-size="fontSize">
+            <!-- <text v-if="axisLabels" :x="-chartPaddingSides" :y="-4.5 * fontSize" :font-size="fontSize">
               <tspan v-for="t in axisLabels.y" :x="-chartPaddingSides" :dy="1.25 * fontSize">{{ t }}</tspan>
             </text>
 
@@ -55,20 +67,24 @@
                 :label="xTarget.label"
                 :font-size="fontSize">
               </chart-line-target-x>
-            </template>
+            </template> -->
           </svg>
         </div>
       </div>
     </div>
 
-    <chart-legend v-if="hasLegend" :is-line="true" :legend-items="legendDatasets"></chart-legend>
+    <chart-legend
+      v-if="hasLegend"
+      :is-line="true"
+      :legend-items="legendDatasets"
+    />
   </div>  
 </template>
 
 <script>
-import ChartLineDataset from './ChartLineDataset'
-import ChartLineTargetX from './ChartLineTargetX'
-import ChartLineTargetY from './ChartLineTargetY'
+// import ChartLineDataset from './ChartLineDataset'
+// import ChartLineTargetX from './ChartLineTargetX'
+// import ChartLineTargetY from './ChartLineTargetY'
 import ChartLegend from './ChartLegend'
 
 const AXIS_PADDING = 30
@@ -76,8 +92,8 @@ const DEFAULT_BACKGROUND_COLOUR = '#ffffff'
 const DEFAULT_CHART_PADDING_SIDES = 80
 const DEFAULT_FONT_SIZE = 14
 const DEFAULT_LINE_COLOUR = {
-line: '#000000',
-text: '#ffffff'
+  line: '#000000',
+  text: '#ffffff'
 }
 const DEFAULT_SVG_CONFIG = {
   width: 1000,
@@ -93,9 +109,14 @@ const DEFAULT_Y_AXIS_CONFIG = {
 }
 
 export default {
-  name: 'chart-line-old',
+  name: 'ChartLineOld',
 
-  components: { ChartLineTargetX, ChartLineTargetY, ChartLineDataset, ChartLegend },
+  components: { 
+    // ChartLineTargetX, 
+    // ChartLineTargetY, 
+    // ChartLineDataset, 
+    ChartLegend 
+  },
 
   props: {
     lines: {

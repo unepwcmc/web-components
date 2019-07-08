@@ -5,7 +5,6 @@ export const DEFAULT_SVG_CONFIG = {
   chartPaddingBottom: 40,
   chartPaddingSides: 80,
   chartBackgroundColour: '#fff',
-  chartBackgroundColour: 20,
   width: 1000,
   height: 650,
   x: {

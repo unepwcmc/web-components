@@ -2,14 +2,26 @@
   <div class="chart--line">
     <div class="chart__wrapper-ie11">
       <div class="chart__scrollable">
-        <div v-if="lines" class="chart__chart" style="width:100%;">
-          <svg width="100%" height="100%" :viewBox="`-${chartPaddingSides} -${svgPaddingTop} ${config.width} ${config.height}`" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" class="chart__svg">
+        <div 
+          v-if="lines" 
+          class="chart__chart" 
+          style="width:100%;"
+        >
+          <svg 
+            width="100%"
+            height="100%"
+            :viewBox="`-${chartPaddingSides} -${svgPaddingTop} ${config.width} ${config.height}`"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid"
+            class="chart__svg"
+          >
             <rect 
               :x="-chartPaddingSides"
               :y="-chartPaddingTop"
               :width="config.width" 
               :height="config.height" 
-              :fill="svgBackgroundColour" />
+              :fill="svgBackgroundColour" 
+            />
 
             <rect 
               :x="-chartPaddingSides"
@@ -17,7 +29,8 @@
               :rx="20"
               :width="config.width" 
               :height="backgroundHeight" 
-              :fill="chartBackgroundColour" />
+              :fill="chartBackgroundColour"
+            />
 
             <chart-axis
               v-if="xAxisConfig.showAxis"
@@ -40,40 +53,49 @@
             />
 
             <chart-line-dataset 
-              v-for="line, index in lines"
+              v-for="(line, index) in lines"
+              :key="getVForKey('chart-line-dataset', index)"
               :index="index"
               :path="getPath(line.datapoints)"
               :labels="getDatapointLabels(line.datapoints)"
-              :colour="getLineColours(line)">
-            </chart-line-dataset>
+              :colour="getLineColours(line)" 
+            />
 
             <template v-if="yTargets">
-              <chart-line-target-y v-for="yTarget in yTargets"
+              <chart-line-target-y 
+                v-for="(yTarget, index) in yTargets"
+                :key="getVForKey('chart-line-target-y', index)"
                 :minX="x.minNormalised" 
                 :maxX="x.maxNormalised" 
                 :y="normaliseY(yTarget.y)"
                 :line-style="yTarget.lineStyle"
                 :label="yTarget.label"
-                :font-size="fontSize">
-              </chart-line-target-y>
+                :font-size="fontSize"
+              />
             </template>
 
             <template v-if="xTargets">
-              <chart-line-target-x v-for="xTarget in xTargets"
+              <chart-line-target-x 
+                v-for="(xTarget, index) in xTargets"
+                :key="getVForKey('chart-line-target-x', index)"
                 :minY="y.minNormalised" 
                 :maxY="y.maxNormalised" 
                 :x="normaliseX(xTarget.x)"
                 :line-style="xTarget.lineStyle"
                 :label="xTarget.label"
-                :font-size="fontSize">
-              </chart-line-target-x>
+                :font-size="fontSize"
+              />
             </template>
           </svg>
         </div>
       </div>
     </div>
 
-    <chart-legend v-if="hasLegend" :is-line="true" :legend-items="legendDatasets"></chart-legend>
+    <chart-legend 
+      v-if="hasLegend" 
+      :is-line="true" 
+      :legend-items="legendDatasets"
+    />
   </div>  
 </template>
 
@@ -84,16 +106,18 @@ import ChartLineTargetX from './ChartLineTargetX.vue'
 import ChartLineTargetY from './ChartLineTargetY.vue'
 import { DEFAULT_COLOUR } from './helpers/chart-constants.js'
 import { DEFAULT_SVG_CONFIG } from './helpers/chart-constants.js'
+import mixinIds from '../../mixins/mixin-ids'
 
 const AXIS_PADDING = 30
-const DEFAULT_BACKGROUND_COLOUR = 'transparent'
 const DEFAULT_FONT_SIZE = 14
 
 
 export default {
-  name: 'chart-line',
+  name: 'ChartLine',
 
   components: { ChartLineDataset, ChartAxis, ChartLineTargetX, ChartLineTargetY },
+  
+  mixins: [mixinIds],
 
   props: {
     lines: {
@@ -203,7 +227,7 @@ export default {
       let labels = []
 
       if(this.config.datapointLabels == 'all') {
-        datapoints.forEach((point, index) => {
+        datapoints.forEach(point => {
           labels.push({ 
             x: this.normaliseX(point.x), 
             y: this.normaliseY(point.y),

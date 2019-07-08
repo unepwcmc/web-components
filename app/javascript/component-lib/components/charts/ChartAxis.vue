@@ -1,13 +1,16 @@
 <template>
   <g>
-    <text v-for="number in axisArray" 
+    <text
+      v-for="(number, index) in axisArray"
+      :key="`chart-axis-${_uid}-text-${index}`"
       :x="getX(number)" 
       :y="getY(number)"
       :text-anchor="textAnchor"
       :font-size="config.fontSize"
       :fill="config.color"
       :label="config.label"
-    >{{ number.labelText }}
+    >
+      {{ number.labelText }}
     </text>
 
     <chart-axis-label 
@@ -15,7 +18,7 @@
       :type="type"
       :label="config.label"
       :font-size="config.fontSize"
-      :chartPadding="chartPaddingSides"
+      :chart-padding="chartPaddingSides"
     />
   </g>
 </template>
@@ -26,7 +29,7 @@ import { normaliseX } from './helpers/chart-helpers.js'
 import { normaliseY } from './helpers/chart-helpers.js'
 
 export default {
-  name: 'chart-axis',
+  name: 'ChartAxis',
 
   components: { ChartAxisLabel },
 
@@ -113,6 +116,7 @@ export default {
 
         n += incrementor
       }
+
       return axisTickLabels
     },
 
