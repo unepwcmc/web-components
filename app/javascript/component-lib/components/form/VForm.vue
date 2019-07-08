@@ -1,21 +1,38 @@
 <template>
   <div class="v-form">
-    <slot></slot>
-    <em v-if="error" class="v-form__error">{{ errorMessage }}</em>
+    <slot />
+    <em
+      v-if="error"
+      class="v-form__error"
+    >{{ errorMessage }}</em>
 
-    <div v-if="isPopupActive" class="v-form__overlay">
+    <div
+      v-if="isPopupActive"
+      class="v-form__overlay"
+    >
       <div 
         :id="mixinModalId"
-        class="v-form__success flex flex-column flex-center">
-        <div class="v-form__success-icon icon--tick" title="Success"></div>
-        <h1 class="v-form__success-title">{{ title }}</h1>
-        <p class="v-form__success-message">{{ successMessage }}</p>
+        class="v-form__success flex flex-column flex-center"
+      >
+        <div
+          class="v-form__success-icon icon--tick"
+          title="Success"
+        />
+        <h1 class="v-form__success-title">
+          {{ title }}
+        </h1>
+        <p class="v-form__success-message">
+          {{ successMessage }}
+        </p>
         <button
           :aria-haspopup="true"
           :aria-controls="mixinModalId"
           :aria-expanded="true"
+          class="v-form__success-button button button--grey"
           @click="close"
-          class="v-form__success-button button button--grey">Close</button>
+        >
+          Close
+        </button>
       </div>
     </div>
   </div>
@@ -30,9 +47,18 @@ export default {
   mixins: [ mixinFocusCapture({toggleVariable: 'isPopupActive'}) ],
 
   props: {
-    title: String,
-    errorMessage: String,
-    successMessage: String,
+    title: {
+      type: String,
+      default: ''
+    },
+    errorMessage: {
+      type: String,
+      default: 'There was an error submitting your form.'
+    },
+    successMessage: {
+      type: String,
+      default: 'Your form has been submitted.'
+    }
   },
 
   data() {
@@ -74,18 +100,18 @@ export default {
       const form = this.$el.querySelector('form')
 
       form.addEventListener('submit', e => {
-        const data = new FormData(form)
-        const action = form.getAttribute('action')
+        // const data = new FormData(form)
+        // const action = form.getAttribute('action')
 
         e.preventDefault()
         
         Math.random() < 0.5 ? this.handleSuccess() : this.handleException()
         // axios.post(action, data)
         //   .then(response => {
-        //     this.handleSuccess()
+        //     this.handleSuccess(response)
         //   })
         //   .catch(error => {
-        //     this.handleException()
+        //     this.handleException(error)
         //   })
       })
     }

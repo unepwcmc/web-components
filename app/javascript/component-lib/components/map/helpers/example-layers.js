@@ -1,14 +1,3 @@
-// const VECTOR_LAYER = {
-//   id: 148,
-//   name: "Flood Occurrence",
-//   map_type: "Vector",
-//   legend: null,
-//   tileset: null,
-//   carto_filters: ["hfo < 3", "hfo BETWEEN 3 AND 10", "nfo > 10"],
-//   carto_table: "flood_occurrence",
-//   carto_colors: ["#17CDEA", "#1290A4", "#042F36"]
-// }
-
 const VECTOR_DATASET = {
   id: 320,
   name: 'Drought Severity - Vector',

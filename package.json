@@ -20,10 +20,18 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "eslint": "~5.16.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-vue": "^5.2.3",
     "webpack-dev-server": "^3.3.1"
   },
   "scripts": {
-    "test": "NODE_ENV=test jest --watchAll --verbose=false"
+    "test": "NODE_ENV=test jest --watchAll --verbose=false",
+    "build": "RAILS_ENV=production NODE_ENV=production ./bin/webpack",
+    "dev": "./bin/webpack-dev-server",
+    "serve": "rails s",
+    "network-serve": "bash ./scripts/network-serve.sh",
+    "lint": "eslint --ext .js,.vue"
   },
   "jest": {
     "roots": [

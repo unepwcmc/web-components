@@ -10,9 +10,11 @@ Vue.use(Vuex)
 
 // stores
 import { storeModal } from './_store-modal.js'
+import { storeToggle } from './_store-toggle.js'
 
 export default new Vuex.Store({
   modules: {
-    modal: storeModal
+    modal: storeModal,
+    toggle: storeToggle
   }
 })

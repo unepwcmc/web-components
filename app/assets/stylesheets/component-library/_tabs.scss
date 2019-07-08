@@ -1,5 +1,6 @@
 .tabs {
   &__triggers {
+    @include ul--unstyled;
     @include gutters('left', 'margin');
   }
 }

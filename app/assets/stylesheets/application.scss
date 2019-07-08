@@ -1,26 +1,26 @@
 /*
 *= require_self
 */
-
 // Utilities
-@import './utilities/wcmc-branding.scss';
 @import './utilities/rem-calc.scss';
 @import './utilities/media-queries.scss';
-@import './utilities/flexbox.scss';
-@import './utilities/helpers.scss';
-@import './utilities/form-helpers.scss';
+@import './site/variables.scss';
 
-// Site
-@import './styleguide_site/variables.scss';
-@import './styleguide_site/base.scss';
-@import './site/*';
-.styleguide-site {
-  @import './styleguide_site/*';
+@import './utilities/flexbox.scss';
+@import './utilities/form-helpers.scss';
+@import './utilities/helpers.scss';
+@import './utilities/wcmc-branding.scss';
+
+@import './site/base.scss';
+@import './site/*'; //TODO: don't import above files twice
+
+.styleguide-component-library {
+  @import './component-library/*';
 }
 
-// Components
-.styleguide-example {
-  @import './styleguide_example/variables.scss';
-  @import './styleguide_example/base.scss';
-  @import './styleguide_example/*';
+// Styleguides
+.styleguide-example-project {
+  @import './example-project-styleguide/variables.scss';
+  @import './example-project-styleguide/base.scss';
+  @import './example-project-styleguide/*';
 }

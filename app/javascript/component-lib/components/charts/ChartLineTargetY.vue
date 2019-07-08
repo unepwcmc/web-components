@@ -1,7 +1,22 @@
 <template>
   <g>
-    <text v-if="label" :x="minX" :y="y" dy="-0.6em" :font-size="fontSize" :font-weight="fontWeight">{{ label }}</text>
-    <path :d="path" :stroke="style.colour" :stroke-width="style.strokeWidth" stroke-linecap="round" :stroke-dasharray="style.dashArray" />
+    <text
+      v-if="label"
+      :x="minX"
+      :y="y"
+      dy="-0.6em"
+      :font-size="fontSize"
+      :font-weight="fontWeight"
+    >
+      {{ label }}
+    </text>
+    <path
+      :d="path"
+      :stroke="style.colour"
+      :stroke-width="style.strokeWidth"
+      stroke-linecap="round"
+      :stroke-dasharray="style.dashArray"
+    />
   </g>
 </template>
 
@@ -13,7 +28,7 @@ const DEFAULT_LINE_STYLE = {
 }
 
 export default {
-  name: 'chart-line-target-x',
+  name: 'ChartLineTargetX',
 
   props: {
     minX: {
@@ -28,8 +43,14 @@ export default {
       type: Number,
       required: true
     },
-    label: String,
-    lineStyle: Object,
+    label: {
+      type: String,
+      default: ''
+    },
+    lineStyle: { //{colour: String, strokeWidth: string, dashArray: String}
+      type: Object,
+      default: () => {}
+    },
     fontSize: {
       type: Number,
       default: 14

@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import Accordion from '../Accordion.vue'
 import AccordionItem from '../AccordionItem.vue'
 import TestHelpers from '../../../utils/vue-test-helpers'
@@ -52,14 +54,14 @@ describe('Accordion', () => {
       }
     })
 
-      expect(wrapper.itemContent().contains('div')).toBe(true)
-      expect(
+    expect(wrapper.itemContent().contains('div')).toBe(true)
+    expect(
       wrapper
         .itemContent()
         .find('div')
         .text()
     ).toBe('Accordion Item Content')
-    }),
+  }),
   test('renders the accordion item title when given as a prop', () => {
     const wrapper = helpers.shallowInitializeWrapper(AccordionItem, {
       propsData: {
@@ -68,8 +70,8 @@ describe('Accordion', () => {
       }
     })
 
-      expect(wrapper.itemTitleText()).toBe('Test title')
-    })
+    expect(wrapper.itemTitleText()).toBe('Test title')
+  })
 
   test('initially does not show the accordion item content', () => {
     const wrapper = helpers.initializeWrapper(Accordion, {

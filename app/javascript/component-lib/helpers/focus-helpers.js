@@ -1,4 +1,4 @@
-import { KEYCODES } from "./keyboard-helpers";
+import { KEYCODES } from './keyboard-helpers'
 
 const INPUT_SELECTORS = 'select, input, textarea, button, a, [tabindex]:not([tabindex="-1"])'
 

@@ -2,15 +2,15 @@ class ApplicationController < ActionController::Base
   def styleguides
     [
       {
-        id: 'example',
+        id: 'example-project',
         name: 'Example',
         component_ids: [
           'carousel'
         ]
       },
       {
-        id: 'site',
-        name: 'Styleguide Site'
+        id: 'component-library',
+        name: 'Component Library'
       }
     ]
   end
@@ -20,11 +20,12 @@ class ApplicationController < ActionController::Base
       encore: 'ENCORE',
       gofox: 'GO-FOX',
       ibat: 'IBAT',
+      naturemap: 'Nature Map Explorer',
+      ocean_plus_habitats: 'Ocean+ Habitats',
+      ocean_plus_library: 'Ocean+ Library',
       pp: 'Protected Planet',
       pp_live_report: 'Protected Planet Live Report',
       style_guide: 'Style Guide',
-      ocean_plus_habitats: 'Ocean+ Habitats',
-      ocean_plus_library: 'Ocean+ Library'
     }
   end
 
@@ -103,6 +104,12 @@ class ApplicationController < ActionController::Base
         projects: [projects[:encore], projects[:ocean_plus_habitats]]
       },
       {
+        id: 'toggle',
+        name: 'Toggle',
+        category_id: 'utilities',
+        projects: [projects[:naturemap]]
+      },
+      {
         id: 'tooltip',
         name: 'Tooltip',
         category_id: 'tooltips',
@@ -170,6 +177,10 @@ class ApplicationController < ActionController::Base
         id: 'tooltips',
         name: 'Tooltips'
       },
+      {
+        id: 'utilities',
+        name: 'Utilities'
+      }
     ]
   end
 end

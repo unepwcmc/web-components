@@ -1,78 +1,100 @@
 <template>
-<div class="chart__wrapper">
-  <div class="chart--area">
-    <div class="chart__chart flex">
-      <div v-for="dataset in datasets" class="chart__dataset" :style="style(dataset.percent)">
-        <div class="chart__bar" :class="['chart__bar-' + dataset.class]" :style="{ height: height + 'px' }">
-          <p class="chart__label no-margin">{{ dataset.title }} <span class="chart__label-percentage">{{ dataset.value }}{{ units }}</span></p>
-        </div>
+  <div class="chart__wrapper">
+    <div class="chart--area">
+      <div class="chart__chart flex">
+        <div
+          v-for="(dataset, index) in datasets"
+          :key="`dataset-${index}`"
+          class="chart__dataset"
+          :style="style(dataset.percent)"
+        >
+          <div
+            class="chart__bar"
+            :class="['chart__bar-' + dataset.class]"
+            :style="{ height: height + 'px' }"
+          >
+            <p class="chart__label no-margin">
+              {{ dataset.title }} <span class="chart__label-percentage">{{ dataset.value }}{{ units }}</span>
+            </p>
+          </div>
 
-        <div v-if="dataset.inner_square">
-          <div class="chart__bar chart__bar-pa" :style="getInnerSquareSize(dataset.percent, dataset.inner_square.percent)">
-            <p class="chart__label-pa no-margin">{{ dataset.inner_square.title }} <span class="chart__label-percentage">{{dataset.inner_square.value }}{{ units }}</span></p>
+          <div v-if="dataset.inner_square">
+            <div
+              class="chart__bar chart__bar-pa"
+              :style="getInnerSquareSize(dataset.percent, dataset.inner_square.percent)"
+            >
+              <p class="chart__label-pa no-margin">
+                {{ dataset.inner_square.title }} <span class="chart__label-percentage">{{ dataset.inner_square.value }}{{ units }}</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <chart-legend v-if="legend" :legend-items="legend"></chart-legend>
+      <chart-legend
+        v-if="legend"
+        :legend-items="legend"
+      />
+    </div>
   </div>
-</div>
 </template>
 
 <script>
-  import ChartLegend from './ChartLegend'
+import ChartLegend from './ChartLegend'
 
-  export default {
-    name: 'chart-area',
+export default {
+  name: 'ChartArea',
 
-    components: { ChartLegend },
+  components: { ChartLegend },
 
-    props: {
-      datasets: { // {title: String, class: String, value: Number, percent: Number, innerSquare: {title: String, value: Number, percent: Number}}
-        type: Array,
-        required: true
-      },
-      height: {
-        type: Number,
-        default: 180
-      },
-      id: {
-        type: String,
-        required: true
-      },
-      units: {
-        type: String,
-        default: '%'
-      },
-      legend: Array, // Legend
+  props: {
+    datasets: { // {title: String, class: String, value: Number, percent: Number, innerSquare: {title: String, value: Number, percent: Number}}
+      type: Array,
+      required: true
     },
-
-    data () {
-      return {
-        chartWidth: 0
-      }
+    height: {
+      type: Number,
+      default: 180
     },
+    id: {
+      type: String,
+      required: true
+    },
+    units: {
+      type: String,
+      default: '%'
+    },
+    legend: {
+      type: Array, // Legend
+      default: () => []
+    }
+  },
 
-    mounted () {
+  data () {
+    return {
+      chartWidth: 0
+    }
+  },
+
+  mounted () {
+    this.chartWidth = this.$el.clientWidth
+    window.addEventListener('resize', () => {
       this.chartWidth = this.$el.clientWidth
-      window.addEventListener('resize', () => {
-        this.chartWidth = this.$el.clientWidth
-      })
+    })
+  },
+
+  methods: {
+    style (percent) {
+      return `width: ${percent}%`
     },
 
-    methods: {
-      style (percent) {
-        return `width: ${percent}%`
-      },
+    getInnerSquareSize (parentPercent, innerPercent) {
+      const parentArea = this.chartWidth * this.height * (parentPercent/100)
+      const innerArea = parentArea * (innerPercent/100)
+      const innerAreaLength = Math.round(Math.sqrt(innerArea))
 
-      getInnerSquareSize (parentPercent, innerPercent) {
-        const parentArea = this.chartWidth * this.height * (parentPercent/100)
-        const innerArea = parentArea * (innerPercent/100)
-        const innerAreaLength = Math.round(Math.sqrt(innerArea))
-
-        return { width: `${innerAreaLength}px`, height: `${innerAreaLength}px` }
-      }
-    },
-  }
+      return { width: `${innerAreaLength}px`, height: `${innerAreaLength}px` }
+    }
+  },
+}
 </script>

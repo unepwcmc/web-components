@@ -33,6 +33,8 @@ import Tabs from './component-lib/components/tabs/Tabs'
 
 import Tooltip from './component-lib/components/tooltip/Tooltip'
 
+import Toggle from './component-lib/components/toggle/Toggle'
+
 import VForm from './component-lib/components/form/VForm'
 
 import VMap from './component-lib/components/map/VMap'
@@ -60,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Vue.use(Vue2TouchEvents)
 
-    const app = new Vue({
+    new Vue({
       el: '#v-app',
       store,
 
@@ -82,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         StickyBar,
         Tab,
         Tabs,
+        Toggle,
         Tooltip,
         VForm,
         VMap,
