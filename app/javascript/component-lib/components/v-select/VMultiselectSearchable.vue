@@ -21,10 +21,21 @@
       <slot name="label-icon" />
     </div>
 
-    <ul class="v-select__selected-options flex flex-wrap">
-      <li 
+    <label 
+      :for="selectedOptionsId"
+      class="screen-reader"
+    >
+      Selected options
+    </label>
+    <ul
+      :id="selectedOptionsId" 
+      class="v-select__selected-options flex flex-wrap"
+      role="listbox" 
+    >
+      <li
         v-for="(option, index) in selectedInternal"
         :key="getVForKey('selected-option', index)"
+        role="option"
       >
         <button 
           class="v-select__selected-option flex flex-v-center hover--pointer"
@@ -38,17 +49,17 @@
     <div :class="['v-select__search relative', {'v-select__search--active': isActive}]">
       <label
         class="screen-reader"
-        for="v-select-search"
+        :for="searchId"
       >{{ config.label }} search</label>
       <input
-        id="v-select-search"
+        :id="searchId"
         v-model="searchTerm"
         class="v-select__search-input"
         type="text"
         role="combobox"
         aria-haspopup="listbox"
         aria-autocomplete="list"
-        :aria-expanded="showOptions"
+        :aria-expanded="showOptions.toString()"
         :aria-owns="dropdownId"
         :aria-activedescendant="highlightedOptionId" 
         :placeholder="placeholder"
@@ -63,7 +74,7 @@
         />
         <button 
           v-show="showResetIcon"
-          id="v-select-search-reset"
+          :id="searchResetId"
           class="v-select__search-icon v-select__search-icon--reset hover--pointer"
           @click="resetSearchTerm"
         />
@@ -77,7 +88,6 @@
     <ul 
       v-show="showOptions" 
       :id="dropdownId" 
-      aria-multiselectable="true" 
       role="listbox" 
       class="v-select__dropdown"
     >
@@ -88,7 +98,7 @@
         :key="option.id"
         :class="['v-select__option hover--pointer', conditionalOptionClasses(option, index)]"
         role="option"
-        :aria-selected="isHighlighted(index)"
+        :aria-selected="isHighlighted(index).toString()"
         @click.stop="selectOption(option)"
       >
         {{ option.name }}
@@ -133,7 +143,9 @@ export default {
       searchTerm: '',
       dropdownId: 'v-select-dropdown-' + this.config.id,
       dropdownOptionsName: 'v-select-dropdown-input' + this.config.id,
-      toggleId: 'v-select-toggle-' + this.config.id
+      toggleId: 'v-select-toggle-' + this.config.id,
+      searchId: 'v-select-search-' + this.config.id,
+      searchResetId: 'v-select-search-reset-' + this.config.id
     }
   },
 
@@ -161,6 +173,10 @@ export default {
 
     placeholder () {
       return DEFAULT_SELECT_MESSAGE
+    },
+
+    selectedOptionsId () {
+      return `${this.getComponentId()}-selected-options`
     },
 
     showOptions () {
@@ -270,12 +286,12 @@ export default {
     },
 
     resetSearchTerm () {
-      this.$el.querySelector('#v-select-search').focus()
+      this.$el.querySelector('#' + this.searchId).focus()
       this.searchTerm = ''
     },
     
     addTabFromSearchListener () {
-      this.$el.querySelector('#v-select-search').addEventListener('keydown', e => {
+      this.$el.querySelector('#' + this.searchId).addEventListener('keydown', e => {
         if (isTabBackward(e)) {
           this.closeSelect()
         } else if (isTabForward(e) && !this.showResetIcon) {
@@ -285,7 +301,7 @@ export default {
     },
 
     addTabForwardFromResetListener () {
-      this.$el.querySelector('#v-select-search-reset').addEventListener('keydown', e => {
+      this.$el.querySelector('#' + this.searchResetId).addEventListener('keydown', e => {
         if (isTabForward(e)) {
           this.closeSelect()
         }
@@ -293,7 +309,7 @@ export default {
     },
 
     addArrowKeyListeners () {
-      this.$el.querySelector('#v-select-search').addEventListener('keydown', e => {
+      this.$el.querySelector('#' + this.searchId).addEventListener('keydown', e => {
         switch (e.keyCode) {
         case KEYCODES.down:
           this.incremementKeyboardFocus()
