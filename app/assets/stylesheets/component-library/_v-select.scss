@@ -2,6 +2,8 @@ $select-width: rem-calc(250);
 $select-height: rem-calc(48);
 $checkbox-width: rem-calc(15);
 
+$option-close-width: 10px;
+
 $select-padding-side: rem-calc(12);
 $select-padding: rem-calc(5) $select-padding-side;
 
@@ -22,6 +24,33 @@ $select-text-color: $black;
   &--disabled {
     opacity: 0.5;
   }
+
+  &__selected-options {
+    @include ul--unstyled;
+  }
+
+    &__selected-option {
+      @extend .sg-p;
+      @include button--unstyled;
+
+      border: $border-thin $grey;
+      margin: 0 4px 4px 0;
+      padding: 2px 6px;
+
+      &::after {
+        content: '';
+        background: image-url('icons/close.svg') no-repeat center;
+        background-size: contain;
+        margin-left: 6px;
+        width: $option-close-width; height: $option-close-width;
+
+        display: block;
+      }
+
+      &:hover {
+        border-color: $wcmc-blue;
+      }
+    }
 
   &__toggle, &__search {
     @extend .sg-h4;

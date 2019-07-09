@@ -41,6 +41,7 @@ import VMap from './component-lib/components/map/VMap'
 import VNav from './component-lib/components/nav/VNav'
 
 import VMultiselect from './component-lib/components/v-select/VMultiselect'
+import VMultiselectSearchable from './component-lib/components/v-select/VMultiselectSearchable'
 import VSelect from './component-lib/components/v-select/VSelect'
 import VSelectSearchable from './component-lib/components/v-select/VSelectSearchable'
 
@@ -88,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         VMap,
         VNav,
         VMultiselect,
+        VMultiselectSearchable,
         VSelect,
         VSelectSearchable
       }

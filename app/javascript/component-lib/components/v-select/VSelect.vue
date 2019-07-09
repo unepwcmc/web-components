@@ -90,8 +90,8 @@ export default {
       type: Array
     },
     selected: {
-      type: String,
-      default: null
+      type: Object,
+      default: () => UNDEFINED_OBJECT
     }
   },
 

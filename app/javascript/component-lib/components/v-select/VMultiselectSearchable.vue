@@ -21,6 +21,20 @@
       <slot name="label-icon" />
     </div>
 
+    <ul class="v-select__selected-options flex flex-wrap">
+      <li 
+        v-for="(option, index) in selectedInternal"
+        :key="getVForKey('selected-option', index)"
+      >
+        <button 
+          class="v-select__selected-option flex flex-v-center hover--pointer"
+          @click="deselectOption(option)"
+        >
+          {{ option.name }}
+        </button>
+      </li>
+    </ul>
+
     <div :class="['v-select__search relative', {'v-select__search--active': isActive}]">
       <label
         class="screen-reader"
@@ -63,6 +77,7 @@
     <ul 
       v-show="showOptions" 
       :id="dropdownId" 
+      aria-multiselectable="true" 
       role="listbox" 
       class="v-select__dropdown"
     >
@@ -74,7 +89,7 @@
         :class="['v-select__option hover--pointer', conditionalOptionClasses(option, index)]"
         role="option"
         :aria-selected="isHighlighted(index)"
-        @click="selectOption(option)"
+        @click.stop="selectOption(option)"
       >
         {{ option.name }}
       </li>
@@ -84,15 +99,15 @@
 
 <script>
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
+import mixinIds from '../../mixins/mixin-ids'
 import { isTabForward, isTabBackward } from '../../helpers/focus-helpers'
 import { KEYCODES } from '../../helpers/keyboard-helpers'
-const UNDEFINED_ID = '__UNDEFINED__'
-const UNDEFINED_OBJECT = { id: UNDEFINED_ID, name: 'None' }
 const DEFAULT_SELECT_MESSAGE = 'Select option'
 
 export default {
   mixins: [
-    mixinPopupCloseListeners({closeCallback: 'closeSelect'})
+    mixinPopupCloseListeners({closeCallback: 'closeSelect'}),
+    mixinIds
   ],
 
   props: {
@@ -105,8 +120,8 @@ export default {
       type: Array
     },
     selected: {
-      type: Object,
-      default: () => UNDEFINED_OBJECT
+      type: Array,
+      default: () => []
     }
   },
 
@@ -124,7 +139,8 @@ export default {
 
   computed: {
     filteredOptions () {
-      return this.options.filter(option => this.matchesSearchTerm(option))
+      return this.options.filter(option =>
+        this.matchesSearchTerm(option) && !this.isSelected(option))
     },
 
     hasKeyboardFocus () {
@@ -182,7 +198,7 @@ export default {
 
   methods: {
     closeSelect () {
-      this.setSearchTermToSelected()
+      this.resetSearchTerm()
       this.resetHighlightedIndex()
       this.isActive = false
     },
@@ -202,21 +218,30 @@ export default {
 
     initializeSelectedInternal () {
       if (this.selected === null) {
-        this.selectedInternal = UNDEFINED_OBJECT
+        this.selectedInternal = []
       } else {
         this.selectedInternal = this.selected
-        this.setSearchTermToSelected()
       }
     },
 
     isSelected (option) {
-      return option.id === this.selectedInternal.id
+      let isSelected = false
+      
+      this.selectedInternal.forEach(selectedOption => {
+        if (selectedOption.id === option.id) {
+          isSelected = true
+        }
+      })
+
+      return isSelected
     },
 
     selectOption (option) {
-      this.selectedInternal = option
-      this.closeSelect()
-      document.activeElement.blur()
+      this.selectedInternal.push(option)
+    },
+
+    deselectOption (deselectedOption) {
+      this.selectedInternal = this.selectedInternal.filter(option => option.id !== deselectedOption.id )
     },
 
     isHighlighted (index) {
@@ -233,7 +258,6 @@ export default {
 
     conditionalOptionClasses (option, index) {
       return {
-        'v-select__option--selected': this.isSelected(option),
         'v-select__option--highlighted': this.isHighlighted(index)
       }
     },
@@ -248,10 +272,6 @@ export default {
     resetSearchTerm () {
       this.$el.querySelector('#v-select-search').focus()
       this.searchTerm = ''
-    },
-
-    setSearchTermToSelected () {
-      this.searchTerm = this.selectedInternal.name
     },
     
     addTabFromSearchListener () {
