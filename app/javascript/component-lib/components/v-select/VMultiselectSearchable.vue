@@ -254,6 +254,10 @@ export default {
 
     selectOption (option) {
       this.selectedInternal.push(option)
+
+      if (this.highlightedOptionIndex > this.filteredOptions.length - 1) {
+        this.highlightedOptionIndex--
+      }
     },
 
     deselectOption (deselectedOption) {
