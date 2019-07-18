@@ -121,7 +121,9 @@ export default {
 
   watch: {
     selected (newSelectedOption) {
-      this.selectedInternal = newSelectedOption
+      this.selectedInternal = newSelectedOption === null ?
+        UNDEFINED_OBJECT :
+        newSelectedOption
     },
 
     selectedInternal (newSelectedInternal) {
