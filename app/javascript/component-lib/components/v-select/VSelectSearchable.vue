@@ -164,7 +164,10 @@ export default {
     },
 
     selected (newSelectedOption) {
-      this.selectedInternal = newSelectedOption
+      this.selectedInternal = newSelectedOption === null ?
+        UNDEFINED_OBJECT :
+        newSelectedOption
+      this.setSearchTermToSelected()
     },
 
     selectedInternal (newSelectedInternal) {
