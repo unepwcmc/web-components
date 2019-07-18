@@ -31,7 +31,7 @@ export const reenableTabbing = el => {
 }
 
 export const getRadioToFocus = optionEls => {
-  let radioToFocus = null
+  let radioToFocus = optionEls[0].querySelector('input')
 
   for (let i = 0; i < optionEls.length; i++) {
     const input = optionEls[i].querySelector('input')
