@@ -138,7 +138,7 @@ export default {
   data () {
     return {
       isActive: false,
-      selectedInternal: null,
+      selectedInternal: [],
       highlightedOptionIndex: -1,
       searchTerm: '',
       dropdownId: 'v-select-dropdown-' + this.config.id,
@@ -194,7 +194,9 @@ export default {
     },
 
     selected (newSelectedOption) {
-      this.selectedInternal = newSelectedOption
+      this.selectedInternal = newSelectedOption === null ?
+        [] :
+        newSelectedOption
     },
 
     selectedInternal (newSelectedInternal) {
@@ -220,8 +222,10 @@ export default {
     },
 
     openSelect () {
-      this.searchTerm = ''
-      this.isActive = true
+      if (this.filteredOptions.length > 0) {
+        this.searchTerm = ''
+        this.isActive = true
+      }
     },
 
     toggleSelect (e) {
@@ -255,7 +259,12 @@ export default {
     selectOption (option) {
       this.selectedInternal.push(option)
 
-      if (this.highlightedOptionIndex > this.filteredOptions.length - 1) {
+      const unselectedFiltersLength = this.filteredOptions.length
+
+      if (unselectedFiltersLength === 0) {
+        this.resetHighlightedIndex()
+        this.closeSelect()
+      } else if (this.highlightedOptionIndex >  unselectedFiltersLength - 1) {
         this.highlightedOptionIndex--
       }
     },
