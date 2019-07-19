@@ -111,6 +111,10 @@ export default {
       default: 0,
       type: Number
     },
+    showIndicators: {
+      default: true,
+      type: Boolean
+    },
     showAllIndicators: {
       default: false,
       type: Boolean
@@ -152,8 +156,8 @@ export default {
       return this.isPaused ? 'Resume carousel' : 'Pause carousel'
     },
 
-    showIndicators () {
-      return this.showAllIndicators || this.totalSlides < 7
+    showIndicatorsComputed () {
+      return this.showAllIndicators || (this.showIndicators && this.totalSlides < 7)
     }
   },
 
@@ -196,7 +200,7 @@ export default {
     },
 
     initSlideOrders () {
-      this.childSlideComponents.forEach( (child, index) => {
+      Array.prototype.forEach.call(this.childSlideComponents, (child, index) => {
         child.$el.style.order = index
       })
     },
@@ -304,7 +308,7 @@ export default {
     },
 
     setActiveStateOnChildren () {
-      this.childSlideComponents.forEach(child => {
+      Array.prototype.forEach.call(this.childSlideComponents, child => {
         child.isActive = this.isCurrentSlideElement(child.$el)
       })
     }

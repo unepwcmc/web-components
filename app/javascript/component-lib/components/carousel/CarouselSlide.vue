@@ -6,14 +6,17 @@
 
 <script>
 import { getInputs } from '../../helpers/focus-helpers'
+import mixinResponsive from '../../mixins/mixin-responsive'
 
 export default {
   name: 'CarouselSlide',
 
+  mixins: [mixinResponsive],
+
   props: {
     slidesPerFrame: {
-      default: 1,
-      type: Number
+      default: () => [1,1,1,1],
+      type: Array
     },
     marginSize: {
       default: 10,
@@ -28,10 +31,14 @@ export default {
       inputElements: []
     }
   },
-
+  
   watch: {
     isActive () {
       this.setTabIndices() 
+    },
+
+    currentBreakpoint () {
+      this.setSlideStyle()
     }
   },
 
@@ -42,10 +49,23 @@ export default {
   },
 
   methods: {
+    getSlidesPerFrame() {
+      switch (this.currentBreakpoint) {
+      case 'mobile':
+        return this.slidesPerFrame[0]
+      case 'tablet':
+        return this.slidesPerFrame[1]
+      case 'laptop':
+        return this.slidesPerFrame[2]
+      case 'desktop':
+        return this.slidesPerFrame[3]
+      }
+    },
+
     setTabIndices() {
       const tabIndex = this.isActive ? 0 : -1
 
-      this.inputElements.forEach(el => {
+      Array.prototype.forEach.call(this.inputElements, el => {
         el.tabIndex = tabIndex
         if(tabIndex === -1) { el.blur() }
       })
@@ -55,7 +75,7 @@ export default {
       const style = this.$el.style
 
       style.marginLeft = style.marginRight = this.marginSize + 'px'
-      style.width = `calc(${100/this.slidesPerFrame}% - ${2*this.marginSize}px)`
+      style.width = `calc(${100/this.getSlidesPerFrame()}% - ${2*this.marginSize}px)`
     }
   }
 }

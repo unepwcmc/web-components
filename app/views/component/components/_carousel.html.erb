@@ -1,7 +1,7 @@
 <div class="<%= styleguide_class %>">
   <carousel title="Carousel title" :slide-interval-length="2000">
   <% (1..5).each do |n| %>
-    <carousel-slide :slides-per-frame="2">Slide <%= n %></carousel-slide>
+    <carousel-slide :slides-per-frame="[1,2,3,4]">Slide <%= n %></carousel-slide>
   <% end %>
   </carousel>
 </div>

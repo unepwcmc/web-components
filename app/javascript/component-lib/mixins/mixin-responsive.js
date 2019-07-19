@@ -7,7 +7,8 @@ export default {
       currentBreakpoint: '',
       breakpoints: {
         small: 720,
-        medium: 960,
+        medium: 1024,
+        large: 1680
       }
     }
   },
@@ -25,21 +26,26 @@ export default {
     updateWindowSize () {
       this.windowWidth = window.innerWidth
 
-      if(this.isSmall()) { this.currentBreakpoint = 'small' }
-      if(this.isMedium()) { this.currentBreakpoint = 'medium' }
-      if(this.isLarge()) { this.currentBreakpoint = 'large' }
+      if(this.isMobile()) { this.currentBreakpoint = 'mobile' }
+      if(this.isTablet()) { this.currentBreakpoint = 'tablet' }
+      if(this.isLaptop()) { this.currentBreakpoint = 'laptop' }
+      if(this.isDesktop()) { this.currentBreakpoint = 'desktop' }
     },
 
-    isSmall () {
+    isMobile () {
       return this.windowWidth <= this.breakpoints.small
     },
 
-    isMedium () {
+    isTablet () {
       return this.windowWidth > this.breakpoints.small && this.windowWidth <= this.breakpoints.medium
     },
 
-    isLarge () {
-      return this.windowWidth > this.breakpoints.medium
+    isLaptop () {
+      return this.windowWidth > this.breakpoints.medium && this.windowWidth <= this.breakpoints.large
+    },
+
+    isDesktop () {
+      return this.windowWidth > this.breakpoints.large
     },
 
     getCurrentBreakpoint () {
