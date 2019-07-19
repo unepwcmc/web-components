@@ -74,6 +74,10 @@ export default {
     strokeWidth: {
       type: Number,
       default: 1
+    },
+    datapointRadius: {
+      type: Number,
+      default: 4
     }
   },
 
@@ -93,9 +97,15 @@ export default {
 
   methods: {
     createLabel (label) {
-      // const labelText = text ? text : label.text
-
-      return new ChartDatapointLabel(label.x, label.y, label.value, this.colourLine, this.colourFill, this.colourText).createLabel()
+      return new ChartDatapointLabel({
+        x: label.x, 
+        y: label.y, 
+        text: label.value, 
+        colourStroke: this.colourLine, 
+        colourFill: this.colourFill, 
+        colourText: this.colourText, 
+        datapointRadius: this.datapointRadius
+      }).createLabel()
     }
   }
 }

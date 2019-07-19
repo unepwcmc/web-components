@@ -58,8 +58,10 @@
               :index="index"
               :path="getPath(line.datapoints)"
               :labels="getDatapointLabels(line.datapoints)"
+              :labelText="config.datapointLabelText"
               :colour="getLineColours(line)"
               :strokeWidth="config.strokeWidth"
+              :datapointRadius="config.datapointRadius"
             />
 
             <template v-if="yTargets">
@@ -229,11 +231,14 @@ export default {
 
       if(this.config.datapointLabels == 'all') {
         datapoints.forEach(point => {
-          labels.push({ 
-            x: this.normaliseX(point.x), 
-            y: this.normaliseY(point.y),
-            value: point.y
-          })
+          let obj = {}
+          
+          obj['x'] = this.normaliseX(point.x) 
+          obj['y'] = this.normaliseY(point.y)
+          
+          this.config.datapointLabelText ? obj['value'] = point.y : ''
+
+          labels.push(obj)
         })
       }
 
