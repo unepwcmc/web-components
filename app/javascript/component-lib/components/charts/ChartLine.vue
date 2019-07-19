@@ -58,7 +58,8 @@
               :index="index"
               :path="getPath(line.datapoints)"
               :labels="getDatapointLabels(line.datapoints)"
-              :colour="getLineColours(line)" 
+              :colour="getLineColours(line)"
+              :strokeWidth="config.strokeWidth"
             />
 
             <template v-if="yTargets">

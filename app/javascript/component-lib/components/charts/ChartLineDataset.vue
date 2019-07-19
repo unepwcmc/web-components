@@ -70,6 +70,10 @@ export default {
     labels: {
       type: Array,
       default: () => { return [] }
+    },
+    strokeWidth: {
+      type: Number,
+      default: 1
     }
   },
 
@@ -84,11 +88,7 @@ export default {
 
     colourText () { return this.colour.text ? this.colour.text : DEFAULT_COLOUR.text },
 
-    areaChartFill () { return this.fill ? this.colourFill : 'none' },
-
-    strokeWidth () {
-      return this.fill ? 1 : 6
-    }
+    areaChartFill () { return this.fill ? this.colourFill : 'none' }
   },
 
   methods: {
