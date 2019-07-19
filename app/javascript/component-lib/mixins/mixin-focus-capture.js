@@ -79,10 +79,6 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
       return null
     },
 
-    selectedRadio () {
-      return getRadioToFocus(this.$el.querySelectorAll('.v-select__option'))
-    },
-
     isRadioGroup () {
       return this.mixinIsRadioGroup !== undefined ? this.mixinIsRadioGroup : false
     }
@@ -150,7 +146,7 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
 
     mixinFocusFirstInputIfExists () {
       if (this.isRadioGroup) {
-        this.selectedRadio.focus()
+        getRadioToFocus(this.$el.querySelectorAll('.v-select__option')).focus()
       } else if (this.firstInput) {
         this.firstInput.focus()
       }
