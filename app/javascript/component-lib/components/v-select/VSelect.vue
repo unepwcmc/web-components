@@ -90,8 +90,8 @@ export default {
       type: Array
     },
     selected: {
-      type: String,
-      default: null
+      type: Object,
+      default: () => UNDEFINED_OBJECT
     }
   },
 
@@ -121,7 +121,9 @@ export default {
 
   watch: {
     selected (newSelectedOption) {
-      this.selectedInternal = newSelectedOption
+      this.selectedInternal = newSelectedOption === null ?
+        UNDEFINED_OBJECT :
+        newSelectedOption
     },
 
     selectedInternal (newSelectedInternal) {

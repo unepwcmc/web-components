@@ -1,4 +1,4 @@
-import { getInputs, preventTab, isTabBackward, isTabForward } from '../helpers/focus-helpers'
+import { getInputs, preventTab, isTabBackward, isTabForward, getRadioToFocus } from '../helpers/focus-helpers'
 
 export default ({toggleVariable, closeCallback, openCallback}) => ({
   data() {
@@ -77,6 +77,10 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
       }
 
       return null
+    },
+
+    isRadioGroup () {
+      return this.mixinIsRadioGroup !== undefined ? this.mixinIsRadioGroup : false
     }
   },
 
@@ -84,10 +88,8 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
     addEventListeners() {
       this.setModalElements()
       if (!this.firstInput) { return }
-
-      const isRadioGroup = this.mixinIsRadioGroup !== undefined ? this.mixinIsRadioGroup : false
   
-      if (isRadioGroup) {
+      if (this.isRadioGroup) {
         this.modalElement.addEventListener('keydown', preventTab)
       } else {
         this.lastInput.addEventListener('keydown', this.handleLastInputTab)
@@ -143,7 +145,9 @@ export default ({toggleVariable, closeCallback, openCallback}) => ({
     },
 
     mixinFocusFirstInputIfExists () {
-      if (this.firstInput) {
+      if (this.isRadioGroup) {
+        getRadioToFocus(this.$el.querySelectorAll('.v-select__option')).focus()
+      } else if (this.firstInput) {
         this.firstInput.focus()
       }
     },
