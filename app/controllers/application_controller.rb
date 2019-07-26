@@ -106,6 +106,14 @@ class ApplicationController < ActionController::Base
         ]
       },
       {
+        id: 'fake_tabs',
+        name: 'FakeTabs',
+        category_id: 'tabs',
+        projects: [
+          projects[:tradeview],
+        ]
+      },
+      {
         id: 'modal',
         name: 'Modal',
         category_id: 'modals',

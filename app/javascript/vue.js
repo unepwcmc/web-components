@@ -22,6 +22,9 @@ import ChartRowStacked from './component-lib/components/charts/ChartRowStacked'
 
 import ExpandableItem from './component-lib/components/expandable-item/ExpandableItem'
 
+import FakeTabExample from './component-lib/components/fake-tabs/FakeTabExample'
+import FakeTabs from './component-lib/components/fake-tabs/FakeTabs'
+
 import Modal from './component-lib/components/modal/Modal'
 import ModalTrigger from './component-lib/components/modal/ModalTrigger'
 
@@ -55,7 +58,8 @@ objectAssign()
 customPolyfill()
 
 // create event hub and export so that it can be imported into .vue files
-export const eventHub = new Vue()
+export const eventHub = new Vue() //No longer doing it this way
+Vue.prototype.$eventHub = new Vue()
 
 document.addEventListener('DOMContentLoaded', () => { 
   if(document.getElementById('v-app')) {
@@ -78,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ChartRowStacked,
         ComponentViewer,
         ExpandableItem,
+        FakeTabExample,
+        FakeTabs,
         Modal,
         ModalTrigger,
         StickyBar,
