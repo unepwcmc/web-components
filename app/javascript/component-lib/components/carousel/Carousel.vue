@@ -84,11 +84,14 @@
 
 <script>
 import { getChangeInIndex, getNewOrder, getWidthWithMargins, modGreaterThanZero } from './carousel-helpers'
+import mixinResponsive from '../../mixins/mixin-responsive'
 
 const smallTimeout = 20
 
 export default {
   name: 'Carousel',
+
+  mixins: [mixinResponsive],
 
   props: {
     title: {
@@ -118,6 +121,14 @@ export default {
     showAllIndicators: {
       default: false,
       type: Boolean
+    },    
+    slidesPerFrame: {
+      default: () => [1,1,1,1],
+      type: Array
+    },
+    marginSize: {
+      default: 10,
+      type: Number
     }
   },
 
@@ -161,6 +172,12 @@ export default {
     }
   },
 
+  watch: {
+    currentBreakpoint () {
+      this.setAllSlideStyles()
+    }
+  },
+
   created() {
     window.addEventListener('resize', () => {
       this.setSlideWidth()
@@ -170,6 +187,7 @@ export default {
 
   mounted () {
     this.initData()
+    this.setAllSlideStyles()
     this.initSlideOrders()
     this.setSlideWidth()
     this.initSlideContainerPosition()
@@ -311,6 +329,31 @@ export default {
       Array.prototype.forEach.call(this.childSlideComponents, child => {
         child.isActive = this.isCurrentSlideElement(child.$el)
       })
+    },
+
+    getSlidesPerFrame() {
+      switch (this.currentBreakpoint) {
+      case 'mobile':
+        return this.slidesPerFrame[0]
+      case 'tablet':
+        return this.slidesPerFrame[1]
+      case 'laptop':
+        return this.slidesPerFrame[2]
+      case 'desktop':
+        return this.slidesPerFrame[3]
+      }
+    },
+
+    setAllSlideStyles () {
+      console.log(this.childSlideComponents)
+      Array.prototype.forEach.call(this.childSlideComponents, this.setSlideStyle)
+    },
+
+    setSlideStyle (slide) {
+      const style = slide.$el.style
+
+      style.marginLeft = style.marginRight = this.marginSize + 'px'
+      style.width = `calc(${100/this.getSlidesPerFrame()}% - ${2*this.marginSize}px)`
     }
   }
 }
