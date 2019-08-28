@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
       pp: 'Protected Planet',
       pp_live_report: 'Protected Planet Live Report',
       style_guide: 'Style Guide',
+      wcmc_annual_review: 'WCMC Annual Review'
     }
   end
 
@@ -123,6 +124,15 @@ class ApplicationController < ActionController::Base
           projects[:abnj],
           projects[:dar],
           projects[:encore],
+        ]
+      },
+      {
+        id: 'social_share',
+        name: 'SocialShare',
+        category_id: 'social',
+        projects: [
+          projects[:ocean_plus_library],
+          projects[:wcmc_annual_review]
         ]
       },
       {
@@ -225,6 +235,10 @@ class ApplicationController < ActionController::Base
       {
         id: 'navs',
         name: 'Navs'
+      },
+      {
+        id: 'social',
+        name: 'Social'
       },
       {
         id: 'tabs',

@@ -25,6 +25,8 @@ import ExpandableItem from './component-lib/components/expandable-item/Expandabl
 import Modal from './component-lib/components/modal/Modal'
 import ModalTrigger from './component-lib/components/modal/ModalTrigger'
 
+import SocialShare from './component-lib/components/social/SocialShare'
+
 import StickyBar from './component-lib/components/sticky/StickyBar'
 
 import Tab from './component-lib/components/tabs/Tab'
@@ -80,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ExpandableItem,
         Modal,
         ModalTrigger,
+        SocialShare,
         StickyBar,
         Tab,
         Tabs,

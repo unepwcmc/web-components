@@ -2,16 +2,16 @@
 *= require_self
 */
 // Utilities
-@import './utilities/rem-calc.scss';
-@import './utilities/media-queries.scss';
-@import './site/variables.scss';
+@import './utilities/rem-calc';
+@import './utilities/media-queries';
+@import './site/variables';
 
-@import './utilities/flexbox.scss';
-@import './utilities/form-helpers.scss';
-@import './utilities/helpers.scss';
-@import './utilities/wcmc-branding.scss';
+@import './utilities/flexbox';
+@import './utilities/form-helpers';
+@import './utilities/helpers';
+@import './utilities/wcmc-branding';
 
-@import './site/base.scss';
+@import './site/base';
 @import './site/*'; //TODO: don't import above files twice
 
 .styleguide-component-library {
@@ -20,7 +20,7 @@
 
 // Styleguides
 .styleguide-example-project {
-  @import './example-project-styleguide/variables.scss';
-  @import './example-project-styleguide/base.scss';
+  @import './example-project-styleguide/variables';
+  @import './example-project-styleguide/base';
   @import './example-project-styleguide/*';
 }

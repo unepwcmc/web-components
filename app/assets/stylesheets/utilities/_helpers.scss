@@ -36,6 +36,7 @@
 
 .white { color: $white; }
 .black { color: $black; }
+
 //--------------------------------------------------
 // lists
 //--------------------------------------------------
@@ -56,11 +57,11 @@
 }
 
 @mixin list-horizontal-margin ($value) {
-  @include list-margin('right', $value)
+  @include list-margin('right', $value);
 }
 
 @mixin list-vertical-margin ($value) {
-  @include list-margin('bottom', $value)
+  @include list-margin('bottom', $value);
 }
 
 //--------------------------------------------------
@@ -121,6 +122,8 @@
 // backgrounds
 //--------------------------------------------------
 $image-placeholder: black;
+
+.bg--grey { background-color: $grey; }
 
 .bg-img {
   background-color: $image-placeholder;
