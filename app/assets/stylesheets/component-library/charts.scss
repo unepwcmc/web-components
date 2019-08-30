@@ -1,3 +1,5 @@
+$chart-item-background: $grey;
+
 $white: #ffffff;
 
 $grey-xlight: #f4f4f4;
@@ -160,6 +162,7 @@ $theme-rainbow: $chart-pink $chart-yellow $chart-green $chart-blue $grey-light;
 //--------------------------------------------------
   @import './charts/chart-area';
   @import './charts/chart-column';
+  @import './charts/chart-dial';
   @import './charts/chart-doughnut';
   @import './charts/chart-line';
   @import './charts/chart-row';

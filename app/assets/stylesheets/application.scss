@@ -24,3 +24,9 @@
   @import './example-project-styleguide/base.scss';
   @import './example-project-styleguide/*';
 }
+
+.styleguide-pp {
+  @import './styleguide-pp/variables.scss';
+  @import './styleguide-pp/base.scss';
+  @import './styleguide-pp/**/*';
+}

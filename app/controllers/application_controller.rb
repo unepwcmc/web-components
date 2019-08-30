@@ -9,6 +9,13 @@ class ApplicationController < ActionController::Base
         ]
       },
       {
+        id: 'pp',
+        name: 'PP',
+        component_ids: [
+          'carousel'
+        ]
+      },
+      {
         id: 'component-library',
         name: 'Component Library'
       }
@@ -70,6 +77,14 @@ class ApplicationController < ActionController::Base
         projects: [
           projects[:pp_live_report],
           projects[:tradeview]
+        ]
+      },
+      {
+        id: 'chart_dial',
+        name: 'ChartDial',
+        category_id: 'charts',
+        projects: [
+          projects[:pp]
         ]
       },
       {

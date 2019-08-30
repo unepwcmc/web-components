@@ -16,6 +16,7 @@ import CarouselSlide from './component-lib/components/carousel/CarouselSlide'
 
 import ChartArea from './component-lib/components/charts/ChartArea'
 import ChartColumn from './component-lib/components/charts/ChartColumn'
+import ChartDial from './component-lib/components/charts/ChartDial'
 import ChartLine from './component-lib/components/charts/ChartLine'
 import ChartRow from './component-lib/components/charts/ChartRow'
 import ChartRowStacked from './component-lib/components/charts/ChartRowStacked'
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         CarouselSlide,
         ChartArea,
         ChartColumn,
+        ChartDial,
         ChartLine,
         ChartRow,
         ChartRowStacked,
