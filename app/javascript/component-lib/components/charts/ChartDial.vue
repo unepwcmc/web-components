@@ -56,7 +56,7 @@
 
       <text 
         class="chart__title"
-        :x="svgStartX" 
+        :x="svgStartX + paddingSides" 
         :y="paddingBottom - 1"
       >
         {{ title }}
@@ -64,8 +64,8 @@
 
       <text 
         class="chart__title"
-        :x="-dialValueArcEndX" 
-        :y="-dialValueArcEndY"
+        :x="-dialValueLabelArcEndX" 
+        :y="-dialValueLabelArcEndY"
         text-anchor="middle"
       >
         {{ dialValue }}%
@@ -73,8 +73,8 @@
 
       <text 
         class="chart__title"
-        :x="-dialTargetArcEndX" 
-        :y="-dialTargetArcEndY"
+        :x="-dialTargetLabelArcEndX" 
+        :y="-dialTargetLabelArcEndY"
         text-anchor="middle"
       >
         {{ dialTarget }}%
@@ -102,6 +102,10 @@ export default {
       type: Number,
       required: true
     },
+    colour: {
+      type: String,
+      default: 'default'
+    },
     options: {
       type: Object,
       default: () => { 
@@ -117,22 +121,26 @@ export default {
       dialDiameter: 200,
       paddingTop: 30,
       paddingBottom: 20,
+      paddingSides: 60,
       arrowHeadSize: 5
     }
   },
 
   computed: {
     svgStartX () {
-      return -this.dialDiameter/2
+      return -this.dialDiameter/2 - this.paddingSides
     },
     svgStartY () {
       return - this.dialDiameter/2 - this.paddingTop
     },
     svgWidth () {
-      return this.dialDiameter
+      return this.dialDiameter + this.paddingSides*2
     },
     svgHeight () {
       return this.dialDiameter/2 + this.paddingTop + this.paddingBottom
+    },
+    labelRadius () {
+      return this.arcRadius + 20
     },
     arcRadius () {
       return this.dialDiameter/2
@@ -142,8 +150,8 @@ export default {
     },
     arcs () {
       return [
-        { percentage: 50, class: 'chart__arc--default' },
-        { percentage: this.dialValueDegrees, class: 'chart__arc--marine' }
+        { percentage: 50, class: 'chart__arc--background' },
+        { percentage: this.dialValueDegrees, class: `chart__arc--${this.colour}` }
       ]
     },
     dialValueDegrees () {
@@ -163,6 +171,18 @@ export default {
     },
     dialTargetArcEndY () {
       return this.getCoord(this.dialTargetDegrees, 'y', this.arcRadius)
+    },
+    dialValueLabelArcEndX () {
+      return this.getCoord(this.dialValueDegrees, 'x', this.labelRadius)
+    },
+    dialValueLabelArcEndY () {
+      return this.getCoord(this.dialValueDegrees, 'y', this.labelRadius)
+    },
+    dialTargetLabelArcEndX () {
+      return this.getCoord(this.dialTargetDegrees, 'x', this.labelRadius)
+    },
+    dialTargetLabelArcEndY () {
+      return this.getCoord(this.dialTargetDegrees, 'y', this.labelRadius)
     },
     arrowPoints () {
       const radius = this.arcRadius - this.arrowHeadSize * 3,

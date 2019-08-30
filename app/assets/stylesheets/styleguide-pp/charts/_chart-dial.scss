@@ -6,7 +6,7 @@ $chart-text-color: $grey;
 
   .chart {
     &__arc {
-      &--default { fill: $chart-item-background; }
+      &--default, &--background { fill: $chart-item-background; }
       &--marine { fill: $marine; }
       &--terrestrial { fill: $terrestrial; }
     }
