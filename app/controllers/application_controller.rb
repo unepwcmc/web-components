@@ -12,7 +12,8 @@ class ApplicationController < ActionController::Base
         id: 'pp',
         name: 'PP',
         component_ids: [
-          'carousel'
+          'carousel',
+          'chart_dial'
         ]
       },
       {

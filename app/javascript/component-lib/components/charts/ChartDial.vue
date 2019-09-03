@@ -118,7 +118,7 @@ export default {
 
   data () {
     return {
-      dialDiameter: 200,
+      dialDiameter: 244,
       paddingTop: 30,
       paddingBottom: 20,
       paddingSides: 60,

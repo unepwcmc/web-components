@@ -14,7 +14,6 @@ $transition-options: 0.6s ease-in-out;
 }
 
 .carousel {
-  border: solid 1px red;
   padding-top: $padding-top-bottom;
   height: $carousel-height;
 
@@ -92,7 +91,7 @@ $transition-options: 0.6s ease-in-out;
 
 .carousel-slide {
   @include item-spacing;
-  background-color: red;
-  border-radius: rem-calc(20);
+  border: solid 1px $grey-light;
+  box-shadow: 2px 2px 4px $grey-light;
   flex-shrink: 0;
 }
