@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
         name: 'PP',
         component_ids: [
           'carousel',
-          'chart_dial'
+          'chart_dial',
+          'tooltip'
         ]
       },
       {
@@ -171,7 +172,8 @@ class ApplicationController < ActionController::Base
           projects[:encore],
           projects[:ibat],
           projects[:naturemap],
-          projects[:tradeview]
+          projects[:tradeview],
+          projects[:pp]
         ]
       },
       {

@@ -1,0 +1,30 @@
+//--------------------------------------------------
+// mixins
+//--------------------------------------------------
+@mixin icon-basic() {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+@mixin icon-button-reset() {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+@mixin icon-close() {
+  @include icon-basic;
+  background-image: image-url('pp/icons/close.svg');
+  width: rem-calc(29); height: rem-calc(29);
+}
+
+//--------------------------------------------------
+// classes
+//--------------------------------------------------
+.icon {
+  &__close {
+    @include icon-close;
+  }
+}
