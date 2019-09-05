@@ -1,0 +1,274 @@
+//--------------------------------------------------
+// html elements
+//--------------------------------------------------
+* {
+  box-sizing: border-box;
+  font-family: $body-font;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: $body-font;
+  margin: 0;
+  height: 100%;
+}
+
+main {
+  display: block;
+}
+
+#v-app {
+  padding-bottom: $footer-height-desktop;
+  min-height: 100vh;
+  
+  position: relative;
+}
+
+h1 {
+  @extend .sg-h1;
+}
+
+h2 {
+  @extend .sg-h2;
+}
+
+h3 {
+  @extend .sg-h3;
+}
+
+h4 {
+  @extend .sg-h4;
+}
+
+p {
+  @extend .sg-p;
+}
+
+a {
+  color: inherit;
+}
+
+li {
+  @extend .sg-li;
+}
+
+label {
+  cursor: inherit;
+}
+
+table, th, td {
+  border: $border-thin $black;
+  @if ($collapse-table-borders) { border-collapse: collapse; }
+}
+
+th, td {
+  padding: $table-cell-padding;
+}
+
+th {
+  @extend .sg-h3;
+}
+
+td {
+  @extend .sg-p;
+}
+
+button:hover, button:active { outline: none; }
+
+:focus {
+  outline: 1px dotted #212121;
+  outline: 2px auto -webkit-focus-ring-color;
+}
+
+//--------------------------------------------------
+// text
+//--------------------------------------------------
+.sg-h1 {
+  @include font-size('h1');
+  font-weight: $font-weight-h1;
+  line-height: $line-height-h1;
+}
+
+.sg-h2 {
+  @include font-size('h2');
+  font-weight: $font-weight-h2;
+  line-height: $line-height-h;
+}
+
+.sg-h3 {
+  @include font-size('h3');
+  font-weight: $font-weight-h3;
+  line-height: $line-height-h;
+}
+
+.sg-h4 {
+  @include font-size('h4');
+  font-weight: $font-weight-h4;
+  line-height: $line-height-h;
+}
+
+.sg-p {
+  @include font-size('p');
+  font-weight: $font-weight-p;
+  line-height: $line-height-p;
+}
+
+.sg-li {
+  @include font-size('p');
+  font-weight: $font-weight-p;
+  line-height: $line-height-li;
+}
+
+//--------------------------------------------------
+// site structure - reusable styles/mixins
+//--------------------------------------------------
+@mixin gutters($sides:'both', $type:'padding') {
+  $sides: if($sides == 'both', ('left', 'right'), ($sides));
+
+  @each $s in $sides {
+    #{$type}-#{$s}: $gutter-small;
+
+    @include breakpoint($medium) { #{$type}-#{$s}: $gutter-medium; }
+    @include breakpoint($large) { #{$type}-#{$s}: $gutter-large; }
+  }
+}
+
+@mixin item-spacing($sides:'all', $type:'padding') {
+  $sides: if($sides == 'all', ('top','bottom','left','right'), ($sides));
+
+  @each $s in $sides {
+    #{$type}-#{$s}: $item-spacing-small;
+
+    @include breakpoint($medium) { #{$type}-#{$s}: $item-spacing-medium; }
+    @include breakpoint($large) { #{$type}-#{$s}: $item-spacing-large; }
+  }
+}
+
+%container {
+  @include gutters('both', 'padding');
+
+  margin: 0 auto;
+  width: 100%;
+}
+
+//--------------------------------------------------
+// site structure
+//--------------------------------------------------
+.site-width {
+  @include breakpoint($large){ width: $site-width; }
+}
+
+.gutter {
+  &-left {
+    @include gutters('left');
+  }
+
+  &-right {
+    @include gutters('right');
+  }
+}
+
+.gutters {
+  @include gutters;
+}
+
+.container {
+  @extend .site-width;
+  @extend %container;
+
+  &--small {
+    @extend %container;
+    max-width: $container-width-small;
+
+    @include breakpoint($medium){ width: $container-width-small; }
+  }
+
+  &--medium {
+    @extend %container;
+    @include breakpoint($small){ width: $container-width-medium; }
+    @include breakpoint($medium){ width: $container-width-large; }
+  }
+}
+
+//--------------------------------------------------
+// page padding
+//--------------------------------------------------
+
+.page-padding--top {
+  padding-top: $page-padding-top-small;
+  @include breakpoint($small) { padding-top: $page-padding-top-medium; }
+  @include breakpoint($medium) { padding-top: $page-padding-top-large; }
+}
+
+.page-padding--bottom {
+  padding-bottom: $page-padding-bottom-small;
+  @include breakpoint($small) { padding-bottom: $page-padding-bottom-medium; }
+  @include breakpoint($medium) { padding-bottom: $page-padding-bottom-large; }
+}
+
+.page-padding {
+  @extend .page-padding--top;
+  @extend .page-padding--bottom;
+}
+
+//--------------------------------------------------
+// section padding
+//--------------------------------------------------
+.section-padding--top {
+  padding-top: $section-padding-top-small;
+  @include breakpoint($small) { padding-top: $section-padding-top-medium; }
+  @include breakpoint($medium) { padding-top: $section-padding-top-large; }
+}
+
+.section-padding--bottom {
+  padding-bottom: $section-padding-bottom-small;
+  @include breakpoint($small) { padding-bottom: $section-padding-bottom-medium; }
+  @include breakpoint($medium) { padding-bottom: $section-padding-bottom-large; }
+}
+
+.section-padding {
+  @extend .section-padding--top;
+  @extend .section-padding--bottom;
+}
+
+//--------------------------------------------------
+// item padding
+//--------------------------------------------------
+.item-padding--sides {
+  @include item-spacing(('left', 'right'))
+}
+
+.item-padding--top-bottom {
+  @include item-spacing(('top', 'bottom'))
+}
+
+.item-padding {
+  @include item-spacing()
+}
+
+//--------------------------------------------------
+// helper classes
+//--------------------------------------------------
+.breakpoint-small-up {
+  display: none;
+  @include breakpoint($small) { display: block; }
+}
+
+.breakpoint-medium-up {
+  display: none;
+  @include breakpoint($medium) { display: block; }
+}
+
+.breakpoint-small-down {
+  display: block;
+  @include breakpoint($small) { display: none; }
+}
+
+.breakpoint-medium-down {
+  display: block;
+  @include breakpoint($medium) { display: none; }
+}

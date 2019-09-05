@@ -1,6 +1,12 @@
-$tooltip-background-color: $grey;
+//--------------------------------------------------
+// settings
+//--------------------------------------------------
+$tooltip-background-color: $grey-light;
 $border-style: solid rem-calc(10);
 
+//--------------------------------------------------
+// tooltips
+//--------------------------------------------------
 .tooltip {
   &__trigger {
     cursor: pointer;
@@ -8,6 +14,8 @@ $border-style: solid rem-calc(10);
 
   &__target {
     @include item-spacing;
+    font-size: rem-calc(15);
+    line-height: 1.4;
     width: rem-calc(200);
 
     background-color: $tooltip-background-color;
@@ -35,8 +43,11 @@ $border-style: solid rem-calc(10);
   }
 
   &__close {
+    @include icon-button-reset;
+    @include icon-close;
+
     position: absolute;
-    top: 0;
-    right: 0;
-  }  
+    top: rem-calc(10);
+    right: rem-calc(10);
+  }
 }
