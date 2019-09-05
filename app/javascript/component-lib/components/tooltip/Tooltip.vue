@@ -28,7 +28,7 @@
       role="tooltip"
       class="tooltip__target"
     >
-      <button @click="toggleTooltip(false)" class="tooltip__close"></button>
+      <button v-if="!onHover" @click="toggleTooltip(false)" class="tooltip__close"></button>
       {{ text }}
     </div>
   </div>

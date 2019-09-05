@@ -24,7 +24,7 @@
 // classes
 //--------------------------------------------------
 .icon {
-  &__close {
+  &--close {
     @include icon-close;
   }
 }
