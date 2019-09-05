@@ -27,7 +27,7 @@
 
         <path 
           v-for="(arc, index) in arcs"
-          :key="index"
+          :key="getVForKey('arc', index)"
           :class="arc.class"
           :d="getArcPath(arc.percentage)"
         />
@@ -37,14 +37,14 @@
           :points="arrowPoints" 
           fill="none"
           marker-end="url(#arrow)"
-          />
+        />
 
         <polyline 
           class="chart__arrow-line"
           :points="arrowPointsTarget" 
           fill="none"
           stroke-dasharray="6 8"
-          />
+        />
 
         <circle
           rx="0"
@@ -85,9 +85,12 @@
 
 <script>
 // import GradientPath from 'gradient-path'
+import mixinId from '../../mixins/mixin-ids'
 
 export default {
   name: 'ChartDial',
+
+  mixins: [ mixinId ],
 
   props: {
     title: {
