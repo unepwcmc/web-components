@@ -1,8 +1,7 @@
 require 'wcmc_components'
 
-class Country < ApplicationRecord
-  has_and_belongs_to_many :meas
+class Mea < ApplicationRecord
+  has_and_belongs_to_many :countries
 
   include WcmcComponents::Loadable
-
 end

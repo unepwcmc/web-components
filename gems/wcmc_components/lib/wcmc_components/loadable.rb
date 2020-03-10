@@ -24,9 +24,25 @@ module WcmcComponents
                 owner = k.capitalize.constantize.find_by(name: row_hash[k])
                 row_hash[k] = owner
               end
-              
-              
-              self.find_or_create_by!(row_hash)
+              # look up objects for each HABTM column - assumes column name is pluralised class name
+              habtm = self.reflections.select{|key,hash| hash.macro == :has_and_belongs_to_many}
+
+              # habtm columns need adding later, so exclude them in the 
+              new_object = self.find_or_create_by!(row_hash.except(*habtm.keys))
+
+              # now look up the habtm's which should be semi-colon separated values
+              habtm.each do | k, v|
+                # check if the habtm relationship is in this csv
+                if (row.headers.include?(k))
+                  list_of_children = row_hash[k].split(";")
+                  list_of_children.each do |child_name|
+                    new_child = k.camelize.singularize.constantize.find_or_create_by(name: child_name)
+                    unless new_object.send(k.downcase.to_sym).exists?(new_child.id)
+                      new_object.send(k.downcase.to_sym) << new_child
+                    end
+                  end
+                end
+              end
               
             end
           end
