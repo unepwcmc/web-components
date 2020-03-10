@@ -1,3 +1,4 @@
+require 'csv'
 module WcmcComponents
   module Loadable
     
@@ -12,6 +13,26 @@ module WcmcComponents
     module ClassMethods
       def import file_name=nil
         seed = csv_file_path file_name
+        begin
+          ActiveRecord::Base.transaction do
+            
+            CSV.foreach(seed, headers: true, encoding:'iso-8859-1:utf-8') do |row|
+              row_hash = row.to_h
+              # look up object for each belongs_to column - assumes column name is class name
+              belongs_to = self.reflections.select{|key,hash| hash.macro == :belongs_to}
+              belongs_to.each do | k, v|
+                owner = k.capitalize.constantize.find_by(name: row_hash[k])
+                row_hash[k] = owner
+              end
+              
+              
+              self.find_or_create_by!(row_hash)
+              
+            end
+          end
+        rescue => e
+          Rails.env.test? ? byebug : Rails.logger.error(e)
+        end
       end
 
       def csv_file_path base_file_name=nil
@@ -21,19 +42,6 @@ module WcmcComponents
                  Rails.root.join('lib','data','seeds',base_file_name)
       end
     end
-    
-#    def Loadable.import file_name
- ##     begin
-   #     puts file_name
-#        ActiveRecord::Base.transaction do
-          
-#          CSV.foreach(file_name, headers: true, encoding:'iso-8859-1:utf-8') do |row|
- #           self.class.find_or_create_by!(row.to_h)
-  #        end
- #       end
-    #  rescue => e
-        #        Rails.env.development? ? byebug : Appsignal.set_error(e)
-     #   byebug
-     # end
+
   end
 end

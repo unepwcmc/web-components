@@ -15,4 +15,14 @@ class CountryTest < ActiveSupport::TestCase
     # test overriding
     assert_equal Country.csv_file_path("override.csv"), Rails.root.join('test', 'seeds', 'override.csv')
   end
+
+  test "simple ASCII csv import" do
+    Country.import "good_countries.csv"
+    assert_equal 2, Country.count
+  end
+  test "simple UTF-8 csv import" do
+    Country.import "utf8_countries.csv"
+    assert_equal 3, Country.count
+  end
+
 end

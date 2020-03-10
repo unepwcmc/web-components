@@ -11,4 +11,5 @@ Gem::Specification.new do |s|
                   ]
   s.homepage    =  "https://labs.unep-wcmc.org"
   s.license     = "MIT"
+  s.add_runtime_dependency 'appsignal'
 end
