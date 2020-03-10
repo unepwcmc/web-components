@@ -6,7 +6,9 @@ Gem::Specification.new do |s|
   s.description = "Ruby Gem for common WCMC Components"
   s.authors     = ["Informatics Programme (Benkt)"]
   s.email       = "informatics@unep-wcmc.org"
-  s.files       = ["lib/wcmc_components.rb"]
+  s.files       = ["lib/wcmc_components.rb",
+                   "lib/wcmc_components/loadable.rb"
+                  ]
   s.homepage    =  "https://labs.unep-wcmc.org"
   s.license     = "MIT"
 end
