@@ -24,7 +24,7 @@ module WcmcComponents
         @filters.keys.each do |filter|
           filter_array << {
             name: filter.to_s,
-            title: filter.to_s.capitalize,
+            title: @filters[filter][:title] || filter.to_s.capitalize,
             options: full_list.pluck(filter).compact.uniq.sort,
             type: @filters[filter][:type] || 'multiple'
             

@@ -37,6 +37,8 @@ class CountryTest < ActiveSupport::TestCase
     assert_equal "Name", f[0]['title']
     assert_equal 2, f[0]['options'].count
     assert_equal "single", f[0]['type']
+    # test overriding title
+    assert_equal "ISO 3 Code", f[1]['title']
   end
   
   

@@ -7,5 +7,5 @@ class Country < ApplicationRecord
   include WcmcComponents::Filterable
 
   filter_on :name, type: 'single'
-  filter_on :iso3
+  filter_on :iso3, title: 'ISO 3 Code'
 end
