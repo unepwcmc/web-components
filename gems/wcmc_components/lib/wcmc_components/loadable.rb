@@ -36,6 +36,7 @@ module WcmcComponents
                 if (row.headers.include?(k))
                   list_of_children = row_hash[k].split(";")
                   list_of_children.each do |child_name|
+                    next if child_name.blank?
                     new_child = k.camelize.singularize.constantize.find_or_create_by(name: child_name)
                     unless new_object.send(k.downcase.to_sym).exists?(new_child.id)
                       new_object.send(k.downcase.to_sym) << new_child
@@ -47,7 +48,7 @@ module WcmcComponents
             end
           end
         rescue => e
-          Rails.env.test? ? byebug : Rails.logger.error(e)
+          Rails.env.development? ? byebug : Rails.logger.error(e)
         end
       end
 
