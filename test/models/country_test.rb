@@ -40,6 +40,12 @@ class CountryTest < ActiveSupport::TestCase
     # test overriding title
     assert_equal "ISO 3 Code", f[1]['title']
   end
-  
-  
+
+  test "all_to_json" do
+    Country.import "good_countries.csv"
+    c = JSON.parse Country.all_to_json
+    assert_equal 2, c.count
+    assert_equal "United Kingdom", c[0]['name']
+    assert_equal "FRA", c[1]['iso3']
+  end
 end
