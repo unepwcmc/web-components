@@ -106,14 +106,6 @@ class ApplicationController < ActionController::Base
         ]
       },
       {
-        id: 'fake_tabs',
-        name: 'FakeTabs',
-        category_id: 'tabs',
-        projects: [
-          projects[:tradeview],
-        ]
-      },
-      {
         id: 'modal',
         name: 'Modal',
         category_id: 'modals',
@@ -147,6 +139,15 @@ class ApplicationController < ActionController::Base
           projects[:encore],
           projects[:ibat],
           projects[:ocean_plus_habitats]
+        ]
+      },
+      {
+        id: 'tabs_fake',
+        name: 'TabsFake',
+        category_id: 'tabs',
+        projects: [
+          projects[:pp],
+          projects[:tradeview],
         ]
       },
       {
