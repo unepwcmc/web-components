@@ -84,11 +84,14 @@
 
 <script>
 import { getChangeInIndex, getNewOrder, getWidthWithMargins, modGreaterThanZero } from './carousel-helpers'
+import mixinResponsive from '../../mixins/mixin-responsive'
 
 const smallTimeout = 20
 
 export default {
   name: 'Carousel',
+
+  mixins: [mixinResponsive],
 
   props: {
     title: {
@@ -111,9 +114,21 @@ export default {
       default: 0,
       type: Number
     },
+    showIndicators: {
+      default: true,
+      type: Boolean
+    },
     showAllIndicators: {
       default: false,
       type: Boolean
+    },    
+    slidesPerFrame: {
+      default: () => [1,1,1,1],
+      type: Array
+    },
+    marginSize: {
+      default: 10,
+      type: Number
     }
   },
 
@@ -152,8 +167,14 @@ export default {
       return this.isPaused ? 'Resume carousel' : 'Pause carousel'
     },
 
-    showIndicators () {
-      return this.showAllIndicators || this.totalSlides < 7
+    showIndicatorsComputed () {
+      return this.showAllIndicators || (this.showIndicators && this.totalSlides < 7)
+    }
+  },
+
+  watch: {
+    currentBreakpoint () {
+      this.setAllSlideStyles()
     }
   },
 
@@ -166,6 +187,7 @@ export default {
 
   mounted () {
     this.initData()
+    this.setAllSlideStyles()
     this.initSlideOrders()
     this.setSlideWidth()
     this.initSlideContainerPosition()
@@ -196,7 +218,7 @@ export default {
     },
 
     initSlideOrders () {
-      this.childSlideComponents.forEach( (child, index) => {
+      Array.prototype.forEach.call(this.childSlideComponents, (child, index) => {
         child.$el.style.order = index
       })
     },
@@ -304,9 +326,34 @@ export default {
     },
 
     setActiveStateOnChildren () {
-      this.childSlideComponents.forEach(child => {
+      Array.prototype.forEach.call(this.childSlideComponents, child => {
         child.isActive = this.isCurrentSlideElement(child.$el)
       })
+    },
+
+    getSlidesPerFrame() {
+      switch (this.currentBreakpoint) {
+      case 'mobile':
+        return this.slidesPerFrame[0]
+      case 'tablet':
+        return this.slidesPerFrame[1]
+      case 'laptop':
+        return this.slidesPerFrame[2]
+      case 'desktop':
+        return this.slidesPerFrame[3]
+      }
+    },
+
+    setAllSlideStyles () {
+      console.log(this.childSlideComponents)
+      Array.prototype.forEach.call(this.childSlideComponents, this.setSlideStyle)
+    },
+
+    setSlideStyle (slide) {
+      const style = slide.$el.style
+
+      style.marginLeft = style.marginRight = this.marginSize + 'px'
+      style.width = `calc(${100/this.getSlidesPerFrame()}% - ${2*this.marginSize}px)`
     }
   }
 }

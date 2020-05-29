@@ -106,7 +106,7 @@ export default {
 
   computed: {
     isBurgerNav() {
-      return this.isAlwaysBurger || !this.isLarge()
+      return this.isAlwaysBurger || !this.isLaptop()
     },
 
     navType() {
