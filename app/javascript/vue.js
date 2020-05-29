@@ -10,37 +10,27 @@ import ComponentViewer from './site/ComponentViewer'
 // vue components
 import Accordion from './component-lib/components/accordion/Accordion'
 import AccordionItem from './component-lib/components/accordion/AccordionItem'
-
 import Carousel from './component-lib/components/carousel/Carousel'
 import CarouselSlide from './component-lib/components/carousel/CarouselSlide'
-
 import ChartArea from './component-lib/components/charts/ChartArea'
 import ChartColumn from './component-lib/components/charts/ChartColumn'
 import ChartDial from './component-lib/components/charts/ChartDial'
 import ChartLine from './component-lib/components/charts/ChartLine'
 import ChartRow from './component-lib/components/charts/ChartRow'
 import ChartRowStacked from './component-lib/components/charts/ChartRowStacked'
-
 import ExpandableItem from './component-lib/components/expandable-item/ExpandableItem'
-
 import Modal from './component-lib/components/modal/Modal'
 import ModalTrigger from './component-lib/components/modal/ModalTrigger'
-
 import StickyBar from './component-lib/components/sticky/StickyBar'
-
 import Tab from './component-lib/components/tabs/Tab'
 import Tabs from './component-lib/components/tabs/Tabs'
-
+import TabFake from './component-lib/components/tabs/TabFake'
+import TabsFake from './component-lib/components/tabs/TabsFake'
 import Tooltip from './component-lib/components/tooltip/Tooltip'
-
 import Toggle from './component-lib/components/toggle/Toggle'
-
 import VForm from './component-lib/components/form/VForm'
-
 import VMap from './component-lib/components/map/VMap'
-
 import VNav from './component-lib/components/nav/VNav'
-
 import VMultiselect from './component-lib/components/v-select/VMultiselect'
 import VMultiselectSearchable from './component-lib/components/v-select/VMultiselectSearchable'
 import VSelect from './component-lib/components/v-select/VSelect'
@@ -56,7 +46,8 @@ objectAssign()
 customPolyfill()
 
 // create event hub and export so that it can be imported into .vue files
-export const eventHub = new Vue()
+export const eventHub = new Vue() //No longer doing it this way
+Vue.prototype.$eventHub = new Vue()
 
 document.addEventListener('DOMContentLoaded', () => { 
   if(document.getElementById('v-app')) {
@@ -85,6 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
         StickyBar,
         Tab,
         Tabs,
+        TabFake,
+        TabsFake,
         Toggle,
         Tooltip,
         VForm,

@@ -159,6 +159,15 @@ class ApplicationController < ActionController::Base
         ]
       },
       {
+        id: 'tabs_fake',
+        name: 'TabsFake',
+        category_id: 'tabs',
+        projects: [
+          projects[:pp],
+          projects[:tradeview],
+        ]
+      },
+      {
         id: 'toggle',
         name: 'Toggle',
         category_id: 'utilities',
