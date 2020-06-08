@@ -11,12 +11,13 @@ module WcmcComponents
     end
 
     module ClassMethods
-      def import file_name=nil
+      def import file_name=nil, encoding=nil
         seed = csv_file_path file_name
         begin
           ActiveRecord::Base.transaction do
             
-            CSV.foreach(seed, headers: true, encoding:'iso-8859-1:utf-8') do |row|
+            #            CSV.foreach(seed, headers: true, encoding:'iso-8859-1:utf-8') do |row|
+            CSV.foreach(seed, headers: true, encoding: encoding) do |row|
               row_hash = row.to_h
               # look up object for each belongs_to column - assumes column name is class name
               belongs_to = self.reflections.select{|key,hash| hash.macro == :belongs_to}
@@ -37,7 +38,8 @@ module WcmcComponents
                   list_of_children = row_hash[k].split(";")
                   list_of_children.each do |child_name|
                     next if child_name.blank?
-                    new_child = k.camelize.singularize.constantize.find_or_create_by(name: child_name)
+                    # I've strip'd whitespace from start/end as ;sv's are often inconsistently white-spaced
+                    new_child = k.camelize.singularize.constantize.find_or_create_by(name: child_name.strip)
                     unless new_object.send(k.downcase.to_sym).exists?(new_child.id)
                       new_object.send(k.downcase.to_sym) << new_child
                     end
