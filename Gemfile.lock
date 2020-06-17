@@ -1,7 +1,7 @@
 PATH
   remote: gems/wcmc_components
   specs:
-    wcmc-components (0.0.2)
+    wcmc-components (0.0.4)
 
 GEM
   remote: https://rubygems.org/

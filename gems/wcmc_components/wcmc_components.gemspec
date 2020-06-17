@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'wcmc-components'
-  s.version     = '0.0.2'
+  s.version     = '0.0.4'
   s.date        = '2020-02-12'
   s.summary     = "Ruby Gem for common WCMC Components"
   s.description = "Ruby Gem for common WCMC Components"
