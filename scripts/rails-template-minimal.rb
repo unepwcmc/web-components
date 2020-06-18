@@ -1,4 +1,4 @@
-# Pass these scripts to the -m flag when running `rails new`, i.e. `rails new -m https://raw.githubusercontent.com/unepwcmc/web-components/gem-basics/scripts/rails-template-devise.rb
+# Pass these scripts to the -m flag when running `rails new`, i.e. `rails new -m https://raw.githubusercontent.com/unepwcmc/web-components/gem-basics/scripts/rails-template-minimal.rb
 
 run "if uname | grep -q 'Darwin'; then pgrep spring | xargs kill -9; fi"
 
