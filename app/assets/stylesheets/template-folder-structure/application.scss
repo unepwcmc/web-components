@@ -1,0 +1,17 @@
+// Font -  you may or may not want your font rules in a separate folder, if so leave this in
+@import './fonts/';
+
+// Utilities
+@import './utilities/*';
+
+// Base
+@import './base/*';
+
+// Layout - styles for the header, footer and other miscellaneous partials which don't belong to specific pages
+@import './layout/*';
+
+// Pages - make a folder for each page you wish to apply styles to
+@import './pages/**/*';
+
+// Components - make a folder for each set of components
+@import './components/**/*';
