@@ -71,7 +71,9 @@ module WcmcComponents
                   list_of_children.each do |child_name|
                     next if child_name.blank?
                     # I've strip'd whitespace from start/end as ;sv's are often inconsistently white-spaced
-                    new_child = k.camelize.singularize.constantize.find_or_create_by(name: child_name.strip)
+                    join_key = @import_by[k.to_sym].to_s if ( !@import_by.nil? && @import_by.key?(k.to_sym) )
+                    join_key ||= v.association_primary_key
+                    new_child = k.camelize.singularize.constantize.find_or_create_by(join_key => child_name.strip)
                     unless new_object.send(k.downcase.to_sym).exists?(new_child.id)
                       new_object.send(k.downcase.to_sym) << new_child
                     end
