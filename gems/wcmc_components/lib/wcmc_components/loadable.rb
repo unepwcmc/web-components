@@ -84,6 +84,7 @@ module WcmcComponents
             end
           end
         rescue => e
+          puts e
           Rails.env.development? ? byebug : Rails.logger.error(e)
         end
       end
