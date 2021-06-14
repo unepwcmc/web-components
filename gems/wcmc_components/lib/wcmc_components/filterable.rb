@@ -15,7 +15,6 @@ module WcmcComponents
       end
 
       # filter attributes are already included in columns displayed on table
-      # this is 
       def table_column attr, options = {}
         (@tab_cols ||= {} )[attr] = options
       end
@@ -37,7 +36,6 @@ module WcmcComponents
             title: filters[filter][:title] || filter.to_s.capitalize,
             options: full_list.pluck(filter).compact.uniq.sort,
             type: filters[filter][:type] || 'multiple'
-            
           }
         end
         filter_array.to_json
@@ -73,6 +71,18 @@ module WcmcComponents
         end.to_json
       end
       
+      def columns_to_json
+        columns = []
+        tab_cols.keys.each do |col|
+          columns << {field: col,
+                      title: tab_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
+        end
+        filters.keys.each do |col|
+          columns << {field: col,
+                      title: filters[col][:title] || col.to_s.capitalize}
+        end
+        columns.to_json
+      end
       
     end
   end

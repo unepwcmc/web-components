@@ -36,6 +36,7 @@ class CountryTest < ActiveSupport::TestCase
     assert_equal "name", f[0]['name']
     assert_equal "Name", f[0]['title']
     assert_equal 2, f[0]['options'].count
+    # test overriding type
     assert_equal "single", f[0]['type']
     # test overriding title
     assert_equal "ISO 3 Code", f[1]['title']
@@ -48,4 +49,21 @@ class CountryTest < ActiveSupport::TestCase
     assert_equal "United Kingdom", c[0]['name']
     assert_equal "FRA", c[1]['iso3']
   end
+
+  test "columns_to_json" do
+    Country.import "good_countries.csv"
+    cols = JSON.parse Country.columns_to_json
+    assert_equal 4, cols.count
+
+    # test override title through table_column
+    assert_equal "created_at", cols[0]['field']
+    assert_equal "First Date", cols[0]['title']
+    # test default title through table_column
+    assert_equal "updated_at", cols[1]['field']
+    assert_equal "Updated at", cols[1]['title']
+    # test pull through from filters
+    assert_equal "iso3", cols[3]['field']
+    assert_equal "ISO 3 Code", cols[3]['title']
+  end
+
 end
