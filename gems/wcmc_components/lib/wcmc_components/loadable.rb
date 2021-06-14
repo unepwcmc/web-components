@@ -33,7 +33,6 @@ module WcmcComponents
               row_hash = row.to_h
 
               row_hash.except!(*@ignore_columns.keys) if !@ignore_columns.nil?
-
               # look up object for each belongs_to column - which property to join on can be set by
               # import_by: class_name: :property_name
               # and defaults to association_primary_key (usually id)
@@ -62,7 +61,6 @@ module WcmcComponents
               habtm = self.reflections.select{|key,hash| hash.macro == :has_and_belongs_to_many}
               # habtm columns need adding later, so exclude them in the
               new_object = self.find_or_create_by!(row_hash.except(*habtm.keys))
-
               # now look up the habtm's which should be semi-colon separated values
               habtm.each do | k, v|
                 # check if the habtm relationship is in this csv
