@@ -72,7 +72,20 @@ module WcmcComponents
           item_j
         end.to_json
       end
-      
+
+      def columns_to_json
+        columns = []
+        tab_cols.keys.each do |col|
+          columns << {field: col,
+                      title: tab_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
+        end
+        filters.keys.each do |col|
+          columns << {field: col,
+                      title: filters[col][:title] || col.to_s.capitalize}
+        end
+        columns.to_json
+      end
+
       
     end
   end
