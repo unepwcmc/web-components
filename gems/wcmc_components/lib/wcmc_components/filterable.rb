@@ -43,6 +43,8 @@ module WcmcComponents
         filter_array.to_json
       end
 
+
+      
       def all_to_json
         json = self.all.order(id: :asc).to_a.map! do |item|
           item_j = {
@@ -73,6 +75,21 @@ module WcmcComponents
         end.to_json
       end
 
+      def filter_table(items)
+        items.map! do |item|
+          item_j = {
+            id: item.id,
+          }
+          tab_cols.keys.each do |col|
+            item_j[col.to_s]  = item[col] 
+          end
+          filters.keys.each do |col|
+            item_j[col.to_s]  = item[col] 
+          end
+          item_j
+        end
+      end
+      
       def columns_to_json
         columns = []
         tab_cols.keys.each do |col|
@@ -86,6 +103,47 @@ module WcmcComponents
         columns.to_json
       end
 
+      def paginate json
+        
+        json_params = json.nil? ? nil : JSON.parse(json)
+        page = json_params.present? ? json_params['requested_page'].to_i : 1
+        @items_per_page = (json_params.present? && json_params['items_per_page'].present?) ? json_params['items_per_page'].to_i : 10
+
+        @filter_params = []
+        if json_params.present? && json_params['filters'].present?
+          @filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
+        end
+
+        items = query_with_filters(page, @filter_params)
+
+        {
+          current_page: page,
+          per_page: @items_per_page,
+          total_entries: entries(items),
+          total_pages: pages(items),
+          items: filter_table(items)
+        }
+
+      end
+
+      def entries(items)
+        @filter_params.empty? ? self.count : items.count
+      end
+
+      def pages(items)
+        return 0 if items.count == 0
+        total_pages = items.each_slice(@items_per_page).count
+        
+        if @filter_params.empty?
+          total_pages = self.all.each_slice(@items_per_page).count
+        end
+        
+        total_pages
+      end
+
+      def query_with_filters (page, filters)
+        self.all.order(id: :asc).to_a
+      end
       
     end
   end

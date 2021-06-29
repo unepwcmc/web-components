@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   root to: "component#index"
   get 'component/:id', to: 'component#show', as: 'component'
   get 'styleguide', to: 'styleguide#index'
-  mount Table::Engine, at: "/table"
+  mount Table::Engine, at: "/meas", as: 'mea_table'
+  mount Table::Engine, at: "/countries", as: 'country_table'
 end

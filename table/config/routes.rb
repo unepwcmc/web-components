@@ -1,3 +1,3 @@
 Table::Engine.routes.draw do
-  root to: 'table#list'
+  post '/', to: 'table#list'
 end
