@@ -113,9 +113,7 @@ module WcmcComponents
         if json_params.present? && json_params['filters'].present?
           @filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
         end
-
         items = query_with_filters(page, @filter_params)
-
         {
           current_page: page,
           per_page: @items_per_page,
@@ -141,8 +139,23 @@ module WcmcComponents
         total_pages
       end
 
+      def sql_from_filters(filters)
+        params = {}
+        filters.each do |filter|
+          # single quote the options (if strings!?)
+          options = filter['options'].map{|v| "'#{v}'"}
+          name = filter['name']
+          params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
+
+        end
+        params.compact
+      end     
+      
       def query_with_filters (page, filters)
-        self.all.order(id: :asc).to_a
+        where_params = sql_from_filters(filters)
+        self.where(where_params.values.join(' AND '))
+          .order('id ASC')
+          .to_a
       end
       
     end

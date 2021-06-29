@@ -17,6 +17,16 @@ class TableControllerTest < ActionDispatch::IntegrationTest
     assert_total 2
   end
 
+  test "with basic filter" do
+    Country.import "good_countries.csv"
+
+    post '/countries', params: { requested_page: 0,
+                                 filters: [ name: 'iso3', options: ['GBR'] ]}
+    assert_response :success
+    assert_total 1
+  end
+
+  
   # helper methods to assert on table results
   
   def assert_total (expected)
