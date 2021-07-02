@@ -78,7 +78,7 @@ module WcmcComponents
           item_j = [{
             name: 'id',
             value: item.id,
-            showInTable: true,
+            showInTable: false,
             showInModal: false
           }]
           tab_cols.keys.each do |col|
