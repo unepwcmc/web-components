@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.0'
+#gem 'wcmc_components', '~> 0.0.5', source: "https://gem-server.unep-wcmc.org/"
 
 gem 'wcmc_components', path: "./wcmc_components"
 

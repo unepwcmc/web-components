@@ -7,11 +7,11 @@ require "wcmc_components/version"
 Gem::Specification.new do |spec|
   spec.name        = "wcmc_components"
   spec.version     = WcmcComponents::VERSION
-  spec.authors     = [""]
+  spec.authors     = ["Ben Tregenna"]
   spec.email       = [""]
   spec.homepage    = "https://www.github.com/unepwcmc"
-  spec.summary     = "Summary of WcmcComponents."
-  spec.description = "Description of WcmcComponents."
+  spec.summary     = "Summary of reusable components for UNEP-WCMC projects"
+  spec.description = "Contains rudimentary capabilites for importing CSVs and the backend for a filterable table component"
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
