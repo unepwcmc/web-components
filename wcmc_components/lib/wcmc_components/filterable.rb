@@ -119,7 +119,6 @@ module WcmcComponents
         json_params = json.nil? ? nil : JSON.parse(json)
         page = json_params.present? ? json_params['requested_page'].to_i : 1
         @items_per_page = (json_params.present? && json_params['items_per_page'].present?) ? json_params['items_per_page'].to_i : 10
-
         @filter_params = []
         if json_params.present? && json_params['filters'].present?
           @filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
@@ -130,7 +129,7 @@ module WcmcComponents
           per_page: @items_per_page,
           total_entries: entries(items),
           total_pages: pages(items),
-          items: filter_table(items)
+          items: filter_table(items.slice((page - 1) * @items_per_page, page * @items_per_page))
         }
 
       end
@@ -141,13 +140,7 @@ module WcmcComponents
 
       def pages(items)
         return 0 if items.count == 0
-        total_pages = items.each_slice(@items_per_page).count
-        
-        if @filter_params.empty?
-          total_pages = self.all.each_slice(@items_per_page).count
-        end
-        
-        total_pages
+        items.each_slice(@items_per_page).count
       end
 
       def sql_from_filters(filters)
