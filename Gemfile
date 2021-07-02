@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.0'
 
-gem 'wcmc-components', path: "./gems/wcmc_components"
+gem 'wcmc_components', path: "./wcmc_components"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
