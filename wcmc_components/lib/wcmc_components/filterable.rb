@@ -72,16 +72,30 @@ module WcmcComponents
           item_j
         end.to_json
       end
+
       def filter_table(items)
         items.map! do |item|
-          item_j = {
-            id: item.id,
-          }
+          item_j = [{
+            name: 'id',
+            value: item.id,
+            showInTable: true,
+            showInModal: false
+          }]
           tab_cols.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
+            item_j << {
+              name: col.to_s,
+              value: item[col],
+              showInTable: true,
+              showInModal: false
+            }
           end
           filters.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
+            item_j << {
+              name: col.to_s,
+              value: item[col],
+              showInTable: true,
+              showInModal: false
+            }
           end
           item_j
         end
