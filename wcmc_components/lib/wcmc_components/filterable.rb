@@ -75,14 +75,17 @@ module WcmcComponents
 
       def filter_table(items)
         items.map! do |item|
-          item_j = [{
+          item_j =  { pageUrl: WcmcComponents.classes_show_page_format[self.to_s] % item.id,
+                      cells: []
+                    }
+          item_j[:cells] << {
             name: 'id',
             value: item.id,
             showInTable: false,
             showInModal: false
-          }]
+          }
           tab_cols.keys.each do |col|
-            item_j << {
+            item_j[:cells] << {
               name: col.to_s,
               value: item[col],
               showInTable: true,
@@ -90,7 +93,7 @@ module WcmcComponents
             }
           end
           filters.keys.each do |col|
-            item_j << {
+            item_j[:cells] << {
               name: col.to_s,
               value: item[col],
               showInTable: true,
@@ -115,32 +118,31 @@ module WcmcComponents
       end
 
       def paginate json
-        
         json_params = json.nil? ? nil : JSON.parse(json)
         page = json_params.present? ? json_params['requested_page'].to_i : 1
-        @items_per_page = (json_params.present? && json_params['items_per_page'].present?) ? json_params['items_per_page'].to_i : 10
-        @filter_params = []
+        items_per_page = (json_params.present? && json_params['items_per_page'].present?) ? json_params['items_per_page'].to_i : 10
+        filter_params = []
         if json_params.present? && json_params['filters'].present?
-          @filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
+          filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
         end
-        items = query_with_filters(page, @filter_params)
+        items = query_with_filters(filter_params)
         {
           current_page: page,
-          per_page: @items_per_page,
+          per_page: items_per_page,
           total_entries: entries(items),
-          total_pages: pages(items),
-          items: filter_table(items.slice((page - 1) * @items_per_page, page * @items_per_page))
+          total_pages: pages(items, items_per_page),
+          items: filter_table(items.slice((page - 1) * items_per_page, items_per_page))
         }
 
       end
 
       def entries(items)
-        @filter_params.empty? ? self.count : items.count
+        items.count
       end
 
-      def pages(items)
+      def pages(items, items_per_page)
         return 0 if items.count == 0
-        items.each_slice(@items_per_page).count
+        items.each_slice(items_per_page).count
       end
 
       def sql_from_filters(filters)
@@ -155,7 +157,7 @@ module WcmcComponents
         params.compact
       end     
       
-      def query_with_filters (page, filters)
+      def query_with_filters (filters)
         where_params = sql_from_filters(filters)
         self.where(where_params.values.join(' AND '))
           .order('id ASC')

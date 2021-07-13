@@ -28,4 +28,5 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 2, Project.where(country: uk).count
   end
 
+  
 end
