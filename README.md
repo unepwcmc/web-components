@@ -54,6 +54,10 @@ Final step is to tell the engine which class to use for each mount point
 Create an intializer e.g. in config/initializers/table.rb containing the mappings 
 
 * WcmcComponents.routes_classes = {'/countries/' => 'Country'}
+                        '/meas/' => 'Mea'}
+* WcmcComponents.classes_show_page_format = {'Country' => '/country/%d/',
+                                           'Mea' => '/moreComplicated/%d/format'}
+
 
 TODO: I think I should be able to figure these mappings automagically from the mount line but can't make this work (yet!)
-
+Have now added a config for where the 'show' page url should be - this also might be able to be pulled out of routes with a bit of patience
