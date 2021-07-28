@@ -75,16 +75,19 @@ module WcmcComponents
 
       def filter_table(items)
         items.map! do |item|
-          item_j =  { pageUrl: WcmcComponents.classes_show_page_format[self.to_s] % item.id,
-                      cells: []
-                    }
+          item_j = {
+            pageUrl: show_page_path(item),
+            cells: []
+          }
+
           item_j[:cells] << {
             name: 'id',
             value: item.id,
             showInTable: false,
             showInModal: false
           }
-          tab_cols.keys.each do |col|
+
+          tab_cols.each_key do |col|
             item_j[:cells] << {
               name: col.to_s,
               value: item[col],
@@ -92,7 +95,8 @@ module WcmcComponents
               showInModal: false
             }
           end
-          filters.keys.each do |col|
+
+          filters.each_key do |col|
             item_j[:cells] << {
               name: col.to_s,
               value: item[col],
@@ -100,10 +104,21 @@ module WcmcComponents
               showInModal: false
             }
           end
+
           item_j
         end
       end
-      
+
+      def show_page_path(item)
+        return nil if WcmcComponents.classes_show_page_format.nil?
+
+        format = WcmcComponents.classes_show_page_format[to_s]
+
+        return nil if format.nil?
+
+        format % item.id
+      end
+
       def columns_to_json
         columns = []
         tab_cols.keys.each do |col|
@@ -117,15 +132,19 @@ module WcmcComponents
         columns.to_json
       end
 
-      def paginate json
+      def paginate(json)
         json_params = json.nil? ? nil : JSON.parse(json)
         page = json_params.present? ? json_params['requested_page'].to_i : 1
         items_per_page = (json_params.present? && json_params['items_per_page'].present?) ? json_params['items_per_page'].to_i : 10
+
         filter_params = []
+
         if json_params.present? && json_params['filters'].present?
           filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
         end
+
         items = query_with_filters(filter_params)
+
         {
           current_page: page,
           per_page: items_per_page,
@@ -133,7 +152,6 @@ module WcmcComponents
           total_pages: pages(items, items_per_page),
           items: filter_table(items.slice((page - 1) * items_per_page, items_per_page))
         }
-
       end
 
       def entries(items)
@@ -142,6 +160,7 @@ module WcmcComponents
 
       def pages(items, items_per_page)
         return 0 if items.count == 0
+
         items.each_slice(items_per_page).count
       end
 
@@ -149,23 +168,19 @@ module WcmcComponents
         params = {}
         filters.each do |filter|
           # single quote the options (if strings!?)
-          options = filter['options'].map{|v| "'#{v}'"}
+          options = filter['options'].map{ |v| "'#{v}'" }
           name = filter['name']
           params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
 
         end
         params.compact
-      end     
-      
+      end
+
       def query_with_filters (filters)
         where_params = sql_from_filters(filters)
-        self.where(where_params.values.join(' AND '))
-          .order('id ASC')
-          .to_a
+
+        where(where_params.values.join(' AND ')).order('id ASC').to_a
       end
-      
-      
-      
     end
   end
 end
