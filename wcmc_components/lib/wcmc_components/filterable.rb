@@ -21,8 +21,8 @@ module WcmcComponents
       end
 
       # attributes shown in table modal
-      def exclude_from_modal(attr, options = {})
-        (@exclude_from_modal_items ||= {})[attr] = options
+      def modal(attr, options = {})
+        (modal_items ||= {})[attr] = options
       end
 
       def filters
@@ -33,8 +33,8 @@ module WcmcComponents
         @tab_cols ||= {}
       end
 
-      def exclude_from_modal_items
-        @exclude_from_modal_items ||= {}
+      def modal_items
+        modal_items ||= {}
       end
 
       def filters_to_json
@@ -119,7 +119,7 @@ module WcmcComponents
       end
 
       def show_in_modal(col)
-        !exclude_from_modal_items.key?(col)
+        modal_items.key?(col)
       end
 
       def show_page_path(item)
