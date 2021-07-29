@@ -4,37 +4,30 @@ module WcmcComponents
       base.send :include, InstanceMethods
       base.extend ClassMethods
     end
-    
+
     module InstanceMethods
     end
 
     module ClassMethods
       # declare attrs you want to filter on
-      def filter_on(attr, options = {})
-        (@filters ||= {})[attr] = options
-      end
-
-      # filter attributes are already included in columns displayed on table
-      # this is 
-      def table_column(attr, options = {})
-        (@tab_cols ||= {})[attr] = options
-      end
-
-      # attributes shown in table modal
-      def modal(attr, options = {})
-        (modal_items ||= {})[attr] = options
+      def table_attr(attr, options = {})
+        (@table_attrs ||= {})[attr] = options
       end
 
       def filters
-        @filters ||= {}
+        table_attrs.select { |_k, v| v[:filter_on] } || {}
       end
 
-      def tab_cols
-        @tab_cols ||= {}
+      def table_cols
+        table_attrs.select { |_k, v| v[:show_in_table] } || {}
       end
 
-      def modal_items
-        modal_items ||= {}
+      def table_cols_and_modal_items
+        table_attrs.select { |_k, v| v[:show_in_table] || v[:show_in_modal] } || {}
+      end
+
+      def table_attrs
+        @table_attrs ||= {}
       end
 
       def filters_to_json
@@ -46,7 +39,6 @@ module WcmcComponents
             title: filters[filter][:title] || filter.to_s.capitalize,
             options: full_list.pluck(filter).compact.uniq.sort,
             type: filters[filter][:type] || 'multiple'
-            
           }
         end
         filter_array.to_json
@@ -55,29 +47,27 @@ module WcmcComponents
       def all_to_json
         json = self.all.order(id: :asc).to_a.map! do |item|
           item_j = {
-            id: item.id,
+            id: item.id
           }
-          tab_cols.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
+
+          table_attrs.each_key do |col|
+            item_j[col.to_s] = item[col]
           end
-          filters.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
-          end
+
           item_j
         end.to_json
       end
-      
+
       def all_to_csv
         json = self.all.order(id: :asc).to_a.map! do |item|
           item_j = {
-            id: item.id,
+            id: item.id
           }
-          tab_cols.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
+
+          table_attrs.each_key do |col|
+            item_j[col.to_s] = item[col]
           end
-          filters.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
-          end
+
           item_j
         end.to_json
       end
@@ -96,30 +86,17 @@ module WcmcComponents
             showInModal: false
           }
 
-          tab_cols.each_key do |col|
+          table_cols_and_modal_items.each do |key, col|
             item_j[:cells] << {
-              name: col.to_s,
-              value: item[col],
-              showInTable: true,
-              showInModal: show_in_modal(col)
-            }
-          end
-
-          filters.each_key do |col|
-            item_j[:cells] << {
-              name: col.to_s,
-              value: item[col],
-              showInTable: true,
-              showInModal: show_in_modal(col)
+              name: key.to_s,
+              value: item[key],
+              showInTable: col[:show_in_table],
+              showInModal: col[:show_in_modal]
             }
           end
 
           item_j
         end
-      end
-
-      def show_in_modal(col)
-        modal_items.key?(col)
       end
 
       def show_page_path(item)
@@ -134,13 +111,9 @@ module WcmcComponents
 
       def columns_to_json
         columns = []
-        tab_cols.keys.each do |col|
+        table_cols.keys.each do |col|
           columns << {field: col,
-                      title: tab_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
-        end
-        filters.keys.each do |col|
-          columns << {field: col,
-                      title: filters[col][:title] || col.to_s.capitalize}
+                      title: table_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
         end
         columns.to_json
       end

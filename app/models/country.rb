@@ -6,6 +6,6 @@ class Country < ApplicationRecord
   include WcmcComponents::Loadable
   include WcmcComponents::Filterable
 
-  filter_on :name, type: 'single'
-  filter_on :iso3, title: 'ISO 3 Code'
+  table_attr :name, title: 'Name', filter_on: true, type: 'single', show_in_table: true
+  table_attr :iso3, title: 'ISO 3 Code', show_in_table: true
 end
