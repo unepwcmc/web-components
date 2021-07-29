@@ -119,7 +119,7 @@ module WcmcComponents
       end
 
       def show_in_modal(col)
-        !@exclude_from_modal_items.key?(col)
+        !exclude_from_modal_items.key?(col)
       end
 
       def show_page_path(item)
