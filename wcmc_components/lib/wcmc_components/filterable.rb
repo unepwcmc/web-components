@@ -10,16 +10,21 @@ module WcmcComponents
 
     module ClassMethods
       # declare attrs you want to filter on
-      def filter_on attr, options = {}
-        (@filters ||= {} )[attr] = options
+      def filter_on(attr, options = {})
+        (@filters ||= {})[attr] = options
       end
 
       # filter attributes are already included in columns displayed on table
       # this is 
-      def table_column attr, options = {}
-        (@tab_cols ||= {} )[attr] = options
+      def table_column(attr, options = {})
+        (@tab_cols ||= {})[attr] = options
       end
-      
+
+      # attributes shown in table modal
+      def exclude_from_modal(attr, options = {})
+        (@exclude_from_modal_items ||= {})[attr] = options
+      end
+
       def filters
         @filters ||= {}
       end
@@ -27,7 +32,11 @@ module WcmcComponents
       def tab_cols
         @tab_cols ||= {}
       end
-      
+
+      def exclude_from_modal_items
+        @exclude_from_modal_items ||= {}
+      end
+
       def filters_to_json
         full_list = self.all.order(id: :asc)
         filter_array = []
@@ -92,7 +101,7 @@ module WcmcComponents
               name: col.to_s,
               value: item[col],
               showInTable: true,
-              showInModal: false
+              showInModal: show_in_modal(col)
             }
           end
 
@@ -101,12 +110,16 @@ module WcmcComponents
               name: col.to_s,
               value: item[col],
               showInTable: true,
-              showInModal: false
+              showInModal: show_in_modal(col)
             }
           end
 
           item_j
         end
+      end
+
+      def show_in_modal(col)
+        !@exclude_from_modal_items.key?(col)
       end
 
       def show_page_path(item)

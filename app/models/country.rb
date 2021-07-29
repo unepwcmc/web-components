@@ -8,4 +8,5 @@ class Country < ApplicationRecord
 
   filter_on :name, type: 'single'
   filter_on :iso3, title: 'ISO 3 Code'
+  exclude_from_modal :iso3
 end
