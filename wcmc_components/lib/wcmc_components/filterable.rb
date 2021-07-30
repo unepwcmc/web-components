@@ -33,7 +33,7 @@ module WcmcComponents
       def filters_to_json
         full_list = self.all.order(id: :asc)
         filter_array = []
-        filters.keys.each do |filter|
+        filters.each_key do |filter|
           filter_array << {
             name: filter.to_s,
             title: filters[filter][:title] || filter.to_s.capitalize,
@@ -120,8 +120,8 @@ module WcmcComponents
 
       def paginate(json)
         json_params = json.nil? ? nil : JSON.parse(json)
-        page = json_params.present? ? json_params['requested_page'].to_i : 1
-        items_per_page = (json_params.present? && json_params['items_per_page'].present?) ? json_params['items_per_page'].to_i : 10
+        current_page = get_page(json_params)
+        items_per_page = get_items_per_page(json_params)
 
         filter_params = []
 
@@ -132,12 +132,28 @@ module WcmcComponents
         items = query_with_filters(filter_params)
 
         {
-          current_page: page,
+          current_page: current_page,
           per_page: items_per_page,
           total_entries: entries(items),
           total_pages: pages(items, items_per_page),
-          items: filter_table(items.slice((page - 1) * items_per_page, items_per_page))
+          items: filter_table(items.slice((current_page - 1) * items_per_page, items_per_page))
         }
+      end
+
+      def get_page(json_params)
+        if json_params.present? && json_params['requested_page'].present?
+          json_params['requested_page'].to_i
+        else
+          1
+        end
+      end
+
+      def get_items_per_page(json_params)
+        if json_params.present? && json_params['items_per_page'].present?
+          json_params['items_per_page'].to_i
+        else
+          10
+        end
       end
 
       def entries(items)
