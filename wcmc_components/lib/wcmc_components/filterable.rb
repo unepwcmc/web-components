@@ -81,6 +81,7 @@ module WcmcComponents
 
           item_j[:cells] << {
             name: 'id',
+            title: 'Id',
             value: item.id,
             showInTable: false,
             showInModal: false
@@ -89,6 +90,7 @@ module WcmcComponents
           table_cols_and_modal_items.each do |key, col|
             item_j[:cells] << {
               name: key.to_s,
+              title: col[:title],
               value: item[key],
               showInTable: col[:show_in_table],
               showInModal: col[:show_in_modal]
