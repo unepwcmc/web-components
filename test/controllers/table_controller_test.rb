@@ -20,7 +20,7 @@ class TableControllerTest < ActionDispatch::IntegrationTest
   test "with basic filter" do
     Country.import "good_countries.csv"
 
-    post '/countries', params: { requested_page: 0,
+    post '/countries', params: { requested_page: 1,
                                  filters: [ name: 'iso3', options: ['GBR'] ]}
     assert_response :success
     assert_total 1

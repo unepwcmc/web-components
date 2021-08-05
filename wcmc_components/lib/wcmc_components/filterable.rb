@@ -4,40 +4,41 @@ module WcmcComponents
       base.send :include, InstanceMethods
       base.extend ClassMethods
     end
-    
+
     module InstanceMethods
     end
 
     module ClassMethods
       # declare attrs you want to filter on
-      def filter_on attr, options = {}
-        (@filters ||= {} )[attr] = options
+      def table_attr(attr, options = {})
+        (@table_attrs ||= {})[attr] = options
       end
 
-      # filter attributes are already included in columns displayed on table
-      # this is 
-      def table_column attr, options = {}
-        (@tab_cols ||= {} )[attr] = options
-      end
-      
       def filters
-        @filters ||= {}
+        table_attrs.select { |_k, v| v[:filter_on] } || {}
       end
 
-      def tab_cols
-        @tab_cols ||= {}
+      def table_cols
+        table_attrs.select { |_k, v| v[:show_in_table] } || {}
       end
-      
+
+      def table_cols_and_modal_items
+        table_attrs.select { |_k, v| v[:show_in_table] || v[:show_in_modal] } || {}
+      end
+
+      def table_attrs
+        @table_attrs ||= {}
+      end
+
       def filters_to_json
         full_list = self.all.order(id: :asc)
         filter_array = []
-        filters.keys.each do |filter|
+        filters.each_key do |filter|
           filter_array << {
             name: filter.to_s,
             title: filters[filter][:title] || filter.to_s.capitalize,
             options: full_list.pluck(filter).compact.uniq.sort,
             type: filters[filter][:type] || 'multiple'
-            
           }
         end
         filter_array.to_json
@@ -46,29 +47,27 @@ module WcmcComponents
       def all_to_json
         json = self.all.order(id: :asc).to_a.map! do |item|
           item_j = {
-            id: item.id,
+            id: item.id
           }
-          tab_cols.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
+
+          table_attrs.each_key do |col|
+            item_j[col.to_s] = item[col]
           end
-          filters.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
-          end
+
           item_j
         end.to_json
       end
-      
+
       def all_to_csv
         json = self.all.order(id: :asc).to_a.map! do |item|
           item_j = {
-            id: item.id,
+            id: item.id
           }
-          tab_cols.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
+
+          table_attrs.each_key do |col|
+            item_j[col.to_s] = item[col]
           end
-          filters.keys.each do |col|
-            item_j[col.to_s]  = item[col] 
-          end
+
           item_j
         end.to_json
       end
@@ -82,26 +81,19 @@ module WcmcComponents
 
           item_j[:cells] << {
             name: 'id',
+            title: 'Id',
             value: item.id,
             showInTable: false,
             showInModal: false
           }
 
-          tab_cols.each_key do |col|
+          table_cols_and_modal_items.each do |key, col|
             item_j[:cells] << {
-              name: col.to_s,
-              value: item[col],
-              showInTable: true,
-              showInModal: false
-            }
-          end
-
-          filters.each_key do |col|
-            item_j[:cells] << {
-              name: col.to_s,
-              value: item[col],
-              showInTable: true,
-              showInModal: false
+              name: key.to_s,
+              title: col[:title],
+              value: item[key],
+              showInTable: col[:show_in_table],
+              showInModal: col[:show_in_modal]
             }
           end
 
@@ -121,21 +113,17 @@ module WcmcComponents
 
       def columns_to_json
         columns = []
-        tab_cols.keys.each do |col|
+        table_cols.keys.each do |col|
           columns << {field: col,
-                      title: tab_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
-        end
-        filters.keys.each do |col|
-          columns << {field: col,
-                      title: filters[col][:title] || col.to_s.capitalize}
+                      title: table_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
         end
         columns.to_json
       end
 
       def paginate(json)
         json_params = json.nil? ? nil : JSON.parse(json)
-        page = json_params.present? ? json_params['requested_page'].to_i : 1
-        items_per_page = (json_params.present? && json_params['items_per_page'].present?) ? json_params['items_per_page'].to_i : 10
+        current_page = get_page(json_params)
+        items_per_page = get_items_per_page(json_params)
 
         filter_params = []
 
@@ -146,12 +134,28 @@ module WcmcComponents
         items = query_with_filters(filter_params)
 
         {
-          current_page: page,
+          current_page: current_page,
           per_page: items_per_page,
           total_entries: entries(items),
           total_pages: pages(items, items_per_page),
-          items: filter_table(items.slice((page - 1) * items_per_page, items_per_page))
+          items: filter_table(items.slice((current_page - 1) * items_per_page, items_per_page))
         }
+      end
+
+      def get_page(json_params)
+        if json_params.present? && json_params['requested_page'].present?
+          json_params['requested_page'].to_i
+        else
+          1
+        end
+      end
+
+      def get_items_per_page(json_params)
+        if json_params.present? && json_params['items_per_page'].present?
+          json_params['items_per_page'].to_i
+        else
+          10
+        end
       end
 
       def entries(items)
