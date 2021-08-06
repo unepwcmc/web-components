@@ -86,17 +86,6 @@ module WcmcComponents
             showInTable: false,
             showInModal: false
           }
-<<<<<<< Updated upstream
-
-          table_cols_and_modal_items.each do |key, col|
-            item_j[:cells] << {
-              name: key.to_s,
-              title: col[:title],
-              value: item[key],
-              showInTable: col[:show_in_table],
-              showInModal: col[:show_in_modal]
-            }
-=======
           
           table_cols_and_modal_items.each do |key, col|
             case col[:type]
@@ -117,7 +106,6 @@ module WcmcComponents
                 showInModal: col[:show_in_modal]
               }
             end
->>>>>>> Stashed changes
           end
 
           item_j
