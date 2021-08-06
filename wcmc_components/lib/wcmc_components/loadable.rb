@@ -72,12 +72,11 @@ module WcmcComponents
               # now look up the habtm's which should be semi-colon separated values
               habtm.each do |k, v|
                 # check if the habtm relationship is in this csv
-                if row.headers.include?(k)
+                if row.headers.include?(k) && !row_hash[k].nil?
                   list_of_children = row_hash[k].split(';')
 
                   list_of_children.each do |child_name|
                     next if child_name.blank?
-
                     # I've strip'd whitespace from start/end as ;sv's are often inconsistently white-spaced
                     join_key = @import_by[k.to_sym].to_s if (!@import_by.nil? && @import_by.key?(k.to_sym))
                     join_key ||= v.association_primary_key

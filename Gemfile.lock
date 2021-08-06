@@ -2,7 +2,7 @@ PATH
   remote: wcmc_components
   specs:
     wcmc_components (0.1.0)
-      rails (~> 5.2.3)
+      rails (>= 5.2.3)
 
 GEM
   remote: https://rubygems.org/

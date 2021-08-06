@@ -86,6 +86,7 @@ module WcmcComponents
             showInTable: false,
             showInModal: false
           }
+<<<<<<< Updated upstream
 
           table_cols_and_modal_items.each do |key, col|
             item_j[:cells] << {
@@ -95,6 +96,28 @@ module WcmcComponents
               showInTable: col[:show_in_table],
               showInModal: col[:show_in_modal]
             }
+=======
+          
+          table_cols_and_modal_items.each do |key, col|
+            case col[:type]
+            when "single"
+              item_j[:cells] << {
+                name: key.to_s,
+                title: col[:title],
+                value: item[key],
+                showInTable: col[:show_in_table],
+                showInModal: col[:show_in_modal]
+              }
+            when "multiple"
+              item_j[:cells] << {
+                name: key.to_s,
+                title: col[:title],
+                value: item.send(key.to_s.pluralize).map(&:name).join('; '),
+                showInTable: col[:show_in_table],
+                showInModal: col[:show_in_modal]
+              }
+            end
+>>>>>>> Stashed changes
           end
 
           item_j
@@ -132,7 +155,6 @@ module WcmcComponents
         end
 
         items = query_with_filters(filter_params)
-
         {
           current_page: current_page,
           per_page: items_per_page,
