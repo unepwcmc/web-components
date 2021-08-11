@@ -64,7 +64,7 @@ module WcmcComponents
               end
 
               # look up objects for each HABTM column - assumes column name is pluralised class name
-              habtm = reflections.select { |_key, hash| hash.macro == :has_and_belongs_to_many }
+              habtm = reflections.select { |_key, hash| hash.singularize.macro == :has_and_belongs_to_many }
 
               # habtm columns need adding later, so exclude them in the
               new_object = find_or_create_by!(row_hash.except(*habtm.keys))
