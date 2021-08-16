@@ -72,6 +72,38 @@ module WcmcComponents
         end.to_json
       end
 
+      def to_csv(json)
+        json_params = json.nil? ? nil : JSON.parse(json)
+        filter_params = get_filter_params(json_params)
+
+        items = query_with_filters(filter_params)
+
+        csv_string = CSV.generate(encoding: 'UTF-8') do |csv_line|
+          
+          # build headers for CSV from the column titles on the page
+          headers = ['Id']
+          table_cols_and_modal_items.each do |key,col|
+            headers << col[:title]
+          end
+          csv_line << headers.flatten
+
+          # build each row for CSV - matching 'value:' in the filter table
+          items.each do |item|
+            row = []
+            row << item.id
+            table_cols_and_modal_items.each do |key,col|
+              case col[:type]
+              when "single"
+                row << item[key]
+              when "multiple"
+                row << item.send(key.to_s.pluralize).map(&:name).join('; ')
+              end
+            end
+            csv_line << row
+          end
+        end
+      end
+      
       def filter_table(items)
         items.map! do |item|
           item_j = {
@@ -86,7 +118,7 @@ module WcmcComponents
             showInTable: false,
             showInModal: false
           }
-          
+          # title and values also used in to_csv() to generate a CSV so if making changes here, also look there!
           table_cols_and_modal_items.each do |key, col|
             case col[:type]
             when "single"
@@ -135,12 +167,8 @@ module WcmcComponents
         json_params = json.nil? ? nil : JSON.parse(json)
         current_page = get_page(json_params)
         items_per_page = get_items_per_page(json_params)
-
-        filter_params = []
-
-        if json_params.present? && json_params['filters'].present?
-          filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
-        end
+        
+        filter_params = get_filter_params(json_params)
 
         items = query_with_filters(filter_params)
         {
@@ -167,6 +195,15 @@ module WcmcComponents
           10
         end
       end
+
+      def get_filter_params(json_params)
+        if json_params.present? && json_params['filters'].present?
+          filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
+        else
+          []
+        end
+      end
+
 
       def entries(items)
         items.count
