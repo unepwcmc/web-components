@@ -64,27 +64,34 @@ module WcmcComponents
               end
 
               # look up objects for each HABTM column - assumes column name is pluralised class name
-              habtm = reflections.select { |_key, hash| hash.singularize.macro == :has_and_belongs_to_many }
+              habtm = reflections.select { |_key, hash| hash.macro == :has_and_belongs_to_many }
 
               # habtm columns need adding later, so exclude them in the
               new_object = find_or_create_by!(row_hash.except(*habtm.keys))
 
               # now look up the habtm's which should be semi-colon separated values
               habtm.each do |k, v|
-                # check if the habtm relationship is in this csv
+                # check if the habtm relationship is in this csv - and is it singular or plural in the header
                 if row.headers.include?(k) && !row_hash[k].nil?
-                  list_of_children = row_hash[k].split(';')
+                  col_name = k
+                elsif row.headers.include?(k.singularize) && !row_hash[k.singularize].nil?
+                  col_name = k.singularize
+                else
+                  next
+                end
+                
+                list_of_children = row_hash[col_name].split(';')
 
-                  list_of_children.each do |child_name|
-                    next if child_name.blank?
-                    # I've strip'd whitespace from start/end as ;sv's are often inconsistently white-spaced
-                    join_key = @import_by[k.to_sym].to_s if (!@import_by.nil? && @import_by.key?(k.to_sym))
-                    join_key ||= v.association_primary_key
-                    new_child = k.camelize.singularize.constantize.find_or_create_by(join_key => child_name.strip)
-
-                    unless new_object.send(k.downcase.to_sym).exists?(new_child.id)
-                      new_object.send(k.downcase.to_sym) << new_child
-                    end
+                list_of_children.each do |child_name|
+                  next if child_name.blank?
+                  # I've strip'd whitespace from start/end as ;sv's are often inconsistently white-spaced
+                  join_key = @import_by[k.to_sym].to_s if (!@import_by.nil? && @import_by.key?(k.to_sym))
+                  join_key ||= v.association_primary_key
+                  
+                  new_child = k.camelize.singularize.constantize.find_or_create_by(join_key => child_name.strip)
+                  
+                  unless new_object.send(k.downcase.to_sym).exists?(new_child.id)
+                    new_object.send(k.downcase.to_sym) << new_child
                   end
                 end
               end
@@ -96,7 +103,7 @@ module WcmcComponents
           Rails.env.development? ? byebug : Rails.logger.error(e)
         end
       end
-
+      
       def csv_file_path(base_file_name = nil)
         base_file_name ||= "#{to_s.pluralize.downcase}.csv"
         Rails.env.test? ?
