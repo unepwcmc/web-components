@@ -133,7 +133,7 @@ module WcmcComponents
               item_j[:cells] << {
                 name: key.to_s,
                 title: col[:title],
-                value: item.send(key.to_s.pluralize).map(&:name).join('; '),
+                value: item.send(key.to_s.pluralize).map(&:name),
                 showInTable: col[:show_in_table],
                 showInModal: col[:show_in_modal]
               }
