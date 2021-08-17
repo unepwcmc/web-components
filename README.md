@@ -28,7 +28,7 @@ Also, if verbose is set to true for yarn test, often console logs are overwritte
 
 in Gemfile add either:
 
-* gem 'wcmc-components', '~> 0.1.0', source: "https://gem-server.unep-wcmc.org/"
+* gem 'wcmc-components', '~> 0.1.3', source: "https://gem-server.unep-wcmc.org/"
 
 or to use local code cloned into web-components
 
@@ -61,3 +61,11 @@ Create an intializer e.g. in config/initializers/table.rb containing the mapping
 
 TODO: I think I should be able to figure these mappings automagically from the mount line but can't make this work (yet!)
 Have now added a config for where the 'show' page url should be - this also might be able to be pulled out of routes with a bit of patience
+
+## Publishing the gem
+- Increase the version number in `version.rb`
+- Update the change log `CHANGELOG.md`
+- Commit your changes
+- `cd wcmc_components`
+- `gem build wcmc_components`
+- Visit https://gem-server.unep-wcmc.org/ and upload 
