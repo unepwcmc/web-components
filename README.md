@@ -32,7 +32,7 @@ in Gemfile add either:
 
 or to use local code cloned into web-components
 
-* gem 'wcmc-components', path: '../web-components/wcmc_components'
+* gem 'wcmc_components', path: '../web-components/wcmc_components'
 
 ### Decorate your model
 In the model you want to display in a filter table add 

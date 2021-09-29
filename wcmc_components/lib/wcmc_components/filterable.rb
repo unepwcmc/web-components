@@ -218,11 +218,12 @@ module WcmcComponents
       def sql_from_filters(filters)
         params = {}
         filters.each do |filter|
+          byebug
           # single quote the options (if strings!?)
+          next if filter['options'].count == 0
           options = filter['options'].map{ |v| "'#{v}'" }
           name = filter['name']
           params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
-
         end
         params.compact
       end
