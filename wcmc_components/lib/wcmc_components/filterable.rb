@@ -32,17 +32,83 @@ module WcmcComponents
 
       def filters_to_json
         full_list = self.all.order(id: :asc)
-        filter_array = []
-        filters.each_key do |filter|
-          filter_array << {
-            name: filter.to_s,
-            title: filters[filter][:title] || filter.to_s.capitalize,
-            options: full_list.pluck(filter).compact.uniq.sort,
-            type: filters[filter][:type] || 'multiple'
+        filters_arr = []
+        full_list.map do |item| 
+        # filter = []  
+        # when single filter just build array here
+          filters_arr << {
+            name: 'id',
+            title: 'Id',
+            options: item.id,
+            # we only need columns with filters on to return?
+            filter_on: false,
+            type: '',
+            # showInModal: false
           }
+          # then if it's multiple do the second loop with id matching and pass the options (probably need to do something with them)
+          
+          table_cols_and_modal_items.each do |key, col|
+            case col[:type]
+            when "single"
+              filters_arr << { 
+              name: key.to_s,
+              title: col[:title] || col.to_s.capitalize,
+              options: item[key],
+              filter_on: col[:filter_on],
+              type: col[:type]
+              }
+            when "multiple"
+              # byebug
+              filters_arr << {
+                name: key.to_s,
+                title: col[:title] || col.to_s.capitalize,
+                options: item.send(key.to_s.pluralize).map(&:name),
+                filter_on: col[:filter_on],
+                type: col[:type]
+              }
+            end
+          end
+          # filter.to_json
         end
-        filter_array.to_json
+        filters_arr.to_json
       end
+      
+        
+    #       filter_array = []
+    #       byebug
+    #       item_j = {
+    #         pageUrl: show_page_path(item),
+    #         filters: filter_array
+    #       }
+
+    #       item_j[:filters] << {
+    #         name: 'id',
+    #         title: 'Id',
+    #         options: item.id,
+    #         type: ''
+    #       }
+    #     table_cols_and_modal_items.each do |key, filter|
+    #       case filter[:type]
+    #       when "single"
+    #         item_j[:filters] << {
+    #           name: key.to_s,
+    #           title: filter[:title] || filter.to_s.capitalize,
+    #           options: item.pluck(key).compact.uniq.sort,
+    #           type: filter[:type] || 'multiple'
+    #         }
+    #       when "multiple"
+    #         # byebug
+    #         item_j[:filters] << {
+    #           name: key.to_s,
+    #           title: filter[:title] || filter.to_s.capitalize,
+    #           options: item.send(key.to_s.pluralize).map(&:name),
+    #           type: filter[:type] || 'multiple'
+    #         }
+    #       end
+    #     end
+    #     filter_array.to_json
+    #   end
+    # end
 
       def all_to_json
         json = self.all.order(id: :asc).to_a.map! do |item|
@@ -106,6 +172,7 @@ module WcmcComponents
       
       def filter_table(items)
         items.map! do |item|
+          byebug
           item_j = {
             pageUrl: show_page_path(item),
             cells: []
@@ -130,6 +197,7 @@ module WcmcComponents
                 showInModal: col[:show_in_modal]
               }
             when "multiple"
+              # byebug
               item_j[:cells] << {
                 name: key.to_s,
                 title: col[:title],
