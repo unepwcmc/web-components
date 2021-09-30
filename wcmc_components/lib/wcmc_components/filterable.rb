@@ -220,6 +220,7 @@ module WcmcComponents
         filters.each do |filter|
           # single quote the options (if strings!?)
           options = filter['options'].map{ |v| "'#{v}'" }
+          next if filter['options'].count == 0
           name = filter['name']
           params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
 
