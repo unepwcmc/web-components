@@ -33,82 +33,33 @@ module WcmcComponents
       def filters_to_json
         full_list = self.all.order(id: :asc)
         filters_arr = []
-        full_list.map do |item| 
-        # filter = []  
-        # when single filter just build array here
-          filters_arr << {
-            name: 'id',
-            title: 'Id',
-            options: item.id,
-            # we only need columns with filters on to return?
-            filter_on: false,
-            type: '',
-            # showInModal: false
-          }
-          # then if it's multiple do the second loop with id matching and pass the options (probably need to do something with them)
-          
-          table_cols_and_modal_items.each do |key, col|
-            case col[:type]
-            when "single"
+        filters.each do |key, filter|
+          case filter[:type]
+          when "single"
               filters_arr << { 
               name: key.to_s,
-              title: col[:title] || col.to_s.capitalize,
-              options: item[key],
-              filter_on: col[:filter_on],
-              type: col[:type]
+              title: filter[:title] || key.to_s.capitalize,
+              options: full_list.pluck(key).compact.uniq.sort,
+              filter_on: filter[:filter_on],
+              type: filter[:type]
               }
-            when "multiple"
-              # byebug
+          when "multiple"
+            options_arr = self.all.extract_associated(key).flatten.uniq.map(&:name)
+            # byebug
+            # this can be a separate method
+            # need to first get only ids for the rows with data in this column
+            # we should be able to query only the records with ids where multiple filter is not empty
               filters_arr << {
                 name: key.to_s,
-                title: col[:title] || col.to_s.capitalize,
-                options: item.send(key.to_s.pluralize).map(&:name),
-                filter_on: col[:filter_on],
-                type: col[:type]
+                title: filter[:title] || key.to_s.capitalize,
+                options: options_arr,
+                filter_on: filter[:filter_on],
+                type: filter[:type]
               }
             end
           end
-          # filter.to_json
-        end
         filters_arr.to_json
       end
-      
-        
-    #       filter_array = []
-    #       byebug
-    #       item_j = {
-    #         pageUrl: show_page_path(item),
-    #         filters: filter_array
-    #       }
-
-    #       item_j[:filters] << {
-    #         name: 'id',
-    #         title: 'Id',
-    #         options: item.id,
-    #         type: ''
-    #       }
-    #     table_cols_and_modal_items.each do |key, filter|
-    #       case filter[:type]
-    #       when "single"
-    #         item_j[:filters] << {
-    #           name: key.to_s,
-    #           title: filter[:title] || filter.to_s.capitalize,
-    #           options: item.pluck(key).compact.uniq.sort,
-    #           type: filter[:type] || 'multiple'
-    #         }
-    #       when "multiple"
-    #         # byebug
-    #         item_j[:filters] << {
-    #           name: key.to_s,
-    #           title: filter[:title] || filter.to_s.capitalize,
-    #           options: item.send(key.to_s.pluralize).map(&:name),
-    #           type: filter[:type] || 'multiple'
-    #         }
-    #       end
-    #     end
-    #     filter_array.to_json
-    #   end
-    # end
 
       def all_to_json
         json = self.all.order(id: :asc).to_a.map! do |item|
@@ -172,7 +123,6 @@ module WcmcComponents
       
       def filter_table(items)
         items.map! do |item|
-          byebug
           item_j = {
             pageUrl: show_page_path(item),
             cells: []
@@ -197,7 +147,6 @@ module WcmcComponents
                 showInModal: col[:show_in_modal]
               }
             when "multiple"
-              # byebug
               item_j[:cells] << {
                 name: key.to_s,
                 title: col[:title],
@@ -207,7 +156,6 @@ module WcmcComponents
               }
             end
           end
-
           item_j
         end
       end
@@ -287,8 +235,8 @@ module WcmcComponents
         params = {}
         filters.each do |filter|
           # single quote the options (if strings!?)
-          options = filter['options'].map{ |v| "'#{v}'" }
           next if filter['options'].count == 0
+          options = filter['options'].map{ |v| "'#{v}'" }
           name = filter['name']
           params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
 
