@@ -254,7 +254,12 @@ module WcmcComponents
         habtm_filters = filters.select {|f| f['type'] == "multiple" }
 
         if habtm_filters.any?
-          filter_sym = habtm_filters.map {|f| f['name']} .join().parameterize.underscore.to_sym
+          # can first check if habtm filter has any option values selected
+
+          # will need to run the query for each habtm filter if there's more than 1? in a loop? 
+          
+
+          filter_sym = habtm_filters.map {|f| f['name']} .join(',').parameterize.underscore.to_sym
           joins(filter_sym).where(where_params.values.join(' AND ')).order('id ASC').to_a
         # run just this one or single
         else
