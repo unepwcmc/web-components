@@ -36,13 +36,13 @@ module WcmcComponents
         filters.each do |key, filter|
           case filter[:type]
           when "single"
-              filters_arr << { 
+            filters_array << { 
               name: key.to_s,
               title: filter[:title] || key.to_s.capitalize,
               options: full_list.pluck(key).compact.uniq.sort,
               filter_on: filter[:filter_on],
               type: filter[:type]
-              }
+            }
           when "multiple"
             options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
             filters_array << {
@@ -230,20 +230,36 @@ module WcmcComponents
       def sql_from_filters(filters)
         params = {}
         filters.each do |filter|
-          # single quote the options (if strings!?)
+
           next if filter['options'].count == 0
           options = filter['options'].map{ |v| "'#{v}'" }
+          # concatinate params for different filter types
+          case filter['type']
+          when "multiple"
+          # this assumes we join and filter on the name column of the habtm property - true for tool navigator, maybe not in general
+          params[name] = "#{filter['name']}.name IN (#{options.join(',')})"
+          # else if its a string
+          when "single"
           name = filter['name']
           params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
-
+          end 
         end
         params.compact
       end
 
       def query_with_filters (filters)
         where_params = sql_from_filters(filters)
+        # byebug
+        # which filters are habtms? add join table
+        habtm_filters = filters.select {|f| f['type'] == "multiple" }
 
-        where(where_params.values.join(' AND ')).order('id ASC').to_a
+        if habtm_filters.any?
+          filter_sym = habtm_filters.map {|f| f['name']} .join().parameterize.underscore.to_sym
+          joins(filter_sym).where(where_params.values.join(' AND ')).order('id ASC').to_a
+        # run just this one or single
+        else
+          where(where_params.values.join(' AND ')).order('id ASC').to_a
+        end
       end
     end
   end
