@@ -32,7 +32,7 @@ module WcmcComponents
 
       def filters_to_json
         full_list = self.all.order(id: :asc)
-        filters_arr = []
+        filters_array = []
         filters.each do |key, filter|
           case filter[:type]
           when "single"
@@ -44,21 +44,17 @@ module WcmcComponents
               type: filter[:type]
               }
           when "multiple"
-            options_arr = self.all.extract_associated(key).flatten.uniq.map(&:name)
-            # byebug
-            # this can be a separate method
-            # need to first get only ids for the rows with data in this column
-            # we should be able to query only the records with ids where multiple filter is not empty
-              filters_arr << {
-                name: key.to_s,
-                title: filter[:title] || key.to_s.capitalize,
-                options: options_arr,
-                filter_on: filter[:filter_on],
-                type: filter[:type]
-              }
+            options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
+            filters_array << {
+              name: key.to_s,
+              title: filter[:title] || key.to_s.capitalize,
+              options: options_array,
+              filter_on: filter[:filter_on],
+              type: filter[:type]
+            }
             end
           end
-        filters_arr.to_json
+        filters_array.to_json
       end
 
       def all_to_json
