@@ -32,16 +32,29 @@ module WcmcComponents
 
       def filters_to_json
         full_list = self.all.order(id: :asc)
-        filter_array = []
-        filters.each_key do |filter|
-          filter_array << {
-            name: filter.to_s,
-            title: filters[filter][:title] || filter.to_s.capitalize,
-            options: full_list.pluck(filter).compact.uniq.sort,
-            type: filters[filter][:type] || 'multiple'
-          }
-        end
-        filter_array.to_json
+        filters_array = []
+        filters.each do |key, filter|
+          case filter[:type]
+          when "single"
+            filters_array << { 
+              name: key.to_s,
+              title: filter[:title] || key.to_s.capitalize,
+              options: full_list.pluck(key).compact.uniq.sort,
+              filter_on: filter[:filter_on],
+              type: filter[:type]
+            }
+          when "multiple"
+            options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
+            filters_array << {
+              name: key.to_s,
+              title: filter[:title] || key.to_s.capitalize,
+              options: options_array.sort,
+              filter_on: filter[:filter_on],
+              type: filter[:type]
+            }
+            end
+          end
+        filters_array.to_json
       end
 
       def all_to_json
@@ -139,7 +152,6 @@ module WcmcComponents
               }
             end
           end
-
           item_j
         end
       end
@@ -218,20 +230,36 @@ module WcmcComponents
       def sql_from_filters(filters)
         params = {}
         filters.each do |filter|
-          byebug
-          # single quote the options (if strings!?)
           next if filter['options'].count == 0
+          # TO-DO this may throws error if there are string  names with apostrophes 
           options = filter['options'].map{ |v| "'#{v}'" }
           name = filter['name']
-          params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
+          # collect params for different filter types
+          if filter['type'] == "multiple"
+          # this assumes we join and filter on the name column of the habtm property - true for tool navigator, maybe not in general
+            params[name] = "#{filter['name']}.name IN (#{options.join(',')})"
+          # else if its a string
+          else
+            params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
+          end 
         end
         params.compact
       end
 
       def query_with_filters (filters)
         where_params = sql_from_filters(filters)
-
-        where(where_params.values.join(' AND ')).order('id ASC').to_a
+        # which filters are habtms? and do their options have any values?
+        habtm_filters = filters.select {|f| f['type'] == "multiple" && f['options'].any? }
+        # if yes hbtm(s) join
+        if habtm_filters.any?
+          habtm_tables = []
+          habtm_filters.each do |filter|
+            habtm_tables << filter['name'].parameterize.underscore.to_sym
+          end
+          joins(habtm_tables).where(where_params.values.join(' AND ')).order('id ASC').to_a
+        else
+          where(where_params.values.join(' AND ')).order('id ASC').to_a
+        end
       end
     end
   end
