@@ -231,6 +231,7 @@ module WcmcComponents
         params = {}
         filters.each do |filter|
           next if filter['options'].count == 0
+          # TO-DO this may throws error if there are string  names with apostrophes 
           options = filter['options'].map{ |v| "'#{v}'" }
           name = filter['name']
           # collect params for different filter types
@@ -246,7 +247,6 @@ module WcmcComponents
       end
 
       def query_with_filters (filters)
-        # TO-DO this may throws error if there are string  names with apostrophes 
         where_params = sql_from_filters(filters)
         # which filters are habtms? and do their options have any values?
         habtm_filters = filters.select {|f| f['type'] == "multiple" && f['options'].any? }
