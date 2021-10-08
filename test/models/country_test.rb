@@ -55,7 +55,6 @@ class CountryTest < ActiveSupport::TestCase
     Array(1..25).each {|n|
       FactoryBot.build(:country).save
     }
-
     c = Country.paginate("{}")
     assert_equal 10, c[:items].count
     assert_equal "C01",  c[:items][0][:cells][2][:value]
