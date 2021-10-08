@@ -22,6 +22,10 @@ module WcmcComponents
         table_attrs.select { |_k, v| v[:show_in_table] } || {}
       end
 
+      def legends
+        table_attrs.select { |_k, v| v[:legend_on] } || {}
+      end
+
       def table_cols_and_modal_items
         table_attrs.select { |_k, v| v[:show_in_table] || v[:show_in_modal] } || {}
       end
@@ -55,6 +59,35 @@ module WcmcComponents
             end
           end
         filters_array.to_json
+      end
+# refactor to pass legends or filters attr
+      def legends_to_json
+        byebug
+        full_list = self.all.order(id: :asc)
+        legends_array = []
+        legends.each do |key, legend|
+          byebug
+          case legend[:type]
+          when "single"
+            legends_array << { 
+              name: key.to_s,
+              title: legend[:title] || key.to_s.capitalize,
+              options: full_list.pluck(key).compact.uniq.sort,
+              legend_on: legend[:legend_on],
+              type: legend[:type]
+            }
+          when "multiple"
+            options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
+            legends_array << {
+              name: key.to_s,
+              title: legend[:title] || key.to_s.capitalize,
+              options: options_array.sort,
+              legend_on: legend[:legend_on],
+              type: legend[:type]
+            }
+            end
+          end
+        legends_array.to_json
       end
 
       def all_to_json
@@ -129,7 +162,7 @@ module WcmcComponents
             title: 'Id',
             value: item.id,
             showInTable: false,
-            showInModal: false
+            showInModal: false,
           }
           # title and values also used in to_csv() to generate a CSV so if making changes here, also look there!
           table_cols_and_modal_items.each do |key, col|
@@ -140,7 +173,7 @@ module WcmcComponents
                 title: col[:title],
                 value: item[key],
                 showInTable: col[:show_in_table],
-                showInModal: col[:show_in_modal]
+                showInModal: col[:show_in_modal], 
               }
             when "multiple"
               item_j[:cells] << {
@@ -148,7 +181,7 @@ module WcmcComponents
                 title: col[:title],
                 value: item.send(key.to_s.pluralize).map(&:name),
                 showInTable: col[:show_in_table],
-                showInModal: col[:show_in_modal]
+                showInModal: col[:show_in_modal],
               }
             end
           end
