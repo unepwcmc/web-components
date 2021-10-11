@@ -34,60 +34,32 @@ module WcmcComponents
         @table_attrs ||= {}
       end
 
-      def filters_to_json
+      # this currently supports "filters" and "legends" passed as params in controller
+      # 
+      def attributes_to_json(attributes)
         full_list = self.all.order(id: :asc)
-        filters_array = []
-        filters.each do |key, filter|
-          case filter[:type]
-          when "single"
-            filters_array << { 
-              name: key.to_s,
-              title: filter[:title] || key.to_s.capitalize,
-              options: full_list.pluck(key).compact.uniq.sort,
-              filter_on: filter[:filter_on],
-              type: filter[:type]
-            }
-          when "multiple"
-            options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
-            filters_array << {
-              name: key.to_s,
-              title: filter[:title] || key.to_s.capitalize,
-              options: options_array.sort,
-              filter_on: filter[:filter_on],
-              type: filter[:type]
-            }
-            end
+        attributes == "legends" ? attributes = legends : attributes = filters
+        attributes_array = []
+        attributes.each do |key, attribute|
+        case attribute[:type]
+        when "single"
+          attributes_array << { 
+            name: key.to_s,
+            title: attribute[:title] || key.to_s.capitalize,
+            options: full_list.pluck(key).compact.uniq.sort,
+            type: attribute[:type]
+          }
+        when "multiple"
+          options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
+          attributes_array << {
+            name: key.to_s,
+            title: attribute[:title] || key.to_s.capitalize,
+            options: options_array.sort,
+            type: attribute[:type]
+          }
           end
-        filters_array.to_json
-      end
-# refactor to pass legends or filters attr
-      def legends_to_json
-        byebug
-        full_list = self.all.order(id: :asc)
-        legends_array = []
-        legends.each do |key, legend|
-          byebug
-          case legend[:type]
-          when "single"
-            legends_array << { 
-              name: key.to_s,
-              title: legend[:title] || key.to_s.capitalize,
-              options: full_list.pluck(key).compact.uniq.sort,
-              legend_on: legend[:legend_on],
-              type: legend[:type]
-            }
-          when "multiple"
-            options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
-            legends_array << {
-              name: key.to_s,
-              title: legend[:title] || key.to_s.capitalize,
-              options: options_array.sort,
-              legend_on: legend[:legend_on],
-              type: legend[:type]
-            }
-            end
-          end
-        legends_array.to_json
+        end
+        attributes_array.to_json
       end
 
       def all_to_json
