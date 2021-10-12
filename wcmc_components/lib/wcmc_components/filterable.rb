@@ -35,7 +35,7 @@ module WcmcComponents
       end
 
       # this currently supports "filters" and "legends" passed as params in controller
-      # 
+
       def attributes_to_json(attributes)
         full_list = self.all.order(id: :asc)
         attributes == "legends" ? attributes = legends : attributes = filters
@@ -145,7 +145,8 @@ module WcmcComponents
                 title: col[:title],
                 value: item[key],
                 showInTable: col[:show_in_table],
-                showInModal: col[:show_in_modal], 
+                showInModal: col[:show_in_modal],
+                legend_on: col[:legend_on]
               }
             when "multiple"
               item_j[:cells] << {
@@ -154,6 +155,7 @@ module WcmcComponents
                 value: item.send(key.to_s.pluralize).map(&:name),
                 showInTable: col[:show_in_table],
                 showInModal: col[:show_in_modal],
+                legend_on: col[:legend_on]
               }
             end
           end
