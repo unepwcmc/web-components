@@ -29,10 +29,10 @@ class CountryTest < ActiveSupport::TestCase
     assert_equal 2, Country.filters.count
   end
 
-  test "filter to json" do
+  test "attributes to json" do
     Country.import "good_countries.csv"
-#    puts Country.filters_to_json
-    f = JSON.parse Country.filters_to_json
+    # puts Country.attributes_to_json("filters")
+    f = JSON.parse Country.attributes_to_json("filters")
     assert_equal "name", f[0]['name']
     assert_equal "Name", f[0]['title']
     assert_equal 2, f[0]['options'].count
