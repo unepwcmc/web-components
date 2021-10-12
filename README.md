@@ -28,7 +28,7 @@ Also, if verbose is set to true for yarn test, often console logs are overwritte
 
 in Gemfile add either:
 
-* gem 'wcmc-components', '~> 0.1.3', source: "https://gem-server.unep-wcmc.org/"
+* gem 'wcmc-components', '~> 0.2.0', source: "https://gem-server.unep-wcmc.org/"
 
 or to use local code cloned into web-components
 
