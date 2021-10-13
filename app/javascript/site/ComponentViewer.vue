@@ -1,22 +1,36 @@
 <template>
   <div class="component-viewer flex">
     <aside class="filters flex-no-shrink">
-      <ul class="filters__list ul--unstyled">
-        <li v-for="category in categoriesWithAll" 
-          :class="{'filters__list-item--selected': isSelectedCategory(category.id)}">
+      <ul class="filters__list">
+        <li
+          v-for="(category, index) in categoriesWithAll"
+          :key="`component-viewer-category-${index}`"
+          :class="{'filters__list-item--selected': isSelectedCategory(category.id)}"
+        >
           <button
             aria-controls="component-grid"
             class="filters__list-item sg-h3 hover--pointer"
-            @click="clickCategory(category.id)">{{ category.name }}</button>
+            @click="clickCategory(category.id)"
+          >
+            {{ category.name }}
+          </button>
         </li>
       </ul>
     </aside>
-
     <main class="component-grid__wrapper">
-      <h1 class="screen-reader">Component Viewer</h1>
+      <h1 class="screen-reader">
+        Component Viewer
+      </h1>
 
-      <ul id="component-grid" class="component-grid ul--unstyled">
-        <li v-for="comp in components" v-if="belongsToSelectedCategory(comp)" class="component-grid__element sg-h3">
+      <ul
+        id="component-grid"
+        class="component-grid"
+      >
+        <li
+          v-for="(comp, index) in filteredComponents"
+          :key="`component-viewier-component-${index}`"
+          class="component-grid__element sg-h3"
+        >
           <a :href="getComponentPath(comp.id)">{{ comp.name }}</a>
         </li>
       </ul>
@@ -29,8 +43,14 @@ import { getComponentPath } from './url-helpers'
 
 export default {
   props: {
-    components: Array,
-    categories: Array
+    components: {
+      type: Array,
+      default: () => []
+    },
+    categories: {
+      type: Array,
+      default: () => []
+    }
   },
 
   data () {
@@ -42,6 +62,10 @@ export default {
   computed: {
     categoriesWithAll () {
       return [{id: 'all', name: 'All'}, ...this.categories]
+    },
+
+    filteredComponents () {
+      return this.components.filter(this.belongsToSelectedCategory)
     }
   },
 

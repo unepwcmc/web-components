@@ -1,0 +1,215 @@
+//--------------------------------------------------
+// html elements
+//--------------------------------------------------
+* {
+  box-sizing: border-box;
+  font-family: $body-font;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  color: $body-font-color;
+  font-family: $body-font;
+  margin: 0;
+}
+
+h1 { @extend .sg-h1; }
+h2 { @extend .sg-h2; }
+h3 { @extend .sg-h3; }
+h4 { @extend .sg-h4; }
+
+p { }
+
+a { 
+  color: inherit; 
+  font-size: inherit;
+}
+
+li { @extend .sg-li; }
+
+label { @extend .sg-p; }
+
+table, th, td {
+  border: $border-thin $black;
+  @if ($collapse-table-borders) { border-collapse: collapse; }
+}
+
+th, td {
+  padding: $table-cell-padding;
+}
+
+th { @extend .sg-h3; }
+
+td { @extend .sg-p; }
+
+blockquote { 
+  @include font-size('blockquote');
+  line-height: $line-height-blockquote;
+}
+
+span { font-size: inherit; }
+
+//--------------------------------------------------
+// text
+//--------------------------------------------------
+.sg-h1 {
+  @include font-size('h1');
+  font-weight: $font-weight-h1;
+  line-height: $line-height-h1;
+}
+
+.sg-h2 {
+  @include font-size('h2');
+  font-weight: $font-weight-h2;
+  line-height: $line-height-h;
+}
+
+.sg-h3 {
+  @include font-size('h3');
+  font-weight: $font-weight-h3;
+  line-height: $line-height-h;
+}
+
+.sg-h4 {
+  @include font-size('h4');
+  font-weight: $font-weight-h4;
+  line-height: $line-height-h;
+}
+
+.sg-p {
+  font-size: inherit;
+  font-weight: $font-weight-p;
+  line-height: $line-height-p;
+}
+
+
+.sg-li {
+  @include font-size('p');
+  font-weight: $font-weight-p;
+  line-height: $line-height-li;
+}
+
+//--------------------------------------------------
+// site structure - reusable styles/mixins
+//--------------------------------------------------
+%container {
+  @include gutters('both', 'padding');
+
+  margin: 0 auto;
+  width: 100%;
+}
+
+//--------------------------------------------------
+// site structure
+//--------------------------------------------------
+.site-width {
+  @include breakpoint($large){ width: $site-width; }
+}
+
+.site-width-medium {
+  @include breakpoint($small){ width: $site-width-medium-tablet; }
+  @include breakpoint($medium){ width: $site-width-medium-desktop; }
+}
+
+.gutter {
+  &-left {
+    @include gutters('left');
+  }
+
+  &-right {
+    @include gutters('right');
+  }
+}
+
+.gutters {
+  @include gutters;
+}
+
+.container {
+  @extend .site-width;
+  @extend %container;
+
+  &--medium {
+    @extend .site-width-medium;
+    @extend %container;
+  }
+}
+
+//--------------------------------------------------
+// page padding
+//--------------------------------------------------
+
+.page-padding--top {
+  padding-top: $page-padding-top-small;
+  @include breakpoint($small) { padding-top: $page-padding-top-tablet; }
+  @include breakpoint($medium) { padding-top: $page-padding-top-desktop; }
+}
+
+.page-padding--bottom {
+  padding-bottom: $page-padding-bottom-small;
+  @include breakpoint($small) { padding-bottom: $page-padding-bottom-tablet; }
+  @include breakpoint($medium) { padding-bottom: $page-padding-bottom-desktop; }
+}
+
+.page-padding {
+  @extend .page-padding--top;
+  @extend .page-padding--bottom;
+}
+
+//--------------------------------------------------
+// section padding
+//--------------------------------------------------
+.section-padding--top {
+  padding-top: $section-padding-top-small;
+  @include breakpoint($small) { padding-top: $section-padding-top-tablet; }
+  @include breakpoint($medium) { padding-top: $section-padding-top-desktop; }
+}
+
+.section-padding--bottom {
+  padding-bottom: $section-padding-bottom-small;
+  @include breakpoint($small) { padding-bottom: $section-padding-bottom-tablet; }
+  @include breakpoint($medium) { padding-bottom: $section-padding-bottom-desktop; }
+}
+
+.section-padding {
+  @extend .section-padding--top;
+  @extend .section-padding--bottom;
+}
+
+//--------------------------------------------------
+// item padding
+//--------------------------------------------------
+.item-padding--top { @include item-padding(('top')); }
+.item-padding--bottom { @include item-padding(('bottom')); }
+.item-padding--sides { @include item-padding(('left', 'right')); }
+
+.item-padding { @include item-padding(); }
+
+.item-margin--top { @include item-padding(('top'), 'margin'); }
+.item-margin--bottom { @include item-padding(('bottom'), 'margin'); }
+.item-margin--sides { @include item-padding(('left', 'right'), 'margin');}
+
+.item-margin { @include item-padding(('all'),'margin'); }
+
+//--------------------------------------------------
+// helper classes
+//--------------------------------------------------
+.breakpoint-small-up {
+  display: none;
+  @include breakpoint($small) { display: block; }
+}
+
+.breakpoint-medium-up {
+  display: none;
+  @include breakpoint($medium) { display: block; }
+}
+
+.breakpoint-small-down {
+  display: block;
+  @include breakpoint($small) { display: none; }
+}
+
+.breakpoint-medium-down {
+  display: block;
+  @include breakpoint($medium) { display: none; }
+}

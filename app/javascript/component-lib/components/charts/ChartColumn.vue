@@ -1,46 +1,63 @@
 <template>
-  <div class="chart--column">
-    <div class="chart__chart flex flex-h-between">
-      <div v-for="column, index in columns" class="chart__column flex flex-column flex-h-end" :style="{ width: width }">
-        <span class="chart__percent flex-vs-center">{{ column.value + units }}</span>
-        <span class="chart__bar" :style="{ height: percent(column) + '%' }"></span> 
-
-        <p class="chart__label">
-          <span class="chart__label-index">{{ index + 1 }}.</span>
-          <span class="bold">{{ column.label }}</span>
-        </p>
-      </div>
+  <div class="chart--column chart flex flex-h-between">
+    <div
+      v-for="(column, index) in columns"
+      :key="index"
+      class="chart__column flex flex-column"
+      :style="{ width: width }"
+    >
+      <span class="chart__percent flex-vs-center">{{ getColumnLabel(column, index) }}</span>
+      <span
+        class="chart__bar"
+        :style="{ height: percent(column) + '%' }"
+      />
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'chart-column',
+export default {
+  name: 'ChartColumn',
 
-    props: {
-      title: String,
-      columns: {
-        type: Array,
-        required: true
-      },
-      units: {
-        type: String,
-        default: '%'
-      }
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    columns: {
+      type: Array,
+      required: true
+    },
+    units: {
+      type: String,
+      default: '%'
+    },
+    optomiseColumnHeight: {
+      type: Boolean,
+      default: true
+    } 
+  },
+
+  computed: {
+    width () {
+      const total = this.columns.length
+
+      return (100/total) - 3 + '%'
+    }
+  },
+
+  methods: {
+    getColumnLabel (column, index) {
+      return `${index+1}. ${column.value}${this.units}`
     },
 
-    methods: {
-      percent (column) {
-        return this.maxValue ? 100 * column.value / this.maxValue : column.value
-      }
+    setMaxValue () {
+      this.maxValue = Math.max.apply(Math, this.columns.map(col => col.value))
     },
 
-    computed: {
-      width () {
-        const total = this.columns.length
-        return (100/total) - 3 + '%'
-      }
+    percent (column) {
+      return this.maxValue ? 100 * column.value / this.maxValue : column.value
     }
   }
+}
 </script>

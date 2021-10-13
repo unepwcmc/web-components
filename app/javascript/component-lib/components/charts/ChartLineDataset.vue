@@ -4,16 +4,34 @@
       :d="path" 
       fill="none" 
       :stroke="colour.line" 
-      stroke-width="6" />
+      stroke-width="6"
+    />
 
-    <circle :cx="middle.x" :cy="middle.y" :fill="colour.line" r="18">{{ index + 1 }}</circle>
-    <text :x="middle.x" :y="middle.y" :fill="colour.text" text-anchor="middle" dominant-baseline="middle" :font-size="fontSize" :font-weight="fontWeight">{{ index + 1 }}</text>
+    <circle
+      :cx="middle.x"
+      :cy="middle.y"
+      :fill="colour.line"
+      r="18"
+    >
+      {{ index + 1 }}
+    </circle>
+    <text
+      :x="middle.x"
+      :y="middle.y"
+      :fill="colour.text"
+      text-anchor="middle"
+      dominant-baseline="middle"
+      :font-size="fontSize"
+      :font-weight="fontWeight"
+    >
+      {{ index + 1 }}
+    </text>
   </g>
 </template>
 
 <script>
 export default {
-  name: 'chart-line-dataset',
+  name: 'ChartLineDataset',
 
   props: {
     path: {

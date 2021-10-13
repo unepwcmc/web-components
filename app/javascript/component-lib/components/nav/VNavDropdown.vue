@@ -1,30 +1,41 @@
 <template>
-  <div class="nav__dropdown" :class="{'nav__dropdown--active': isActive}">
+  <div
+    class="nav__dropdown"
+    :class="{'nav__dropdown--active': isActive}"
+  >
     <button 
       :id="mixinTriggerId"
       aria-haspopup="true"
       :aria-expanded="isActive"
       :aria-controls="mixinModalId"
-      class="nav__dropdown-toggle hover--pointer flex-inline flex-v-center button--unstyled"
-      @click="toggleDropdown">
-      <label :for="mixinModalId" class="nav__select nav__select--dropdown">{{item.label}}</label>
-      <span class="drop-arrow arrow-svg"></span>
+      class="nav__dropdown-toggle hover--pointer flex-inline flex-v-center"
+      @click="toggleDropdown"
+    >
+      <label
+        :for="mixinModalId"
+        class="nav__select nav__select--dropdown"
+      >{{ item.label }}</label>
+      <span class="drop-arrow arrow-svg" />
     </button>
     <div class="nav__dropdown-wrapper">
-      <menu :id="mixinModalId" class="nav__dropdown-menu" :class="{'nav__dropdown-menu--two-col': hasTwoColumns}">
+      <menu
+        :id="mixinModalId"
+        class="nav__dropdown-menu"
+        :class="{'nav__dropdown-menu--two-col': hasTwoColumns}"
+      >
         <v-nav-link
-          class="nav__dropdown-item"
           v-for="dropdownItem in item.children"
-          :item="dropdownItem"
           :key="dropdownItem.id"
-        ></v-nav-link>
+          class="nav__dropdown-item"
+          :item="dropdownItem"
+        />
       </menu>
     </div>
   </div>
 </template>
 
 <script>
-import VNavLink from "./VNavLink"
+import VNavLink from './VNavLink'
 import mixinFocusCapture from '../../mixins/mixin-focus-capture'
 import mixinPopupCloseListeners from '../../mixins/mixin-popup-close-listeners'
 
@@ -55,18 +66,6 @@ export default {
     }
   },
 
-  methods: {
-    closeDropdown () {
-      this.isActive = false
-    },
-    openDropdown () {
-      this.isActive = true
-    },
-    toggleDropdown (e) {
-      this.isActive ? this.closeDropdown(e) : this.openDropdown(e)
-    }
-  },
-
   computed: {
     hasTwoColumns () {
       return !this.isBurger && this.item.children.length > 4
@@ -78,6 +77,18 @@ export default {
 
     mixinTriggerId () {
       return `nav-dropdown-toggle-${this.item.id}`
+    }
+  },
+
+  methods: {
+    closeDropdown () {
+      this.isActive = false
+    },
+    openDropdown () {
+      this.isActive = true
+    },
+    toggleDropdown (e) {
+      this.isActive ? this.closeDropdown(e) : this.openDropdown(e)
     }
   }
 }

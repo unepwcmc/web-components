@@ -1,5 +1,10 @@
-<carousel title="Carousel title" :slide-interval-length="2000">
-<% (1..5).each do |n| %>
-  <carousel-slide :slides-per-frame="2">Slide <%= n %></carousel-slide>
-<% end %>
-</carousel>
+<div class="<%= styleguide_class %>">
+  <carousel 
+    title="The world's most complex carousel" 
+    :slide-interval-length="2000"
+    :slides-per-frame="[1,2,3,4]">
+  <% (1..5).each do |n| %>
+    <carousel-slide>Slide <%= n %></carousel-slide>
+  <% end %>
+  </carousel>
+</div>

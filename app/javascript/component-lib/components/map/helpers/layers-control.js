@@ -1,4 +1,4 @@
-class LayersControl {
+export default class LayersControl {
   onAdd(map) {
     this._map = map
     this._container = document.createElement('div')
@@ -7,7 +7,7 @@ class LayersControl {
     this._button = document.createElement('button')
     this._button.className = 'mapbox-gl-layer-ctrl-btn'
 
-    this._button.onclick = (e) => {
+    this._button.onclick = () => {
       document.getElementsByClassName('mapbox-gl-layer-ctrl-layers')[0].classList.toggle('active')
     }
 
@@ -18,16 +18,18 @@ class LayersControl {
 
     styles.forEach((style) => {
       let s = document.createElement('input')
+
       s.id = style
       s.type = 'radio'
       s.name = 'style-toggle'
       s.value = style
 
-      s.onclick = (e) => {
+      s.onclick = () => {
         this._map.setStyle('mapbox://styles/mapbox/' + style + '-v9')
       }
 
       let l = document.createElement('label')
+
       l.htmlFor = style
       l.innerText = style
 
@@ -46,5 +48,3 @@ class LayersControl {
     this._map = undefined
   }
 }
-
-module.exports = LayersControl

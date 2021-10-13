@@ -1,4 +1,5 @@
-export const mixinCarto = {
+/* eslint-disable no-undef */
+export default {
   data () {
     return {
       layerObject: '',
@@ -6,7 +7,7 @@ export const mixinCarto = {
   },
 
   methods: {
-      createTiles (username, key, {filter, tables}) {
+    createTiles (username, key, {filter, tables}) {
       let tiles = new cartodb.Tiles({
         user_name: username,
         tiler_protocol: 'https',
@@ -64,6 +65,7 @@ export const mixinCarto = {
           css = css + '\n'
         }
       })
+
       return css
     }
   }

@@ -1,0 +1,47 @@
+.tabs {
+  &__triggers {
+    @include ul--unstyled;
+    @include gutters('left', 'margin');
+  }
+
+  &--fake {
+    @include flex;
+    @include ul--unstyled;
+    // @include responsive(flex-wrap, nowrap, nowrap, wrap);
+    // @include responsive(overflow-x, scroll, scroll, initial);
+    // @include responsive(margin, rem-calc(26 0), rem-calc(26 0 32 0), rem-calc(30 0 10 0));
+
+    .tab {
+      &__trigger {
+        // @include flex-no-shrink;
+        // @include tab-trigger;
+        // @include responsive(margin-bottom, 0, 0, rem-calc(10));
+      }
+    }
+  }
+}
+
+.tab {
+  &__trigger {
+    @extend .sg-h3;
+
+    border: none;
+    border-top: $border-regular $grey;
+    border-right: $border-regular $grey;
+    border-radius: 0;
+    padding: rem-calc(5);
+
+    &:first-child {
+      border-left: $border-regular $grey;
+    }
+
+    &--active {
+      background-color: $grey-light;
+    }
+  }
+
+  &__container {
+    @include item-spacing;
+    border: $border-regular $grey;
+  }
+}

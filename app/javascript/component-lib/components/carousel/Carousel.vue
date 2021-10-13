@@ -1,69 +1,97 @@
 <template>
-  <aside class="carousel" :aria-labelledby="headerId">
+  <aside
+    class="carousel"
+    :aria-labelledby="headerId"
+  >
+    <h1
+      :id="headerId"
+      :class="{'screen-reader': !showTitle}"
+    >
+      {{ title }}
+    </h1>
 
-    <h1 :id="headerId" :class="{'screen-reader': !showTitle}">{{ title }}</h1>
-
-    <h2 :class="{'screen-reader': !showSlideCount}">{{ currentSlide }} of {{ totalSlides }}</h2>
+    <h2 :class="{'screen-reader': !showSlideCount}">
+      {{ currentSlide }} of {{ totalSlides }}
+    </h2>
 
     <div class="carousel__slides-container">
-
       <ul 
         :id="slidesId"
-        class="carousel__slides transition ul--unstyled"
+        v-touch:swipe.right="slideToPrevious"
+        v-touch:swipe.left="slideToNext"
+        class="carousel__slides transition"
         aria-live="off"
         aria-atomic="true"
-        v-touch:swipe.right="slideToPrevious"
-        v-touch:swipe.left="slideToNext">
+      >
         <template v-for="n in 3">
-          <slot :slidesScope="slidesScope"></slot>
+          <slot 
+            :id="`slot-${n}`"
+            :slidesScope="slidesScope" 
+          />
         </template>
       </ul>
 
-      <div v-if="showArrows && hasMutlipleSlides" class="carousel__arrow-buttons">
+      <div
+        v-if="showArrows && hasMultipleSlides"
+        class="carousel__arrow-buttons"
+      >
         <button 
           :aria-controls="slidesId" 
           title="Previous slide" 
           class="carousel__arrow carousel__arrow--left hover--pointer" 
-          @click="slideToPrevious">L</button>
+          @click="slideToPrevious"
+        >
+          L
+        </button>
         <button 
           :aria-controls="slidesId"
           title="Next slide"
           class="carousel__arrow carousel__arrow--right hover--pointer"
-          @click="slideToNext">R</button>
+          @click="slideToNext"
+        >
+          R
+        </button>
       </div>
-
     </div>
 
-    <div v-if="hasMutlipleSlides" class="carousel__control-bar">
+    <div
+      v-if="hasMultipleSlides"
+      class="carousel__control-bar"
+    >
       <template v-if="showIndicators">
         <button
-          v-for="slide in totalSlides"
+          v-for="(slide, index) in totalSlides"
+          :key="`slide-${index}`"
           :title="indicatorTitle(slide)"
           :aria-controls="slidesId"
           :aria-pressed="isCurrentSlide(slide)"
           :class="['carousel__indicator hover--pointer', selectedSlideClass(slide)]"
-          @click="changeSlide(slide)"></button>
+          @click="changeSlide(slide)"
+        />
       </template>
 
       <button 
-        v-if="this.slideIntervalLength" 
+        v-if="slideIntervalLength" 
         :title="pauseTitle" 
         class="carousel__pause hover--pointer" 
-        @click="toggleSlideInterval">
+        @click="toggleSlideInterval"
+      >
         <span :class="[pauseIconClass]">P</span>
       </button>
     </div>
-
   </aside>
 </template>
 
 <script>
 import { getChangeInIndex, getNewOrder, getWidthWithMargins, modGreaterThanZero } from './carousel-helpers'
+import mixinResponsive from '../../mixins/mixin-responsive'
 
 const smallTimeout = 20
 
 export default {
-  name: 'carousel',
+  name: 'Carousel',
+
+  mixins: [mixinResponsive],
 
   props: {
     title: {
@@ -86,9 +114,21 @@ export default {
       default: 0,
       type: Number
     },
+    showIndicators: {
+      default: true,
+      type: Boolean
+    },
     showAllIndicators: {
       default: false,
       type: Boolean
+    },    
+    slidesPerFrame: {
+      default: () => [1,1,1,1],
+      type: Array
+    },
+    marginSize: {
+      default: 10,
+      type: Number
     }
   },
 
@@ -110,29 +150,13 @@ export default {
     }
   },
 
-  created() {
-    window.addEventListener('resize', () => {
-      this.setSlideWidth()
-      this.initSlideContainerPosition()
-    })
-  },
-
-  mounted () {
-    this.initData()
-    this.initSlideOrders()
-    this.setSlideWidth()
-    this.initSlideContainerPosition()
-    this.setActiveStateOnChildren()
-    this.setSlideIntervalIfConfigured()
-  },
-
   computed: {
-    hasMutlipleSlides () {
+    hasMultipleSlides () {
       return this.childSlideComponents.length > 3
     },
 
     showSlideCount () {
-      return this.showCount && this.hasMutlipleSlides
+      return this.showCount && this.hasMultipleSlides
     },
 
     pauseIconClass () {
@@ -143,9 +167,32 @@ export default {
       return this.isPaused ? 'Resume carousel' : 'Pause carousel'
     },
 
-    showIndicators () {
-      return this.showAllIndicators || this.totalSlides < 7
+    showIndicatorsComputed () {
+      return this.showAllIndicators || (this.showIndicators && this.totalSlides < 7)
     }
+  },
+
+  watch: {
+    currentBreakpoint () {
+      this.setAllSlideStyles()
+    }
+  },
+
+  created() {
+    window.addEventListener('resize', () => {
+      this.setSlideWidth()
+      this.initSlideContainerPosition()
+    })
+  },
+
+  mounted () {
+    this.initData()
+    this.setAllSlideStyles()
+    this.initSlideOrders()
+    this.setSlideWidth()
+    this.initSlideContainerPosition()
+    this.setActiveStateOnChildren()
+    this.setSlideIntervalIfConfigured()
   },
 
   methods: {
@@ -171,7 +218,7 @@ export default {
     },
 
     initSlideOrders () {
-      this.childSlideComponents.forEach( (child, index) => {
+      Array.prototype.forEach.call(this.childSlideComponents, (child, index) => {
         child.$el.style.order = index
       })
     },
@@ -279,9 +326,34 @@ export default {
     },
 
     setActiveStateOnChildren () {
-      this.childSlideComponents.forEach(child => {
+      Array.prototype.forEach.call(this.childSlideComponents, child => {
         child.isActive = this.isCurrentSlideElement(child.$el)
       })
+    },
+
+    getSlidesPerFrame() {
+      switch (this.currentBreakpoint) {
+      case 'mobile':
+        return this.slidesPerFrame[0]
+      case 'tablet':
+        return this.slidesPerFrame[1]
+      case 'laptop':
+        return this.slidesPerFrame[2]
+      case 'desktop':
+        return this.slidesPerFrame[3]
+      }
+    },
+
+    setAllSlideStyles () {
+      console.log(this.childSlideComponents)
+      Array.prototype.forEach.call(this.childSlideComponents, this.setSlideStyle)
+    },
+
+    setSlideStyle (slide) {
+      const style = slide.$el.style
+
+      style.marginLeft = style.marginRight = this.marginSize + 'px'
+      style.width = `calc(${100/this.getSlidesPerFrame()}% - ${2*this.marginSize}px)`
     }
   }
 }

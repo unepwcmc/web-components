@@ -19,16 +19,16 @@ $nav-item-separation: rem-calc(26);
     @include breakpoint($small) {display: block;}
 
     &--unepwcmc {
-      width: $logo-height-fraction * $unepwcmc-w-to-h-ratio * $navbar-height-small;
+      width: calc(#{$logo-height-fraction} * #{$unepwcmc-w-to-h-ratio} * #{$navbar-height-small});
 
       @include breakpoint($small) {
-        width: $logo-height-fraction * $unepwcmc-w-to-h-ratio * $navbar-height-medium;
+        width: calc(#{$logo-height-fraction} * #{$unepwcmc-w-to-h-ratio} * #{$navbar-height-medium});
       }
     }
   }
 
   &__items {
-    @extend .ul--unstyled;
+    @include ul--unstyled();
     @extend .ul--inline;
   }
 

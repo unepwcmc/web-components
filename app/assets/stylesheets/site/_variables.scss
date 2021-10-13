@@ -1,0 +1,170 @@
+//--------------------------------------------------
+// variables
+//--------------------------------------------------
+// - borders
+// - colours
+// - buttons
+// - shadows
+// - fonts
+// - breakpoints
+// - z-indices
+// - dimensions
+// - padding
+// - tables
+// - topbars and footers
+// - branding
+
+//--------------------------------------------------
+// borders
+//--------------------------------------------------
+$border-width-thin: rem-calc(1);
+$border-width-regular: rem-calc(2);
+
+$border-thin: solid $border-width-thin;
+$border-regular: solid $border-width-regular;
+
+//--------------------------------------------------
+// colours
+//--------------------------------------------------
+$white: #ffffff;
+$black: #000000;
+
+$grey-light: #e1e1e1;
+$grey: #bdbcbc;
+
+//--------------------------------------------------
+// buttons
+//--------------------------------------------------
+$button-radius: 0;
+$button-default-color: $grey;
+
+
+$button-padding-small: rem-calc(10 10);
+$button-padding-medium: rem-calc(20 30);
+
+//--------------------------------------------------
+// shadows
+//--------------------------------------------------
+$shadow-light: rem-calc(0 1 2 1) rgba($black, 0.3);
+$shadow-dark: rem-calc(0 1 2 1) rgba($black, 0.5);
+
+//--------------------------------------------------
+// fonts
+//--------------------------------------------------
+$fontello: 'fontello';
+
+$body-font: 'Roboto', sans-serif;
+$body-font-color: $black;
+
+$thin: 100;
+$light: 300;
+$regular: 400;
+$bold: 500;
+$bolder: 700;
+
+$font-weight-h1: $light;
+$font-weight-h2: $light;
+$font-weight-h3: $light;
+$font-weight-h4: $light;
+$font-weight-p: $light;
+
+$line-height-h1: 1.25;
+$line-height-h: 1.2;
+$line-height-p: 1.25;
+$line-height-li: 1.5;
+
+@mixin font-size($el) {
+  @if $el == 'h1' { font-size: rem-calc(24); }
+  @if $el == 'h2' { font-size: rem-calc(20); }
+  @if $el == 'h3' { font-size: rem-calc(18); }
+  @if $el == 'h4' { font-size: rem-calc(16); }
+  @if $el == 'p' { font-size: rem-calc(14); }
+
+  @include breakpoint($small) {
+    @if $el == 'h1' { font-size: rem-calc(30); }
+    @if $el == 'h2' { font-size: rem-calc(24); }
+    @if $el == 'h3' { font-size: rem-calc(20); }
+    @if $el == 'h4' { font-size: rem-calc(18); }
+    @if $el == 'p' { font-size: rem-calc(16); }
+  }
+}
+
+//--------------------------------------------------
+// breakpoints
+//--------------------------------------------------
+//must be in px!
+$small: 720;
+$medium: 960;
+$large: 1176;
+
+//--------------------------------------------------
+// z-indices
+//--------------------------------------------------
+$z-100: 100;
+$z-200: 200;
+$z-300: 300;
+
+//--------------------------------------------------
+// dimensions
+//--------------------------------------------------
+$site-width: rem-calc($large);
+
+//--------------------------------------------------
+// padding
+//--------------------------------------------------
+$gutter-small: rem-calc(16);
+$gutter-medium: rem-calc(24);
+$gutter-large: rem-calc(32);
+
+$container-width-small: rem-calc(600);
+$container-width-medium: rem-calc(700);
+$container-width-large: rem-calc(800);
+
+$page-padding-top-small: rem-calc(16);
+$page-padding-top-medium: rem-calc(24);
+$page-padding-top-large: rem-calc(32);
+
+$page-padding-bottom-small: rem-calc(32);
+$page-padding-bottom-medium: rem-calc(60);
+$page-padding-bottom-large: rem-calc(100);
+
+$section-padding-top-small: rem-calc(20);
+$section-padding-top-medium: rem-calc(40);
+$section-padding-top-large: rem-calc(40);
+
+$section-padding-bottom-small: rem-calc(30);
+$section-padding-bottom-medium: rem-calc(60);
+$section-padding-bottom-large: rem-calc(60);
+
+$item-spacing-small: rem-calc(14);
+$item-spacing-medium: rem-calc(20);
+$item-spacing-large: rem-calc(26);
+
+//--------------------------------------------------
+// tables
+//--------------------------------------------------
+$collapse-table-borders: true;
+$table-cell-padding: rem-calc(8);
+
+//--------------------------------------------------
+// topbars and footers
+//--------------------------------------------------
+$navbar-height-small: rem-calc(80);
+$navbar-height-medium: rem-calc(100);
+
+$footer-height-desktop: rem-calc(140);
+
+@mixin nav-height {
+  height: $navbar-height-small;
+  
+  @include breakpoint($small) {
+    height: $navbar-height-medium;
+  }
+}
+
+$footer-height-desktop: rem-calc(80);
+
+//--------------------------------------------------
+// branding
+//--------------------------------------------------
+$unepwcmc-w-to-h-ratio: 118/27;

@@ -1,18 +1,27 @@
 <template>
-  <div class="expandable-item relative" :class="{'expandable-item--active': isActive}">
+  <div
+    class="expandable-item relative"
+    :class="{'expandable-item--active': isActive}"
+  >
     <button
       aria-haspopup="true"
       :aria-expanded="isActive"
       :aria-controls="contentId"
       class="expandable-item__header hover--pointer flex flex-v-center"
-      @click="toggle">
-      <slot name="header"></slot>
+      @click="toggle"
+    >
+      <slot name="header" />
       <span 
         class="drop-arrow drop-arrow--end arrow-svg"
-        :style="arrowTransformStyle"></span>
+        :style="arrowTransformStyle"
+      />
     </button>
-    <div v-show="isActive" :id="contentId" class="expandable-item__container item-padding">
-      <slot name="content"></slot>
+    <div
+      v-show="isActive"
+      :id="contentId"
+      class="expandable-item__container item-padding"
+    >
+      <slot name="content" />
     </div>
   </div>
 </template>

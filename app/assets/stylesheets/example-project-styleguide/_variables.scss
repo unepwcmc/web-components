@@ -1,0 +1,193 @@
+//--------------------------------------------------
+// variables
+//--------------------------------------------------
+// - borders
+// - colours
+// - buttons
+// - shadows
+// - fonts
+// - breakpoints
+// - z-indices
+// - dimensions
+// - padding
+// - tables
+// - topbars and footers
+// - branding
+
+//--------------------------------------------------
+// borders
+//--------------------------------------------------
+$border-width-thin: 1px;
+$border-width-regular: 2px;
+
+$border-thin: solid $border-width-thin;
+$border-regular: solid $border-width-regular;
+
+$global-radius: 5px;
+
+//--------------------------------------------------
+// colours
+//--------------------------------------------------
+$white: #ffffff;
+$black: #000000;
+
+$primary: blue;
+$accent: red;
+$button-default: lightblue;
+$header-text: lightgreen;
+$background: yellow;
+
+//--------------------------------------------------
+// buttons
+//--------------------------------------------------
+$button-radius: 10px;
+$button-default-color: $grey;
+
+$button-padding-small: 6 20px;
+$button-padding-medium: 12 20px;
+
+//--------------------------------------------------
+// shadows
+//--------------------------------------------------
+$shadow-light: 0 1px 2px 1px rgba($black, 0.3);
+$shadow-dark: 0 1px 2px 1px rgba($black, 0.5);
+
+//--------------------------------------------------
+// fonts
+//--------------------------------------------------
+$font-roboto: 'Roboto', sans-serif;
+
+$body-font: $font-roboto;
+$body-font-color: $black;
+
+$thin: 100;
+$light: 300;
+$regular: 400;
+$fw-medium: 500;
+$bold: 700;
+$fw-black: 900;
+
+$font-weight-h1: $bold;
+$font-weight-h2: $bold;
+$font-weight-h3: $bold;
+$font-weight-h4: $light;
+$font-weight-p: $light;
+
+$line-height-h1: 1.25;
+$line-height-h: 1.2;
+$line-height-p: 1.25;
+$line-height-li: 1.5;
+$line-height-blockquote: 1.2;
+
+@mixin font-size($el) {
+  @if $el == 'h1' { font-size: 24px; }
+  @if $el == 'h2' { font-size: 20px; }
+  @if $el == 'h3' { font-size: 18px; }
+  @if $el == 'h4' { font-size: 18px; }
+  @if $el == 'p' { font-size: 14px; }
+  @if $el == 'blockquote' { font-size: 18px; }
+
+  @include breakpoint($small) {
+    @if $el == 'h1' { font-size: 34px; }
+    @if $el == 'h2' { font-size: 24px; }
+    @if $el == 'h3' { font-size: 20px; }
+    @if $el == 'h4' { font-size: 20px; }
+    @if $el == 'p' { font-size: 16px; }
+    @if $el == 'blockquote' { font-size: 18px; }
+  }
+
+  @include breakpoint($medium) {
+    @if $el == 'h1' { font-size: 90px; }
+    @if $el == 'h2' { font-size: 80px; }
+    @if $el == 'h3' { font-size: 70px; }
+    @if $el == 'h4' { font-size: 60px; }
+    @if $el == 'p' { font-size: 25px; }
+    @if $el == 'blockquote' { font-size: 25px; }
+  }
+}
+
+//--------------------------------------------------
+// breakpoints
+//--------------------------------------------------
+$small: 720px;
+$medium: 1024px;
+$large: 1440px;
+
+//--------------------------------------------------
+// z-indices
+//--------------------------------------------------
+$z-100: 100;
+$z-200: 200;
+$z-300: 300;
+
+//--------------------------------------------------
+// dimensions
+//--------------------------------------------------
+$site-width: $large;
+$site-width-medium-tablet: calc(100% - 160px + #{$gutter-medium});
+$site-width-medium-desktop: calc(100% - 316px + #{$gutter-large});
+
+//--------------------------------------------------
+// padding
+//--------------------------------------------------
+$gutter-mobile: 16px;
+$gutter-tablet: 24px;
+$gutter-desktop: 32px;
+
+$container-width-mobile: 600px;
+$container-width-tablet: 700px;
+$container-width-desktop: 800px;
+
+$page-padding-top-mobile: 16px;
+$page-padding-top-tablet: 24px;
+$page-padding-top-desktop: 32px;
+
+$page-padding-bottom-mobile: 32px;
+$page-padding-bottom-tablet: 60px;
+$page-padding-bottom-desktop: 100px;
+
+$section-padding-top-mobile: 20px;
+$section-padding-top-tablet: 40px;
+$section-padding-top-desktop: 40px;
+
+$section-padding-bottom-mobile: 30px;
+$section-padding-bottom-tablet: 60px;
+$section-padding-bottom-desktop: 60px;
+
+$item-padding-mobile: 14px;
+$item-padding-tablet: 20px;
+$item-padding-desktop: 26px;
+
+@mixin gutters($sides:'both', $type:'padding') {
+  $sides: if($sides == 'both', ('left', 'right'), ($sides));
+
+  @each $s in $sides {
+    #{$type}-#{$s}: $gutter-mobile;
+
+    @include breakpoint($small) { #{$type}-#{$s}: $gutter-tablet; }
+    @include breakpoint($medium) { #{$type}-#{$s}: $gutter-desktop; }
+  }
+}
+
+@mixin item-padding($sides:'all', $type:'padding') {
+  $sides: if($sides == 'all', ('top','bottom','left','right'), ($sides));
+
+  @each $s in $sides {
+    #{$type}-#{$s}: $item-padding-mobile;
+
+    @include breakpoint($small) { #{$type}-#{$s}: $item-padding-tablet; }
+    @include breakpoint($medium) { #{$type}-#{$s}: $item-padding-desktop; }
+  }
+}
+
+//--------------------------------------------------
+// tables
+//--------------------------------------------------
+$collapse-table-borders: true;
+$table-cell-padding: 8px;
+
+//--------------------------------------------------
+// topbars and footers
+//--------------------------------------------------
+$navbar-height-small: 60px;
+$navbar-height-medium: 80px;
