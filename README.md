@@ -62,6 +62,16 @@ Create an intializer e.g. in config/initializers/table.rb containing the mapping
 TODO: I think I should be able to figure these mappings automagically from the mount line but can't make this work (yet!)
 Have now added a config for where the 'show' page url should be - this also might be able to be pulled out of routes with a bit of patience
 
+### Create migrations
+TODO - improve these docs and provide examples in this repo
+- Create a migration for your CSV
+- Create a join table migration for fields with multiple values
+
+### Create rake tasks
+TODO - improve these docs and provide examples in this repo
+You will need to create a rake task that imports the CSV.
+See tradehub-navigator repo for an example: https://github.com/unepwcmc/tradehub-navigator/blob/develop/lib/tasks/import_tools.rake
+
 ## Publishing the gem
 - Increase the version number in `version.rb`
 - Update the change log `CHANGELOG.md`
