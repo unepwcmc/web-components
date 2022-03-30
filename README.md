@@ -74,7 +74,7 @@ WcmcComponents.classes_show_page_format = {
 TODO: I think I should be able to figure these mappings automagically from the mount line but can't make this work (yet!)
 Have now added a config for where the 'show' page url should be - this also might be able to be pulled out of routes with a bit of patience
 
-## How to Use the WcmcComponents Table Engine
+## How to Use the WcmcComponents CSV Importer
 
 ### Setting up your class
 
@@ -110,9 +110,11 @@ end
 ### Importing the CSV data
 
 CSV files must be located in the lib/data/seeds directory, or the test/seeds directory for testing.
-Call the import with, e.g. ```Project.import```
 
-With no arguments the importer will attempt to find a file with the snakecase version of the class name.
+Start the import with, e.g. ```Project.import```
+
+With no arguments the importer will attempt to find a CSV with the snakecase version of the class name.
+
 You can specify a different file name, and specify the encoding of the CSV:
 ```Project.import('special_projects', 'iso-8859-1:utf-8')```
 
