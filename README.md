@@ -28,7 +28,7 @@ Also, if verbose is set to true for yarn test, often console logs are overwritte
 
 in Gemfile add either:
 
-* gem 'wcmc-components', '~> 0.2.0', source: "https://gem-server.unep-wcmc.org/"
+* gem 'wcmc_components', '~> 0.2.1', source: "https://gem-server.unep-wcmc.org/"
 
 or to use local code cloned into web-components
 
@@ -61,6 +61,49 @@ Create an intializer e.g. in config/initializers/table.rb containing the mapping
 
 TODO: I think I should be able to figure these mappings automagically from the mount line but can't make this work (yet!)
 Have now added a config for where the 'show' page url should be - this also might be able to be pulled out of routes with a bit of patience
+
+## How to Use the WcmcComponents Table Engine
+
+### Setting up your class
+
+```
+require 'wcmc_components'
+class Project < ApplicationRecord
+  include WcmcComponents::Loadable
+  
+  belongs_to :country
+  
+  # what property should we import this relation from in the csv loader
+  # will default to the association_primary_key, which is usally 'id'
+  # in this case, our csv will have a column called 'country' containing a string 'United Kingdon'
+  # which is the country.name. Using this we could also import e.g. csvs with countries described by ISO3 etc.
+  import_by country: :name
+
+  # will import has_many and has_and_belongs_to_many from csv cell split with ;
+  # e.g. www.foo.com;www.bar.net
+  has_many :websites, dependent: :destroy
+  import_by websites: :url
+
+  has_and_belongs_to_many :managers, dependent: :destroy
+  import_by manager: :email
+
+  # We often receive CSVs with columns that, while meaningful to the spreadsheet creator, don't need to
+  # be imported - you can list these here
+  ignore_column :spurious
+  ignore_column :irrelevant
+  
+end
+```
+
+### Importing the CSV data
+
+CSV files must be located in the lib/data/seeds directory, or the test/seeds directory for testing.
+Call the import with, e.g. ```Project.import```
+
+With no arguments the importer will attempt to find a file with the snakecase version of the class name.
+You can specify a different file name, and specify the encoding of the CSV:
+```Project.import('special_projects', 'iso-8859-1:utf-8')```
+
 
 ### Create migrations
 TODO - improve these docs and provide examples in this repo
