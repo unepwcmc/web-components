@@ -76,7 +76,7 @@ Have now added a config for where the 'show' page url should be - this also migh
 
 ## How to Use the WcmcComponents CSV Importer
 
-### Setting up your class
+### Setting up your class for import
 
 ```
 require 'wcmc_components'
