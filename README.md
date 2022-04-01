@@ -76,6 +76,10 @@ Have now added a config for where the 'show' page url should be - this also migh
 
 ## How to Use the WcmcComponents CSV Importer
 
+Note: When importing a belongs_to or has_and_belongs_to_many association, if a record is not found based
+on the csv strings being parsed, the association is set as nil. Therefore, you have to make sure to create 
+database records for the associations before importing a csv.
+
 ### Setting up your class for import
 
 ```
