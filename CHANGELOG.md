@@ -1,3 +1,6 @@
+
+Default filters arg for the attributes_to_json method
+
 ### 0.2.0
 1. now supporting filters on columns with multiple values and a legend component.
 

@@ -22,12 +22,12 @@ module WcmcComponents
         table_attrs.select { |_k, v| v[:show_in_table] } || {}
       end
 
-      def legends
-        table_attrs.select { |_k, v| v[:legend_on] } || {}
+      def csv_cols
+        table_attrs.select { |_k, v| !v[:hide_in_csv] } || {}
       end
 
-      def table_cols_and_modal_items
-        table_attrs.select { |_k, v| v[:show_in_table] || v[:show_in_modal] } || {}
+      def legends
+        table_attrs.select { |_k, v| v[:legend_on] } || {}
       end
 
       def table_attrs
@@ -36,7 +36,7 @@ module WcmcComponents
 
       # this currently supports "filters" and "legends" passed as params in controller
 
-      def attributes_to_json(attributes)
+      def attributes_to_json(attributes = 'filters')
         full_list = self.all.order(id: :asc)
         attributes == "legends" ? attributes = legends : attributes = filters
         attributes_array = []
@@ -97,10 +97,9 @@ module WcmcComponents
         items = query_with_filters(filter_params)
 
         csv_string = CSV.generate(encoding: 'UTF-8') do |csv_line|
-          
           # build headers for CSV from the column titles on the page
           headers = ['Id']
-          table_cols_and_modal_items.each do |key,col|
+          csv_cols.each do |key,col|
             headers << col[:title]
           end
           csv_line << headers.flatten
@@ -109,7 +108,7 @@ module WcmcComponents
           items.each do |item|
             row = []
             row << item.id
-            table_cols_and_modal_items.each do |key,col|
+            csv_cols.each do |key,col|
               case col[:type]
               when "single"
                 row << item[key]
@@ -137,7 +136,7 @@ module WcmcComponents
             showInModal: false,
           }
           # title and values also used in to_csv() to generate a CSV so if making changes here, also look there!
-          table_cols_and_modal_items.each do |key, col|
+          csv_cols.each do |key, col|
             case col[:type]
             when "single"
               item_j[:cells] << {
