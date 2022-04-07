@@ -30,6 +30,10 @@ module WcmcComponents
         table_attrs.select { |_k, v| v[:legend_on] } || {}
       end
 
+      def table_cols_and_modal_items
+        table_attrs.select { |_k, v| v[:show_in_table] || v[:show_in_modal] } || {}
+      end
+
       def table_attrs
         @table_attrs ||= {}
       end
@@ -136,7 +140,7 @@ module WcmcComponents
             showInModal: false,
           }
           # title and values also used in to_csv() to generate a CSV so if making changes here, also look there!
-          csv_cols.each do |key, col|
+          table_cols_and_modal_items.each do |key, col|
             case col[:type]
             when "single"
               item_j[:cells] << {
