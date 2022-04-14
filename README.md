@@ -2,7 +2,7 @@
 
 Features:
 - Import csv files as database records
-- Add filterable tables for the UI and csv export
+- Add filterable tables for the UI, with modals and csv export
 
 ## Getting up and running
 * bundle
@@ -68,7 +68,6 @@ table_attr(
 ```
 
 see app/models/country.rb as an example
-
 
 
 ### configure the engine
