@@ -30,6 +30,18 @@ module WcmcComponents
         table_attrs.select { |_k, v| v[:show_in_table] || v[:show_in_modal] } || {}
       end
 
+      def csv_items
+        table_attrs.select do |_k, v|
+          if v[:show_in_csv] == true
+            true
+          elsif v[:show_in_csv] == false
+            false
+          else
+            v[:show_in_table] || v[:show_in_modal]
+          end
+        end || {}
+      end
+
       def table_attrs
         @table_attrs ||= {}
       end
@@ -69,7 +81,7 @@ module WcmcComponents
           }
 
           table_attrs.each_key do |col|
-            item_j[col.to_s] = item[col]
+            item_j[col.to_s] = item.send(col)
           end
 
           item_j
@@ -100,7 +112,7 @@ module WcmcComponents
           
           # build headers for CSV from the column titles on the page
           headers = ['Id']
-          table_cols_and_modal_items.each do |key,col|
+          csv_items.each do |key,col|
             headers << col[:title]
           end
           csv_line << headers.flatten
@@ -109,10 +121,10 @@ module WcmcComponents
           items.each do |item|
             row = []
             row << item.id
-            table_cols_and_modal_items.each do |key,col|
+            csv_items.each do |key,col|
               case col[:type]
               when "single"
-                row << item[key]
+                row << item.send(key)
               when "multiple"
                 row << item.send(key.to_s.pluralize).map(&:name).join('; ')
               end
@@ -143,7 +155,7 @@ module WcmcComponents
               item_j[:cells] << {
                 name: key.to_s,
                 title: col[:title],
-                value: item[key],
+                value: item.send(key),
                 showInTable: col[:show_in_table],
                 showInModal: col[:show_in_modal],
                 legend_on: col[:legend_on]
