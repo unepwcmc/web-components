@@ -1,4 +1,8 @@
-# README (Style guide guide)
+# wcmc_components
+
+Features:
+- Import csv files as database records
+- Add filterable tables for the UI and csv export
 
 ## Getting up and running
 * bundle
@@ -10,7 +14,7 @@ Terminal 1:
 Terminal 2:
 * webpack-dev-server
 
-## Runnning Tests
+## Running Tests
 Terminal 3:
 * yarn test
 
@@ -40,9 +44,25 @@ In the model you want to display in a filter table add
 * include WcmcComponents::Filterable
 
 and optionally configure columns using the table_column method, e.g.
-*   table_column :created_at, title: 'First Date'
+*   table_attr :created_at, title: 'First Date'
+
+```
+# Add this method for each of the fileds you want to display in the table
+table_attr(
+  :bip_indicator,            # the model attribute, either a database field or method on the model
+  title: 'BIP Indicator',    # the title that will appear in the tables, modals, and csv files
+  filter_on: true,           # if true, attribute will be filterable in UI table. Will only filter database fields
+  type: 'single',            # if 'single', this is a field on this class, if 'multiple' it will take the :name field from associated records
+  show_in_table: false,      # Show or hide the field in the UI table
+  show_in_modal: true        # Show or hide the field in the modal
+  show_in_csv: true          # Show or hide the table in the csv export. Default is null.  If null,
+)                            # field will be shown if either show_in_table or show_in_modal are true
+
+```
 
 see app/models/country.rb as an example
+
+
 
 ### configure the engine
 
