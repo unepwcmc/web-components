@@ -1,4 +1,4 @@
-### 0.2.0
+### 0.3.0
 1. now supporting filters on columns with multiple values and a legend component.
 
 2. If you are updating from any previous versions - **breaking change**
