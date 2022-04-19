@@ -1,4 +1,4 @@
-### 0.2.1
+### 0.3.0
 1. Fixes bug in csv imports
 2. Allows displaying methods in tables and csv exports
 ### 0.2.0
