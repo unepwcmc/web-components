@@ -1,4 +1,8 @@
 ### 0.3.0
+1. Fixes bug in csv imports
+2. Allows displaying methods in tables and csv exports
+
+### 0.2.0
 1. now supporting filters on columns with multiple values and a legend component.
 
 2. If you are updating from any previous versions - **breaking change**
