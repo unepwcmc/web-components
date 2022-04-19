@@ -39,7 +39,7 @@ The WcmcComponents module has three sub-modules:
 
 in Gemfile add either:
 
-* gem 'wcmc_components', '~> 0.2.1', source: "https://gem-server.unep-wcmc.org/"
+* gem 'wcmc_components', '~> 0.3.0', source: "https://gem-server.unep-wcmc.org/"
 
 or to use local code cloned into web-components
 
