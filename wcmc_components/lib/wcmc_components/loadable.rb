@@ -63,18 +63,18 @@ module WcmcComponents
                 row_hash[k] = owner
               end
 
-              # look up objects for each HABTM column - assumes column name is pluralised class name
-              habtm = reflections.select { |_key, hash| hash.macro == :has_and_belongs_to_many }
+              # look up objects for each HABTM and has_many column - assumes column name is pluralised class name
+              many_associations = reflections.select { |_key, hash| hash.macro == :has_and_belongs_to_many || hash.macro == :has_many }
 
-              # habtm columns need adding later, so exclude them (and their singularized versions)
-              create_cols = row_hash.except(*habtm.keys)
-              create_cols = create_cols.except(*habtm.keys.map(&:singularize))
+              # many_associations columns need adding later, so exclude them (and their singularized versions)
+              create_cols = row_hash.except(*many_associations.keys)
+              create_cols = create_cols.except(*many_associations.keys.map(&:singularize))
 
               new_object = find_or_create_by!(create_cols)
 
-              # now look up the habtm's which should be semi-colon separated values
-              habtm.each do |k, v|
-                # check if the habtm relationship is in this csv - and is it singular or plural in the header
+              # now look up the many_associations's which should be semi-colon separated values
+              many_associations.each do |k, v|
+                # check if the many_associations relationship is in this csv - and is it singular or plural in the header
                 if row.headers.include?(k) && !row_hash[k].nil?
                   col_name = k
                 elsif row.headers.include?(k.singularize) && !row_hash[k.singularize].nil?
