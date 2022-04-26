@@ -72,7 +72,7 @@ module WcmcComponents
 
               new_object = find_or_create_by!(create_cols)
 
-              # now look up the many_associations's which should be semi-colon separated values
+              # now look up the many_associations which should be semi-colon separated values
               many_associations.each do |k, v|
                 # check if the many_associations relationship is in this csv - and is it singular or plural in the header
                 if row.headers.include?(k) && !row_hash[k].nil?
@@ -87,7 +87,7 @@ module WcmcComponents
 
                 list_of_children.each do |child_name|
                   next if child_name.blank?
-                  # I've strip'd whitespace from start/end as ;sv's are often inconsistently white-spaced
+                  # I've strip'd whitespace from start/end as csv's are often inconsistently white-spaced
                   join_key = @import_by[k.to_sym].to_s if (!@import_by.nil? && @import_by.key?(k.to_sym))
                   join_key ||= v.association_primary_key
                   
