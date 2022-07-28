@@ -1,7 +1,6 @@
 module WcmcComponents
   module Filterable
-    def self.included base
-      base.send :include, InstanceMethods
+    def self.included(base)
       base.extend ClassMethods
     end
 
