@@ -189,7 +189,9 @@ module WcmcComponents
         columns = []
         table_cols.keys.each do |col|
           columns << {field: col,
-                      title: table_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
+                      title: table_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize,
+                      isSortable: table_cols[col][:isSortable],
+                      isNotSortable: table_cols[col][:isNotSortable]}
         end
         columns.to_json
       end
