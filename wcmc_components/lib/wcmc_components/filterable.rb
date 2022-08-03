@@ -187,9 +187,11 @@ module WcmcComponents
       def columns_to_json
         columns = []
         table_cols.keys.each do |col|
-          columns << { field: col,
-                       title: table_cols[col][:title] || col.to_s.gsub(/_/, ' ').capitalize,
-                       sortable: table_cols[col][:sortable] }
+          columns << {
+            field: col,
+            title: table_cols[col][:title] || col.to_s.gsub(/_/, ' ').capitalize,
+            sortable: table_cols[col][:sortable]
+          }
         end
         columns.to_json
       end
