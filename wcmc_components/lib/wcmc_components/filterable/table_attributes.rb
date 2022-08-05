@@ -5,30 +5,44 @@
 class TableAttributes
   attr_reader :attributes
 
+  DEFAULT_ATTRIBUTES = {
+    modal: true,
+    column: true,
+    csv: true
+  }
+
   def initialize(attributes_hash = {})
     @attributes = attributes_hash
+
+    add_attribute :id,
+                  name: 'id',
+                  title: 'Id'
   end
 
   # add_attribute is the main method provided to store
   def add_attribute(name, **options)
-    @attributes[name] = options
+    @attributes[name] = DEFAULT_ATTRIBUTES.merge(options)
   end
 
-  def filters
-    get_attributes_with_options(:filter_on)
+  def attributes_for_table
+    attributes
   end
 
-  def table_columns
-    get_attributes_with_options(:show_in_table)
-  end
+  # def filterable_attributes
+  #   get_attributes_with_options(:filter_on)
+  # end
 
-  def legends
-    get_attributes_with_options(:legends)
-  end
+  # def table_columns
+  #   get_attributes_with_options(:show_in_table)
+  # end
 
-  def table_columns_and_modal_items
-    get_attributes_with_options(:show_in_table, :show_in_modal)
-  end
+  # def legends
+  #   get_attributes_with_options(:legends)
+  # end
+
+  # def table_columns_and_modal_items
+  #   get_attributes_with_options(:show_in_table, :show_in_modal)
+  # end
 
   def table_columns_as_json
     table_columns.map do |column_name, column_options|

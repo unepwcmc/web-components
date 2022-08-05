@@ -1,45 +1,47 @@
 require 'wcmc_components/filterable/table_attributes'
 require 'wcmc_components/filterable/table_parameters'
 require 'wcmc_components/filterable/table_query_object'
+require 'wcmc_components/filterable/table_serializer'
 
 module WcmcComponents
   module Filterable
     def self.included(base)
       base.extend ClassMethods
+      base.include InstanceMethods
 
       # The following block is run in the context of the class where Filterable is included
       # The instance variables set here belong to that base class.
       base.instance_eval do
         # @table_attributes stores information about which columns in the DB are to be included in the FilterableTable
-        @table_attributes = TableAttributes.new
+        class_attribute :table_attributes, default: TableAttributes.new
+      end
+    end
 
-        # @table_query_object builds and executes DB queries on behalf of the Filterable module
-        @table_query_object = TableQueryObject.new(base)
+    module InstanceMethods
+      delegate :attributes_for_table, to: :table_attributes
+      # Gets the objects attributes and transforms them into one table row for the FilterableTable component
+      def as_table_row
+        TableSerializer.convert_item_to_table_row(self)
+      end
+
+      # table_page_path returns the 'show' path for the resource
+      def table_page_path
+        ''
       end
     end
 
     module ClassMethods
-      attr_accessor :table_attributes, :table_query_object
-
       # table_attribute is a wrapper for TableAttributes#add_attribute
       # Use this in the class definition to add an attribute
       def table_attribute(name, **options)
-        @table_attributes.add_attribute(name, options)
+        table_attributes.add_attribute(name, options)
       end
 
       # The primary entrypoint method for serializing items of the base class for use in the FilterableTable component
       def paginate_for_table(**table_parameter_options)
-        table_parameters = TableParameters.new(**table_parameter_options)
-        query_results = @table_query_object.query_with_table_parameters(table_parameters)
-        total_number_of_items = query_results.length
-
-        {
-          current_page: table_parameters.current_page,
-          per_page: table_parameters.items_per_page,
-          total_entries: total_number_of_items,
-          total_pages: table_parameters.get_number_of_pages(total_number_of_items),
-          items: query_results
-        }
+        table_parameters = TableParameters.new(table_parameter_options)
+        query_results = TableQueryObject.new(self).query_with_table_parameters(table_parameters)
+        TableSerializer.serialize_relation_for_table(query_results, table_parameters)
       end
 
       def columns_to_json
