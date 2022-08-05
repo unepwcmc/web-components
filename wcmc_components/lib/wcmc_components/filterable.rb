@@ -1,7 +1,7 @@
-require 'wcmc_components/filterable/table_attributes'
-require 'wcmc_components/filterable/table_parameters'
-require 'wcmc_components/filterable/table_query_object'
-require 'wcmc_components/filterable/table_serializer'
+require 'wcmc_components/filterable/attributes'
+require 'wcmc_components/filterable/parameters'
+require 'wcmc_components/filterable/query_object'
+require 'wcmc_components/filterable/serializer'
 
 module WcmcComponents
   module Filterable
