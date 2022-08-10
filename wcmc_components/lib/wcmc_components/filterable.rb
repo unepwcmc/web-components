@@ -10,7 +10,7 @@ module WcmcComponents
     included do
       class_attribute :table_attributes, default: Attributes.new
 
-      delegate :attributes_for_table, to: :table_attributes
+      delegate :table_columns, :attributes_for_table, to: :table_attributes
       # Gets the objects attributes and transforms them into one table row for the FilterableTable component
       def as_table_row
         Serializer.convert_item_to_table_row(self)
@@ -23,6 +23,8 @@ module WcmcComponents
     end
 
     class_methods do
+      delegate :attributes_for_table, :table_filters, :table_legends, :table_columns, to: :table_attributes
+
       # table_attribute is a wrapper for TableAttributes#add_attribute
       # Use this in the class definition to add an attribute
       def table_attribute(name, **options)
@@ -33,7 +35,7 @@ module WcmcComponents
       def paginate_for_table(**table_parameter_options)
         table_parameters = Parameters.new(table_parameter_options)
         query_results = QueryObject.new(self).query_with_table_parameters(table_parameters)
-        Serializer.serialize_relation_for_table(query_results, table_parameters)
+        Serializer.new(table_parameters).serialize_relation_for_table(query_results)
       end
 
       def columns_to_json

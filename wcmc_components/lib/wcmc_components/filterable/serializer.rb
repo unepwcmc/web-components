@@ -27,7 +27,7 @@ module WcmcComponents
           current_page: current_page,
           per_page: items_per_page,
           total_entries: relation.count,
-          total_pages: total_pages(relation.count, table_parameters.items_per_page),
+          total_pages: total_pages(relation.count, @table_parameters.items_per_page),
           items: relation.map(&method(:serialize_item_for_table))
         }
       end
