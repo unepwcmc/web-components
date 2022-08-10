@@ -4,6 +4,10 @@ import Vue2TouchEvents from 'vue2-touch-events'
 // store
 import store from './component-lib/store/store.js'
 
+
+import FilterableTable from '@unep-wcmc/wcmc-components'
+console.log(FilterableTable)
+Vue.use(FilterableTable, { store })
 // site
 import ComponentViewer from './site/ComponentViewer'
 
@@ -71,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ChartRowStacked,
         ComponentViewer,
         ExpandableItem,
+        // FilterableTable,
         Modal,
         ModalTrigger,
         StickyBar,
