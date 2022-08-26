@@ -1,3 +1,9 @@
+PATH
+  remote: wcmc_components
+  specs:
+    wcmc_components (0.2.0)
+      rails (>= 5.2.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -246,6 +252,7 @@ DEPENDENCIES
   sqlite3 (~> 1.3.6)
   tzinfo-data
   uglifier (>= 1.3.0)
+  wcmc_components!
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0.0)

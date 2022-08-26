@@ -1,2 +1,0 @@
-class FilterableTableController < ApplicationController
-end
