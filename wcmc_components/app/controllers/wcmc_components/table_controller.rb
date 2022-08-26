@@ -6,6 +6,21 @@ module WcmcComponents
       render json: @results
     end
 
+    def edit
+      # Identify the resource
+      @table_resource = get_table_resource(params[:id])
+      
+      # render the form
+    end
+
+    # def update
+    #   # Identify the resource
+    #   @table_resource = get_table_resource(params[:id])
+    #   # Update the resource
+    #   @table_resource.update(table_params)
+    #   # Redirect (to the show page/index page)
+    # end
+
     private
 
     # Returns the class that corresponds to this table
@@ -34,6 +49,10 @@ module WcmcComponents
     # This method just returns params but in a form that is compatible with double splat syntax
     def table_params_with_symbol_keys
       table_params.to_h.deep_transform_keys(&:to_sym)
+    end
+
+    def get_table_resource(id)
+      table_class.find(id)
     end
   end
 end

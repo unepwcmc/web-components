@@ -10,7 +10,7 @@ module WcmcComponents
     included do
       class_attribute :table_attributes, default: Attributes.new
 
-      delegate :table_columns, :attributes_for_table, to: :table_attributes
+      delegate :form_attributes, :table_columns, :attributes_for_table, to: :table_attributes
       # Gets the objects attributes and transforms them into one table row for the FilterableTable component
       def as_table_row
         Serializer.convert_item_to_table_row(self)

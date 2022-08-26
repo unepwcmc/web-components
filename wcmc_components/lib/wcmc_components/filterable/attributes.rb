@@ -83,10 +83,15 @@ module WcmcComponents
         associated_attribute_names.map { |name| name.split('.').first }.uniq
       end
 
+      # Returns the attributes for which the `form` option is truthy.
+      def form_attributes
+        get_attributes_with_options(:form)
+      end
+
       private
 
       # A method that will return a subset of @attributes
-      # Onely those which have one of options_symbols as a (truthy) key will be returned
+      # Only those which have one of options_symbols as a (truthy) key will be returned
       # This method is used by public methods above, e.g. filters, table_columns, etc.
       def get_attributes_with_options(*option_symbols)
         @attributes.select do |_key, value|
