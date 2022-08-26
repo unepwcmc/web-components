@@ -30,24 +30,34 @@ module WcmcComponents
         attributes
       end
 
-      # def filterable_attributes
-      #   get_attributes_with_options(:filter_on)
-      # end
+      def table_filters
+        filterable_attributes.map do |key, value|
+          {
+            name: key.to_s,
+            title: value[:title] || key.to_s.capitalize,
+            options: [],
+            type: value[:type]
+          }
+        end
+      end
 
-      # def table_columns
-      #   get_attributes_with_options(:show_in_table)
-      # end
-
-      # def legends
-      #   get_attributes_with_options(:legends)
-      # end
+      def table_legends
+        legend_attributes.map do |key, value|
+          {
+            name: key.to_s,
+            title: value[:title] || key.to_s.capitalize,
+            options: [],
+            type: value[:type]
+          }
+        end
+      end
 
       # def table_columns_and_modal_items
       #   get_attributes_with_options(:show_in_table, :show_in_modal)
       # end
 
-      def table_columns_as_json
-        table_columns.map do |column_name, column_options|
+      def table_columns
+        table_attributes.map do |column_name, column_options|
           {
             field: column_name,
             title: column_options[:title] || column_name.to_s.gsub(/_/, ' ').capitalize
@@ -82,6 +92,18 @@ module WcmcComponents
         @attributes.select do |_key, value|
           option_symbols.any? { |option_symbol| value[option_symbol] }
         end
+      end
+
+      def filterable_attributes
+        get_attributes_with_options(:filter_on)
+      end
+
+      def legend_attributes
+        get_attributes_with_options(:legends)
+      end
+
+      def table_attributes
+        get_attributes_with_options(:show_in_table)
       end
     end
   end
