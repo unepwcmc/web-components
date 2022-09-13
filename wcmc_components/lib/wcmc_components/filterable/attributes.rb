@@ -85,7 +85,7 @@ module WcmcComponents
 
       # Returns the attributes for which the `form` option is truthy.
       def form_attributes
-        get_attributes_with_options(:form)
+        get_attributes_with_options(:form_builder_method)
       end
 
       private

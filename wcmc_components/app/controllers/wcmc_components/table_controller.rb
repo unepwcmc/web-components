@@ -11,15 +11,16 @@ module WcmcComponents
       @table_resource = get_table_resource(params[:id])
       
       # render the form
+      render :edit
     end
 
-    # def update
+    def update
     #   # Identify the resource
-    #   @table_resource = get_table_resource(params[:id])
+      @table_resource = get_table_resource(params[:id])
     #   # Update the resource
-    #   @table_resource.update(table_params)
+      @table_resource.update(modify_params)
     #   # Redirect (to the show page/index page)
-    # end
+    end
 
     private
 
@@ -34,6 +35,12 @@ module WcmcComponents
       # The longest of those is the most precise match.
       # Get the value it stores in routes_classes and return it as a constant
       WcmcComponents&.routes_classes&.dig(matching_paths.max)&.constantize
+    end
+
+    def modify_params
+      params.require(:table).permit(
+        *@table_resource.form_attributes.keys
+      )
     end
 
     def table_params

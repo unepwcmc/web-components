@@ -2,7 +2,7 @@ WcmcComponents::Engine.routes.draw do
   scope module: 'table' do
     post '/', action: 'index'
     get '/:id/edit', action: 'edit'
-    post '/:id/update', action: 'edit'
+    put '/:id/update', action: 'update'
 
     scope controller: 'download' do
       post '/download', action: 'index'
