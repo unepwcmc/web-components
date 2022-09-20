@@ -1,4 +1,4 @@
-<%= form_with scope: :table, model: @table_resource, method: "put", url: "/#{@table_resource.class.name.downcase.pluralize}/#{@table_resource.id}/update" do |form| %>
+<%= form_with scope: :table, model: @table_resource, local: true, method: "put", url: "/#{@table_resource.class.name.downcase.pluralize}/#{@table_resource.id}/update" do |form| %>
   <div style="color:blue;" >
     <%= render partial: "form_field", collection: @table_resource.form_attributes, as: :form_attribute, locals: { form: form }  %>
     <%= form.submit %>

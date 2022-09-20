@@ -20,6 +20,8 @@ module WcmcComponents
     #   # Update the resource
       @table_resource.update(modify_params)
     #   # Redirect (to the show page/index page)
+      redirect_to "/"
+      # redirect_to "http://localhost:3000/"
     end
 
     private
