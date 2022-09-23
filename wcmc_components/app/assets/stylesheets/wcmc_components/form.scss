@@ -1,0 +1,49 @@
+input {
+  width: 100%;
+  padding: 1.5em;
+  border: none;
+}
+
+.edit__form {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(236,240,245);
+  margin: none;
+}
+
+.edit__title {
+  padding-left: 4em;
+  font-size: xx-large;
+  font-weight: bolder;
+  color: aliceblue;
+  background-color: rgb(25, 25, 95);
+  padding-top: 5em;
+  padding-bottom: 5em;
+}
+
+.form {
+  width: 70%;
+}
+
+.form__field {
+  margin-bottom: 3em;
+}
+
+.form__field--label {
+  margin-bottom: 1em;
+  font-weight: bolder;
+  font-size: larger;
+}
+
+.form__heading {
+  margin-top: 2em;
+  margin-bottom: 3em;
+  display: flex;
+  font-size: smaller;
+  font-weight: lighter;
+}
+
+.form__heading--star {
+  color: red;
+  padding-top: 0.5em;
+}
