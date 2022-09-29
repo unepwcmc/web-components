@@ -4,6 +4,10 @@ input {
   border: none;
 }
 
+body {
+  margin: none;
+}
+
 .edit__form {
   display: flex;
   justify-content: center;
@@ -46,4 +50,20 @@ input {
 .form__heading--star {
   color: red;
   padding-top: 0.5em;
+}
+
+.form__buttons {
+  display: flex;
+  background-color: aquamarine;
+}
+
+.form__cancel {
+  background-color: brown;
+  width: 200px;
+  padding: 1.5em;
+}
+
+.form__save {
+  background-color: rgb(90, 184, 242);
+  width: 200px;
 }
