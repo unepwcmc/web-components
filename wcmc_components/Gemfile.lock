@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     wcmc_components (0.2.0)
+      devise
       rails (>= 5.2.3)
 
 GEM
@@ -62,9 +63,16 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
+    bcrypt (3.1.18)
     builder (3.2.4)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
+    devise (4.8.1)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0)
+      responders
+      warden (~> 1.2.3)
     erubi (1.11.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -82,6 +90,7 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
+    orm_adapter (0.5.0)
     racc (1.6.0)
     rack (2.2.4)
     rack-test (2.0.2)
@@ -113,6 +122,9 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.20.3, < 2.0)
     rake (13.0.6)
+    responders (3.0.1)
+      actionpack (>= 5.0)
+      railties (>= 5.0)
     sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -125,6 +137,8 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.10)
       thread_safe (~> 0.1)
+    warden (1.2.9)
+      rack (>= 2.0.9)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
