@@ -1,10 +1,19 @@
-<div class="edit__title">Update <%= "#{@table_resource.class.name}" %></div>
+<div class="edit__hero">
+  <div class="edit__title">
+    Update <%= "#{@table_resource.class.name}" %>
+  </div>
+</div>
+
 <div class="edit__form">
   <div class="form">
-    <div class="form__heading">
-      <div class="form__heading--star">&#9913;</div>
-      <h3>Indicates a required field</h3>
+    <div class="form__intro">
+      <div class="form__required">
+        <span class="form__required-star--large">*</span>
+        <p class="form__required-text">
+          Indicates a required field
+        </p>
+      </div>
     </div>
-    <%= render 'form'%>
+    <%= render 'form' %>
   </div>
 </div>

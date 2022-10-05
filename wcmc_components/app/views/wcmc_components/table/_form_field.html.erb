@@ -1,6 +1,11 @@
 <div class="form__field">
   <div class="form__label">
-    <%= form.label form_attribute[0], "#{form_attribute[1][:title]}" %><br>
+    <%= form.label form_attribute[0], "#{form_attribute[1][:title]}" %>
+
+    <% if form_attribute[1].key?(:required) && form_attribute[1][:required] %>
+      <span class="form__required-star">*</span>
+    <% end %>
   </div>
+
   <%= form.send(form_attribute.dig(1, :form_builder_method), form_attribute[0]) %>
 </div>

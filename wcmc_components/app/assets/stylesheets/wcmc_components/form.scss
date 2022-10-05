@@ -1,72 +1,134 @@
-$wcmc-blue: #00AEEF;
+$color-wcmc-blue: #00AEEF;
+$color-red-alert: #F85C42;
+$color-navy: #022C3C;
+$bg-color: #ECF0F5;
+
+$body-font: 'Roboto', sans-serif;
+$font-size-title: 54px;
+$font-size-label: 32px;
+$font-size-required: 18px;
+$font-size-button: 18px;
+$font-size-input: 18px;
+$font-size-text: 16px;
+
+* {
+  box-sizing: border-box;
+  font-family: $body-font;
+  -webkit-font-smoothing: antialiased;
+}
 
 input {
   border: none;
-  padding: 1.5em;
-  width: 100%;
+  font-size: $font-size-input;
+  padding: 1.33em;
 }
 
 body {
-  margin: none;
+  background-color: $bg-color;
+  margin: 0;
+  min-width: 620px;
+}
+
+.edit__hero {
+  background: image-url('wcmc_components/hero-image.png') no-repeat center;
+  background-size: cover;
+  padding: 178px 72px;
+
+  position: relative;
+  z-index: 1;
+
+  &::after {
+    background-color: #000;
+    content: '';
+    opacity: 0.5;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }
 }
 
 .edit__form {
-  background-color: rgb(236,240,245);
-  margin: none;
-
-  display: flex;
-  justify-content: center;
+  background-color: $bg-color;
+  margin: auto;
+  padding: 80px 24px 200px;
+  max-width: 856px;
 }
 
 .edit__title {
-  background-color: rgb(25, 25, 95);
-  color: aliceblue;
-  font-size: xx-large;
-  font-weight: bolder;
-  padding: 5em 0 5em 4em;
-}
-
-.form {
-  width: 70%;
+  color: #fff;
+  font-size: $font-size-title;
+  font-weight: 600;
 }
 
 .form__field {
-  margin-bottom: 3em;
+  margin-bottom: 72px;
+  width: 100%;
+
+  input {
+    width: 100%;
+  }
 }
 
 .form__label {
-  font-weight: bolder;
-  font-size: larger;
-  margin-bottom: 1em;
-}
+  font-weight: 600;
+  font-size: $font-size-label;
+  margin-bottom: 24px;
 
-.form__heading {
-  font-size: smaller;
-  font-weight: lighter;
-  margin-top: 2em;
-  margin-bottom: 3em;
-  
   display: flex;
 }
 
-.form__heading--star {
-  color: red;
-  padding-top: 0.5em;
+.form__intro {
+  margin-bottom: 80px;
+}
+
+.form__required {
+  font-size: $font-size-required;
+  font-weight: 500;
+  display: flex;
+}
+
+.form__required-star,
+.form__required-star--large {
+  color: $color-red-alert;
+}
+
+.form__required-star--large {
+  font-size: 2.66em;
 }
 
 .form__buttons {
-  background-color: aquamarine;
+  background-color: $bg-color;
+  box-shadow: 0px -1px 8px rgba(0, 0, 0, 0.1);
+  padding: 28px 72px;
 
   display: flex;
+  justify-content: flex-end;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.form__cancel, .form__save {
+  font-size: $font-size-button;
+  font-weight: 600;
+  padding: 0.66em;
+  text-transform: uppercase;
+  text-decoration: none;
 }
 
 .form__cancel {
-  background-color: brown;
-  padding: 1.5em;
-  width: 200px;
+  background-color: #fff;
+  border: solid 1px $color-navy;
+  color: $color-navy;
+  margin-right: 24px;
 }
 
 .form__save {
-  background-color: $wcmc-blue;
-  width: 200px;
+  background-color: $color-wcmc-blue;
 }
