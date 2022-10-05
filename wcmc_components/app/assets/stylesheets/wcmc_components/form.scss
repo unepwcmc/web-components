@@ -115,6 +115,7 @@ body {
 }
 
 .form__cancel, .form__save {
+  cursor: pointer;
   font-size: $font-size-button;
   font-weight: 600;
   padding: 0.66em;
