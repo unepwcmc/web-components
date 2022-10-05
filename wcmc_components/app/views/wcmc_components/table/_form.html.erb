@@ -1,6 +1,16 @@
-<%= form_with scope: :table, model: @table_resource, local: true, method: "put", url: "/#{@table_resource.class.name.downcase.pluralize}/#{@table_resource.id}/update" do |form| %>
-  <%= render partial: "form_field", collection: @table_resource.form_attributes, as: :form_attribute, locals: { form: form }  %>
-  <div class="form_buttons">
+<%= form_with scope: :table,
+  model: @table_resource,
+  local: true,
+  method: "put",
+  url: "/#{@table_resource.class.name.downcase.pluralize}/#{@table_resource.id}/update" do |form|
+%>
+  <%= render partial: "form_field",
+    collection: @table_resource.form_attributes,
+    as: :form_attribute,
+    locals: { form: form }
+  %>
+
+  <div class="form__buttons">
       <%= form.submit "Save", class: "form__save" %>
       <%= link_to 'Cancel', edit_path, class: "form__cancel" %>
   </div>

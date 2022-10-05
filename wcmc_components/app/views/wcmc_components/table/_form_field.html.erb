@@ -1,5 +1,5 @@
 <div class="form__field">
-  <div class="form__field--label">
+  <div class="form__label">
     <%= form.label form_attribute[0], "#{form_attribute[1][:title]}" %><br>
   </div>
   <%= form.send(form_attribute.dig(1, :form_builder_method), form_attribute[0]) %>

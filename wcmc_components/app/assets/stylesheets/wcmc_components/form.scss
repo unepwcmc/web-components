@@ -1,7 +1,9 @@
+$wcmc-blue: #00AEEF;
+
 input {
-  width: 100%;
-  padding: 1.5em;
   border: none;
+  padding: 1.5em;
+  width: 100%;
 }
 
 body {
@@ -9,20 +11,19 @@ body {
 }
 
 .edit__form {
-  display: flex;
-  justify-content: center;
   background-color: rgb(236,240,245);
   margin: none;
+
+  display: flex;
+  justify-content: center;
 }
 
 .edit__title {
-  padding-left: 4em;
+  background-color: rgb(25, 25, 95);
+  color: aliceblue;
   font-size: xx-large;
   font-weight: bolder;
-  color: aliceblue;
-  background-color: rgb(25, 25, 95);
-  padding-top: 5em;
-  padding-bottom: 5em;
+  padding: 5em 0 5em 4em;
 }
 
 .form {
@@ -33,18 +34,19 @@ body {
   margin-bottom: 3em;
 }
 
-.form__field--label {
-  margin-bottom: 1em;
+.form__label {
   font-weight: bolder;
   font-size: larger;
+  margin-bottom: 1em;
 }
 
 .form__heading {
-  margin-top: 2em;
-  margin-bottom: 3em;
-  display: flex;
   font-size: smaller;
   font-weight: lighter;
+  margin-top: 2em;
+  margin-bottom: 3em;
+  
+  display: flex;
 }
 
 .form__heading--star {
@@ -53,17 +55,18 @@ body {
 }
 
 .form__buttons {
-  display: flex;
   background-color: aquamarine;
+
+  display: flex;
 }
 
 .form__cancel {
   background-color: brown;
-  width: 200px;
   padding: 1.5em;
+  width: 200px;
 }
 
 .form__save {
-  background-color: rgb(90, 184, 242);
+  background-color: $wcmc-blue;
   width: 200px;
 }
