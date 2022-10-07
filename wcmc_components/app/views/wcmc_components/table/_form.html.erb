@@ -1,17 +1,31 @@
-<%= form_with scope: :table,
-  model: @table_resource,
-  local: true,
-  method: "put",
-  url: "/#{@table_resource.class.name.downcase.pluralize}/#{@table_resource.id}/update" do |form|
-%>
-  <%= render partial: "form_field",
-    collection: @table_resource.form_attributes,
-    as: :form_attribute,
-    locals: { form: form }
-  %>
+<div class="admin__container">
+  <div class="form">
+    <div class="form__intro">
+      <div class="form__required">
+        <span class="form__required-star--large">*</span>
 
-  <div class="form__buttons">
-      <%= link_to 'Cancel', edit_path, class: "form__cancel" %>
-      <%= form.submit "Save", class: "form__save" %>
+        <p class="form__required-text">
+          Indicates a required field
+        </p>
+      </div>
+    </div>
+
+    <%= form_with scope: :table,
+      model: @table_resource,
+      local: true,
+      method: method,
+      url: url do |form|
+    %>
+      <%= render partial: "form_field",
+        collection: @table_resource.form_attributes,
+        as: :form_attribute,
+        locals: { form: form }
+      %>
+
+      <div class="form__buttons">
+          <%= link_to 'Cancel', '/', class: "form__cancel" %>
+          <%= form.submit "Save", class: "form__save" %>
+      </div>
+    <% end  %>
   </div>
-<% end  %>
+</div>

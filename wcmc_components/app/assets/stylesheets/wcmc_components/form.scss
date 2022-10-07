@@ -11,6 +11,18 @@ $font-size-button: 18px;
 $font-size-input: 18px;
 $font-size-text: 16px;
 
+$input-padding: 1.33em;
+
+@mixin button {
+  color: #000;
+  cursor: pointer;
+  font-size: $font-size-button;
+  font-weight: 600;
+  padding: 0.66em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
 * {
   box-sizing: border-box;
   font-family: $body-font;
@@ -20,7 +32,7 @@ $font-size-text: 16px;
 input {
   border: none;
   font-size: $font-size-input;
-  padding: 1.33em;
+  padding: $input-padding;
 }
 
 body {
@@ -29,10 +41,11 @@ body {
   min-width: 620px;
 }
 
-.admin__hero {
+.admin-hero {
   background: image-url('wcmc_components/hero-image.png') no-repeat center;
   background-size: cover;
-  padding: 178px 72px;
+  padding: 48px 72px;
+  height: 420px;
 
   position: relative;
   z-index: 1;
@@ -51,17 +64,42 @@ body {
   }
 }
 
-.admin__form {
+.admin-hero__title {
+  color: #fff;
+  font-size: $font-size-title;
+  font-weight: 600;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.admin-hero__edit {
+  @include button;
+
+  background-color: $color-wcmc-blue;
+
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 72px;
+  bottom: 48px;
+}
+
+.admin-hero__edit-icon {
+  background: image_url('wcmc_components/edit') center no-repeat;
+  background-size: cover;
+  margin: 0 12px 1px 0;
+  width: 1em; height: 1em;
+
+  display: block;
+}
+
+.admin__container {
   background-color: $bg-color;
   margin: auto;
   padding: 80px 24px 200px;
   max-width: 856px;
-}
-
-.admin__title {
-  color: #fff;
-  font-size: $font-size-title;
-  font-weight: 600;
 }
 
 .form__field {
@@ -79,6 +117,12 @@ body {
   margin-bottom: 24px;
 
   display: flex;
+}
+
+.form__value {
+  background-color: #fff;
+  font-size: $font-size-input;
+  padding: $input-padding;
 }
 
 .form__intro {
@@ -114,16 +158,9 @@ body {
   right: 0;
 }
 
-.form__cancel, .form__save {
-  cursor: pointer;
-  font-size: $font-size-button;
-  font-weight: 600;
-  padding: 0.66em;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-
 .form__cancel {
+  @include button;
+
   background-color: #fff;
   border: solid 1px $color-navy;
   color: $color-navy;
@@ -131,5 +168,7 @@ body {
 }
 
 .form__save {
+  @include button;
+
   background-color: $color-wcmc-blue;
 }

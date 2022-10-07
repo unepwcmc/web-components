@@ -1,19 +1,8 @@
-<div class="admin__hero">
-  <div class="admin__title">
-    Update <%= "#{@table_resource.class.name}" %>
-  </div>
-</div>
+<%= render partial: 'admin_hero', locals: { action: 'Update' } %>
 
-<div class="admin__form">
-  <div class="form">
-    <div class="form__intro">
-      <div class="form__required">
-        <span class="form__required-star--large">*</span>
-        <p class="form__required-text">
-          Indicates a required field
-        </p>
-      </div>
-    </div>
-    <%= render 'form' %>
-  </div>
-</div>
+<%= render partial: 'form',
+  locals: {
+    method: "put",
+    url: form_url('edit')
+  } 
+%>

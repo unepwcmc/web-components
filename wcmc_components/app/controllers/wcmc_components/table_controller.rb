@@ -6,22 +6,40 @@ module WcmcComponents
       render json: @results
     end
 
+    def show
+      @table_resource = get_table_resource(params[:id])
+    end
+
+    def new
+      @table_resource = table_class.new
+    end
+
+    def create
+      @table_resource = table_class.new
+      @table_resource.update(modify_params)
+
+      if @table_resource.save
+        redirect_to table_path(@table_resource)
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
     def edit
       # Identify the resource
       @table_resource = get_table_resource(params[:id])
-      
-      # render the form
-      render :edit
     end
 
     def update
-    #   # Identify the resource
+      # Identify the resource
       @table_resource = get_table_resource(params[:id])
-    #   # Update the resource
-      @table_resource.update(modify_params)
-    #   # Redirect (to the show page/index page)
-      redirect_to "/"
-      # redirect_to "http://localhost:3000/"
+      # Update the resource
+      if @table_resource.update(modify_params)
+        # Redirect (to the show page/index page)
+        redirect_to table_path(@table_resource)
+      else
+        render :edit, status: :unprocessable_entity
+      end
     end
 
     private
