@@ -29,7 +29,7 @@ body {
   min-width: 620px;
 }
 
-.edit__hero {
+.admin__hero {
   background: image-url('wcmc_components/hero-image.png') no-repeat center;
   background-size: cover;
   padding: 178px 72px;
@@ -51,14 +51,14 @@ body {
   }
 }
 
-.edit__form {
+.admin__form {
   background-color: $bg-color;
   margin: auto;
   padding: 80px 24px 200px;
   max-width: 856px;
 }
 
-.edit__title {
+.admin__title {
   color: #fff;
   font-size: $font-size-title;
   font-weight: 600;
