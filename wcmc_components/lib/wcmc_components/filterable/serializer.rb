@@ -35,6 +35,7 @@ module WcmcComponents
       def serialize_item_for_table(item)
         {
           page_url: item.table_page_path,
+          edit_url: item.table_edit_path,
           cells: item.as_table_row
         }
       end

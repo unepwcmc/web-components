@@ -20,6 +20,10 @@ module WcmcComponents
       def table_page_path
         ''
       end
+
+      def table_edit_path
+        "/#{id}/edit"
+      end
     end
 
     class_methods do
