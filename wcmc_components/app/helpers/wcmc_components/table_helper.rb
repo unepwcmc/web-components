@@ -4,8 +4,8 @@ module WcmcComponents
       case type
       when 'edit'
         "/#{form_base_url}/#{@table_resource.id}"
-      else
-        "/#{form_base_url}"
+      when 'new'
+        "/#{form_base_url}/create"
       end
     end
 
