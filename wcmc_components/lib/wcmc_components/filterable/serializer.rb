@@ -36,6 +36,7 @@ module WcmcComponents
         {
           page_url: item.table_page_path,
           edit_url: item.table_edit_path,
+          archive_url: item.table_archive_path,
           cells: item.as_table_row
         }
       end

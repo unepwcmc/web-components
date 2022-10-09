@@ -42,6 +42,17 @@ module WcmcComponents
       end
     end
 
+    def archive
+      @table_resource = get_table_resource(params[:id])
+
+      # TODO: force 0 or 1?
+      if @table_resource.update({archived: archive_params == '1'})
+        render json: @table_resource.to_json
+      else
+        render :archive, status: :unprocessable_entity
+      end
+    end
+
     private
 
     # Returns the class that corresponds to this table
@@ -55,6 +66,10 @@ module WcmcComponents
       # The longest of those is the most precise match.
       # Get the value it stores in routes_classes and return it as a constant
       WcmcComponents&.routes_classes&.dig(matching_paths.max)&.constantize
+    end
+
+    def archive_params
+      params.require(:archived)
     end
 
     def modify_params

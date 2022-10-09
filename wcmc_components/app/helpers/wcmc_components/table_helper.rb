@@ -1,16 +1,12 @@
 module WcmcComponents
   module TableHelper
-    def form_url (type)
+    def form_path (type)
       case type
       when 'edit'
-        "/#{form_base_url}/#{@table_resource.id}"
+        table_path
       when 'new'
-        "/#{form_base_url}/create"
+        create_table_path
       end
-    end
-
-    def form_base_url
-      @table_resource.class.name.downcase.pluralize
     end
   end
 end

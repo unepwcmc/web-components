@@ -21,8 +21,13 @@ module WcmcComponents
         ''
       end
 
+      # TODO: is there a better way to do this
       def table_edit_path
         "/#{id}/edit"
+      end
+
+      def table_archive_path
+        "/#{id}/archive"
       end
     end
 
