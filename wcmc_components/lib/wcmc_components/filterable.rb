@@ -18,17 +18,21 @@ module WcmcComponents
 
       # table_page_path returns the 'show' path for the resource
       def table_page_path
-        ''
+        base_path
       end
 
       # TODO: is there a better way to do this
       def table_edit_path
-        "/#{id}/edit"
+        "#{base_path}/#{id}/edit"
       end
 
       def table_archive_path
-        "/#{id}/archive"
+        "#{base_path}/#{id}/archive"
       end
+    end
+
+    def base_path
+      @table_resource.class.name.downcase.pluralize
     end
 
     class_methods do
