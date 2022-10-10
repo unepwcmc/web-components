@@ -53,22 +53,22 @@ module WcmcComponents
         attributes == "legends" ? attributes = legends : attributes = filters
         attributes_array = []
         attributes.each do |key, attribute|
-        case attribute[:type]
-        when "single"
-          attributes_array << { 
-            name: key.to_s,
-            title: attribute[:title] || key.to_s.capitalize,
-            options: full_list.pluck(key).compact.uniq.sort,
-            type: attribute[:type]
-          }
-        when "multiple"
-          options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
-          attributes_array << {
-            name: key.to_s,
-            title: attribute[:title] || key.to_s.capitalize,
-            options: options_array.sort,
-            type: attribute[:type]
-          }
+          case attribute[:type]
+          when "single"
+            attributes_array << {
+              name: key.to_s,
+              title: attribute[:title] || key.to_s.capitalize,
+              options: full_list.pluck(key).compact.uniq.sort,
+              type: attribute[:type]
+            }
+          when "multiple"
+            options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
+            attributes_array << {
+              name: key.to_s,
+              title: attribute[:title] || key.to_s.capitalize,
+              options: options_array.sort,
+              type: attribute[:type]
+            }
           end
         end
         attributes_array.to_json
@@ -109,7 +109,7 @@ module WcmcComponents
         items = query_with_filters(filter_params)
 
         csv_string = CSV.generate(encoding: 'UTF-8') do |csv_line|
-          
+
           # build headers for CSV from the column titles on the page
           headers = ['Id']
           csv_items.each do |key,col|
@@ -133,8 +133,9 @@ module WcmcComponents
           end
         end
       end
-      
+
       def filter_table(items)
+        byebug
         items.map! do |item|
           item_j = {
             pageUrl: show_page_path(item),
@@ -175,6 +176,20 @@ module WcmcComponents
         end
       end
 
+      def filter_api(items)
+        byebug
+        items.map! do |item|
+          table_cols_and_modal_items.each do |key, col|
+            item_j[:cells] << {
+              name: key.to_s,
+              title: col[:title],
+              value: item.send(key) || item.send(key.to_s.pluralize).map(&:name)
+            }
+          end
+          item_j
+        end
+      end
+
       def show_page_path(item)
         return nil if WcmcComponents.classes_show_page_format.nil?
 
@@ -198,7 +213,7 @@ module WcmcComponents
         json_params = json.nil? ? nil : JSON.parse(json)
         current_page = get_page(json_params)
         items_per_page = get_items_per_page(json_params)
-        
+
         filter_params = get_filter_params(json_params)
 
         items = query_with_filters(filter_params)
@@ -208,6 +223,23 @@ module WcmcComponents
           total_entries: entries(items),
           total_pages: pages(items, items_per_page),
           items: filter_table(items.slice((current_page - 1) * items_per_page, items_per_page))
+        }
+      end
+
+      def paginate_api(json)
+        json_params = json.nil? ? nil : JSON.parse(json)
+        current_page = get_page(json_params)
+        items_per_page = get_items_per_page(json_params)
+
+        filter_params = get_filter_params(json_params)
+
+        items = query_with_filters(filter_params)
+        {
+          current_page: current_page,
+          per_page: items_per_page,
+          total_entries: entries(items),
+          total_pages: pages(items, items_per_page),
+          items: filter_api(items.slice((current_page - 1) * items_per_page, items_per_page))
         }
       end
 
@@ -250,7 +282,7 @@ module WcmcComponents
         params = {}
         filters.each do |filter|
           next if filter['options'].count == 0
-          # TO-DO this may throws error if there are string  names with apostrophes 
+          # TO-DO this may throws error if there are string  names with apostrophes
           options = filter['options'].map{ |v| "'#{v}'" }
           name = filter['name']
           # collect params for different filter types
@@ -260,7 +292,7 @@ module WcmcComponents
           # else if its a string
           else
             params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
-          end 
+          end
         end
         params.compact
       end
