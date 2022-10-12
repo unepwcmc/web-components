@@ -18,7 +18,7 @@ module WcmcComponents
 
       # table_page_path returns the 'show' path for the resource
       def table_page_path
-        base_path
+        "#{base_path}/#{id}"
       end
 
       # TODO: is there a better way to do this
