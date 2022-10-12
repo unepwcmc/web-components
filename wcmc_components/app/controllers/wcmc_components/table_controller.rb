@@ -6,22 +6,51 @@ module WcmcComponents
       render json: @results
     end
 
+    def show
+      @table_resource = get_table_resource(params[:id])
+    end
+
+    def new
+      @table_resource = table_class.new
+    end
+
+    def create
+      @table_resource = table_class.new
+      @table_resource.update(modify_params)
+
+      if @table_resource.save
+        redirect_to table_path(@table_resource)
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
     def edit
       # Identify the resource
       @table_resource = get_table_resource(params[:id])
-      
-      # render the form
-      render :edit
     end
 
     def update
-    #   # Identify the resource
+      # Identify the resource
       @table_resource = get_table_resource(params[:id])
-    #   # Update the resource
-      @table_resource.update(modify_params)
-    #   # Redirect (to the show page/index page)
-      redirect_to "/"
-      # redirect_to "http://localhost:3000/"
+      # Update the resource
+      if @table_resource.update(modify_params)
+        # Redirect (to the show page/index page)
+        redirect_to table_path(@table_resource)
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+
+    def archive
+      @table_resource = get_table_resource(params[:id])
+
+      # TODO: force 0 or 1?
+      if @table_resource.update({archived: archive_params == '1'})
+        render json: @table_resource.to_json
+      else
+        render :archive, status: :unprocessable_entity
+      end
     end
 
     private
@@ -37,6 +66,10 @@ module WcmcComponents
       # The longest of those is the most precise match.
       # Get the value it stores in routes_classes and return it as a constant
       WcmcComponents&.routes_classes&.dig(matching_paths.max)&.constantize
+    end
+
+    def archive_params
+      params.require(:archived)
     end
 
     def modify_params

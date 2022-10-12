@@ -1,0 +1,12 @@
+<div class="admin-hero">
+  <div class="admin-hero__title">
+    <%= "#{action.capitalize} #{@table_resource.class.name}" %>
+  </div>
+
+  <% if action.downcase == "view" %>
+    <%= link_to edit_table_path(@table_resource), class: 'admin-hero__edit' do %>
+      <span class="admin-hero__edit-icon"></span>
+      Edit
+    <% end %>
+  <% end %>
+</div>
