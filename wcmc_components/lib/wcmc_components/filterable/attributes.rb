@@ -27,7 +27,7 @@ module WcmcComponents
       end
 
       def attributes_for_table
-        attributes
+        table_attributes
       end
 
       def table_filters

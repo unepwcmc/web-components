@@ -7,7 +7,11 @@ module WcmcComponents
           item.attributes_for_table.map do |attribute_key, attribute_options|
             attribute_options.merge(
               {
-                value: item.send(attribute_key)
+                name: attribute_key.to_s,
+                title: attribute_options[:title],
+                value: item.send(attribute_key),
+                showInTable: attribute_options[:show_in_table],
+                showInModal: attribute_options[:show_in_modal]
               }
             )
           end

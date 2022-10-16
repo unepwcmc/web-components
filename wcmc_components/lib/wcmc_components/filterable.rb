@@ -39,7 +39,7 @@ module WcmcComponents
       end
 
       def columns_to_json
-        @table_attributes.columns_as_json
+        table_attributes.table_columns
       end
 
       def paginate_api(json)
