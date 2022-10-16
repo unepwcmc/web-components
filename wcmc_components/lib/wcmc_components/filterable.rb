@@ -176,16 +176,7 @@ module WcmcComponents
       end
 
       def filter_api(items)
-        items.map! do |item|
-          table_cols_and_modal_items.each do |key, col|
-            item_j[:cells] << {
-              name: key.to_s,
-              title: col[:title],
-              value: item.send(key) || item.send(key.to_s.pluralize).map(&:name)
-            }
-          end
-          item_j
-        end
+        items
       end
 
       def show_page_path(item)

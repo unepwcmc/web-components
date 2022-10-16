@@ -1,7 +1,5 @@
 module WcmcComponents
   class TableController < ApplicationController
-
-
     def list
       @results = model_class.paginate(params.to_json)
       render json: @results
@@ -13,6 +11,5 @@ module WcmcComponents
                   disposition: "attachment",
                   filename: "filtered-indicators.csv" }
     end
-
   end
 end
