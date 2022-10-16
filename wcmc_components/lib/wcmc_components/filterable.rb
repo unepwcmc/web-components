@@ -135,7 +135,6 @@ module WcmcComponents
       end
 
       def filter_table(items)
-        byebug
         items.map! do |item|
           item_j = {
             pageUrl: show_page_path(item),
@@ -177,7 +176,6 @@ module WcmcComponents
       end
 
       def filter_api(items)
-        byebug
         items.map! do |item|
           table_cols_and_modal_items.each do |key, col|
             item_j[:cells] << {
