@@ -6,15 +6,15 @@ module WcmcComponents
     private
 
     def model_class
-      # walk up url to find which class table we are in
+      # Get the path
       path = request.fullpath
-      until path.nil?
-        if !WcmcComponents.routes_classes[path].nil?
-          return WcmcComponents.routes_classes[path].constantize
-        elsif !path.rindex('/').nil?
-          path = path[0, path.rindex('/')]
-        end
-      end
+
+      # Get all registered paths which "match" our path. E.g., the ones that `path` begins with
+      matching_paths = WcmcComponents.routes_classes.keys.select { |defined_route| path.starts_with? defined_route }
+
+      # The longest of those is the most precise match.
+      # Get the value it stores in routes_classes and return it as a constant
+      WcmcComponents&.routes_classes&.dig(matching_paths.max)&.constantize
     end
   end
 end
