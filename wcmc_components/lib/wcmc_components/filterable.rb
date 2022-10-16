@@ -42,7 +42,6 @@ module WcmcComponents
         @table_attributes.columns_as_json
       end
 
-
       def paginate_api(json)
         json_params = json.nil? ? nil : JSON.parse(json)
         current_page = get_page(json_params)
