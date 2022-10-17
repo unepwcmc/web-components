@@ -73,3 +73,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'wcmc_components', path: 'wcmc_components'
+
+gem 'devise_sso', path: 'devise_sso'
