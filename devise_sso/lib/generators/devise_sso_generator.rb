@@ -4,30 +4,35 @@ class DeviseSsoGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __dir__)
 
     def install_devise
-      generate 'devise:install'
+      unless yes?("Is Devise already installed?")
+        generate 'devise:install'
 
-      inject_into_file 'config/environments/development.rb',
-        after: "Rails.application.configure do\n" do
+        inject_into_file 'config/environments/development.rb',
+          after: "Rails.application.configure do\n" do
 <<-RUBY
   config.action_mailer.default_url_options = { host: "http://localhost:3000" }
 RUBY
-      end
+        end
 
-      %w(staging production).each do |env|
-        inject_into_file "config/environments/#{env}.rb",
-          after: "Rails.application.configure do\n" do
+        %w(staging production).each do |env|
+          inject_into_file "config/environments/#{env}.rb",
+            after: "Rails.application.configure do\n" do
 <<-RUBY
   config.action_mailer.default_url_options = { host: "http://TODO_PUT_YOUR_DOMAIN_HERE" }
 RUBY
+          end
         end
+
+        generate 'devise USER'
+
+        inject_into_class 'app/models/user.rb', 'User', "  extend Devise::Models\n"
+
+        rake 'db:migrate'
       end
 
-      generate 'devise USER'
-
-      inject_into_class 'app/models/user.rb', 'User', "  extend Devise::Models\n"
-
-      rake 'db:migrate'
-      generate 'devise:views'
+      if yes?('Would you like to generate devise views?')
+        generate 'devise:views'
+      end
     end
 
     def create_omniauth_callbacks_controller
@@ -99,6 +104,7 @@ RUBY
       file = 'README.md'
       readme_lines = 
 <<-MARKDOWN
+
 ### Azure SSO credentials
 Add the following from Lastpass to your credentials:
 ```
