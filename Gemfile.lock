@@ -1,7 +1,7 @@
 PATH
-  remote: devise_sso
+  remote: wcmc_devise_sso
   specs:
-    devise_sso (0.1.0)
+    wcmc_devise_sso (0.1.0)
       devise
       omniauth-azure-activedirectory-v2 (~> 1.0.0)
       omniauth-rails_csrf_protection (~> 1.0.1)
@@ -314,7 +314,7 @@ DEPENDENCIES
   capistrano-rvm (~> 0.1)
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
-  devise_sso!
+  wcmc_devise_sso!
   factory_bot_rails
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)

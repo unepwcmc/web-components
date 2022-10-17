@@ -1,12 +1,12 @@
 $:.push File.expand_path("lib", __dir__)
 
 # Maintain your gem's version:
-require "devise_sso/version"
+require "wcmc_devise_sso/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |spec|
-  spec.name        = "devise_sso"
-  spec.version     = DeviseSso::VERSION
+  spec.name        = "wcmc_devise_sso"
+  spec.version     = WcmcDeviseSso::VERSION
   spec.authors     = ["Will Kocur"]
   spec.email       = [""]
   spec.homepage    = "https://www.github.com/unepwcmc"

@@ -3,7 +3,7 @@ require_relative 'boot'
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "devise_sso"
+require "wcmc_devise_sso"
 
 module Dummy
   class Application < Rails::Application

@@ -41,7 +41,7 @@ azure_tenant_id:
 ```
 MARKDOWN
 
-class DeviseSsoGenerator < Rails::Generators::Base
+class WcmcDeviseSsoGenerator < Rails::Generators::Base
   desc 'This generator installs devise and configures it for SSO authentication'
 
   source_root File.expand_path('../templates', __dir__)

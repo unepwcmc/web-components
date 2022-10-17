@@ -1,4 +1,4 @@
-# DeviseSso
+# WcmcDeviseSso
 This gem extends the devise functionality to quickly setup SSO using Microsoft Azure in a rails project.
 
 ## Usage
@@ -16,7 +16,7 @@ azure_tenant_id:
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'devise_sso'
+gem 'wcmc_devise_sso'
 ```
 
 And then execute:
@@ -26,13 +26,13 @@ $ bundle
 
 Or install it yourself as:
 ```bash
-$ gem install devise_sso
+$ gem install wcmc_devise_sso
 ```
 
 Then install devise and generate the required views and config.
 
 ```
-rails generate wcmc_wcmc_devise_sso
+rails generate wcmc_wcmc_wcmc_devise_sso
 ```
 
 ## Contributing

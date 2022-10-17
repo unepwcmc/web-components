@@ -5,7 +5,7 @@ ruby '2.5.0'
 #gem 'wcmc_components', '~> 0.0.5', source: "https://gem-server.unep-wcmc.org/"
 
 gem 'wcmc_components', path: "./wcmc_components"
-gem 'devise_sso', path: "./devise_sso"
+gem 'wcmc_devise_sso', path: "./wcmc_devise_sso"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
@@ -75,4 +75,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'wcmc_components', path: 'wcmc_components'
 
-gem 'devise_sso', path: 'devise_sso'
+gem 'wcmc_devise_sso', path: 'wcmc_devise_sso'
