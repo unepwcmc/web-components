@@ -5,6 +5,9 @@ ruby '2.5.0'
 #gem 'wcmc_components', '~> 0.0.5', source: "https://gem-server.unep-wcmc.org/"
 
 gem 'wcmc_components', path: "./wcmc_components"
+gem 'devise_sso', path: "./devise_sso"
+
+gem 'omniauth-rails_csrf_protection'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
