@@ -175,10 +175,6 @@ module WcmcComponents
         end
       end
 
-      def filter_api(items)
-        items
-      end
-
       def show_page_path(item)
         return nil if WcmcComponents.classes_show_page_format.nil?
 
@@ -220,15 +216,14 @@ module WcmcComponents
         current_page = get_page(json_params)
         items_per_page = get_items_per_page(json_params)
 
-        filter_params = get_filter_params(json_params)
+        items = all.order(:id)
 
-        items = query_with_filters(filter_params)
         {
           current_page: current_page,
           per_page: items_per_page,
           total_entries: entries(items),
           total_pages: pages(items, items_per_page),
-          items: filter_api(items.slice((current_page - 1) * items_per_page, items_per_page))
+          items: items.slice((current_page - 1) * items_per_page, items_per_page)
         }
       end
 
