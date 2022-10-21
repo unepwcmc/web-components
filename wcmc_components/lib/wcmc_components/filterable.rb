@@ -1,6 +1,6 @@
 module WcmcComponents
   module Filterable
-    def self.included base
+    def self.included(base)
       base.send :include, InstanceMethods
       base.extend ClassMethods
     end
@@ -49,20 +49,20 @@ module WcmcComponents
       # this currently supports "filters" and "legends" passed as params in controller
 
       def attributes_to_json(attributes)
-        full_list = self.all.order(id: :asc)
-        attributes == "legends" ? attributes = legends : attributes = filters
+        full_list = all.order(id: :asc)
+        attributes = attributes == 'legends' ? legends : filters
         attributes_array = []
         attributes.each do |key, attribute|
           case attribute[:type]
-          when "single"
+          when 'single'
             attributes_array << {
               name: key.to_s,
               title: attribute[:title] || key.to_s.capitalize,
               options: full_list.pluck(key).compact.uniq.sort,
               type: attribute[:type]
             }
-          when "multiple"
-            options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
+          when 'multiple'
+            options_array = all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
             attributes_array << {
               name: key.to_s,
               title: attribute[:title] || key.to_s.capitalize,
@@ -75,7 +75,7 @@ module WcmcComponents
       end
 
       def all_to_json
-        json = self.all.order(id: :asc).to_a.map! do |item|
+        json = all.order(id: :asc).to_a.map! do |item|
           item_j = {
             id: item.id
           }
@@ -89,7 +89,7 @@ module WcmcComponents
       end
 
       def all_to_csv
-        json = self.all.order(id: :asc).to_a.map! do |item|
+        json = all.order(id: :asc).to_a.map! do |item|
           item_j = {
             id: item.id
           }
@@ -109,10 +109,9 @@ module WcmcComponents
         items = query_with_filters(filter_params)
 
         csv_string = CSV.generate(encoding: 'UTF-8') do |csv_line|
-
           # build headers for CSV from the column titles on the page
           headers = ['Id']
-          csv_items.each do |key,col|
+          csv_items.each do |_key, col|
             headers << col[:title]
           end
           csv_line << headers.flatten
@@ -121,11 +120,11 @@ module WcmcComponents
           items.each do |item|
             row = []
             row << item.id
-            csv_items.each do |key,col|
+            csv_items.each do |key, col|
               case col[:type]
-              when "single"
+              when 'single'
                 row << item.send(key)
-              when "multiple"
+              when 'multiple'
                 row << item.send(key.to_s.pluralize).map(&:name).join('; ')
               end
             end
@@ -146,12 +145,12 @@ module WcmcComponents
             title: 'Id',
             value: item.id,
             showInTable: false,
-            showInModal: false,
+            showInModal: false
           }
           # title and values also used in to_csv() to generate a CSV so if making changes here, also look there!
           table_cols_and_modal_items.each do |key, col|
             case col[:type]
-            when "single"
+            when 'single'
               item_j[:cells] << {
                 name: key.to_s,
                 title: col[:title],
@@ -160,7 +159,7 @@ module WcmcComponents
                 showInModal: col[:show_in_modal],
                 legend_on: col[:legend_on]
               }
-            when "multiple"
+            when 'multiple'
               item_j[:cells] << {
                 name: key.to_s,
                 title: col[:title],
@@ -188,8 +187,11 @@ module WcmcComponents
       def columns_to_json
         columns = []
         table_cols.keys.each do |col|
-          columns << {field: col,
-                      title: table_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
+          columns << {
+            field: col,
+            title: table_cols[col][:title] || col.to_s.gsub(/_/, ' ').capitalize,
+            sortable: table_cols[col][:sortable]
+          }
         end
         columns.to_json
       end
@@ -251,7 +253,6 @@ module WcmcComponents
         end
       end
 
-
       def entries(items)
         items.count
       end
@@ -266,25 +267,26 @@ module WcmcComponents
         params = {}
         filters.each do |filter|
           next if filter['options'].count == 0
+
           # TO-DO this may throws error if there are string  names with apostrophes
-          options = filter['options'].map{ |v| "'#{v}'" }
+          options = filter['options'].map { |v| "'#{v}'" }
           name = filter['name']
           # collect params for different filter types
-          if filter['type'] == "multiple"
-          # this assumes we join and filter on the name column of the habtm property - true for tool navigator, maybe not in general
+          if filter['type'] == 'multiple'
+            # this assumes we join and filter on the name column of the habtm property - true for tool navigator, maybe not in general
             params[name] = "#{filter['name']}.name IN (#{options.join(',')})"
           # else if its a string
           else
-            params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
+            params[name] = "#{table_name}.#{name} IN (#{options.join(',')})"
           end
         end
         params.compact
       end
 
-      def query_with_filters (filters)
+      def query_with_filters(filters)
         where_params = sql_from_filters(filters)
         # which filters are habtms? and do their options have any values?
-        habtm_filters = filters.select {|f| f['type'] == "multiple" && f['options'].any? }
+        habtm_filters = filters.select { |f| f['type'] == 'multiple' && f['options'].any? }
         # if yes hbtm(s) join
         if habtm_filters.any?
           habtm_tables = []
