@@ -1,6 +1,6 @@
 module WcmcComponents
   class ApplicationController < ActionController::Base
-    # protect_from_forgery with: :exception
+    protect_from_forgery with: :exception
     skip_before_action :verify_authenticity_token
 
     private
