@@ -29,6 +29,18 @@ module WcmcComponents
         table_attrs.select { |_k, v| v[:show_in_table] || v[:show_in_modal] } || {}
       end
 
+      def csv_items
+        table_attrs.select do |_k, v|
+          if v[:show_in_csv] == true
+            true
+          elsif v[:show_in_csv] == false
+            false
+          else
+            v[:show_in_table] || v[:show_in_modal]
+          end
+        end || {}
+      end
+
       def table_attrs
         @table_attrs ||= {}
       end
@@ -36,39 +48,39 @@ module WcmcComponents
       # this currently supports "filters" and "legends" passed as params in controller
 
       def attributes_to_json(attributes)
-        full_list = self.all.order(id: :asc)
-        attributes == "legends" ? attributes = legends : attributes = filters
+        full_list = all.order(id: :asc)
+        attributes = attributes == 'legends' ? legends : filters
         attributes_array = []
         attributes.each do |key, attribute|
-        case attribute[:type]
-        when "single"
-          attributes_array << { 
-            name: key.to_s,
-            title: attribute[:title] || key.to_s.capitalize,
-            options: full_list.pluck(key).compact.uniq.sort,
-            type: attribute[:type]
-          }
-        when "multiple"
-          options_array = self.all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
-          attributes_array << {
-            name: key.to_s,
-            title: attribute[:title] || key.to_s.capitalize,
-            options: options_array.sort,
-            type: attribute[:type]
-          }
+          case attribute[:type]
+          when 'single'
+            attributes_array << {
+              name: key.to_s,
+              title: attribute[:title] || key.to_s.capitalize,
+              options: full_list.pluck(key).compact.uniq.sort,
+              type: attribute[:type]
+            }
+          when 'multiple'
+            options_array = all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
+            attributes_array << {
+              name: key.to_s,
+              title: attribute[:title] || key.to_s.capitalize,
+              options: options_array.sort,
+              type: attribute[:type]
+            }
           end
         end
         attributes_array.to_json
       end
 
       def all_to_json
-        json = self.all.order(id: :asc).to_a.map! do |item|
+        json = all.order(id: :asc).to_a.map! do |item|
           item_j = {
             id: item.id
           }
 
           table_attrs.each_key do |col|
-            item_j[col.to_s] = item[col]
+            item_j[col.to_s] = item.send(col)
           end
 
           item_j
@@ -76,7 +88,7 @@ module WcmcComponents
       end
 
       def all_to_csv
-        json = self.all.order(id: :asc).to_a.map! do |item|
+        json = all.order(id: :asc).to_a.map! do |item|
           item_j = {
             id: item.id
           }
@@ -96,10 +108,9 @@ module WcmcComponents
         items = query_with_filters(filter_params)
 
         csv_string = CSV.generate(encoding: 'UTF-8') do |csv_line|
-          
           # build headers for CSV from the column titles on the page
           headers = ['Id']
-          table_cols_and_modal_items.each do |key,col|
+          csv_items.each do |_key, col|
             headers << col[:title]
           end
           csv_line << headers.flatten
@@ -108,11 +119,11 @@ module WcmcComponents
           items.each do |item|
             row = []
             row << item.id
-            table_cols_and_modal_items.each do |key,col|
+            csv_items.each do |key, col|
               case col[:type]
-              when "single"
-                row << item[key]
-              when "multiple"
+              when 'single'
+                row << item.send(key)
+              when 'multiple'
                 row << item.send(key.to_s.pluralize).map(&:name).join('; ')
               end
             end
@@ -120,7 +131,7 @@ module WcmcComponents
           end
         end
       end
-      
+
       def filter_table(items)
         items.map! do |item|
           item_j = {
@@ -133,21 +144,21 @@ module WcmcComponents
             title: 'Id',
             value: item.id,
             showInTable: false,
-            showInModal: false,
+            showInModal: false
           }
           # title and values also used in to_csv() to generate a CSV so if making changes here, also look there!
           table_cols_and_modal_items.each do |key, col|
             case col[:type]
-            when "single"
+            when 'single'
               item_j[:cells] << {
                 name: key.to_s,
                 title: col[:title],
-                value: item[key],
+                value: item.send(key),
                 showInTable: col[:show_in_table],
                 showInModal: col[:show_in_modal],
                 legend_on: col[:legend_on]
               }
-            when "multiple"
+            when 'multiple'
               item_j[:cells] << {
                 name: key.to_s,
                 title: col[:title],
@@ -175,8 +186,11 @@ module WcmcComponents
       def columns_to_json
         columns = []
         table_cols.keys.each do |col|
-          columns << {field: col,
-                      title: table_cols[col][:title] || col.to_s.gsub(/_/,' ').capitalize}
+          columns << {
+            field: col,
+            title: table_cols[col][:title] || col.to_s.gsub(/_/, ' ').capitalize,
+            sortable: table_cols[col][:sortable]
+          }
         end
         columns.to_json
       end
@@ -185,7 +199,7 @@ module WcmcComponents
         json_params = json.nil? ? nil : JSON.parse(json)
         current_page = get_page(json_params)
         items_per_page = get_items_per_page(json_params)
-        
+
         filter_params = get_filter_params(json_params)
 
         items = query_with_filters(filter_params)
@@ -195,6 +209,22 @@ module WcmcComponents
           total_entries: entries(items),
           total_pages: pages(items, items_per_page),
           items: filter_table(items.slice((current_page - 1) * items_per_page, items_per_page))
+        }
+      end
+
+      def paginate_api(json)
+        json_params = json.nil? ? nil : JSON.parse(json)
+        current_page = get_page(json_params)
+        items_per_page = get_items_per_page(json_params)
+
+        items = all.order(:id)
+
+        {
+          current_page: current_page,
+          per_page: items_per_page,
+          total_entries: entries(items),
+          total_pages: pages(items, items_per_page),
+          items: items.slice((current_page - 1) * items_per_page, items_per_page)
         }
       end
 
@@ -222,7 +252,6 @@ module WcmcComponents
         end
       end
 
-
       def entries(items)
         items.count
       end
@@ -237,25 +266,26 @@ module WcmcComponents
         params = {}
         filters.each do |filter|
           next if filter['options'].count == 0
-          # TO-DO this may throws error if there are string  names with apostrophes 
-          options = filter['options'].map{ |v| "'#{v}'" }
+
+          # TO-DO this may throws error if there are string  names with apostrophes
+          options = filter['options'].map { |v| "'#{v}'" }
           name = filter['name']
           # collect params for different filter types
-          if filter['type'] == "multiple"
-          # this assumes we join and filter on the name column of the habtm property - true for tool navigator, maybe not in general
+          if filter['type'] == 'multiple'
+            # this assumes we join and filter on the name column of the habtm property - true for tool navigator, maybe not in general
             params[name] = "#{filter['name']}.name IN (#{options.join(',')})"
           # else if its a string
           else
-            params[name] = "#{self.table_name}.#{name} IN (#{options.join(',')})"
-          end 
+            params[name] = "#{table_name}.#{name} IN (#{options.join(',')})"
+          end
         end
         params.compact
       end
 
-      def query_with_filters (filters)
+      def query_with_filters(filters)
         where_params = sql_from_filters(filters)
         # which filters are habtms? and do their options have any values?
-        habtm_filters = filters.select {|f| f['type'] == "multiple" && f['options'].any? }
+        habtm_filters = filters.select { |f| f['type'] == 'multiple' && f['options'].any? }
         # if yes hbtm(s) join
         if habtm_filters.any?
           habtm_tables = []
