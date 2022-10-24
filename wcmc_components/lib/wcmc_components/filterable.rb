@@ -213,6 +213,22 @@ module WcmcComponents
         }
       end
 
+      def paginate_api(json)
+        json_params = json.nil? ? nil : JSON.parse(json)
+        current_page = get_page(json_params)
+        items_per_page = get_items_per_page(json_params)
+
+        items = all.order(:id)
+
+        {
+          current_page: current_page,
+          per_page: items_per_page,
+          total_entries: entries(items),
+          total_pages: pages(items, items_per_page),
+          items: items.slice((current_page - 1) * items_per_page, items_per_page)
+        }
+      end
+
       def get_page(json_params)
         if json_params.present? && json_params['requested_page'].present?
           json_params['requested_page'].to_i
