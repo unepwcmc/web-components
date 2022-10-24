@@ -6,8 +6,6 @@ WcmcComponents::Engine.routes.draw do
 
     scope controller: 'download' do
       post '/download', action: 'index'
-      post '/', to: 'table#list'
-      post '/download', to: 'table#download'
     end
   end
 
