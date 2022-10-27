@@ -5,11 +5,7 @@ require 'csv'
 module WcmcComponents
   module Loadable
     def self.included(base)
-      base.send :include, InstanceMethods
       base.extend ClassMethods
-    end
-
-    module InstanceMethods
     end
 
     module ClassMethods
