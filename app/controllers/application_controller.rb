@@ -11,10 +11,10 @@ class ApplicationController < ActionController::Base
       {
         id: 'pp',
         name: 'PP',
-        component_ids: [
-          'carousel',
-          'chart_dial',
-          'tooltip'
+        component_ids: %w[
+          carousel
+          chart_dial
+          tooltip
         ]
       },
       {
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
       ocean_plus_library: 'Ocean+ Library',
       pp: 'Protected Planet',
       pp_live_report: 'Protected Planet Live Report',
-      style_guide: 'Style Guide',
+      style_guide: 'Style Guide'
     }
   end
 
@@ -49,12 +49,12 @@ class ApplicationController < ActionController::Base
         category_id: 'accordions',
         description: 'A list of items that expand/shrink on selection/deselection.',
         projects: [
-          projects[:encore], 
+          projects[:encore],
           projects[:gofox],
-          projects[:ibat], 
-          projects[:naturemap], 
-          projects[:ocean_plus_library], 
-      ]
+          projects[:ibat],
+          projects[:naturemap],
+          projects[:ocean_plus_library]
+        ]
       },
       {
         id: 'carousel',
@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
         projects: [
           projects[:abnj],
           projects[:dar],
-          projects[:pp], 
+          projects[:pp]
         ]
       },
       {
@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
           projects[:dar],
           projects[:pp],
           projects[:pp_live_report],
-          projects[:tradeview],
+          projects[:tradeview]
         ]
       },
       {
@@ -118,8 +118,8 @@ class ApplicationController < ActionController::Base
         category_id: 'dropdowns',
         projects: [
           projects[:abnj],
-          projects[:encore], 
-          projects[:style_guide],
+          projects[:encore],
+          projects[:style_guide]
         ]
       },
       {
@@ -128,8 +128,8 @@ class ApplicationController < ActionController::Base
         category_id: 'modals',
         projects: [
           projects[:dar],
-          projects[:ibat], 
-          projects[:naturemap],
+          projects[:ibat],
+          projects[:naturemap]
         ]
       },
       {
@@ -139,7 +139,7 @@ class ApplicationController < ActionController::Base
         projects: [
           projects[:abnj],
           projects[:dar],
-          projects[:encore],
+          projects[:encore]
         ]
       },
       {
@@ -164,7 +164,7 @@ class ApplicationController < ActionController::Base
         category_id: 'tabs',
         projects: [
           projects[:pp],
-          projects[:tradeview],
+          projects[:tradeview]
         ]
       },
       {
@@ -191,10 +191,10 @@ class ApplicationController < ActionController::Base
         category_id: 'forms',
         projects: [
           projects[:encore],
-          projects[:gofox], 
+          projects[:gofox],
           projects[:naturemap],
           projects[:pp],
-          projects[:tradeview],
+          projects[:tradeview]
         ]
       },
       {
@@ -203,7 +203,7 @@ class ApplicationController < ActionController::Base
         category_id: 'forms',
         projects: [
           projects[:encore],
-          projects[:ocean_plus_library],
+          projects[:ocean_plus_library]
         ]
       },
       {
@@ -213,9 +213,9 @@ class ApplicationController < ActionController::Base
         projects: [
           projects[:encore],
           projects[:naturemap],
-          projects[:ocean_plus_library],
+          projects[:ocean_plus_library]
         ]
-      },
+      }
     ]
   end
 

@@ -2,6 +2,6 @@ class StyleguideController < ApplicationController
   def index
     @styleguides = styleguides
   end
-  def show
-  end
+
+  def show; end
 end

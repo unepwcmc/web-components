@@ -3,7 +3,7 @@ module YamlHelpers
   # any strings that contain the syntax `${something}`. If this is found then
   # values[something] is used to replace `${something}` in the yaml string.
 
-  def load_yaml(file_path, values=nil)
+  def load_yaml(file_path, values = nil)
     data = YAML.load(File.open("#{Rails.root}/#{file_path}", 'r'))
 
     yaml_object_replace(data, values)
@@ -40,26 +40,26 @@ module YamlHelpers
   def yaml_str_replace(str, values)
     str.gsub(/\${([^}]*)}/) do
       begin
-        value = get_value(values, $1)
-      rescue => e
+        value = get_value(values, Regexp.last_match(1))
+      rescue StandardError => e
         logger.error e
       end
 
-      value ? value : $1 
+      value || Regexp.last_match(1)
     end
   end
 
   def get_value(hash, key)
-    if hash.nil? 
+    if hash.nil?
       raise "The placeholder '${#{key}}' can not be replaced in the yaml content as no values hash is provided."
     end
-    
+
     value = hash[key]
 
     if value.nil?
       raise "The key '#{key}' does not exist in the given values hash when loading yaml content."
     else
-      return value
+      value
     end
   end
 end
