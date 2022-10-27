@@ -69,8 +69,6 @@ namespace :config do
         root #{deploy_to}/shared/public;
         rewrite ^(.*)$ /system/maintenance.html break;
       }
-      #{'  '}
-      #{'  '}
       }
     EOF
 
