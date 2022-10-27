@@ -47,22 +47,32 @@ gsub_file('config/environments/development.rb', /config\.assets\.debug.*/, 'conf
 
 # Layout - includes responsive support and Webpacker integration
 ########################################
-if Rails.version < "6"
+if Rails.version < '6'
   scripts = <<~HTML
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
         <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   HTML
-  gsub_file('app/views/layouts/application.html.erb', "<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>", scripts)
+  gsub_file('app/views/layouts/application.html.erb',
+            "<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>", scripts)
 else
-  gsub_file('app/views/layouts/application.html.erb', "<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>", "<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>")
+  gsub_file(
+    'app/views/layouts/application.html.erb',
+    "<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>",
+    "<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>"
+  )
 end
 
-gsub_file('app/views/layouts/application.html.erb', "<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>", "<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>")
+gsub_file(
+  'app/views/layouts/application.html.erb',
+  "<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>",
+  "<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>"
+)
 style = <<~HTML
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 HTML
-gsub_file('app/views/layouts/application.html.erb', "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>", style)
+gsub_file('app/views/layouts/application.html.erb',
+          "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>", style)
 
 # Flashes
 ########################################
@@ -128,7 +138,7 @@ after_bundle do
     .DS_Store
   TXT
 
-   # Devise install + user
+  # Devise install + user
   ########################################
   generate('devise:install')
   generate('devise', 'User')
@@ -138,7 +148,7 @@ after_bundle do
   run 'rm app/controllers/application_controller.rb'
   file 'app/controllers/application_controller.rb', <<~RUBY
     class ApplicationController < ActionController::Base
-    #{  "protect_from_forgery with: :exception\n" if Rails.version < "5.2"}  before_action :authenticate_user!
+    #{"protect_from_forgery with: :exception\n" if Rails.version < '5.2'}  before_action :authenticate_user!
     end
   RUBY
 
@@ -162,7 +172,8 @@ after_bundle do
   # Environments
   ########################################
   environment 'config.action_mailer.default_url_options = { host: "http://localhost:3000" }', env: 'development'
-  environment 'config.action_mailer.default_url_options = { host: "http://TODO_PUT_YOUR_DOMAIN_HERE" }', env: 'production'
+  environment 'config.action_mailer.default_url_options = { host: "http://TODO_PUT_YOUR_DOMAIN_HERE" }',
+              env: 'production'
 
   # Webpacker / Yarn
   ########################################
@@ -204,12 +215,12 @@ after_bundle do
   ########################################
   run 'touch .env'
 
-
   # Git
   ########################################
   git add: '.'
   git commit: "-m 'Initial commit with minimal WCMC template with Devise'"
 
   # Fix puma config
-  gsub_file('config/puma.rb', 'pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }', '# pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }')
+  gsub_file('config/puma.rb', 'pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }',
+            '# pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }')
 end

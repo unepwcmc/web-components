@@ -4,8 +4,8 @@ module ApplicationHelper
   end
 
   def nav_link_class(path)
-    link_class = "site-nav__link " 
-    link_class += current_uri == path ? "site-nav__link--current" : ''
+    link_class = 'site-nav__link '
+    link_class += current_uri == path ? 'site-nav__link--current' : ''
   end
 
   def styleguide_id
