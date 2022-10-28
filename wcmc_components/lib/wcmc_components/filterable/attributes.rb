@@ -128,7 +128,7 @@ module WcmcComponents
       end
 
       def legend_attributes
-        get_attributes_with_options(:legends)
+        get_attributes_with_options(:legend_on)
       end
 
       def table_attributes
