@@ -33,15 +33,26 @@ module WcmcComponents
 
       # The primary entrypoint method for serializing items of the base class for use in the FilterableTable component
       def paginate_for_table(**table_parameter_options)
-        table_parameters = Parameters.new(table_parameter_options)
-        query_results = QueryObject.new(self).query_with_filterable_parameters(table_parameters)
-        Serializer.new(table_parameters).serialize_relation_for_table(query_results)
+        paginate(table_parameter_options, 'table')
       end
 
       def paginate_for_api(api_parameter_options)
-        api_parameters = Parameters.new(**api_parameter_options)
-        query_results = QueryObject.new(self).query_with_filterable_parameters(api_parameters)
-        Serializer.new(api_parameters).serialize_relation_for_api(query_results)
+        paginate(api_parameter_options, 'api')
+      end
+
+      def paginate(parameter_options, type)
+        parameters = Parameters.new(**parameter_options)
+        query_results = QueryObject.new(self).query_with_filterable_parameters(parameters)
+
+        count_before_pagination = query_results.count
+        paginated_results = query_results
+          .offset(parameters.sql_offset)
+          .limit(parameters.sql_limit)
+
+        Serializer.new(parameters).send(
+          "serialize_relation_for_#{type}",
+          { total: count_before_pagination, results: paginated_results }
+        )
       end
 
       def columns_to_json

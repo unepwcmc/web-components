@@ -16,8 +16,6 @@ module WcmcComponents
         @active_record_class.joins(association_tables)
           .where(where_statement)
           .order(order_statement)
-          .offset(filterable_parameters.sql_offset)
-          .limit(filterable_parameters.sql_limit)
       end
     end
   end

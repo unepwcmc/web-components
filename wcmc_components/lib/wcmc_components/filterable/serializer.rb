@@ -22,23 +22,23 @@ module WcmcComponents
 
       # Takes an ActiveRecord relation as an argument (such as one returned by ::QueryObject) and returns a serialized 
       # hash ready to be sent to the FilterableTable component. It also uses information from @table_parameters.
-      def serialize_relation_for_table(relation)
+      def serialize_relation_for_table(query)
         {
           current_page: current_page,
           per_page: items_per_page,
-          total_entries: relation.count,
-          total_pages: total_pages(relation.count),
-          items: relation.map(&method(:serialize_item_for_table))
+          total_entries: query[:total],
+          total_pages: total_pages(query[:total]),
+          items: query[:results].map(&method(:serialize_item_for_table))
         }
       end
 
-      def serialize_relation_for_api(relation)
+      def serialize_relation_for_api(query)
         {
           current_page: current_page,
           per_page: items_per_page,
-          total_entries: relation.count,
-          total_pages: total_pages(relation.count),
-          items: relation
+          total_entries: query[:total],
+          total_pages: total_pages(query[:total]),
+          items: query[:results]
         }
       end
 
