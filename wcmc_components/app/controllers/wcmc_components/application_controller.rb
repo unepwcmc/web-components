@@ -13,7 +13,7 @@ module WcmcComponents
 
       # The longest of those is the most precise match.
       # Get the value it stores in routes_classes and return it as a constant
-      WcmcComponents&.routes_classes&.dig(matching_paths.max)&.constantize
+      WcmcComponents.routes_classes.dig(matching_paths.max)&.constantize
     end
 
     # Double splat syntax (**) when passing an options hash to a method only works when a hash's keys are symbols
