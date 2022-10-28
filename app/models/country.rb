@@ -10,6 +10,7 @@ class Country < ApplicationRecord
                   title: 'ISO 3 Code',
                   filter_on: true,
                   show_in_table: true,
+                  show_in_modal: true,
                   type: 'single'
 
   table_attribute :name,
@@ -17,6 +18,6 @@ class Country < ApplicationRecord
                   filter_on: true,
                   type: 'single',
                   show_in_table: true,
-                  legend_on: true,
+                  legend_on: false,
                   form: :text
 end
