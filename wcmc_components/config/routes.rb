@@ -8,4 +8,10 @@ WcmcComponents::Engine.routes.draw do
       post '/download', action: 'index'
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      post '/', action: :index
+    end
+  end
 end

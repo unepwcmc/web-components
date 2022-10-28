@@ -6,7 +6,6 @@ import store from './component-lib/store/store.js'
 
 
 import FilterableTable from '@unep-wcmc/wcmc-components'
-console.log(FilterableTable)
 Vue.use(FilterableTable, { store })
 // site
 import ComponentViewer from './site/ComponentViewer'

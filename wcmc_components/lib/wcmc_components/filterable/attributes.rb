@@ -8,9 +8,9 @@ module WcmcComponents
       attr_reader :attributes
 
       DEFAULT_ATTRIBUTES = {
-        modal: true,
-        column: true,
-        csv: true
+        show_in_modal: true,
+        show_in_table: true,
+        show_in_csv: true
       }
 
       def initialize(attributes_hash = {})
@@ -18,7 +18,8 @@ module WcmcComponents
 
         add_attribute :id,
                       name: 'id',
-                      title: 'Id'
+                      title: 'Id',
+                      type: 'single'
       end
 
       # add_attribute is the main method provided to store
@@ -30,12 +31,12 @@ module WcmcComponents
         attributes
       end
 
-      def table_filters
+      def table_filters(table_resources)
         filterable_attributes.map do |key, value|
           {
             name: key.to_s,
             title: value[:title] || key.to_s.capitalize,
-            options: [],
+            options: get_table_filter_options(table_resources, key, value),
             type: value[:type]
           }
         end
@@ -56,6 +57,7 @@ module WcmcComponents
       #   get_attributes_with_options(:show_in_table, :show_in_modal)
       # end
 
+      # FIXME: add sortable
       def table_columns
         table_attributes.map do |column_name, column_options|
           {
@@ -83,12 +85,35 @@ module WcmcComponents
         associated_attribute_names.map { |name| name.split('.').first }.uniq
       end
 
+      def csv_attributes
+        get_attributes_with_options(:show_in_csv)
+      end
+
       # Returns the attributes for which the `form` option is truthy.
       def form_attributes
         get_attributes_with_options(:form_builder_method)
       end
 
       private
+
+      def get_table_filter_options(table_resources, filter_key, filter)
+        case filter[:type]
+        when 'single'
+          table_resources.order(id: :asc)
+            .pluck(filter_key)
+            .compact
+            .uniq
+            .sort
+        when 'multiple'
+          options_array = table_resources.preload(filter_key)
+            .collect(&filter_key)
+            .flatten
+            .uniq
+            .map(&:name) || []
+          
+          options_array.sort
+        end
+      end
 
       # A method that will return a subset of @attributes
       # Only those which have one of options_symbols as a (truthy) key will be returned
@@ -104,7 +129,7 @@ module WcmcComponents
       end
 
       def legend_attributes
-        get_attributes_with_options(:legends)
+        get_attributes_with_options(:legend_on)
       end
 
       def table_attributes

@@ -1,3 +1,20 @@
+### 0.4.0
+
+- Setup linters in repository and lint code
+- Record dependency versions in `.node-version` & `.tool-versions`
+- Update README.md with information about `WcmcComponents` and its submodules
+- Add API functionality
+  - new routes
+  - new controller
+  - new `Filterable` methods to do the work of serving a model's records
+
+### 0.3.1
+1. Allows has_many relationships to be imported
+
+### 0.3.0
+1. Fixes bug in csv imports
+2. Allows displaying methods in tables and csv exports
+
 ### 0.2.0
 1. now supporting filters on columns with multiple values and a legend component.
 
