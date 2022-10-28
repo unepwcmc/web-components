@@ -5,11 +5,15 @@ module WcmcComponents
         # A class method that takes a Filterable object and converts it into a row for the FilterableTable
         def convert_item_to_table_row(item)
           item.attributes_for_table.map do |attribute_key, attribute_options|
-            attribute_options.merge(
-              {
-                value: item.send(attribute_key)
-              }
-            )
+            # TODO: add CSV?
+            {
+              name: attribute_options[:name],
+              title: attribute_options[:title],
+              value: item.send(attribute_key),
+              showInModal: attribute_options[:show_in_modal],
+              showInTable: attribute_options[:show_in_table],
+              legend_on: attribute_options[:legend_on]
+            }
           end
         end
       end
