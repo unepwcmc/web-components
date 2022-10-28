@@ -51,11 +51,11 @@ In the model you want to display in a filter table add
 * include WcmcComponents::Filterable
 
 and optionally configure columns using the table_column method, e.g.
-*   table_attr :created_at, title: 'First Date'
+*   table_attribute :created_at, title: 'First Date'
 
 ```
 # Add this method for each of the fileds you want to display in the table
-table_attr(
+table_attribute(
   :bip_indicator,            # the model attribute, either a database field or method on the model
   title: 'BIP Indicator',    # the title that will appear in the tables, modals, and csv files
   filter_on: true,           # if true, attribute will be filterable in UI table. Will only filter database fields
