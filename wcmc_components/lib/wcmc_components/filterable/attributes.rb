@@ -18,7 +18,8 @@ module WcmcComponents
 
         add_attribute :id,
                       name: 'id',
-                      title: 'Id'
+                      title: 'Id',
+                      type: 'single'
       end
 
       # add_attribute is the main method provided to store

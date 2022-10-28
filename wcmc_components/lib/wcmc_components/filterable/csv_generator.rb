@@ -18,7 +18,6 @@ module WcmcComponents
           # build each row for CSV - matching 'value:' in the filter table
           @items.each do |item|
             row = []
-            row << item.id
             csv_attributes.each do |key, col|
               case col[:type]
               when 'single'
