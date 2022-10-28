@@ -8,9 +8,9 @@ module WcmcComponents
       attr_reader :attributes
 
       DEFAULT_ATTRIBUTES = {
-        modal: true,
-        column: true,
-        csv: true
+        show_in_modal: true,
+        show_in_table: true,
+        show_in_csv: true
       }
 
       def initialize(attributes_hash = {})
@@ -82,6 +82,10 @@ module WcmcComponents
         associated_attribute_names = association_attributes.keys
 
         associated_attribute_names.map { |name| name.split('.').first }.uniq
+      end
+
+      def csv_attributes
+        get_attributes_with_options(:show_in_csv)
       end
 
       # Returns the attributes for which the `form` option is truthy.

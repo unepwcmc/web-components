@@ -11,6 +11,7 @@ class Country < ApplicationRecord
                   filter_on: true,
                   show_in_table: true,
                   show_in_modal: true,
+                  show_in_csv: false,
                   type: 'single'
 
   table_attribute :name,

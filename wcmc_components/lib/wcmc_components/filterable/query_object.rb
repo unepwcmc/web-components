@@ -19,6 +19,7 @@ module WcmcComponents
           .where(where_statement)
           .order(order_statement)
         @total = @result.count
+        @result
       end
 
       def paginate(filterable_parameters)

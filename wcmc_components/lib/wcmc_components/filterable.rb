@@ -1,4 +1,5 @@
 require 'wcmc_components/filterable/attributes'
+require 'wcmc_components/filterable/csv_generator'
 require 'wcmc_components/filterable/parameters'
 require 'wcmc_components/filterable/query_object'
 require 'wcmc_components/filterable/serializer'
@@ -23,7 +24,12 @@ module WcmcComponents
     end
 
     class_methods do
-      delegate :attributes_for_table, :table_filters, :table_legends, :table_columns, to: :table_attributes
+      delegate :attributes_for_table,
+        :csv_attributes,
+        :table_filters,
+        :table_legends,
+        :table_columns,
+        to: :table_attributes
 
       def table_filters_with_options
         table_filters(self.all)
@@ -46,15 +52,29 @@ module WcmcComponents
 
       def paginate(parameter_options, type)
         parameters = Parameters.new(**parameter_options)
-        query = QueryObject.new(self)
-        
-        query.query_with_filterable_parameters(parameters)
-        query.paginate(parameters)
+        query = get_query_object(parameters, true)
 
         Serializer.new(parameters).send(
           "serialize_relation_for_#{type}",
           { total: query.total, results: query.result }
         )
+      end
+
+      def to_csv(parameter_options)
+        parameters = Parameters.new(**parameter_options)
+        query = get_query_object(parameters)
+
+        CsvGenerator.new(query.result).to_csv(csv_attributes)
+      end
+
+      def get_query_object(parameters, paginate = false)
+        query = QueryObject.new(self)
+        
+        query.query_with_filterable_parameters(parameters)
+
+        query.paginate(parameters) if paginate
+
+        query
       end
 
       def columns_to_json
