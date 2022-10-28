@@ -18,8 +18,8 @@ module WcmcComponents
       # Turns the active filters into a string of valid SQL to pass to ActiveRecord::QueryMethods#where
       def filters_as_sql
         conditions_array = active_filters.map do |filter|
-          name_string = filter['name']
-          options_string = convert_options_array_to_sql_syntax(filter['options'])
+          name_string = filter[:name]
+          options_string = convert_options_array_to_sql_syntax(filter[:options])
 
           "#{name_string} IN #{options_string}"
         end
@@ -61,7 +61,7 @@ module WcmcComponents
       end
 
       def active_filters
-        @filters.select { |filter| filter['options'].present? }
+        @filters.select { |filter| filter[:options].present? }
       end
     end
   end

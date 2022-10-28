@@ -23,10 +23,10 @@ module WcmcComponents
     private
 
     def table_params
-      params.require(:table).permit(
-        requested_page: Numeric,
-        items_per_page: Numeric,
-        filters: [],
+      params.permit(
+        :requested_page,
+        :items_per_page,
+        filters: [:name, :type, options: []],
         sort: %i[column ascending]
       )
     end

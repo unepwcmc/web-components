@@ -12,7 +12,7 @@ module WcmcComponents
       params.permit(
         :requested_page,
         :items_per_page,
-        filters: [],
+        filters: [:name, :type, options: []],
         sort: %i[column ascending]
       )
     end
