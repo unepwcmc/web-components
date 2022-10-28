@@ -25,6 +25,10 @@ module WcmcComponents
     class_methods do
       delegate :attributes_for_table, :table_filters, :table_legends, :table_columns, to: :table_attributes
 
+      def table_filters_with_options
+        table_filters(self.all)
+      end
+
       # table_attribute is a wrapper for TableAttributes#add_attribute
       # Use this in the class definition to add an attribute
       def table_attribute(name, **options)
