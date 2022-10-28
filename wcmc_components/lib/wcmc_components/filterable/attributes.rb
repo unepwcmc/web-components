@@ -30,12 +30,12 @@ module WcmcComponents
         attributes
       end
 
-      def table_filters
+      def table_filters(table_resources)
         filterable_attributes.map do |key, value|
           {
             name: key.to_s,
             title: value[:title] || key.to_s.capitalize,
-            options: [],
+            options: get_table_filter_options(table_resources, key, value),
             type: value[:type]
           }
         end
@@ -56,6 +56,7 @@ module WcmcComponents
       #   get_attributes_with_options(:show_in_table, :show_in_modal)
       # end
 
+      # FIXME: add sortable
       def table_columns
         table_attributes.map do |column_name, column_options|
           {
@@ -89,6 +90,25 @@ module WcmcComponents
       end
 
       private
+
+      def get_table_filter_options(table_resources, filter_key, filter)
+        case filter[:type]
+        when 'single'
+          table_resources.order(id: :asc)
+            .pluck(filter_key)
+            .compact
+            .uniq
+            .sort
+        when 'multiple'
+          options_array = table_resources.preload(filter_key)
+            .collect(&filter_key)
+            .flatten
+            .uniq
+            .map(&:name) || []
+          
+          options_array.sort
+        end
+      end
 
       # A method that will return a subset of @attributes
       # Only those which have one of options_symbols as a (truthy) key will be returned
