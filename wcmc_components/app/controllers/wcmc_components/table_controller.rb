@@ -1,7 +1,5 @@
 module WcmcComponents
   class TableController < ApplicationController
-    skip_before_action :verify_authenticity_token
-
     def index
       @results = model_class.paginate_for_table(query_params_with_symbol_keys)
 

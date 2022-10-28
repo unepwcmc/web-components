@@ -1,7 +1,5 @@
 module WcmcComponents
   class Table::DownloadController < ApplicationController
-    skip_before_action :verify_authenticity_token
-
     def index
       send_data(
         model_class.to_csv(query_params_with_symbol_keys),
