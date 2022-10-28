@@ -46,16 +46,14 @@ module WcmcComponents
 
       def paginate(parameter_options, type)
         parameters = Parameters.new(**parameter_options)
-        query_results = QueryObject.new(self).query_with_filterable_parameters(parameters)
-
-        count_before_pagination = query_results.count
-        paginated_results = query_results
-          .offset(parameters.sql_offset)
-          .limit(parameters.sql_limit)
+        query = QueryObject.new(self)
+        
+        query.query_with_filterable_parameters(parameters)
+        query.paginate(parameters)
 
         Serializer.new(parameters).send(
           "serialize_relation_for_#{type}",
-          { total: count_before_pagination, results: paginated_results }
+          { total: query.total, results: query.result }
         )
       end
 

@@ -4,6 +4,8 @@ module WcmcComponents
       # Initialize with the active record class that you wish to query, e.g. Country
       def initialize(active_record_class)
         @active_record_class = active_record_class
+        @result = nil
+        @total = 0
       end
 
       # query_with_filterable_parameters expects an instance of Filterable::Parameters
@@ -13,9 +15,25 @@ module WcmcComponents
         where_statement = filterable_parameters.filters_as_sql
         order_statement = filterable_parameters.sort_as_sql
 
-        @active_record_class.joins(association_tables)
+        @result = @active_record_class.joins(association_tables)
           .where(where_statement)
           .order(order_statement)
+        @total = @result.count
+      end
+
+      def paginate(filterable_parameters)
+        return nil if @result.nil?
+
+        @result = @result.offset(filterable_parameters.sql_offset)
+          .limit(filterable_parameters.sql_limit)
+      end
+
+      def result
+        @result
+      end
+
+      def total
+        @total
       end
     end
   end
