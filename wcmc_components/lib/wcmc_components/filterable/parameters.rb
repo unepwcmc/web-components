@@ -9,8 +9,8 @@ module WcmcComponents
       attr_reader :current_page, :items_per_page, :filters, :sort
 
       def initialize(**options)
-        @current_page = options[:requested_page] || 1
-        @items_per_page = options[:items_per_page] || 10
+        @current_page = to_positive_integer(options[:requested_page], 1)
+        @items_per_page = to_positive_integer(options[:items_per_page], 10)
         @filters = options[:filters] || []
         @sort = options[:sort] || {}
       end
@@ -27,6 +27,15 @@ module WcmcComponents
         conditions_array.join(' AND ')
       end
 
+      # Turns the page params into a string of valid SQL to pass to ActiveRecord::QueryMethods#where
+      def sql_offset
+        (@current_page - 1) * @items_per_page
+      end
+
+      def sql_limit
+        @items_per_page
+      end
+
       # Translates @sort into valid SQL which can by passed to ActiveRecord::QueryMethods#order
       def sort_as_sql
         column = @sort[:column] || 'id'
@@ -35,17 +44,13 @@ module WcmcComponents
         "#{column} #{direction}"
       end
 
-      # get_number_of_pages takes an integer as its argument, which is the number of items in the table
-      # It returns the total number of pages for the table, in view of the @items_per_page variable
-      def get_number_of_pages(number_of_items)
-        return 0 if number_of_items.zero?
-
-        number_of_complete_pages, number_of_leftover_items = number_of_items.divmod(@items_per_page)
-
-        number_of_leftover_items.zero? ? number_of_complete_pages : number_of_complete_pages + 1
-      end
-
       private
+
+      def to_positive_integer(value, default = 1)
+        int = value.to_i
+
+        int <= 0 ? default : int
+      end
 
       # Takes an array of strings and returns them in SQL array syntax
       # E.g. Array:['cat', 'dog', 'mouse'] => String:"('cat','dog','mouse')"

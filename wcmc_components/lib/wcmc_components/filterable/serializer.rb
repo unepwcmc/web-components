@@ -27,8 +27,18 @@ module WcmcComponents
           current_page: current_page,
           per_page: items_per_page,
           total_entries: relation.count,
-          total_pages: total_pages(relation.count, @table_parameters.items_per_page),
+          total_pages: total_pages(relation.count),
           items: relation.map(&method(:serialize_item_for_table))
+        }
+      end
+
+      def serialize_relation_for_api(relation)
+        {
+          current_page: current_page,
+          per_page: items_per_page,
+          total_entries: relation.count,
+          total_pages: total_pages(relation.count),
+          items: relation
         }
       end
 
@@ -41,10 +51,10 @@ module WcmcComponents
 
       private
 
-      def total_pages(total_number_of_items, items_per_page)
-        number_of_complete_pages, number_of_leftover_items = total_number_of_items.divmod(items_per_page)
+      def total_pages(total_entries)
+        return 0 if total_entries.zero?
 
-        number_of_leftover_items.zero? ? number_of_complete_pages : number_of_complete_pages + 1
+        (total_entries.to_f / @table_parameters.items_per_page).ceil
       end
     end
   end
