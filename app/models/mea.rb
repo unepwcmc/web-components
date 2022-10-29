@@ -7,7 +7,7 @@ class Mea < ApplicationRecord
   has_and_belongs_to_many :countries
   import_by countries: :name
 
-  table_attribute :countries,
+  table_attribute :'countries.name',
                   title: 'Country',
                   filter_on: true,
                   show_in_table: true,

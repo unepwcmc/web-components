@@ -12,10 +12,6 @@ module WcmcComponents
       class_attribute :table_attributes, default: Attributes.new
 
       delegate :form_attributes, :table_columns, :attributes_for_table, to: :table_attributes
-      # Gets the objects attributes and transforms them into one table row for the FilterableTable component
-      def as_table_row
-        Serializer.convert_item_to_table_row(self)
-      end
 
       # table_page_path returns the 'show' path for the resource
       def table_page_path
@@ -33,7 +29,7 @@ module WcmcComponents
     end
 
     def base_path
-      @table_resource.class.name.downcase.pluralize
+      "/#{self.class.name.downcase.pluralize}"
     end
 
     class_methods do
@@ -64,7 +60,7 @@ module WcmcComponents
       end
 
       def paginate(parameter_options, type)
-        parameters = Parameters.new(**parameter_options)
+        parameters = Parameters.new(**parameter_options, active_record_class: self)
         query = get_query_object(parameters, true)
 
         Serializer.new(parameters).send(
