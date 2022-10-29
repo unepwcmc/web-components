@@ -9,6 +9,7 @@ module WcmcComponents
       attr_reader :current_page, :items_per_page, :filters, :sort
 
       def initialize(**options)
+        @active_record_class = options[:active_record_class]
         @current_page = to_positive_integer(options[:requested_page], 1)
         @items_per_page = to_positive_integer(options[:items_per_page], 10)
         @filters = options[:filters] || []
@@ -18,7 +19,7 @@ module WcmcComponents
       # Turns the active filters into a string of valid SQL to pass to ActiveRecord::QueryMethods#where
       def filters_as_sql
         conditions_array = active_filters.map do |filter|
-          name_string = filter[:name]
+          name_string = attribute_with_table_name(filter[:name])
           options_string = convert_options_array_to_sql_syntax(filter[:options])
 
           "#{name_string} IN #{options_string}"
@@ -38,13 +39,21 @@ module WcmcComponents
 
       # Translates @sort into valid SQL which can by passed to ActiveRecord::QueryMethods#order
       def sort_as_sql
-        column = @sort[:column] || 'id'
+        column = attribute_with_table_name(@sort[:column] || 'id')
         direction = @sort[:ascending] == 'true' ? 'ASC' : 'DESC'
 
         "#{column} #{direction}"
       end
 
       private
+
+      def attribute_with_table_name(attribute_name)
+        unless attribute_name.include?('.')
+          "#{@active_record_class.table_name}.#{attribute_name}"
+        else
+          attribute_name
+        end
+      end
 
       def to_positive_integer(value, default = 1)
         int = value.to_i

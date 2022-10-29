@@ -82,7 +82,9 @@ module WcmcComponents
       def association_tables
         associated_attribute_names = association_attributes.keys
 
-        associated_attribute_names.map { |name| name.split('.').first }.uniq
+        associated_attribute_names.map do |name|
+          name.to_s.split('.').first.to_sym
+        end.uniq
       end
 
       def csv_attributes

@@ -18,6 +18,7 @@ module WcmcComponents
         @result = @active_record_class.joins(association_tables)
           .where(where_statement)
           .order(order_statement)
+          .distinct
         @total = @result.count
         @result
       end
