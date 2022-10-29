@@ -26,7 +26,7 @@ class CountryTest < ActiveSupport::TestCase
   end
 
   test 'filter config' do
-    assert_equal 2, Country.table_filters_with_options.count
+    assert_equal 4, Country.table_filters_with_options.count
   end
 
   test 'filters for table' do
