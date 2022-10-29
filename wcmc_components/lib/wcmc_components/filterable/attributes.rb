@@ -9,8 +9,8 @@ module WcmcComponents
 
       DEFAULT_ATTRIBUTES = {
         show_in_modal: true,
-        show_in_table: true,
-        show_in_csv: true
+        show_in_table: false,
+        show_in_csv: false
       }
 
       def initialize(attributes_hash = {})
