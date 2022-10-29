@@ -1,7 +1,7 @@
 <main class="page-container">
   <ul>
     <% @styleguides.each do |sg| %>
-      <li><%= link_to sg[:name], root_path(styleguide: sg[:id]) %></li>
+      <li><%= link_to sg[:name], "?styleguide=#{sg[:id]}" %></li>
     <% end %>
   </ul>
   <%= render 'styleguide/styles/text' %>
