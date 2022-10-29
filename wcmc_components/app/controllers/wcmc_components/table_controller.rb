@@ -7,15 +7,15 @@ module WcmcComponents
     end
 
     def show
-      @table_resource = get_table_resource(params[:id])
+      @table_resource = model_class.find(params[:id])
     end
 
     def new
-      @table_resource = table_class.new
+      @table_resource = model_class.new
     end
 
     def create
-      @table_resource = table_class.new
+      @table_resource = model_class.new
       @table_resource.update(modify_params)
 
       if @table_resource.save

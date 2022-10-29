@@ -7,6 +7,7 @@ module WcmcComponents
           item.attributes_for_table.map do |attribute_key, attribute_options|
             # TODO: add CSV?
             {
+              archived: item.archived?,
               name: attribute_options[:name],
               title: attribute_options[:title],
               value: item.send(attribute_key),
