@@ -31,6 +31,10 @@ module WcmcComponents
         table_filters(self.all)
       end
 
+      def table_legends_with_options
+        table_legends(self.all)
+      end
+
       # table_attribute is a wrapper for TableAttributes#add_attribute
       # Use this in the class definition to add an attribute
       def table_attribute(name, **options)
