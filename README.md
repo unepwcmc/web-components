@@ -161,3 +161,15 @@ See tradehub-navigator repo for an example: https://github.com/unepwcmc/tradehub
 - `cd wcmc_components`
 - `gem build wcmc_components`
 - Visit https://gem-server.unep-wcmc.org/ and upload 
+
+## Querying the database
+The api, table and download endpoints all allow the following query parameters:
+
+```
+:requested_page,
+:items_per_page,
+filters: [:name, :type, options: []],
+sort: %i[column ascending]
+```
+
+Note, for download the pagination parameters will be ignored.
