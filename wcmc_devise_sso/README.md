@@ -2,8 +2,6 @@
 This gem extends the devise functionality to quickly setup SSO using Microsoft Azure in a rails project.
 
 ## Usage
-How to use my plugin.
-
 Note you will need to add the following to your Rails credentials:
 
 ```
@@ -32,7 +30,7 @@ $ gem install wcmc_devise_sso
 Then install devise and generate the required views and config.
 
 ```
-rails generate wcmc_wcmc_wcmc_devise_sso
+rails generate wcmc_devise_sso
 ```
 
 ## Contributing
