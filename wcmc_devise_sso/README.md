@@ -33,6 +33,8 @@ Then install devise and generate the required views and config.
 rails generate wcmc_devise_sso
 ```
 
+You will also need to update the `default_url_options` in the environment files within `config/environments/` which will have the dummy host 'http://TODO_PUT_YOUR_DOMAIN_HERE' for staging and production. If you are not using 'http://localhost:3000' for development, this will also need updating.
+
 ## Contributing
 Contribution directions go here.
 
