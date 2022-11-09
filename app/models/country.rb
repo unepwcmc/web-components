@@ -19,6 +19,7 @@ class Country < ApplicationRecord
                   filter_on: true,
                   type: 'single',
                   show_in_table: true,
+                  show_in_csv: true,
                   legend_on: false,
                   form: :text
 end
