@@ -61,7 +61,7 @@ module WcmcComponents
       end
 
       def to_csv(parameter_options)
-        parameters = Parameters.new(**parameter_options)
+        parameters = Parameters.new(**parameter_options, active_record_class: self)
         query = get_query_object(parameters)
 
         CsvGenerator.new(query.result).to_csv(csv_attributes)
