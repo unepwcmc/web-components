@@ -15,7 +15,7 @@ class MeaTest < ActiveSupport::TestCase
     Country.import 'good_countries.csv'
     Mea.import 'good_meas.csv'
 
-    meas = Mea.paginate('{}')
+    meas = Mea.paginate_for_table()
     assert_equal 2, meas[:items].count
   end
 
@@ -23,19 +23,38 @@ class MeaTest < ActiveSupport::TestCase
     Country.import 'good_countries.csv'
     Mea.import 'good_meas.csv'
 
-    meas = Mea.paginate('{
-  "filters": [
-    {
-      "name": "countries",
-      "options": [
-        "France"
+    meas = Mea.paginate_for_table(**{
+      filters: [
+        {
+          name: "countries.name",
+          options: [
+            "France"
+          ],
+          type: "multiple"
+        }
       ],
-      "type": "multiple"
-    }
-  ],
-  "items_per_page": 15,
-  "requested_page": 1
-}')
+      items_per_page: 15,
+      requested_page: 1
+    })
+
+    assert_equal 1, meas[:items].count
+  end
+
+  test 'select type single filter on model' do
+    Country.import 'good_countries.csv'
+    Mea.import 'good_meas.csv'
+
+    meas = Mea.paginate_for_table(**{
+      filters: [
+        {
+          name: "name",
+          options: [
+            "Convention on Semicolons"
+          ],
+          type: "single"
+        }
+      ]
+    })
 
     assert_equal 1, meas[:items].count
   end
