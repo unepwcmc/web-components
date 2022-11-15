@@ -12,8 +12,15 @@ CREATE_FROM_PROVIDER_DATA_METHOD = <<-RUBY
     where(provider: provider_data.provider, uid: provider_data.uid).first_or_create  do |user|
       user.email = provider_data.info.email
       user.password = Devise.friendly_token[0, 20]
+      user.wcmc!
     end
   end
+RUBY
+
+USER_ROLES_ENUM_DECLARATION = <<-RUBY
+
+  enum role: { generic: 0, wcmc: 1 }
+
 RUBY
 
 OMNIAUTH_CONFIG = <<-RUBY
@@ -112,8 +119,14 @@ class WcmcDeviseSsoGenerator < Rails::Generators::Base
       after: 'devise_for :users'
   end
 
+  def add_user_roles_enum_to_model
+    inject_into_file 'app/models/user.rb',
+      USER_ROLES_ENUM_DECLARATION,
+      after: 'extend Devise::Models'
+  end
+
   def add_sign_in_strategy_migration
-    filename = 'add_sign_in_strategy_attributes_to_users.rb'
+    filename = 'add_sso_attributes_to_users.rb'
     timestamp = Time.now.strftime('%Y%m%d%H%M%S')
 
     copy_file filename, "db/migrate/#{timestamp}_#{filename}"
