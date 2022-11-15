@@ -47,7 +47,6 @@ module WcmcComponents
       #   get_attributes_with_options(:show_in_table, :show_in_modal)
       # end
 
-      # FIXME: add sortable
       def table_columns
         table_attributes.map do |column_name, column_options|
           {
