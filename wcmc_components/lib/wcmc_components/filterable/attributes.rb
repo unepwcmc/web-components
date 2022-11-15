@@ -52,7 +52,8 @@ module WcmcComponents
         table_attributes.map do |column_name, column_options|
           {
             field: column_name,
-            title: column_options[:title] || column_name.to_s.gsub(/_/, ' ').capitalize
+            title: column_options[:title] || column_name.to_s.gsub(/_/, ' ').capitalize,
+            sortable: column_options[:sortable]
           }
         end.to_json
       end
