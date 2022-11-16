@@ -52,7 +52,7 @@ module WcmcComponents
                   row_hash.except!(*belongs_to_hash.keys)
 
                   # strip the class_ from front of keys
-                  belongs_to_hash.transform_keys! { |key| key.remove k+"_"}
+                  belongs_to_hash.transform_keys! { |key| key.remove "#{k}_" }
                   owner = belongs_to_class.find_or_create_by!(belongs_to_hash) unless belongs_to_hash.empty?
                 end
                 row_hash[k] = owner
