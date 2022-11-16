@@ -1,3 +1,3 @@
 module WcmcComponents
-  class ApiController < ApplicationController; end
+  class ApiController < WcmcComponents::ApplicationController; end
 end

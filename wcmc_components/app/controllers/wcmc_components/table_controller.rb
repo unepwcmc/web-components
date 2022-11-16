@@ -1,5 +1,5 @@
 module WcmcComponents
-  class TableController < ApplicationController
+  class TableController < WcmcComponents::ApplicationController
     def list
       @results = model_class.paginate(params.to_json)
       render json: @results
