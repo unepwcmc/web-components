@@ -57,14 +57,14 @@ module WcmcComponents
     private
 
     # Authenticate admin user role
-    # Requires devise and role enum on User with type wcmc (or other implementation of the methods wcmc and current_user)
+    # Requires devise and role enum on User with type wcmc (or other implementation of the methods wcmc? and current_user)
     # Compatiable with wcmc_devise_sso
     def authenticate_admin_user
       redirect_path = defined?(new_user_session_path) ? new_user_session_path : '/'
       user = defined?(current_user) ? current_user : nil
 
       # Update this method to include any additional user roles that can create/update/archive
-      is_admin = user && defined?(user.wcmc) && user.wcmc
+      is_admin = user && defined?(user.wcmc?) && user.wcmc?
 
       redirect_to redirect_path unless is_admin
     end
