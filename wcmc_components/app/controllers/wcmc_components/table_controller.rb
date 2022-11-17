@@ -1,15 +1,22 @@
 module WcmcComponents
   class TableController < ApplicationController
+    before_action :set_admin_user
     before_action :authenticate_admin_user, except: [:index, :show]
 
     def index
-      @results = model_class.paginate_for_table(query_params_with_symbol_keys)
+      @results = model_class.paginate_for_table(
+        query_params_with_symbol_keys.merge(is_admin: @is_admin)
+      )
 
       render json: @results
     end
 
     def show
       @table_resource = model_class.find(params[:id])
+
+      if @table_resource.archived? && !@is_admin
+        redirect_to_sign_in
+      end 
     end
 
     def new
@@ -59,14 +66,21 @@ module WcmcComponents
     # Authenticate admin user role
     # Requires devise and role enum on User with type wcmc (or other implementation of the methods wcmc? and current_user)
     # Compatiable with wcmc_devise_sso
-    def authenticate_admin_user
-      redirect_path = defined?(new_user_session_path) ? new_user_session_path : '/'
+    def set_admin_user
       user = defined?(current_user) ? current_user : nil
 
       # Update this method to include any additional user roles that can create/update/archive
-      is_admin = user && defined?(user.wcmc?) && user.wcmc?
+      @is_admin = user && defined?(user.wcmc?) && user.wcmc?
+    end
 
-      redirect_to redirect_path unless is_admin
+    def authenticate_admin_user
+      redirect_to_sign_in unless @is_admin
+    end
+
+    def redirect_to_sign_in
+      redirect_path = defined?(new_user_session_path) ? new_user_session_path : '/'
+
+      redirect_to redirect_path
     end
 
     def archive_params
