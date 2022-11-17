@@ -1,8 +1,18 @@
 module WcmcComponents
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
+    before_action :set_admin_user
 
     private
+
+    # Requires devise and role enum on User with type wcmc (or other implementation of the methods wcmc? and current_user)
+    # Compatiable with wcmc_devise_sso
+    def set_admin_user
+      user = defined?(current_user) ? current_user : nil
+      
+      # Update this method to include any additional user roles that can create/update/archive
+      @is_admin = user && defined?(user.wcmc?) && user.wcmc?
+    end
 
     def model_class
       # Get the path

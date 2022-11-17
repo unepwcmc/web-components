@@ -1,6 +1,5 @@
 module WcmcComponents
-  class TableController < ApplicationController
-    before_action :set_admin_user
+  class TableController < WcmcComponents::ApplicationController
     before_action :authenticate_admin_user, except: [:index, :show]
 
     def index
@@ -62,17 +61,7 @@ module WcmcComponents
     end
 
     private
-
-    # Authenticate admin user role
-    # Requires devise and role enum on User with type wcmc (or other implementation of the methods wcmc? and current_user)
-    # Compatiable with wcmc_devise_sso
-    def set_admin_user
-      user = defined?(current_user) ? current_user : nil
-
-      # Update this method to include any additional user roles that can create/update/archive
-      @is_admin = user && defined?(user.wcmc?) && user.wcmc?
-    end
-
+    
     def authenticate_admin_user
       redirect_to_sign_in unless @is_admin
     end
