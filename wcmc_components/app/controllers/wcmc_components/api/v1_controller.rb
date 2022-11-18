@@ -1,5 +1,5 @@
 module WcmcComponents
-  class Api::V1Controller < ApplicationController
+  class Api::V1Controller < WcmcComponents::ApplicationController
     skip_before_action :verify_authenticity_token
 
     def index

@@ -1,8 +1,7 @@
 module WcmcComponents
-  class TableController < ApplicationController
+  class TableController < WcmcComponents::ApplicationController
     def index
       @results = model_class.paginate_for_table(query_params_with_symbol_keys)
-
       render json: @results
     end
 
