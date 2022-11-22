@@ -1,14 +1,11 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 module WcmcComponents
   module Loadable
-
     def self.included(base)
-      base.send :include, InstanceMethods
       base.extend ClassMethods
-    end
-
-    module InstanceMethods
     end
 
     module ClassMethods
@@ -23,9 +20,7 @@ module WcmcComponents
         end
       end
 
-
-
-      def import file_name=nil, encoding=nil
+      def import(file_name = nil, encoding = nil)
         seed = csv_file_path file_name
         begin
           ActiveRecord::Base.transaction do
@@ -45,7 +40,7 @@ module WcmcComponents
 
                 # either  load by linked property e.g. id or name - here we need column name  to be class name
                 if row_hash.key?(k)
-                  join_key = @import_by[k.to_sym].to_s if (!@import_by.nil? && @import_by.key?(k.to_sym))
+                  join_key = @import_by[k.to_sym].to_s if !@import_by.nil? && @import_by.key?(k.to_sym)
                   join_key ||= v.association_primary_key
                   owner = belongs_to_class.find_by(join_key => row_hash[k])
                 else
@@ -57,7 +52,7 @@ module WcmcComponents
                   row_hash.except!(*belongs_to_hash.keys)
 
                   # strip the class_ from front of keys
-                  belongs_to_hash.transform_keys! { |key| key.remove k+"_"}
+                  belongs_to_hash.transform_keys! { |key| key.remove "#{k}_" }
                   owner = belongs_to_class.find_or_create_by!(belongs_to_hash) unless belongs_to_hash.empty?
                 end
                 row_hash[k] = owner
@@ -82,38 +77,39 @@ module WcmcComponents
                 else
                   next
                 end
-                
+
                 list_of_children = row_hash[col_name].split(';')
 
                 list_of_children.each do |child_name|
                   next if child_name.blank?
-                  # I've strip'd whitespace from start/end as csv's are often inconsistently white-spaced
-                  join_key = @import_by[k.to_sym].to_s if (!@import_by.nil? && @import_by.key?(k.to_sym))
+
+                  # I've strip'd whitespace from start/end as ;sv's are often inconsistently white-spaced
+                  join_key = @import_by[k.to_sym].to_s if !@import_by.nil? && @import_by.key?(k.to_sym)
                   join_key ||= v.association_primary_key
-                  
+
                   new_child = k.camelize.singularize.constantize.find_or_create_by(join_key => child_name.strip)
-                  
+
                   unless new_object.send(k.downcase.to_sym).exists?(new_child.id)
                     new_object.send(k.downcase.to_sym) << new_child
                   end
                 end
               end
-
             end
           end
-        rescue => e
+        rescue StandardError => e
           puts e
           Rails.env.development? ? byebug : Rails.logger.error(e)
         end
       end
-      
+
       def csv_file_path(base_file_name = nil)
         base_file_name ||= "#{to_s.pluralize.downcase}.csv"
-        Rails.env.test? ?
-          Rails.root.join('test', 'seeds', base_file_name) :
+        if Rails.env.test?
+          Rails.root.join('test', 'seeds', base_file_name)
+        else
           Rails.root.join('lib', 'data', 'seeds', base_file_name)
+        end
       end
     end
-
   end
 end

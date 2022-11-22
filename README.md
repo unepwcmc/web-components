@@ -27,6 +27,13 @@ Also, if verbose is set to true for yarn test, often console logs are overwritte
 
 ## How to Use the WcmcComponents Table Engine
 
+### About the `WcmcComponents` gem
+
+The WcmcComponents module has three sub-modules:
+
+- **WcmcComponents::Filterable** can be included in an ActiveRecord class to provide it with methods to query the database and apply filters, sorting and serialization. Its main entrypoint is the `#paginate` method, which serves filtered, sorted data from that ActiveRecord class in the format expected by the FilterableTable component.
+- **WcmcComponents::Loadable** provides the ability to import data into a DB table from a CSV. 
+- **WcmcComponents::Engine** is a [Rails engine](https://guides.rubyonrails.org/engines.html) which can be mounted in a host application to automatically provide two new routes and controller actions, which can be seen in `wcmc_components/config/routes.rb`. Each mounted Engine provides a table route and a download route; the Engine can be mounted as many times as you like, but each requires registration in `config/initializers/wcmc_components.rb` as detailed below.
 
 ### Add gem(s) to spec
 
@@ -44,11 +51,11 @@ In the model you want to display in a filter table add
 * include WcmcComponents::Filterable
 
 and optionally configure columns using the table_column method, e.g.
-*   table_attr :created_at, title: 'First Date'
+*   table_attribute :created_at, title: 'First Date'
 
 ```
 # Add this method for each of the fileds you want to display in the table
-table_attr(
+table_attribute(
   :bip_indicator,            # the model attribute, either a database field or method on the model
   title: 'BIP Indicator',    # the title that will appear in the tables, modals, and csv files
   filter_on: true,           # if true, attribute will be filterable in UI table. Will only filter database fields
@@ -71,12 +78,17 @@ Mount the engine in your config/routes.rb by adding a line like:
 
 Final step is to tell the engine which class to use for each mount point 
 Create an intializer e.g. in config/initializers/table.rb containing the mappings 
+```
+WcmcComponents.routes_classes = {
+  '/countries/' => 'Country',
+  '/meas/' => 'Mea'
+}
 
-* WcmcComponents.routes_classes = {'/countries/' => 'Country',
-                        '/meas/' => 'Mea'}
-* WcmcComponents.classes_show_page_format = {'Country' => '/country/%d/',
-                                           'Mea' => '/moreComplicated/%d/format'}
-
+WcmcComponents.classes_show_page_format = {
+  'Country' => '/country/%d/',
+  'Mea' => '/moreComplicated/%d/format'
+}
+```
 
 TODO: I think I should be able to figure these mappings automagically from the mount line but can't make this work (yet!)
 Have now added a config for where the 'show' page url should be - this also might be able to be pulled out of routes with a bit of patience

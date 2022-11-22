@@ -1,3 +1,21 @@
+### 1.0.0
+
+- Refactor filterable module
+- Add sorting by custom attribute
+
+BREAKING CHANGES
+- When defining associated attributes through a join, the name should be `table_name.attribute_name` when decorating the model with `table_attribute`s
+
+### 0.4.0
+
+- Setup linters in repository and lint code
+- Record dependency versions in `.node-version` & `.tool-versions`
+- Update README.md with information about `WcmcComponents` and its submodules
+- Add API functionality
+  - new routes
+  - new controller
+  - new `Filterable` methods to do the work of serving a model's records
+
 ### 0.3.1
 1. Allows has_many relationships to be imported
 

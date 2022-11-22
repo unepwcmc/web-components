@@ -4,6 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "^4.0.2",
     "@turf/turf": "~5.0.0",
+    "@unep-wcmc/wcmc-components": "2.2.5",
     "@vue/test-utils": "^1.0.0-beta.28",
     "axios": "^0.18.0",
     "babel-jest": "^24.8.0",
