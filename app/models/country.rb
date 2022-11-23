@@ -38,4 +38,5 @@ class Country < ApplicationRecord
                   legend_on: true,
                   form_builder_method: :number_field
 
+
 end

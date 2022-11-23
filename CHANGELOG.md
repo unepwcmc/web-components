@@ -1,3 +1,11 @@
+### 1.0.0
+
+- Refactor filterable module
+- Add sorting by custom attribute
+
+BREAKING CHANGES
+- When defining associated attributes through a join, the name should be `table_name.attribute_name` when decorating the model with `table_attribute`s
+
 ### 0.4.0
 
 - Setup linters in repository and lint code

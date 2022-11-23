@@ -5,6 +5,7 @@ ruby '2.5.0'
 # gem 'wcmc_components', '~> 0.0.5', source: "https://gem-server.unep-wcmc.org/"
 
 gem 'wcmc_components', path: './wcmc_components'
+gem 'wcmc_devise_sso', path: './wcmc_devise_sso'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
@@ -69,7 +70,5 @@ group :test do
   gem 'webdrivers'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+# Windows does not include zoneinfo files, so bundle the tzinfo-data ge
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-
-gem 'wcmc_components', path: 'wcmc_components'

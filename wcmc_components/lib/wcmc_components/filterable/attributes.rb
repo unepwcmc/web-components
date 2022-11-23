@@ -33,23 +33,13 @@ module WcmcComponents
 
       def table_filters(table_resources)
         filterable_attributes.map do |key, value|
-          {
-            name: key.to_s,
-            title: value[:title] || key.to_s.capitalize,
-            options: get_table_filter_options(table_resources, key, value),
-            type: value[:type]
-          }
+          get_table_attribute(table_resources, key, value)
         end
       end
 
-      def table_legends
+      def table_legends(table_resources)
         legend_attributes.map do |key, value|
-          {
-            name: key.to_s,
-            title: value[:title] || key.to_s.capitalize,
-            options: [],
-            type: value[:type]
-          }
+          get_table_attribute(table_resources, key, value)
         end
       end
 
@@ -98,7 +88,16 @@ module WcmcComponents
 
       private
 
-      def get_table_filter_options(table_resources, filter_key, filter)
+      def get_table_attribute(table_resources, key, value)
+        {
+          name: key.to_s,
+          title: value[:title] || key.to_s.capitalize,
+          options: get_table_attribute_options(table_resources, key, value),
+          type: value[:type]
+        }
+      end
+
+      def get_table_attribute_options(table_resources, filter_key, filter)
         case filter[:type]
         when 'single'
           table_resources.order(id: :asc)
