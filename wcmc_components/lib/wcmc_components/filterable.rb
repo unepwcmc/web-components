@@ -44,6 +44,10 @@ module WcmcComponents
         table_filters(self.all)
       end
 
+      def table_legends_with_options
+        table_legends(self.all)
+      end
+
       # table_attribute is a wrapper for TableAttributes#add_attribute
       # Use this in the class definition to add an attribute
       def table_attribute(name, **options)
@@ -70,7 +74,7 @@ module WcmcComponents
       end
 
       def to_csv(parameter_options)
-        parameters = Parameters.new(**parameter_options)
+        parameters = Parameters.new(**parameter_options, active_record_class: self)
         query = get_query_object(parameters)
 
         CsvGenerator.new(query.result).to_csv(csv_attributes)

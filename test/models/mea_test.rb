@@ -19,8 +19,6 @@ class MeaTest < ActiveSupport::TestCase
     assert_equal 2, meas[:items].count
   end
 
-  # TODO: TEST FILTERING ON MEA ID
-
   test 'multiple select filter on habtm - single filter' do
     Country.import 'good_countries.csv'
     Mea.import 'good_meas.csv'
@@ -37,6 +35,25 @@ class MeaTest < ActiveSupport::TestCase
       ],
       items_per_page: 15,
       requested_page: 1
+    })
+
+    assert_equal 1, meas[:items].count
+  end
+
+  test 'select type single filter on model' do
+    Country.import 'good_countries.csv'
+    Mea.import 'good_meas.csv'
+
+    meas = Mea.paginate_for_table(**{
+      filters: [
+        {
+          name: "name",
+          options: [
+            "Convention on Semicolons"
+          ],
+          type: "single"
+        }
+      ]
     })
 
     assert_equal 1, meas[:items].count
