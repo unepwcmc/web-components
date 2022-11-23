@@ -1,12 +1,21 @@
 module WcmcComponents
   class TableController < WcmcComponents::ApplicationController
+    before_action :authenticate_admin_user, except: [:index, :show]
+
     def index
-      @results = model_class.paginate_for_table(query_params_with_symbol_keys)
+      @results = model_class.paginate_for_table(
+        query_params_with_symbol_keys.merge(is_admin: @is_admin)
+      )
+
       render json: @results
     end
 
     def show
       @table_resource = model_class.find(params[:id])
+
+      if @table_resource.archived? && !@is_admin
+        redirect_to_sign_in
+      end 
     end
 
     def new
@@ -44,7 +53,6 @@ module WcmcComponents
     def archive
       @table_resource = model_class.find(params[:id])
 
-      # TODO: force 0 or 1?
       if @table_resource.update({archived: archive_params == '1'})
         render json: @table_resource.to_json
       else
@@ -53,6 +61,16 @@ module WcmcComponents
     end
 
     private
+    
+    def authenticate_admin_user
+      redirect_to_sign_in unless @is_admin
+    end
+
+    def redirect_to_sign_in
+      redirect_path = defined?(new_user_session_path) ? new_user_session_path : '/'
+
+      redirect_to redirect_path
+    end
 
     def archive_params
       params.require(:archived)
