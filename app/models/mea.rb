@@ -11,5 +11,6 @@ class Mea < ApplicationRecord
                   title: 'Country',
                   filter_on: true,
                   show_in_table: true,
-                  type: 'multiple'
+                  type: 'multiple',
+                  sortable: false
 end
