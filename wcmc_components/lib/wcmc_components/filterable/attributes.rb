@@ -47,12 +47,12 @@ module WcmcComponents
       #   get_attributes_with_options(:show_in_table, :show_in_modal)
       # end
 
-      # FIXME: add sortable
       def table_columns
         table_attributes.map do |column_name, column_options|
           {
             field: column_name,
-            title: column_options[:title] || column_name.to_s.gsub(/_/, ' ').capitalize
+            title: column_options[:title] || column_name.to_s.gsub(/_/, ' ').capitalize,
+            sortable: column_options[:sortable]
           }
         end.to_json
       end

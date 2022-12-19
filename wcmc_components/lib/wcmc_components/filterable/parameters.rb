@@ -42,6 +42,12 @@ module WcmcComponents
 
       # Translates @sort into valid SQL which can by passed to ActiveRecord::QueryMethods#order
       def sort_as_sql
+        if @sort[:column]
+          sort_col_config = attribute_config(@sort[:column])
+
+          return 'id DESC' if sort_col_config.key?(:sortable) && !sort_col_config[:sortable]
+        end
+
         column = attribute_with_table_name(@sort[:column] || 'id')
         direction = @sort[:ascending] == 'true' ? 'ASC' : 'DESC'
 
@@ -49,6 +55,10 @@ module WcmcComponents
       end
 
       private
+
+      def attribute_config(attribute_id)
+        @active_record_class.table_attributes.attributes[attribute_id.to_sym]
+      end
 
       def attribute_with_table_name(attribute_name)
         unless attribute_name.include?('.')

@@ -63,11 +63,13 @@ table_attribute(
   title: 'BIP Indicator',            # the title that will appear in the tables, modals, and csv files
   filter_on: true,                   # if true, attribute will be filterable in UI table. Will only filter database fields
   type: 'single',                    # if 'single', this is a field on this class, if 'multiple' it will take the :name field from associated records
-  show_in_table: false,              # Show or hide the field in the UI table
-  show_in_modal: true,               # Show or hide the field in the modal
-  show_in_csv: true,                 # Show or hide the table in the csv export. Default is null.  If null, field will be shown if either show_in_table or show_in_modal are true
+  show_in_table: false,              # show or hide the field in the UI table
+  show_in_modal: true,               # show or hide the field in the modal
+  show_in_csv: true,                 # show or hide the table in the csv export. Default is null.  If null,
+                                     # field will be shown if either show_in_table or show_in_modal are true
+  sortable: false                    # if false, the api and table endpoints will need filter by this attribute. Default is true
   form_builder_method: :text_field   # The rails helper method used to render the form field when creating or editing a model record
-) 
+)
 
 ```
 

@@ -47,10 +47,10 @@ class CountryTest < ActiveSupport::TestCase
 
     c = Country.paginate_for_table
     assert_equal 10, c[:items].count
-    assert_equal 'C25', get_country_iso_from_cells(c[:items][0][:cells])
+    assert_equal 'C25', get_country_iso_from_item(c[:items][0])
     # FIXME: include this test - should be fixed by feat/edit-styling
     # assert_equal "/country/#{c[:items][0][:cells][0][:value]}/", c[:items][0][:pageUrl]
-    assert_equal 'C16', get_country_iso_from_cells(c[:items][9][:cells])
+    assert_equal 'C16', get_country_iso_from_item(c[:items][9])
   end
 
   test 'second page pagination' do
@@ -58,8 +58,8 @@ class CountryTest < ActiveSupport::TestCase
 
     c = Country.paginate_for_table(requested_page: 2)
     assert_equal 10, c[:items].count
-    assert_equal 'C15', get_country_iso_from_cells(c[:items][0][:cells])
-    assert_equal 'C06', get_country_iso_from_cells(c[:items][9][:cells])
+    assert_equal 'C15', get_country_iso_from_item(c[:items][0])
+    assert_equal 'C06', get_country_iso_from_item(c[:items][9])
   end
 
   test 'final page pagination' do
@@ -67,8 +67,8 @@ class CountryTest < ActiveSupport::TestCase
 
     c = Country.paginate_for_table(requested_page: 3)
     assert_equal 5, c[:items].count
-    assert_equal 'C05', get_country_iso_from_cells(c[:items][0][:cells])
-    assert_equal 'C01', get_country_iso_from_cells(c[:items][4][:cells])
+    assert_equal 'C05', get_country_iso_from_item(c[:items][0])
+    assert_equal 'C01', get_country_iso_from_item(c[:items][4])
   end
 
   test 'change page size pagination' do
@@ -76,6 +76,16 @@ class CountryTest < ActiveSupport::TestCase
 
     c = Country.paginate_for_table(items_per_page: 7)
     assert_equal 7, c[:items].count
+  end
+
+  test 'sort by record attribute' do
+    Country.import 'good_countries.csv'
+
+    c_asc = Country.paginate_for_table(sort: { column: 'iso3', ascending: 'true' })
+    c_desc = Country.paginate_for_table(sort: { column: 'iso3', ascending: 'false' })
+
+    assert_equal 'FRA', get_country_iso_from_item(c_asc[:items][0])
+    assert_equal 'GBR', get_country_iso_from_item(c_desc[:items][0])
   end
 
   private
@@ -88,8 +98,7 @@ class CountryTest < ActiveSupport::TestCase
     end
   end
 
-  def get_country_iso_from_cells(cells)
-    # Index corresponds with order of attribute definition in Country.rb
-    cells[1][:value]
+  def get_country_iso_from_item(item)
+    item[:cells].select { |cell| cell[:name] == 'iso3' }[0][:value]
   end
 end
