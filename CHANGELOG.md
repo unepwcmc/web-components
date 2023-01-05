@@ -2,6 +2,9 @@
 
 - Refactor filterable module
 - Add sorting by custom attribute
+- devise SSO gem
+- API: an endpoint which returns serialized JSON for one of the host application’s models
+- Add editing functionality
 
 BREAKING CHANGES
 - When defining associated attributes through a join, the name should be `table_name.attribute_name` when decorating the model with `table_attribute`s
