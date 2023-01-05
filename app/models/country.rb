@@ -19,7 +19,24 @@ class Country < ApplicationRecord
                   filter_on: true,
                   type: 'single',
                   show_in_table: true,
-                  show_in_csv: true,
-                  legend_on: false,
-                  form: :text
+                  legend_on: true,
+                  form_builder_method: :text_field
+  
+  table_attribute :attr3,  
+                  title: 'Attr3',
+                  filter_on: true,
+                  type: 'single',
+                  show_in_table: true,
+                  legend_on: true,
+                  form_builder_method: :text_field
+  
+  table_attribute :attr4,
+                  title: 'Attr4',
+                  filter_on: true,
+                  type: 'single',
+                  show_in_table: true,
+                  legend_on: true,
+                  form_builder_method: :number_field
+
+
 end

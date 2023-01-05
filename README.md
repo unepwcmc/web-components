@@ -31,7 +31,7 @@ Also, if verbose is set to true for yarn test, often console logs are overwritte
 
 The WcmcComponents module has three sub-modules:
 
-- **WcmcComponents::Filterable** can be included in an ActiveRecord class to provide it with methods to query the database and apply filters, sorting and serialization. Its main entrypoint is the `#paginate` method, which serves filtered, sorted data from that ActiveRecord class in the format expected by the FilterableTable component.
+- **WcmcComponents::Filterable** can be included in an ActiveRecord class to provide it with methods to edit the database, query the database and apply filters, sorting and serialization. Its main entrypoint is the `#paginate` method, which serves filtered, sorted data from that ActiveRecord class in the format expected by the FilterableTable component.
 - **WcmcComponents::Loadable** provides the ability to import data into a DB table from a CSV. 
 - **WcmcComponents::Engine** is a [Rails engine](https://guides.rubyonrails.org/engines.html) which can be mounted in a host application to automatically provide two new routes and controller actions, which can be seen in `wcmc_components/config/routes.rb`. Each mounted Engine provides a table route and a download route; the Engine can be mounted as many times as you like, but each requires registration in `config/initializers/wcmc_components.rb` as detailed below.
 
@@ -45,6 +45,9 @@ or to use local code cloned into web-components
 
 * gem 'wcmc_components', path: '../web-components/wcmc_components'
 
+### Add archived to your model
+To support archiving, you will need to run a migration to add an attribute called `archived` with type Boolean to your model. This is also required to prevent the app erroring.
+
 ### Decorate your model
 In the model you want to display in a filter table add 
 
@@ -56,16 +59,18 @@ and optionally configure columns using the table_column method, e.g.
 ```
 # Add this method for each of the fileds you want to display in the table
 table_attribute(
-  :bip_indicator,            # the model attribute, either a database field or method on the model
-  title: 'BIP Indicator',    # the title that will appear in the tables, modals, and csv files
-  filter_on: true,           # if true, attribute will be filterable in UI table. Will only filter database fields
-  type: 'single',            # if 'single', this is a field on this class, if 'multiple' it will take the :name field from associated records
-  show_in_table: false,      # show or hide the field in the UI table
-  show_in_modal: true,       # show or hide the field in the modal
-  show_in_csv: true,         # show or hide the table in the csv export. Default is null.  If null,
-                             # field will be shown if either show_in_table or show_in_modal are true
-  sortable: false            # if false, the api and table endpoints will need filter by this attribute. Default is true 
+  :bip_indicator,                    # the model attribute, either a database field or method on the model
+  title: 'BIP Indicator',            # the title that will appear in the tables, modals, and csv files
+  filter_on: true,                   # if true, attribute will be filterable in UI table. Will only filter database fields
+  type: 'single',                    # if 'single', this is a field on this class, if 'multiple' it will take the :name field from associated records
+  show_in_table: false,              # show or hide the field in the UI table
+  show_in_modal: true,               # show or hide the field in the modal
+  show_in_csv: true,                 # show or hide the table in the csv export. Default is null.  If null,
+                                     # field will be shown if either show_in_table or show_in_modal are true
+  sortable: false                    # if false, the api and table endpoints will need filter by this attribute. Default is true
+  form_builder_method: :text_field   # The rails helper method used to render the form field when creating or editing a model record
 )
+
 ```
 
 see app/models/country.rb as an example
@@ -158,3 +163,15 @@ See tradehub-navigator repo for an example: https://github.com/unepwcmc/tradehub
 - `cd wcmc_components`
 - `gem build wcmc_components`
 - Visit https://gem-server.unep-wcmc.org/ and upload 
+
+## Querying the database
+The api, table and download endpoints all allow the following query parameters:
+
+```
+:requested_page,
+:items_per_page,
+filters: [:name, :type, options: []],
+sort: %i[column ascending]
+```
+
+Note, for download the pagination parameters will be ignored.

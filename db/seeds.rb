@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+7.times do |i|
+    country = Country.new
+    country.iso3 = "I am country-#{i}"
+    country.name = "Country#{i}"
+    country.attr3 = "attribute#{i}"
+    country.attr4 = i + 15
+    country.save
+end

@@ -1,11 +1,6 @@
 module WcmcComponents
   module Filterable
     class Serializer
-      class << self
-        # A class method that takes a Filterable object and converts it into a row for the FilterableTable
-       
-      end
-
       delegate :current_page, :items_per_page, to: :@table_parameters
 
       def initialize(table_parameters)
@@ -38,7 +33,10 @@ module WcmcComponents
 
       def serialize_item_for_table(item)
         {
+          archived: item.archived?,
           pageUrl: item.table_page_path,
+          editUrl: item.table_edit_path,
+          archiveUrl: item.table_archive_path,
           cells: convert_item_to_table_row(item)
         }
       end

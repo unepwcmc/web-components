@@ -14,6 +14,7 @@ module WcmcComponents
         @items_per_page = to_positive_integer(options[:items_per_page], 10)
         @filters = options[:filters] || []
         @sort = options[:sort] || {}
+        @is_admin = options[:is_admin]
       end
 
       # Turns the active filters into a string of valid SQL to pass to ActiveRecord::QueryMethods#where
@@ -24,6 +25,8 @@ module WcmcComponents
 
           "#{name_string} IN #{options_string}"
         end
+
+        conditions_array.push('(archived = false OR archived IS NULL)') unless @is_admin
 
         conditions_array.join(' AND ')
       end

@@ -1,7 +1,31 @@
-<%# 
-Render the overarching form using form_with.
-Then render the collection of table_resources
-%>
+<div class="admin__container">
+  <div class="form">
+    <div class="form__intro">
+      <div class="form__required">
+        <span class="form__required-star--large">*</span>
 
+        <p class="form__required-text">
+          Indicates a required field
+        </p>
+      </div>
+    </div>
 
-<%= render partial: "form_field", collection: @table_resource.form_attributes %>
+    <%= form_with scope: :table,
+      model: @table_resource,
+      local: true,
+      method: method,
+      url: url do |form|
+    %>
+      <%= render partial: "form_field",
+        collection: @table_resource.form_attributes,
+        as: :form_attribute,
+        locals: { form: form }
+      %>
+
+      <div class="form__buttons">
+          <%= link_to 'Cancel', '/', class: "form__cancel" %>
+          <%= form.submit "Save", class: "form__save" %>
+      </div>
+    <% end  %>
+  </div>
+</div>
