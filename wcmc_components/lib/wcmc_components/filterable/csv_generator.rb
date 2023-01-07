@@ -23,7 +23,9 @@ module WcmcComponents
               when 'single'
                 row << item.send(key)
               when 'multiple'
-                row << item.send(key.to_s.pluralize).map(&:name).join('; ')
+                table_name, attribute_name = key.to_s.split('.')
+
+                row << item.send(table_name).map(&attribute_name.to_sym).join('; ')
               end
             end
             csv_line << row

@@ -8,7 +8,6 @@
 
 BREAKING CHANGES
 - When defining associated attributes through a join, the name should be `table_name.attribute_name` when decorating the model with `table_attribute`s
-- `#filters_to_json` has been replaced with `#table_filters_with_options`
 
 ### 0.4.0
 
