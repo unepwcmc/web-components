@@ -15,7 +15,7 @@ module WcmcComponents
 
       if @table_resource.archived? && !@is_admin
         redirect_to_sign_in
-      end 
+      end
     end
 
     def new

@@ -29,7 +29,7 @@ module WcmcComponents
     end
 
     def base_path
-      "/#{self.class.name.downcase.pluralize}"
+      "/#{self.class.name.tableize}"
     end
 
     class_methods do
@@ -91,7 +91,7 @@ module WcmcComponents
       end
 
       def columns_to_json
-        @table_attributes.table_columns
+        table_attributes.table_columns
       end
     end
   end
