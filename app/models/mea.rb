@@ -12,5 +12,6 @@ class Mea < ApplicationRecord
                   filter_on: true,
                   show_in_table: true,
                   type: 'multiple',
-                  sortable: false
+                  sortable: false,
+                  show_in_csv: true
 end
