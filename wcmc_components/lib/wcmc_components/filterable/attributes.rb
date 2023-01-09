@@ -91,7 +91,7 @@ module WcmcComponents
       def get_table_attribute(table_resources, key, value)
         table_name, attribute_name = key.to_s.split('.').map{|value_s| value_s&.to_sym}
         {
-          name: table_name.to_s,
+          name: key.to_s,
           title: value[:title] || table_name.to_s.capitalize,
           options: get_table_attribute_options(table_resources, table_name, value, attribute_name),
           type: value[:type]
