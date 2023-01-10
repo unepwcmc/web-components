@@ -49,7 +49,8 @@ module WcmcComponents
         end
 
         column = attribute_with_table_name(@sort[:column] || 'id')
-        direction = @sort[:ascending] == 'true' ? 'ASC' : 'DESC'
+        # Sort ascending per default (when no direction is specified)
+        direction = @sort[:ascending] == 'false' ? 'DESC' : 'ASC'
 
         "#{column} #{direction}"
       end
