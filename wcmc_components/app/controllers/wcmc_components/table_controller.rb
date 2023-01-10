@@ -1,5 +1,7 @@
 module WcmcComponents
   class TableController < WcmcComponents::ApplicationController
+    skip_before_action :verify_authenticity_token
+
     before_action :authenticate_admin_user, except: [:index, :show]
 
     def index
@@ -53,7 +55,7 @@ module WcmcComponents
     def archive
       @table_resource = model_class.find(params[:id])
 
-      if @table_resource.update({archived: archive_params == '1'})
+      if @table_resource.update({archived: archive_params == 1})
         render json: @table_resource.to_json
       else
         render :archive, status: :unprocessable_entity

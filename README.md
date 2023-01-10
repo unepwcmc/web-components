@@ -45,12 +45,16 @@ or to use local code cloned into web-components
 
 * gem 'wcmc_components', path: '../web-components/wcmc_components'
 
+Add ```//= link wcmc_components_manifest.js``` to ```assets/config/manifest.js```
+
 For upgrades notes see ```Upgrading notes``` section
 
 **For filterable table functionality you will also need to import a [compatible version](https://github.com/unepwcmc/wiki/wiki/Reusable-Component-Version-Compatibility) of the [wcmc-components vue library](https://github.com/unepwcmc/wcmc-components)**
 
 ### Add archived to your model
 To support archiving, you will need to run a migration to add an attribute called `archived` with type Boolean to your model. This is required to prevent the app erroring.
+
+```add_column :headline_indicators, :archived, :boolean, default: 0```
 
 ### Decorate your model
 In the model you want to display in a filter table add 
@@ -70,8 +74,9 @@ table_attribute(
   show_in_table: false,              # show or hide the field in the UI table
   show_in_modal: true,               # show or hide the field in the modal
   show_in_csv: true,                 # show or hide the table in the csv export. Default is false.
-  sortable: false                    # if false, the api and table endpoints will filter by this attribute. Default is true
-  form_builder_method: :text_field   # The rails helper method used to render the form field when creating or editing a model record
+  sortable: false,                   # if false, the api and table endpoints will filter by this attribute. Default is true
+  form_builder_method: :text_field,  # The rails helper method used to render the form field when creating or editing a model record
+  required: true                     # Applied to the form fields, defaults to false
 )
 
 ```
@@ -270,3 +275,25 @@ table_attribute :'institutions.name',
   def table_page_path; nil; end
 ```
 - in controllers replace ```#attributes_to_json('filters')``` with ```#table_filters_with_options.to_json``` and ```#attributes_to_json('legends')``` with ```#table_legends_with_options.to_json```
+
+
+
+TODO: remove this
+# Filterable config
+
+Add ```//= link wcmc_components_manifest.js``` to ```assets/config/manifest.js```
+
+Add ```form_builder_method: :text_field``` to the table_attribute methods in you table classes
+
+argument options are:
+
+```required: true```
+
+Add this to table config hashes:
+
+```
+{
+  showArchived: true,
+  showEdit: true,
+}
+```
