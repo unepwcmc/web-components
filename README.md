@@ -284,25 +284,3 @@ table_attribute :'institutions.name',
   def table_page_path; nil; end
 ```
 - in controllers replace ```#attributes_to_json('filters')``` with ```#table_filters_with_options.to_json``` and ```#attributes_to_json('legends')``` with ```#table_legends_with_options.to_json```
-
-
-
-TODO: remove this
-# Filterable config
-
-Add ```//= link wcmc_components_manifest.js``` to ```assets/config/manifest.js```
-
-Add ```form_builder_method: :text_field``` to the table_attribute methods in you table classes
-
-argument options are:
-
-```required: true```
-
-Add this to table config hashes:
-
-```
-{
-  showArchived: true,
-  showEdit: true,
-}
-```
