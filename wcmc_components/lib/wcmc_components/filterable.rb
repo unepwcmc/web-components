@@ -34,13 +34,13 @@ module WcmcComponents
       def build_associations
         # Rebuilds associations from the ; separated string of values in the dynamically defined instance variable.
         table_attributes.association_attributes.each do |association_attribute|
-          table_name, atribute_name = association_attribute[0].to_s.split('.')
+          table_name, attribute_name = association_attribute[0].to_s.split('.')
           self.send(table_name).clear
 
-          accessor_method_name = "#{table_name}_#{atribute_name.pluralize}"
+          accessor_method_name = "#{table_name}_#{attribute_name.pluralize}"
           self.send(accessor_method_name).split(';').each do |value|
             params = {}
-            params[atribute_name.to_sym] = value.strip
+            params[attribute_name.to_sym] = value.strip
             self.send(table_name) << table_name.classify.constantize.find_or_create_by(params)
           end
         end
@@ -67,13 +67,13 @@ module WcmcComponents
 
       def define_additional_form_methods_for_association(name)
         # Dynamically define methods to be used for hacking the form to work with multiple associations.
-        table_name, atribute_name = name.to_s.split('.')
-        accessor_method_name = "#{table_name}_#{atribute_name.pluralize}"
+        table_name, attribute_name = name.to_s.split('.')
+        accessor_method_name = "#{table_name}_#{attribute_name.pluralize}"
         instance_variable_name = "@#{accessor_method_name}"
 
         define_method(accessor_method_name) do
           instance_variable_get(instance_variable_name) ||
-          instance_variable_set(instance_variable_name, self.send(table_name).map(&atribute_name.to_sym).join(';'))
+          instance_variable_set(instance_variable_name, self.send(table_name).map(&attribute_name.to_sym).join(';'))
         end
 
         define_method("#{accessor_method_name}=") do |value|
