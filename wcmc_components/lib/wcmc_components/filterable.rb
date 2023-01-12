@@ -40,7 +40,7 @@ module WcmcComponents
           accessor_method_name = "#{table_name}_#{atribute_name.pluralize}"
           self.send(accessor_method_name).split(';').each do |value|
             params = {}
-            params[atribute_name.to_sym] = value
+            params[atribute_name.to_sym] = value.strip
             self.send(table_name) << table_name.classify.constantize.find_or_create_by(params)
           end
         end
@@ -70,7 +70,6 @@ module WcmcComponents
         table_name, atribute_name = name.to_s.split('.')
         accessor_method_name = "#{table_name}_#{atribute_name.pluralize}"
         instance_variable_name = "@#{accessor_method_name}"
-        # instance_variable_set("#{table_name}", nil)
 
         define_method(accessor_method_name) do
           instance_variable_get(instance_variable_name) ||
