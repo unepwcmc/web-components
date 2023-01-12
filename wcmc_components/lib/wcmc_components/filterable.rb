@@ -80,6 +80,10 @@ module WcmcComponents
         CsvGenerator.new(query.result).to_csv(csv_attributes)
       end
 
+      def csv_filename
+        "#{name.tableize}_#{Date.today.to_s}.csv"
+      end
+
       def get_query_object(parameters, paginate = false)
         query = QueryObject.new(self)
         

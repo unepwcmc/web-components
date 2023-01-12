@@ -67,7 +67,7 @@ class WcmcDeviseSsoGenerator < Rails::Generators::Base
           after: "Rails.application.configure do\n"
       end
 
-      generate 'devise USER'
+      generate 'devise user'
 
       inject_into_class 'app/models/user.rb',
         'User',

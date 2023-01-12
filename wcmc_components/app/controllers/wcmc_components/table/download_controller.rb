@@ -6,7 +6,7 @@ module WcmcComponents
         {
           type: 'text/csv; charset=utf-8; header=present',
           disposition: 'attachment',
-          filename: 'filtered-indicators.csv'
+          filename: model_class.csv_filename
         }
       )
     end

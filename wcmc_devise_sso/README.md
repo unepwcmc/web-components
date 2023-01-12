@@ -1,8 +1,10 @@
 # WcmcDeviseSso
 This gem extends the devise functionality to quickly setup SSO using Microsoft Azure in a rails project.
+It adds SSO to a user model or creates a new User class if there isn't one present.
+You can sign in via SSO at ```/users/sign_in```.
 
 ## Usage
-Note you will need to add the following to your Rails credentials:
+Note you will need to add the following to your Rails credentials from LastPass:
 
 ```
 azure_client_id:
@@ -28,6 +30,8 @@ $ gem install wcmc_devise_sso
 ```
 
 Then install devise and generate the required views and config.
+
+You may need to replace the ```link_to``` omniauth provider in the ```devise/shared/_links.html.erb``` to ```button_to``` so it makes a POST request instead of a GET request.
 
 ```
 rails generate wcmc_devise_sso

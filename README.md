@@ -45,12 +45,16 @@ or to use local code cloned into web-components
 
 * gem 'wcmc_components', path: '../web-components/wcmc_components'
 
+Add ```//= link wcmc_components_manifest.js``` to ```assets/config/manifest.js```
+
 For upgrades notes see ```Upgrading notes``` section
 
 **For filterable table functionality you will also need to import a [compatible version](https://github.com/unepwcmc/wiki/wiki/Reusable-Component-Version-Compatibility) of the [wcmc-components vue library](https://github.com/unepwcmc/wcmc-components)**
 
 ### Add archived to your model
 To support archiving, you will need to run a migration to add an attribute called `archived` with type Boolean to your model. This is required to prevent the app erroring.
+
+```add_column :headline_indicators, :archived, :boolean, default: 0```
 
 ### Decorate your model
 In the model you want to display in a filter table add 
@@ -70,8 +74,9 @@ table_attribute(
   show_in_table: false,              # show or hide the field in the UI table
   show_in_modal: true,               # show or hide the field in the modal
   show_in_csv: true,                 # show or hide the table in the csv export. Default is false.
-  sortable: false                    # if false, the api and table endpoints will filter by this attribute. Default is true
-  form_builder_method: :text_field   # The rails helper method used to render the form field when creating or editing a model record
+  sortable: true,                   # if false, the api and table endpoints will allow sorting by this attribute. Default is false
+  form_builder_method: :text_field,  # The rails helper method used to render the form field when creating or editing a model record
+  required: true                     # Applied to the form fields, defaults to false
 )
 
 ```
@@ -248,6 +253,15 @@ The API enables host applications to quickly and easily expose an endpoint which
 
 ## Editable
 TODO: Add documentation.
+
+Editable functionality is currently only available to users with the wcmc role. To add editing buttons to the table you need specify in the options object, e.g. 
+```
+if current_user&.role == 'wcmc'
+  options.merge({ showArchived: true, showEdit: true })
+else
+  options
+end
+```
 
 # Upgrade notes
 
