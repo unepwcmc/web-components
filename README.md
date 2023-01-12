@@ -74,7 +74,7 @@ table_attribute(
   show_in_table: false,              # show or hide the field in the UI table
   show_in_modal: true,               # show or hide the field in the modal
   show_in_csv: true,                 # show or hide the table in the csv export. Default is false.
-  sortable: true,                   # if false, the api and table endpoints will allow sorting by this attribute. Default is false
+  sortable: true,                    # if true, the api and table endpoints will allow sorting by this attribute. Sorting on columns with multiple values is disabled. Default is true
   form_builder_method: :text_field,  # The rails helper method used to render the form field when creating or editing a model record
   required: true                     # Applied to the form fields, defaults to false
 )
