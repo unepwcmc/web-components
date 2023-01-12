@@ -83,6 +83,9 @@ table_attribute(
 
 see app/models/country.rb as an example
 
+If you want to allow editing associated records via the form you need to add a call to ```add_form_methods_for_associated_records``` in your table classes below the table_attribute method calls.
+TODO: Find a way to do this automatically
+
 Currently, the 'show' button redirects to a show page by default. To make the button open a modal instead you need to override the
 `#table_page_path` method in your model classes: 
 ```
