@@ -12,7 +12,8 @@ class Country < ApplicationRecord
                   show_in_table: true,
                   show_in_modal: true,
                   show_in_csv: false,
-                  type: 'single'
+                  type: 'single',
+                  show_in_csv: true
 
   table_attribute :name,
                   title: 'Name',
@@ -20,7 +21,8 @@ class Country < ApplicationRecord
                   type: 'single',
                   show_in_table: true,
                   legend_on: true,
-                  form_builder_method: :text_field
+                  form_builder_method: :text_field,
+                  show_in_csv: true
   
   table_attribute :attr3,  
                   title: 'Attr3',
@@ -28,7 +30,8 @@ class Country < ApplicationRecord
                   type: 'single',
                   show_in_table: true,
                   legend_on: true,
-                  form_builder_method: :text_field
+                  form_builder_method: :text_field,
+                  show_in_csv: true
   
   table_attribute :attr4,
                   title: 'Attr4',
@@ -36,7 +39,8 @@ class Country < ApplicationRecord
                   type: 'single',
                   show_in_table: true,
                   legend_on: true,
-                  form_builder_method: :number_field
+                  form_builder_method: :number_field,
+                  show_in_csv: true
 
 
 end

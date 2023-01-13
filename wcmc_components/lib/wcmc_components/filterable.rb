@@ -13,6 +13,10 @@ module WcmcComponents
 
       delegate :form_attributes, :table_columns, :attributes_for_table, to: :table_attributes
 
+      # Callback method to take values from a dynamically defined instance variable that
+      # holds a ; separated string of values used to build the associated records.
+      before_save :build_associations
+
       # table_page_path returns the 'show' path for the resource
       def table_page_path
         "#{base_path}/#{id}"
@@ -26,10 +30,25 @@ module WcmcComponents
       def table_archive_path
         "#{base_path}/#{id}/archive"
       end
+
+      def build_associations
+        # Rebuilds associations from the ; separated string of values in the dynamically defined instance variable.
+        table_attributes.association_attributes.each do |association_attribute|
+          table_name, attribute_name = association_attribute[0].to_s.split('.')
+          self.send(table_name).clear
+
+          accessor_method_name = "#{table_name}_#{attribute_name.pluralize}"
+          self.send(accessor_method_name).split(';').each do |value|
+            params = {}
+            params[attribute_name.to_sym] = value.strip
+            self.send(table_name) << table_name.classify.constantize.find_or_create_by(params)
+          end
+        end
+      end
     end
 
     def base_path
-      "/#{self.class.name.downcase.pluralize}"
+      "/#{self.class.name.tableize}"
     end
 
     class_methods do
@@ -39,6 +58,28 @@ module WcmcComponents
         :table_legends,
         :table_columns,
         to: :table_attributes
+
+      def add_form_methods_for_associated_records
+        table_attributes.association_attributes.each do |association_attribute|
+          define_additional_form_methods_for_association(association_attribute[0])
+        end
+      end
+
+      def define_additional_form_methods_for_association(name)
+        # Dynamically define methods to be used for hacking the form to work with multiple associations.
+        table_name, attribute_name = name.to_s.split('.')
+        accessor_method_name = "#{table_name}_#{attribute_name.pluralize}"
+        instance_variable_name = "@#{accessor_method_name}"
+
+        define_method(accessor_method_name) do
+          instance_variable_get(instance_variable_name) ||
+          instance_variable_set(instance_variable_name, self.send(table_name).map(&attribute_name.to_sym).join(';'))
+        end
+
+        define_method("#{accessor_method_name}=") do |value|
+          instance_variable_set(instance_variable_name, value)
+        end
+      end
 
       def table_filters_with_options
         table_filters(self.all)
@@ -80,6 +121,10 @@ module WcmcComponents
         CsvGenerator.new(query.result).to_csv(csv_attributes)
       end
 
+      def csv_filename
+        "#{name.tableize}_#{Date.today.to_s}.csv"
+      end
+
       def get_query_object(parameters, paginate = false)
         query = QueryObject.new(self)
         
@@ -91,7 +136,7 @@ module WcmcComponents
       end
 
       def columns_to_json
-        @table_attributes.table_columns
+        table_attributes.table_columns
       end
     end
   end

@@ -44,12 +44,12 @@ module WcmcComponents
       def sort_as_sql
         if @sort[:column]
           sort_col_config = attribute_config(@sort[:column])
-
-          return 'id DESC' if sort_col_config.key?(:sortable) && !sort_col_config[:sortable]
+          return 'id ASC' if (sort_col_config[:type] == 'multiple') || (sort_col_config.key?(:sortable) && !sort_col_config[:sortable])
         end
-
+        # sort by id per default
         column = attribute_with_table_name(@sort[:column] || 'id')
-        direction = @sort[:ascending] == 'true' ? 'ASC' : 'DESC'
+        # Sort ascending per default (when no direction is specified)
+        direction = @sort[:ascending] == true ? 'ASC' : 'DESC'
 
         "#{column} #{direction}"
       end

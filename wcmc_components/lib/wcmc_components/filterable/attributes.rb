@@ -89,15 +89,16 @@ module WcmcComponents
       private
 
       def get_table_attribute(table_resources, key, value)
+        table_name, attribute_name = key.to_s.split('.').map{|value_s| value_s&.to_sym}
         {
           name: key.to_s,
-          title: value[:title] || key.to_s.capitalize,
-          options: get_table_attribute_options(table_resources, key, value),
+          title: value[:title] || table_name.to_s.capitalize,
+          options: get_table_attribute_options(table_resources, table_name, value, attribute_name),
           type: value[:type]
         }
       end
 
-      def get_table_attribute_options(table_resources, filter_key, filter)
+      def get_table_attribute_options(table_resources, filter_key, filter, attribute = nil)
         case filter[:type]
         when 'single'
           table_resources.order(id: :asc)
@@ -110,8 +111,7 @@ module WcmcComponents
             .collect(&filter_key)
             .flatten
             .uniq
-            .map(&:name) || []
-          
+            .map{|option| option.send(attribute)} || []
           options_array.sort
         end
       end
