@@ -271,8 +271,8 @@ end
 ## 0.4.0 to 1.0.0
 
 - create a migration to add a boolean ```archived``` attribute to your table models
-- replace ```#table_attr``` with ```#table_attributes```
-- replace model attribute where table attribute is multiple with ```:'table_name.attriibute'``` e.g.
+- replace ```#table_attr``` with ```#table_attribute```
+- replace model attribute where table attribute is multiple with ```:'table_name.attribute'``` e.g.
 ```
 table_attribute :'institution',
   type: 'multiple'
