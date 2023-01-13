@@ -1,0 +1,14 @@
+<%= render partial: 'admin_hero', locals: { action: 'View' } %>
+
+<div class="admin__container">
+  <% @table_resource.form_attributes.each do |key, attribute| %>
+    <div class="form__field">
+      <div class="form__label">
+        <%= attribute[:title] %>
+      </div>
+      <div class="form__value">
+        <%= @table_resource[key] %>
+      </div>
+    </div>
+  <% end %>
+</div>

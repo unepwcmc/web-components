@@ -1,4 +1,5 @@
 require 'test_helper'
+MEAS_COUNT = 3
 
 class TableControllerTest < ActionDispatch::IntegrationTest
   test 'should post list' do
@@ -6,7 +7,7 @@ class TableControllerTest < ActionDispatch::IntegrationTest
 
     post '/meas'
     assert_response :success
-    assert_total 2
+    assert_total MEAS_COUNT
   end
 
   test 'should get second engine list' do

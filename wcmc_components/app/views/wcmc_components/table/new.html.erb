@@ -1,0 +1,8 @@
+<%= render partial: 'admin_hero', locals: { action: 'New' } %>
+
+<%= render partial: 'form',
+  locals: {
+    method: "post",
+    url: form_path('new')
+  } 
+%>

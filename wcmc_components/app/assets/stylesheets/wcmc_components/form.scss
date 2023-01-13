@@ -1,0 +1,174 @@
+$color-wcmc-blue: #00AEEF;
+$color-red-alert: #F85C42;
+$color-navy: #022C3C;
+$bg-color: #ECF0F5;
+
+$body-font: 'Roboto', sans-serif;
+$font-size-title: 54px;
+$font-size-label: 32px;
+$font-size-required: 18px;
+$font-size-button: 18px;
+$font-size-input: 18px;
+$font-size-text: 16px;
+
+$input-padding: 1.33em;
+
+@mixin button {
+  color: #000;
+  cursor: pointer;
+  font-size: $font-size-button;
+  font-weight: 600;
+  padding: 0.66em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: $body-font;
+  -webkit-font-smoothing: antialiased;
+}
+
+input {
+  border: none;
+  font-size: $font-size-input;
+  padding: $input-padding;
+}
+
+body {
+  background-color: $bg-color;
+  margin: 0;
+  min-width: 620px;
+}
+
+.admin-hero {
+  background: image-url('wcmc_components/hero-image.png') no-repeat center;
+  background-size: cover;
+  padding: 48px 72px;
+  height: 420px;
+
+  position: relative;
+  z-index: 1;
+
+  &::after {
+    background-color: #000;
+    content: '';
+    opacity: 0.5;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }
+}
+
+.admin-hero__title {
+  color: #fff;
+  font-size: $font-size-title;
+  font-weight: 600;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.admin-hero__edit {
+  @include button;
+
+  background-color: $color-wcmc-blue;
+
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 72px;
+  bottom: 48px;
+}
+
+.admin-hero__edit-icon {
+  background: image_url('wcmc_components/edit') center no-repeat;
+  background-size: cover;
+  margin: 0 12px 1px 0;
+  width: 1em; height: 1em;
+
+  display: block;
+}
+
+.admin__container {
+  background-color: $bg-color;
+  margin: auto;
+  padding: 80px 24px 200px;
+  max-width: 856px;
+}
+
+.form__field {
+  margin-bottom: 72px;
+  width: 100%;
+
+  input {
+    width: 100%;
+  }
+}
+
+.form__label {
+  font-weight: 600;
+  font-size: $font-size-label;
+  margin-bottom: 24px;
+
+  display: flex;
+}
+
+.form__value {
+  background-color: #fff;
+  font-size: $font-size-input;
+  padding: $input-padding;
+}
+
+.form__intro {
+  margin-bottom: 80px;
+}
+
+.form__required {
+  font-size: $font-size-required;
+  font-weight: 500;
+  display: flex;
+}
+
+.form__required-star,
+.form__required-star--large {
+  color: $color-red-alert;
+}
+
+.form__required-star--large {
+  font-size: 2.66em;
+}
+
+.form__buttons {
+  background-color: $bg-color;
+  box-shadow: 0px -1px 8px rgba(0, 0, 0, 0.1);
+  padding: 28px 72px;
+
+  display: flex;
+  justify-content: flex-end;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.form__cancel {
+  @include button;
+
+  background-color: #fff;
+  border: solid 1px $color-navy;
+  color: $color-navy;
+  margin-right: 24px;
+}
+
+.form__save {
+  @include button;
+
+  background-color: $color-wcmc-blue;
+}

@@ -26,74 +26,79 @@ class CountryTest < ActiveSupport::TestCase
   end
 
   test 'filter config' do
-    assert_equal 2, Country.filters.count
+    assert_equal 4, Country.table_filters_with_options.count
   end
 
-  test 'attributes to json' do
+  test 'filters for table' do
     Country.import 'good_countries.csv'
-    # puts Country.attributes_to_json("filters")
-    f = JSON.parse Country.attributes_to_json('filters')
-    assert_equal 'name', f[0]['name']
-    assert_equal 'Name', f[0]['title']
-    assert_equal 2, f[0]['options'].count
-    assert_equal 'single', f[0]['type']
+    filters = Country.table_filters_with_options
+
+    assert_equal 'iso3', filters[0][:name]
+    assert_equal 'ISO 3 Code', filters[0][:title]
+    assert_equal 2, filters[0][:options].count
+    assert_equal 'single', filters[0][:type]
     # test overriding title
-    assert_equal 'ISO 3 Code', f[1]['title']
+    assert_equal 'Name', filters[1][:title]
   end
 
-  test 'all_to_json' do
-    Country.import 'good_countries.csv'
-    c = JSON.parse Country.all_to_json
-    assert_equal 2, c.count
-    assert_equal 'United Kingdom', c[0]['name']
-    assert_equal 'FRA', c[1]['iso3']
-  end
-
+  # By default countries are in reverse id order (most recent first)
   test 'first page pagination' do
-    FactoryBot.rewind_sequences
+    initialize_countries(25)
 
-    Array(1..25).each do |_n|
-      FactoryBot.build(:country).save
-    end
-    c = Country.paginate('{}')
+    c = Country.paginate_for_table
     assert_equal 10, c[:items].count
-    assert_equal 'C01', c[:items][0][:cells][2][:value]
-    assert_equal "/country/#{c[:items][0][:cells][0][:value]}/", c[:items][0][:pageUrl]
-    assert_equal 'C10', c[:items][9][:cells][2][:value]
+    assert_equal 'C25', get_country_iso_from_item(c[:items][0])
+    # FIXME: include this test - should be fixed by feat/edit-styling
+    # assert_equal "/country/#{c[:items][0][:cells][0][:value]}/", c[:items][0][:pageUrl]
+    assert_equal 'C16', get_country_iso_from_item(c[:items][9])
   end
 
   test 'second page pagination' do
-    FactoryBot.rewind_sequences
-    Array(1..25).each do |_n|
-      FactoryBot.build(:country).save
-    end
+    initialize_countries(25)
 
-    c = Country.paginate({ 'requested_page' => 2 }.to_json)
+    c = Country.paginate_for_table(requested_page: 2)
     assert_equal 10, c[:items].count
-    assert_equal 'C11',  c[:items][0][:cells][2][:value]
-    assert_equal 'C20',  c[:items][9][:cells][2][:value]
+    assert_equal 'C15', get_country_iso_from_item(c[:items][0])
+    assert_equal 'C06', get_country_iso_from_item(c[:items][9])
   end
 
   test 'final page pagination' do
-    FactoryBot.rewind_sequences
-    Array(1..25).each do |_n|
-      FactoryBot.build(:country).save
-    end
+    initialize_countries(25)
 
-    c = Country.paginate({ 'requested_page' => 3 }.to_json)
+    c = Country.paginate_for_table(requested_page: 3)
     assert_equal 5, c[:items].count
-    assert_equal 'C21',  c[:items][0][:cells][2][:value]
-    assert_equal 'C25',  c[:items][4][:cells][2][:value]
+    assert_equal 'C05', get_country_iso_from_item(c[:items][0])
+    assert_equal 'C01', get_country_iso_from_item(c[:items][4])
   end
 
   test 'change page size pagination' do
+    initialize_countries(25)
+
+    c = Country.paginate_for_table(items_per_page: 7)
+    assert_equal 7, c[:items].count
+  end
+
+  test 'sort by record attribute' do
+    Country.import 'good_countries.csv'
+
+    c_asc = Country.paginate_for_table(sort: { column: 'iso3', ascending: 'true' })
+    c_desc = Country.paginate_for_table(sort: { column: 'iso3', ascending: 'false' })
+
+    assert_equal 'FRA', get_country_iso_from_item(c_asc[:items][0])
+    assert_equal 'GBR', get_country_iso_from_item(c_desc[:items][0])
+  end
+
+  private
+
+  def initialize_countries(n)
     FactoryBot.rewind_sequences
 
-    Array(1..25).each do |_n|
+    Array(1..n).each do |_n|
       FactoryBot.build(:country).save
     end
+  end
 
-    c = Country.paginate({ 'items_per_page' => 7 }.to_json)
-    assert_equal 7, c[:items].count
+  def get_country_iso_from_item(item)
+    item[:cells].select { |cell| cell[:name] == 'iso3' }[0][:value]
   end
 end

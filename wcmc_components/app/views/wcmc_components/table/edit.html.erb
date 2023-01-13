@@ -1,0 +1,8 @@
+<%= render partial: 'admin_hero', locals: { action: 'Update' } %>
+
+<%= render partial: 'form',
+  locals: {
+    method: "put",
+    url: form_path('edit')
+  } 
+%>

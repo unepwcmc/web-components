@@ -1,301 +1,142 @@
+require 'wcmc_components/filterable/attributes'
+require 'wcmc_components/filterable/csv_generator'
+require 'wcmc_components/filterable/parameters'
+require 'wcmc_components/filterable/query_object'
+require 'wcmc_components/filterable/serializer'
+
 module WcmcComponents
   module Filterable
-    def self.included(base)
-      base.extend ClassMethods
+    extend ActiveSupport::Concern
+
+    included do
+      class_attribute :table_attributes, default: Attributes.new
+
+      delegate :form_attributes, :table_columns, :attributes_for_table, to: :table_attributes
+
+      # Callback method to take values from a dynamically defined instance variable that
+      # holds a ; separated string of values used to build the associated records.
+      before_save :build_associations
+
+      # table_page_path returns the 'show' path for the resource
+      def table_page_path
+        "#{base_path}/#{id}"
+      end
+
+      # TODO: is there a better way to do this
+      def table_edit_path
+        "#{base_path}/#{id}/edit"
+      end
+
+      def table_archive_path
+        "#{base_path}/#{id}/archive"
+      end
+
+      def build_associations
+        # Rebuilds associations from the ; separated string of values in the dynamically defined instance variable.
+        table_attributes.association_attributes.each do |association_attribute|
+          table_name, attribute_name = association_attribute[0].to_s.split('.')
+          self.send(table_name).clear
+
+          accessor_method_name = "#{table_name}_#{attribute_name.pluralize}"
+          self.send(accessor_method_name).split(';').each do |value|
+            params = {}
+            params[attribute_name.to_sym] = value.strip
+            self.send(table_name) << table_name.classify.constantize.find_or_create_by(params)
+          end
+        end
+      end
     end
 
-    module InstanceMethods
+    def base_path
+      "/#{self.class.name.tableize}"
     end
 
-    module ClassMethods
-      # declare attrs you want to filter on
-      def table_attr(attr, options = {})
-        (@table_attrs ||= {})[attr] = options
-      end
+    class_methods do
+      delegate :attributes_for_table,
+        :csv_attributes,
+        :table_filters,
+        :table_legends,
+        :table_columns,
+        to: :table_attributes
 
-      def filters
-        table_attrs.select { |_k, v| v[:filter_on] } || {}
-      end
-
-      def table_cols
-        table_attrs.select { |_k, v| v[:show_in_table] } || {}
-      end
-
-      def legends
-        table_attrs.select { |_k, v| v[:legend_on] } || {}
-      end
-
-      def table_cols_and_modal_items
-        table_attrs.select { |_k, v| v[:show_in_table] || v[:show_in_modal] } || {}
-      end
-
-      def csv_items
-        table_attrs.select do |_k, v|
-          if v[:show_in_csv] == true
-            true
-          elsif v[:show_in_csv] == false
-            false
-          else
-            v[:show_in_table] || v[:show_in_modal]
-          end
-        end || {}
-      end
-
-      def table_attrs
-        @table_attrs ||= {}
-      end
-
-      # this currently supports "filters" and "legends" passed as params in controller
-
-      def attributes_to_json(attributes)
-        full_list = all.order(id: :asc)
-        attributes = attributes == 'legends' ? legends : filters
-        attributes_array = []
-        attributes.each do |key, attribute|
-          case attribute[:type]
-          when 'single'
-            attributes_array << {
-              name: key.to_s,
-              title: attribute[:title] || key.to_s.capitalize,
-              options: full_list.pluck(key).compact.uniq.sort,
-              type: attribute[:type]
-            }
-          when 'multiple'
-            options_array = all.preload(key).collect(&key).flatten.uniq.map(&:name) || []
-            attributes_array << {
-              name: key.to_s,
-              title: attribute[:title] || key.to_s.capitalize,
-              options: options_array.sort,
-              type: attribute[:type]
-            }
-          end
-        end
-        attributes_array.to_json
-      end
-
-      def all_to_json
-        json = all.order(id: :asc).to_a.map! do |item|
-          item_j = {
-            id: item.id
-          }
-
-          table_attrs.each_key do |col|
-            item_j[col.to_s] = item.send(col)
-          end
-
-          item_j
-        end.to_json
-      end
-
-      def all_to_csv
-        json = all.order(id: :asc).to_a.map! do |item|
-          item_j = {
-            id: item.id
-          }
-
-          table_attrs.each_key do |col|
-            item_j[col.to_s] = item[col]
-          end
-
-          item_j
-        end.to_json
-      end
-
-      def to_csv(json)
-        json_params = json.nil? ? nil : JSON.parse(json)
-        filter_params = get_filter_params(json_params)
-
-        items = query_with_filters(filter_params)
-
-        csv_string = CSV.generate(encoding: 'UTF-8') do |csv_line|
-          # build headers for CSV from the column titles on the page
-          headers = ['Id']
-          csv_items.each do |_key, col|
-            headers << col[:title]
-          end
-          csv_line << headers.flatten
-
-          # build each row for CSV - matching 'value:' in the filter table
-          items.each do |item|
-            row = []
-            row << item.id
-            csv_items.each do |key, col|
-              case col[:type]
-              when 'single'
-                row << item.send(key)
-              when 'multiple'
-                row << item.send(key.to_s.pluralize).map(&:name).join('; ')
-              end
-            end
-            csv_line << row
-          end
+      def add_form_methods_for_associated_records
+        table_attributes.association_attributes.each do |association_attribute|
+          define_additional_form_methods_for_association(association_attribute[0])
         end
       end
 
-      def filter_table(items)
-        items.map! do |item|
-          item_j = {
-            pageUrl: show_page_path(item),
-            cells: []
-          }
+      def define_additional_form_methods_for_association(name)
+        # Dynamically define methods to be used for hacking the form to work with multiple associations.
+        table_name, attribute_name = name.to_s.split('.')
+        accessor_method_name = "#{table_name}_#{attribute_name.pluralize}"
+        instance_variable_name = "@#{accessor_method_name}"
 
-          item_j[:cells] << {
-            name: 'id',
-            title: 'Id',
-            value: item.id,
-            showInTable: false,
-            showInModal: false
-          }
-          # title and values also used in to_csv() to generate a CSV so if making changes here, also look there!
-          table_cols_and_modal_items.each do |key, col|
-            case col[:type]
-            when 'single'
-              item_j[:cells] << {
-                name: key.to_s,
-                title: col[:title],
-                value: item.send(key),
-                showInTable: col[:show_in_table],
-                showInModal: col[:show_in_modal],
-                legend_on: col[:legend_on]
-              }
-            when 'multiple'
-              item_j[:cells] << {
-                name: key.to_s,
-                title: col[:title],
-                value: item.send(key.to_s.pluralize).map(&:name),
-                showInTable: col[:show_in_table],
-                showInModal: col[:show_in_modal],
-                legend_on: col[:legend_on]
-              }
-            end
-          end
-          item_j
+        define_method(accessor_method_name) do
+          instance_variable_get(instance_variable_name) ||
+          instance_variable_set(instance_variable_name, self.send(table_name).map(&attribute_name.to_sym).join(';'))
+        end
+
+        define_method("#{accessor_method_name}=") do |value|
+          instance_variable_set(instance_variable_name, value)
         end
       end
 
-      def show_page_path(item)
-        return nil if WcmcComponents.classes_show_page_format.nil?
+      def table_filters_with_options
+        table_filters(self.all)
+      end
 
-        format = WcmcComponents.classes_show_page_format[to_s]
+      def table_legends_with_options
+        table_legends(self.all)
+      end
 
-        return nil if format.nil?
+      # table_attribute is a wrapper for TableAttributes#add_attribute
+      # Use this in the class definition to add an attribute
+      def table_attribute(name, **options)
+        table_attributes.add_attribute(name, options)
+      end
 
-        format % item.id
+      # The primary entrypoint method for serializing items of the base class for use in the FilterableTable component
+      def paginate_for_table(**table_parameter_options)
+        paginate(table_parameter_options, 'table')
+      end
+
+      def paginate_for_api(api_parameter_options)
+        paginate(api_parameter_options, 'api')
+      end
+
+      def paginate(parameter_options, type)
+        parameters = Parameters.new(**parameter_options, active_record_class: self)
+        query = get_query_object(parameters, true)
+
+        Serializer.new(parameters).send(
+          "serialize_relation_for_#{type}",
+          { total: query.total, results: query.result }
+        )
+      end
+
+      def to_csv(parameter_options)
+        parameters = Parameters.new(**parameter_options, active_record_class: self)
+        query = get_query_object(parameters)
+
+        CsvGenerator.new(query.result).to_csv(csv_attributes)
+      end
+
+      def csv_filename
+        "#{name.tableize}_#{Date.today.to_s}.csv"
+      end
+
+      def get_query_object(parameters, paginate = false)
+        query = QueryObject.new(self)
+        
+        query.query_with_filterable_parameters(parameters)
+
+        query.paginate(parameters) if paginate
+
+        query
       end
 
       def columns_to_json
-        columns = []
-        table_cols.keys.each do |col|
-          columns << {
-            field: col,
-            title: table_cols[col][:title] || col.to_s.gsub(/_/, ' ').capitalize,
-            sortable: table_cols[col][:sortable]
-          }
-        end
-        columns.to_json
-      end
-
-      def paginate(json)
-        json_params = json.nil? ? nil : JSON.parse(json)
-        current_page = get_page(json_params)
-        items_per_page = get_items_per_page(json_params)
-
-        filter_params = get_filter_params(json_params)
-
-        items = query_with_filters(filter_params)
-        {
-          current_page: current_page,
-          per_page: items_per_page,
-          total_entries: entries(items),
-          total_pages: pages(items, items_per_page),
-          items: filter_table(items.slice((current_page - 1) * items_per_page, items_per_page))
-        }
-      end
-
-      def paginate_api(json)
-        json_params = json.nil? ? nil : JSON.parse(json)
-        current_page = get_page(json_params)
-        items_per_page = get_items_per_page(json_params)
-
-        items = all.order(:id)
-
-        {
-          current_page: current_page,
-          per_page: items_per_page,
-          total_entries: entries(items),
-          total_pages: pages(items, items_per_page),
-          items: items.slice((current_page - 1) * items_per_page, items_per_page)
-        }
-      end
-
-      def get_page(json_params)
-        if json_params.present? && json_params['requested_page'].present?
-          json_params['requested_page'].to_i
-        else
-          1
-        end
-      end
-
-      def get_items_per_page(json_params)
-        if json_params.present? && json_params['items_per_page'].present?
-          json_params['items_per_page'].to_i
-        else
-          10
-        end
-      end
-
-      def get_filter_params(json_params)
-        if json_params.present? && json_params['filters'].present?
-          filter_params = json_params['filters'].all? { |p| p['options'].blank? } ? [] : json_params['filters']
-        else
-          []
-        end
-      end
-
-      def entries(items)
-        items.count
-      end
-
-      def pages(items, items_per_page)
-        return 0 if items.count == 0
-
-        items.each_slice(items_per_page).count
-      end
-
-      def sql_from_filters(filters)
-        params = {}
-        filters.each do |filter|
-          next if filter['options'].count == 0
-
-          # TO-DO this may throws error if there are string  names with apostrophes
-          options = filter['options'].map { |v| "'#{v}'" }
-          name = filter['name']
-          # collect params for different filter types
-          if filter['type'] == 'multiple'
-            # this assumes we join and filter on the name column of the habtm property - true for tool navigator, maybe not in general
-            params[name] = "#{filter['name']}.name IN (#{options.join(',')})"
-          # else if its a string
-          else
-            params[name] = "#{table_name}.#{name} IN (#{options.join(',')})"
-          end
-        end
-        params.compact
-      end
-
-      def query_with_filters(filters)
-        where_params = sql_from_filters(filters)
-        # which filters are habtms? and do their options have any values?
-        habtm_filters = filters.select { |f| f['type'] == 'multiple' && f['options'].any? }
-        # if yes hbtm(s) join
-        if habtm_filters.any?
-          habtm_tables = []
-          habtm_filters.each do |filter|
-            habtm_tables << filter['name'].parameterize.underscore.to_sym
-          end
-          joins(habtm_tables).where(where_params.values.join(' AND ')).order('id ASC').to_a
-        else
-          where(where_params.values.join(' AND ')).order('id ASC').to_a
-        end
+        table_attributes.table_columns
       end
     end
   end
