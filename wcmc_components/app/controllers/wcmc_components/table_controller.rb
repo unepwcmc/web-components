@@ -48,7 +48,7 @@ module WcmcComponents
 
       if @table_resource.save
         # Redirect (to the show page/index page)
-        render :edit
+        redirect_to model_class.table_index_path
       else
         render :edit, status: :unprocessable_entity
       end

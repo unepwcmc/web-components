@@ -87,9 +87,9 @@ If you want to allow editing associated records via the form you need to add a c
 TODO: Find a way to do this automatically
 
 Currently, the 'show' button redirects to a show page by default. To make the button open a modal instead you need to override the
-`#table_page_path` method in your model classes: 
+`#table_show_path` method in your model classes: 
 ```
-def table_page_path
+def table_show_path
   nil
 end
 ```
@@ -282,8 +282,8 @@ table_attribute :'institutions.name',
   type: 'multiple'
 ```
 - add ```show_in_csv: true``` in table_attribute method for fields that should be included in csv export file
-- override ```#table_page_path``` in your models if you want the show page to be shown in a modal rather than a page: 
+- override ```#table_show_path``` in your models if you want the show page to be shown in a modal rather than a page: 
 ```
-  def table_page_path; nil; end
+  def table_show_path; nil; end
 ```
 - in controllers replace ```#attributes_to_json('filters')``` with ```#table_filters_with_options.to_json``` and ```#attributes_to_json('legends')``` with ```#table_legends_with_options.to_json```

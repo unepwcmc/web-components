@@ -17,18 +17,18 @@ module WcmcComponents
       # holds a ; separated string of values used to build the associated records.
       before_save :build_associations
 
-      # table_page_path returns the 'show' path for the resource
-      def table_page_path
-        "#{base_path}/#{id}"
+      # table_show_path returns the 'show' path for the resource
+      def table_show_path
+        "#{self.class.base_path}/#{id}"
       end
 
       # TODO: is there a better way to do this
       def table_edit_path
-        "#{base_path}/#{id}/edit"
+        "#{self.class.base_path}/#{id}/edit"
       end
 
       def table_archive_path
-        "#{base_path}/#{id}/archive"
+        "#{self.class.base_path}/#{id}/archive"
       end
 
       def build_associations
@@ -45,10 +45,6 @@ module WcmcComponents
           end
         end
       end
-    end
-
-    def base_path
-      "/#{self.class.name.tableize}"
     end
 
     class_methods do
@@ -137,6 +133,15 @@ module WcmcComponents
 
       def columns_to_json
         table_attributes.table_columns
+      end
+
+      # table_index_path returns the 'index' path for the table resource
+      def table_index_path
+        "#{base_path}"
+      end
+
+      def base_path
+        "/#{self.name.tableize}"
       end
     end
   end

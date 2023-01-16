@@ -34,7 +34,7 @@ module WcmcComponents
       def serialize_item_for_table(item)
         {
           archived: item.archived?,
-          pageUrl: item.table_page_path,
+          pageUrl: item.table_show_path,
           editUrl: item.table_edit_path,
           archiveUrl: item.table_archive_path,
           cells: convert_item_to_table_row(item)
