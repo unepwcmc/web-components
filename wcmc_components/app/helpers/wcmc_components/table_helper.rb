@@ -10,9 +10,10 @@ module WcmcComponents
     end
 
     def form_field_values (key, attributes)
-      if (attributes[:type] == 'multiple')
+      if attributes[:type] == 'multiple'
         table_name, table_attribute = key.to_s.split('.')
-        ["#{attributes[:title]} - #{table_attribute} (; seperated values)", @table_resource.send(table_name]
+        ["#{attributes[:title]} - #{table_attribute} (; seperated values)",
+          @table_resource.send("#{table_name}_#{table_attribute.pluralize}".to_sym).gsub(/\r/, ';')]
       else
         [attributes[:title], @table_resource[key]]
       end
