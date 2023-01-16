@@ -38,9 +38,11 @@ module WcmcComponents
     def edit
       # Identify the resource
       @table_resource = model_class.find(params[:id])
+      @fallback_url = params[:fallback_url]
     end
 
     def update
+      byebug
       # Identify the resource
       @table_resource = model_class.find(params[:id])
       # Update the resource
@@ -48,7 +50,7 @@ module WcmcComponents
 
       if @table_resource.save
         # Redirect (to the show page/index page)
-        redirect_to model_class.table_index_path
+        redirect_to params[:fallback_url]
       else
         render :edit, status: :unprocessable_entity
       end

@@ -2,12 +2,13 @@
 
 <div class="admin__container">
   <% @table_resource.form_attributes.each do |key, attribute| %>
+    <%byebug%>
     <div class="form__field">
       <div class="form__label">
-        <%= attribute[:title] %>
+        <%= form_field_values(key, attribute)[0] %>
       </div>
       <div class="form__value">
-        <%= @table_resource[key] %>
+        <%= form_field_values(key, attribute)[1] %>
       </div>
     </div>
   <% end %>

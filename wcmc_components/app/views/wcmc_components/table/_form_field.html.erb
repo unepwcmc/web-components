@@ -10,6 +10,7 @@
 
     <%= form.send(form_attribute.dig(1, :form_builder_method), form_attribute[0]) %>
   <% else %>
+    <%byebug%>
     <% table_name, table_attribute = form_attribute[0].to_s.split('.') %>
     <div class="form__label">
       <%= form.label table_name, "#{form_attribute[1][:title]} - #{table_attribute} (; seperated values)" %>
