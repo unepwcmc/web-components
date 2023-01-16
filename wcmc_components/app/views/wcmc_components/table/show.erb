@@ -3,11 +3,12 @@
 <div class="admin__container">
   <% @table_resource.form_attributes.each do |key, attribute| %>
     <div class="form__field">
+      <% label, value = form_field_values(key, attribute) %>
       <div class="form__label">
-        <%= attribute[:title] %>
+        <%= label %>
       </div>
       <div class="form__value">
-        <%= @table_resource[key] %>
+        <%= value %>
       </div>
     </div>
   <% end %>
