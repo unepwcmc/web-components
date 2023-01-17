@@ -13,7 +13,7 @@ module WcmcComponents
       if attributes[:type] == 'multiple'
         table_name, table_attribute = key.to_s.split('.')
         ["#{attributes[:title]} - #{table_attribute} (; seperated values)",
-          @table_resource.send("#{table_name}_#{table_attribute.pluralize}".to_sym).gsub(/\r/, ';')]
+          @table_resource.send("#{table_name}_#{table_attribute.pluralize}".to_sym)]
       else
         [attributes[:title], @table_resource[key]]
       end
