@@ -9,13 +9,15 @@ module WcmcComponents
       end
     end
 
-    def form_field_values (key, attributes)
+    def label_and_attribute(key, attributes)
       if attributes[:type] == 'multiple'
         table_name, table_attribute = key.to_s.split('.')
-        ["#{attributes[:title]} - #{table_attribute} (; seperated values)",
-          @table_resource.send("#{table_name}_#{table_attribute.pluralize}".to_sym).gsub(/\r/, ';')]
+        [
+          "#{attributes[:title]} - #{table_attribute} (; seperated values)",
+          "#{table_name}_#{table_attribute.pluralize}".to_sym
+        ]
       else
-        [attributes[:title], @table_resource[key]]
+        [attributes[:title], key]
       end
     end
   end

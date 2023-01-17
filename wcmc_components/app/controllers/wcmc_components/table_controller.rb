@@ -42,7 +42,6 @@ module WcmcComponents
     end
 
     def update
-      byebug
       # Identify the resource
       @table_resource = model_class.find(params[:id])
       # Update the resource
