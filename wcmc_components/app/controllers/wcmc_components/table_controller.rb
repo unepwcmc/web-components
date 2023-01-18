@@ -22,6 +22,7 @@ module WcmcComponents
 
     def new
       @table_resource = model_class.new
+      @fallback_url = params[:fallback_url]
     end
 
     def create
@@ -29,7 +30,8 @@ module WcmcComponents
       @table_resource.assign_attributes(modify_params)
 
       if @table_resource.save
-        render :new
+        # Redirect (to the show page/index page)
+        redirect_to params[:fallback_url]
       else
         render :new, status: :unprocessable_entity
       end
