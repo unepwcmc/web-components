@@ -2,7 +2,7 @@
   <% label, attribute = label_and_attribute(form_attribute[0], form_attribute[1]) %>
 
   <div class="form__label">
-    <%= form.label label, attribute %>
+    <%= form.label attribute, label %>
 
     <% if form_attribute[1].key?(:required) && form_attribute[1][:required] %>
       <span class="form__required-star">*</span>
