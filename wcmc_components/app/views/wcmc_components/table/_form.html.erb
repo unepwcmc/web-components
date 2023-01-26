@@ -16,7 +16,6 @@
       method: method,
       url: url do |form|
     %>
-      <%= hidden_field_tag :fallback_url, @fallback_url %>
       <%= render partial: "form_field",
         collection: @table_resource.form_attributes,
         as: :form_attribute,
