@@ -15,7 +15,7 @@ module WcmcComponents
         where_statement = filterable_parameters.filters_as_sql
         order_statement = filterable_parameters.sort_as_sql
 
-        @result = @active_record_class.joins(association_tables)
+        @result = @active_record_class.left_joins(association_tables)
           .where(where_statement)
           .order(order_statement)
           .distinct
