@@ -65,7 +65,7 @@ and optionally configure columns using the table_column method, e.g.
 *   table_attribute :created_at, title: 'First Date'
 
 ```
-# Add this method for each of the fileds you want to display in the table
+# Add this method for each of the fields you want to display in the table
 table_attribute(
   :bip_indicator,                    # the model attribute, either a database field or method on the model
   title: 'BIP Indicator',            # the title that will appear in the tables, modals, and csv files
@@ -94,7 +94,7 @@ def table_show_path
 end
 ```
 
-### configure the engine
+### Configure the engine
 
 Mount the engine in your config/routes.rb by adding a line like:
 
@@ -265,8 +265,8 @@ else
   options
 end
 ```
-
-The redirect after the new/edit is set to default to the index path of the created/updated resource, e.g.
+### Redirect
+The redirect after the new/edit action is set to default to the index path of the created/updated resource, e.g.
 if the edited record is Country (```/country/:id/edit```) the redirect will be to `/countries` where the table is supposed to be mounted.
 In some cases this might not be the true (see Indicator Repository and ELP) and the table might live at the root of the app using this gem; if that is the case, you will need to add a redirect in the route file of the main app, e.g.
 ```get '/countries', to: redirect('/')```
