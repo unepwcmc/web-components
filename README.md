@@ -65,7 +65,7 @@ and optionally configure columns using the table_column method, e.g.
 *   table_attribute :created_at, title: 'First Date'
 
 ```
-# Add this method for each of the fileds you want to display in the table
+# Add this method for each of the fields you want to display in the table
 table_attribute(
   :bip_indicator,                    # the model attribute, either a database field or method on the model
   title: 'BIP Indicator',            # the title that will appear in the tables, modals, and csv files
@@ -263,6 +263,16 @@ if current_user&.role == 'wcmc'
   options.merge({ showArchived: true, showEdit: true })
 else
   options
+end
+```
+
+The New Record functionality is currently only available to users with the wcmc role. To add the new record button above the table you need specify in the options object, e.g.
+```
+if current_user&.role == 'wcmc'
+  options['newRecordLink'] = {
+    url: 'countries/new',
+    text: 'Create a new Country'
+  }
 end
 ```
 
