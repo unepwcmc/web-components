@@ -94,7 +94,7 @@ def table_show_path
 end
 ```
 
-### configure the engine
+### Configure the engine
 
 Mount the engine in your config/routes.rb by adding a line like:
 
@@ -276,7 +276,8 @@ if current_user&.role == 'wcmc'
 end
 ```
 
-The redirect after the new/edit is set to default to the index path of the created/updated resource, e.g.
+### Redirect
+The redirect after the new/edit action is set to default to the index path of the created/updated resource, e.g.
 if the edited record is Country (```/country/:id/edit```) the redirect will be to `/countries` where the table is supposed to be mounted.
 In some cases this might not be the true (see Indicator Repository and ELP) and the table might live at the root of the app using this gem; if that is the case, you will need to add a redirect in the route file of the main app, e.g.
 ```get '/countries', to: redirect('/')```
