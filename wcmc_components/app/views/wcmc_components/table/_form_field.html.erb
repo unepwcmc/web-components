@@ -1,23 +1,13 @@
 <div class="form__field">
-  <% if form_attribute[1][:type] == 'single' %>
-    <div class="form__label">
-      <%= form.label form_attribute[0], "#{form_attribute[1][:title]}" %>
+  <% label, attribute = label_and_attribute(form_attribute[0], form_attribute[1]) %>
 
-      <% if form_attribute[1].key?(:required) && form_attribute[1][:required] %>
-        <span class="form__required-star">*</span>
-      <% end %>
-    </div>
+  <div class="form__label">
+    <%= form.label attribute, label %>
 
-    <%= form.send(form_attribute.dig(1, :form_builder_method), form_attribute[0]) %>
-  <% else %>
-    <% table_name, table_attribute = form_attribute[0].to_s.split('.') %>
-    <div class="form__label">
-      <%= form.label table_name, "#{form_attribute[1][:title]} - #{table_attribute} (; seperated values)" %>
+    <% if form_attribute[1].key?(:required) && form_attribute[1][:required] %>
+      <span class="form__required-star">*</span>
+    <% end %>
+  </div>
 
-      <% if form_attribute[1].key?(:required) && form_attribute[1][:required] %>
-        <span class="form__required-star">*</span>
-      <% end %>
-    </div>
-    <%= form.send(form_attribute.dig(1, :form_builder_method), "#{table_name}_#{table_attribute.pluralize}".to_sym) %>
-  <% end %>
+  <%= form.send(form_attribute.dig(1, :form_builder_method), attribute) %>
 </div>

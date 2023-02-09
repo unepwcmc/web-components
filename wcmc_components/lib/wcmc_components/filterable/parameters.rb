@@ -49,7 +49,7 @@ module WcmcComponents
         # sort by id per default
         column = attribute_with_table_name(@sort[:column] || 'id')
         # Sort ascending per default (when no direction is specified)
-        direction = @sort[:ascending] == true ? 'ASC' : 'DESC'
+        direction = @sort[:ascending] == false ? 'DESC' : 'ASC'
 
         "#{column} #{direction}"
       end

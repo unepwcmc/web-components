@@ -1,3 +1,8 @@
+### 1.1.0
+
+- Redirect to table page after saving the edit
+- Show fields with multiple values in the table entry view
+
 ### 1.0.0
 
 - Refactor filterable module
