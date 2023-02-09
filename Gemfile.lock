@@ -1,7 +1,7 @@
 PATH
   remote: wcmc_components
   specs:
-    wcmc_components (1.0.0)
+    wcmc_components (1.1.0)
       rails (>= 5.2.3)
 
 PATH
@@ -337,4 +337,4 @@ RUBY VERSION
    ruby 2.5.0p0
 
 BUNDLED WITH
-   2.0.1
+   2.3.6
