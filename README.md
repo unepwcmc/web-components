@@ -32,7 +32,7 @@ Also, if verbose is set to true for yarn test, often console logs are overwritte
 The WcmcComponents module has three sub-modules:
 
 - **WcmcComponents::Filterable** can be included in an ActiveRecord class to provide it with methods to edit the database, query the database and apply filters, sorting and serialization. Its main entrypoint is the `#paginate` method, which serves filtered, sorted data from that ActiveRecord class in the format expected by the FilterableTable component.
-- **WcmcComponents::Loadable** provides the ability to import data into a DB table from a CSV. 
+- **WcmcComponents::Loadable** provides the ability to import data into a DB table from a CSV.
 - **WcmcComponents::Engine** is a [Rails engine](https://guides.rubyonrails.org/engines.html) which can be mounted in a host application to automatically provide two new routes and controller actions, which can be seen in `wcmc_components/config/routes.rb`. Each mounted Engine provides a table route and a download route; the Engine can be mounted as many times as you like, but each requires registration in `config/initializers/wcmc_components.rb` as detailed below.
 
 ### Add gem(s) to spec
@@ -57,7 +57,7 @@ To support archiving, you will need to run a migration to add an attribute calle
 ```add_column :headline_indicators, :archived, :boolean, default: 0```
 
 ### Decorate your model
-In the model you want to display in a filter table add 
+In the model you want to display in a filter table add
 
 * include WcmcComponents::Filterable
 
@@ -65,7 +65,7 @@ and optionally configure columns using the table_column method, e.g.
 *   table_attribute :created_at, title: 'First Date'
 
 ```
-# Add this method for each of the fileds you want to display in the table
+# Add this method for each of the fields you want to display in the table
 table_attribute(
   :bip_indicator,                    # the model attribute, either a database field or method on the model
   title: 'BIP Indicator',            # the title that will appear in the tables, modals, and csv files
@@ -87,21 +87,21 @@ If you want to allow editing associated records via the form you need to add a c
 TODO: Find a way to do this automatically
 
 Currently, the 'show' button redirects to a show page by default. To make the button open a modal instead you need to override the
-`#table_page_path` method in your model classes: 
+`#table_show_path` method in your model classes:
 ```
-def table_page_path
+def table_show_path
   nil
 end
 ```
 
-### configure the engine
+### Configure the engine
 
 Mount the engine in your config/routes.rb by adding a line like:
 
 *   mount WcmcComponents::Engine, at: "/countries", as: 'country_table'
 
-Final step is to tell the engine which class to use for each mount point 
-Create an intializer e.g. in config/initializers/table.rb containing the mappings 
+Final step is to tell the engine which class to use for each mount point
+Create an intializer e.g. in config/initializers/table.rb containing the mappings
 ```
 WcmcComponents.routes_classes = {
   '/countries/' => 'Country',
@@ -165,9 +165,9 @@ Note: When importing an association, if a record is not found based on the csv s
 require 'wcmc_components'
 class Project < ApplicationRecord
   include WcmcComponents::Loadable
-  
+
   belongs_to :country
-  
+
   # what property should we import this relation from in the csv loader
   # will default to the association_primary_key, which is usally 'id'
   # in this case, our csv will have a column called 'country' containing a string 'United Kingdon'
@@ -235,7 +235,7 @@ end
 - Commit your changes
 - `cd wcmc_components`
 - `gem build wcmc_components`
-- Visit https://gem-server.unep-wcmc.org/ and upload 
+- Visit https://gem-server.unep-wcmc.org/ and upload
 
 ## Querying the database
 The api, table and download endpoints all allow the following query parameters:
@@ -257,7 +257,7 @@ The API enables host applications to quickly and easily expose an endpoint which
 ## Editable
 TODO: Add documentation.
 
-Editable functionality is currently only available to users with the wcmc role. To add editing buttons to the table you need specify in the options object, e.g. 
+Editable functionality is currently only available to users with the wcmc role. To add editing buttons to the table you need specify in the options object, e.g.
 ```
 if current_user&.role == 'wcmc'
   options.merge({ showArchived: true, showEdit: true })
@@ -265,6 +265,22 @@ else
   options
 end
 ```
+
+The New Record functionality is currently only available to users with the wcmc role. To add the new record button above the table you need specify in the options object, e.g.
+```
+if current_user&.role == 'wcmc'
+  options['newRecordLink'] = {
+    url: 'countries/new',
+    text: 'Create a new Country'
+  }
+end
+```
+
+### Redirect
+The redirect after the new/edit action is set to default to the index path of the created/updated resource, e.g.
+if the edited record is Country (```/country/:id/edit```) the redirect will be to `/countries` where the table is supposed to be mounted.
+In some cases this might not be the true (see Indicator Repository and ELP) and the table might live at the root of the app using this gem; if that is the case, you will need to add a redirect in the route file of the main app, e.g.
+```get '/countries', to: redirect('/')```
 
 # Upgrade notes
 
@@ -277,13 +293,13 @@ end
 table_attribute :'institution',
   type: 'multiple'
 
-# becomes: 
+# becomes:
 table_attribute :'institutions.name',
   type: 'multiple'
 ```
 - add ```show_in_csv: true``` in table_attribute method for fields that should be included in csv export file
-- override ```#table_page_path``` in your models if you want the show page to be shown in a modal rather than a page: 
+- override ```#table_show_path``` in your models if you want the show page to be shown in a modal rather than a page:
 ```
-  def table_page_path; nil; end
+  def table_show_path; nil; end
 ```
 - in controllers replace ```#attributes_to_json('filters')``` with ```#table_filters_with_options.to_json``` and ```#attributes_to_json('legends')``` with ```#table_legends_with_options.to_json```

@@ -29,7 +29,8 @@ module WcmcComponents
       @table_resource.assign_attributes(modify_params)
 
       if @table_resource.save
-        render :new
+        # Redirect (to the index page)
+        redirect_to "#{@table_resource.class.table_index_path}"
       else
         render :new, status: :unprocessable_entity
       end
@@ -47,8 +48,8 @@ module WcmcComponents
       @table_resource.assign_attributes(modify_params)
 
       if @table_resource.save
-        # Redirect (to the show page/index page)
-        render :edit
+        # Redirect (to the index page)
+        redirect_to "#{@table_resource.class.table_index_path}"
       else
         render :edit, status: :unprocessable_entity
       end
@@ -65,7 +66,7 @@ module WcmcComponents
     end
 
     private
-    
+
     def authenticate_admin_user
       redirect_to_sign_in unless @is_admin
     end
@@ -79,7 +80,7 @@ module WcmcComponents
     def archive_params
       params.require(:archived)
     end
-  
+
     def modify_params
       params.require(:table).permit(
         *params_from_form_attributes
@@ -89,7 +90,6 @@ module WcmcComponents
     def params_from_form_attributes
       @table_resource.form_attributes.keys.map do |form_attribute|
         if form_attribute.to_s.split('.').length > 1
-          table_name, attribute_name = form_attribute.to_s.split('.')
           "#{form_attribute.to_s.split('.')[0].pluralize}_#{form_attribute.to_s.split('.')[1].pluralize}".to_sym
         else
           form_attribute
