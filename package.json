@@ -6,7 +6,7 @@
     "@turf/turf": "~5.0.0",
     "@unep-wcmc/wcmc-components": "2.2.5",
     "@vue/test-utils": "^1.0.0-beta.28",
-    "axios": "^0.18.0",
+    "axios": "^0.21.2",
     "babel-jest": "^24.8.0",
     "d3": "^5.8.2",
     "es6-object-assign": "^1.1.0",
