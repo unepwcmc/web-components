@@ -1,0 +1,42 @@
+// SCSS mixins 
+
+// // Text
+
+// @mixin text-white {
+//     color: $white;
+//   }
+  
+//   @mixin header-white {
+//     @include text-white;
+//     padding-bottom: $space-small;
+//   }
+  
+//   @mixin text-link-1 {
+//     font-weight: bold;
+//     padding-left: $space-medium;
+//   }
+  
+//   @mixin text-link-2 {
+//     font-weight: normal;
+//     padding-right: $space-medium;
+//   }
+  
+//   @mixin form-text {
+//     font-weight: bold;
+//     font-size: $body-font-size;
+//   }
+  
+//   // Grid
+  
+//   @mixin grid-type-1 {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr 1fr;
+//     grid-column-gap: $grid-column-gap;
+//     grid-row-gap: $grid-row-gap;
+//   }
+  
+//   // Transitions
+  
+//   @mixin transition-border($duration: 0.2s, $method: ease-in-out) {
+//     transition: border $duration $method;
+//   }

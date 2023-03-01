@@ -1,0 +1,64 @@
+// Absolute values of quantities you wish to set and re-use throughout your application - things like colours, font sizes, breakpoints etc.
+
+// // Colours
+// $white: #ffffff;
+// $grey-xlight: #F5F5F5;
+// $grey-light: #E5E5E5;
+// $grey: #7f7f7f;
+// $grey-dark: #707070;
+// $grey-xdark: #5D5D5D;
+// $grey-xxdark: #262626;
+// $black: #000000;
+
+// $blue: #009FE3;
+// $turquoise: #389CC7;
+// $red: #ff0000;
+// $green: #2A8A86;
+
+// // Fonts
+// $body-font: "Roboto-Regular", sans-serif;
+
+// $body-font-color: $grey-xdark;
+// $body-font-size: rem-calc(16);
+// $body-font-size-larger: rem-calc(20);
+// $body-line-height: 1.4;
+
+// // Borders
+
+// $border-black: 1px solid $black;
+// $border-white: 1px solid $white;
+// $border-grey-dark: 1px solid $grey-dark;
+// $border-grey-xlight: 1px solid $grey-xlight;
+// $border-invisible: 1px solid transparent;
+
+// $border-xsmall-radius: 2px;
+// $border-small-radius: 5px;
+// $border-button-radius: 2px;
+
+// // Spacings - used for elements
+
+// $space-xsmall: rem-calc(10);
+// $space-small: rem-calc(20);
+// $space-medium: rem-calc(40);
+// $space-large: rem-calc(80);
+
+// // For asset cards
+// $card-width: rem-calc(370);
+// $card-height: rem-calc(410);
+
+// $card-width-carousel: $card-width * 0.85;
+// $card-height-carousel: $card-width * 0.85;
+
+// $card-height-popular: rem-calc(270);
+// $card-width-popular: rem-calc(345);
+// $grid-column-gap: rem-calc(15);
+// $grid-row-gap: rem-calc(15);
+
+// // For search results
+// $search-result-vgap: rem-calc(20);
+
+// // Breakpoints
+
+// $breakpoint-small: 480px;
+// $breakpoint-medium: 960px;
+// $breakpoint-large: 1440px;
