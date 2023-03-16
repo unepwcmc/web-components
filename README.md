@@ -237,6 +237,8 @@ end
 - `gem build wcmc_components`
 - Visit https://gem-server.unep-wcmc.org/ and upload
 
+**Update the [Wiki](https://github.com/unepwcmc/wiki/wiki/Reusable-Component-Version-Compatibility) to record the compatibility of the release with the frontend library.**
+
 ## Querying the database
 The api, table and download endpoints all allow the following query parameters:
 
