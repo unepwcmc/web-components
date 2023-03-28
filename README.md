@@ -47,7 +47,7 @@ or to use local code cloned into web-components
 
 Add ```//= link wcmc_components_manifest.js``` to ```assets/config/manifest.js```
 
-For upgrades notes see ```Upgrading notes``` section
+For upgrades notes see the [upgrade](https://github.com/unepwcmc/web-components/wiki/Upgrading-the-gem) section of wiki.
 
 **For filterable table functionality you will also need to import a [compatible version](https://github.com/unepwcmc/wiki/wiki/Reusable-Component-Version-Compatibility) of the [wcmc-components vue library](https://github.com/unepwcmc/wcmc-components)**
 
@@ -283,25 +283,3 @@ The redirect after the new/edit action is set to default to the index path of th
 if the edited record is Country (```/country/:id/edit```) the redirect will be to `/countries` where the table is supposed to be mounted.
 In some cases this might not be the true (see Indicator Repository and ELP) and the table might live at the root of the app using this gem; if that is the case, you will need to add a redirect in the route file of the main app, e.g.
 ```get '/countries', to: redirect('/')```
-
-# Upgrade notes
-
-## 0.4.0 to 1.0.0
-
-- create a migration to add a boolean ```archived``` attribute to your table models
-- replace ```#table_attr``` with ```#table_attribute```
-- replace model attribute where table attribute is multiple with ```:'table_name.attribute'``` e.g.
-```
-table_attribute :'institution',
-  type: 'multiple'
-
-# becomes:
-table_attribute :'institutions.name',
-  type: 'multiple'
-```
-- add ```show_in_csv: true``` in table_attribute method for fields that should be included in csv export file
-- override ```#table_show_path``` in your models if you want the show page to be shown in a modal rather than a page:
-```
-  def table_show_path; nil; end
-```
-- in controllers replace ```#attributes_to_json('filters')``` with ```#table_filters_with_options.to_json``` and ```#attributes_to_json('legends')``` with ```#table_legends_with_options.to_json```
